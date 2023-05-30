@@ -1,0 +1,34 @@
+\hypertarget{aruco__ros__utils_8hpp}{}\doxysection{include/aruco\+\_\+ros/aruco\+\_\+ros\+\_\+utils.hpp File Reference}
+\label{aruco__ros__utils_8hpp}\index{include/aruco\_ros/aruco\_ros\_utils.hpp@{include/aruco\_ros/aruco\_ros\_utils.hpp}}
+{\ttfamily \#include \char`\"{}tf2/\+Linear\+Math/\+Transform.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}tf2/transform\+\_\+datatypes.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}aruco/aruco.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}sensor\+\_\+msgs/msg/camera\+\_\+info.\+hpp\char`\"{}}\newline
+Include dependency graph for aruco\+\_\+ros\+\_\+utils.\+hpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{aruco__ros__utils_8hpp__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{aruco__ros__utils_8hpp__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespacearuco__ros}{aruco\+\_\+ros}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+aruco\+::\+Camera\+Parameters \mbox{\hyperlink{namespacearuco__ros_ac69b37c14d6ea5e5f2f7e70719dd369c}{aruco\+\_\+ros\+::ros\+Camera\+Info2\+Aruco\+Cam\+Params}} (const sensor\+\_\+msgs\+::msg\+::\+Camera\+Info \&cam\+\_\+info, bool use\+Rectified\+Parameters)
+\begin{DoxyCompactList}\small\item\em ros\+Camera\+Info2\+Aruco\+Cam\+Params gets the camera intrinsics from a Camera\+Info message and copies them to \mbox{\hyperlink{namespacearuco__ros}{aruco\+\_\+ros}} own data structure \end{DoxyCompactList}\item 
+tf2\+::\+Transform \mbox{\hyperlink{namespacearuco__ros_a01ddfb8b1a95fd19d8c2d6da8fc18583}{aruco\+\_\+ros\+::aruco\+Marker2\+Tf}} (const aruco\+::\+Marker \&marker, bool rotate\+\_\+marker\+\_\+axis=true)
+\begin{DoxyCompactList}\small\item\em aruco\+Marker2\+Tf convert the marker pose info to TF2 transform type \end{DoxyCompactList}\end{DoxyCompactItemize}

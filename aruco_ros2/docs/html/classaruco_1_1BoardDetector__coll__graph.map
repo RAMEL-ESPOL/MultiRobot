@@ -1,0 +1,9 @@
+<map id="aruco::BoardDetector" name="aruco::BoardDetector">
+<area shape="rect" id="node1" title="This class detects AR boards Version 1.2 There are two modes for board detection. First,..." alt="" coords="769,115,916,141"/>
+<area shape="rect" id="node2" href="$classaruco_1_1BoardConfiguration.html" title="This class defines a board with several markers. A Board contains several markers so that they are mo..." alt="" coords="199,69,372,96"/>
+<area shape="rect" id="node4" href="$classaruco_1_1Board.html" title=" " alt="" coords="489,32,585,59"/>
+<area shape="rect" id="node3" title=" " alt="" coords="5,69,149,96"/>
+<area shape="rect" id="node5" title=" " alt="" coords="224,5,347,32"/>
+<area shape="rect" id="node6" href="$classaruco_1_1CameraParameters.html" title="Parameters of the camera." alt="" coords="449,145,624,172"/>
+<area shape="rect" id="node7" href="$classaruco_1_1MarkerDetector.html" title="Main class for marker detection." alt="" coords="461,196,613,223"/>
+</map>

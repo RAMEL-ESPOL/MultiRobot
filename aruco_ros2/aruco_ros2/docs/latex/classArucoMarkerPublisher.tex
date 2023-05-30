@@ -1,0 +1,472 @@
+\hypertarget{classArucoMarkerPublisher}{}\doxysection{Aruco\+Marker\+Publisher Class Reference}
+\label{classArucoMarkerPublisher}\index{ArucoMarkerPublisher@{ArucoMarkerPublisher}}
+
+
+all marker detector with pose  
+
+
+
+
+{\ttfamily \#include $<$marker\+\_\+publish.\+hpp$>$}
+
+
+
+Inheritance diagram for Aruco\+Marker\+Publisher\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=193pt]{classArucoMarkerPublisher__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Aruco\+Marker\+Publisher\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=193pt]{classArucoMarkerPublisher__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classArucoMarkerPublisher_afe76898abd73bb5be75452a3bbcf88ff}{Aruco\+Marker\+Publisher}} (rclcpp\+::\+Node\+Options options)
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classArucoMarkerPublisher}{Aruco\+Marker\+Publisher}} constructor for \mbox{\hyperlink{classArucoMarkerPublisher}{Aruco\+Marker\+Publisher}}. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classArucoMarkerPublisher_a447465b2b336b9cc3901d117f359c9f4}{get\+Transform}} (const std\+::string \&ref\+Frame, const std\+::string \&child\+Frame, geometry\+\_\+msgs\+::msg\+::\+Transform\+Stamped \&transform)
+\begin{DoxyCompactList}\small\item\em get\+Transform get transformation from 2 frame \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classArucoMarkerPublisher_a3db236b0425d8a9f6b7ad5f77b60b1e2}{image\+\_\+callback}} (const sensor\+\_\+msgs\+::msg\+::\+Image\+::\+Const\+Ptr \&msg)
+\begin{DoxyCompactList}\small\item\em image topic subscribe callback \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classArucoMarkerPublisher_a667727d4e7ca9f248e64e2c20d5c25ea}{cam\+\_\+info\+\_\+callback}} (sensor\+\_\+msgs\+::msg\+::\+Camera\+Info\+::\+Const\+Ptr msg)
+\begin{DoxyCompactList}\small\item\em aruco\+Marker2\+Tf convert the marker pose info to TF2 transform type \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classArucoMarkerPublisher_a722ad1906595df0f214dafcbbf2386af}\label{classArucoMarkerPublisher_a722ad1906595df0f214dafcbbf2386af}} 
+aruco\+::\+Marker\+Detector {\bfseries m\+Detector\+\_\+}
+\item 
+\mbox{\Hypertarget{classArucoMarkerPublisher_aefbf53abfcd8c79fc408bf79e339fd41}\label{classArucoMarkerPublisher_aefbf53abfcd8c79fc408bf79e339fd41}} 
+aruco\+::\+Camera\+Parameters {\bfseries cam\+Param\+\_\+}
+\item 
+\mbox{\Hypertarget{classArucoMarkerPublisher_a465d7cc2b4c7b16b2fdb9ffd5b286383}\label{classArucoMarkerPublisher_a465d7cc2b4c7b16b2fdb9ffd5b286383}} 
+vector$<$ aruco\+::\+Marker $>$ {\bfseries markers\+\_\+}
+\item 
+\mbox{\Hypertarget{classArucoMarkerPublisher_a3d8df55bbb54852f06ecf34af93645bd}\label{classArucoMarkerPublisher_a3d8df55bbb54852f06ecf34af93645bd}} 
+bool {\bfseries use\+Rectified\+Images\+\_\+}
+\item 
+\mbox{\Hypertarget{classArucoMarkerPublisher_a55c56e5537e6a4b032cb86208be8a349}\label{classArucoMarkerPublisher_a55c56e5537e6a4b032cb86208be8a349}} 
+std\+::string {\bfseries marker\+\_\+frame\+\_\+}
+\item 
+\mbox{\Hypertarget{classArucoMarkerPublisher_a0aa9149ab7657959837e6abbded4075b}\label{classArucoMarkerPublisher_a0aa9149ab7657959837e6abbded4075b}} 
+std\+::string {\bfseries camera\+\_\+frame\+\_\+}
+\item 
+\mbox{\Hypertarget{classArucoMarkerPublisher_adec78f0170ae7300a74db1e5fe462044}\label{classArucoMarkerPublisher_adec78f0170ae7300a74db1e5fe462044}} 
+std\+::string {\bfseries reference\+\_\+frame\+\_\+}
+\item 
+\mbox{\Hypertarget{classArucoMarkerPublisher_a0e7ecfe298afe6df225bdafc58b8bb8b}\label{classArucoMarkerPublisher_a0e7ecfe298afe6df225bdafc58b8bb8b}} 
+double {\bfseries marker\+\_\+size\+\_\+}
+\item 
+\mbox{\Hypertarget{classArucoMarkerPublisher_a9ba23e326e6918ba5e345e08edc117eb}\label{classArucoMarkerPublisher_a9ba23e326e6918ba5e345e08edc117eb}} 
+bool {\bfseries rotate\+\_\+marker\+\_\+axis\+\_\+}
+\item 
+\mbox{\Hypertarget{classArucoMarkerPublisher_aa8d3228f2194de29df762848b65b86ff}\label{classArucoMarkerPublisher_aa8d3228f2194de29df762848b65b86ff}} 
+bool {\bfseries cam\+\_\+info\+\_\+received}
+\item 
+\mbox{\Hypertarget{classArucoMarkerPublisher_a77eb2ae5863f34f1e58ea09d8bb4abfa}\label{classArucoMarkerPublisher_a77eb2ae5863f34f1e58ea09d8bb4abfa}} 
+image\+\_\+transport\+::\+Subscriber {\bfseries image\+\_\+sub\+\_\+}
+\item 
+\mbox{\Hypertarget{classArucoMarkerPublisher_a25d04556c6b1e89e5c9d6175c163cb61}\label{classArucoMarkerPublisher_a25d04556c6b1e89e5c9d6175c163cb61}} 
+rclcpp\+::\+Subscription$<$ sensor\+\_\+msgs\+::msg\+::\+Camera\+Info $>$\+::Shared\+Ptr {\bfseries cam\+\_\+info\+\_\+sub}
+\item 
+\mbox{\Hypertarget{classArucoMarkerPublisher_a7ed5150dba78318c202d4026820207ed}\label{classArucoMarkerPublisher_a7ed5150dba78318c202d4026820207ed}} 
+image\+\_\+transport\+::\+Publisher {\bfseries image\+\_\+pub\+\_\+}
+\item 
+\mbox{\Hypertarget{classArucoMarkerPublisher_a3b8f8307838477c121192adf7f55d92e}\label{classArucoMarkerPublisher_a3b8f8307838477c121192adf7f55d92e}} 
+image\+\_\+transport\+::\+Publisher {\bfseries debug\+\_\+pub\+\_\+}
+\item 
+\mbox{\Hypertarget{classArucoMarkerPublisher_a7b72508125ab74ecc581682227a3c455}\label{classArucoMarkerPublisher_a7b72508125ab74ecc581682227a3c455}} 
+rclcpp\+::\+Publisher$<$ aruco\+\_\+msgs\+::msg\+::\+Marker\+Array $>$\+::Shared\+Ptr {\bfseries marker\+\_\+pub\+\_\+}
+\item 
+\mbox{\Hypertarget{classArucoMarkerPublisher_aadfabf4cd08ad720de2044f7093b7a5b}\label{classArucoMarkerPublisher_aadfabf4cd08ad720de2044f7093b7a5b}} 
+rclcpp\+::\+Publisher$<$ std\+\_\+msgs\+::msg\+::\+UInt32\+Multi\+Array $>$\+::Shared\+Ptr {\bfseries marker\+\_\+list\+\_\+pub\+\_\+}
+\item 
+\mbox{\Hypertarget{classArucoMarkerPublisher_af239bee9f0a38b0d4dd214aac3779215}\label{classArucoMarkerPublisher_af239bee9f0a38b0d4dd214aac3779215}} 
+std\+::shared\+\_\+ptr$<$ tf2\+\_\+ros\+::\+Transform\+Listener $>$ {\bfseries tf\+Listener\+\_\+}
+\item 
+\mbox{\Hypertarget{classArucoMarkerPublisher_a4f40d5e1497c2197ca2e5c8abcca4e24}\label{classArucoMarkerPublisher_a4f40d5e1497c2197ca2e5c8abcca4e24}} 
+std\+::shared\+\_\+ptr$<$ tf2\+\_\+ros\+::\+Buffer $>$ {\bfseries tf\+\_\+buffer\+\_\+}
+\item 
+\mbox{\Hypertarget{classArucoMarkerPublisher_acd43d74f52a714e5d0116abdc4271bf9}\label{classArucoMarkerPublisher_acd43d74f52a714e5d0116abdc4271bf9}} 
+rclcpp\+::\+Subscription$<$ sensor\+\_\+msgs\+::msg\+::\+Camera\+Info $>$\+::Shared\+Ptr {\bfseries cam\+\_\+info\+\_\+sub\+\_\+}
+\item 
+\mbox{\Hypertarget{classArucoMarkerPublisher_a2b52c6761ddc0490cc8e46a3ffa6b7fe}\label{classArucoMarkerPublisher_a2b52c6761ddc0490cc8e46a3ffa6b7fe}} 
+aruco\+\_\+msgs\+::msg\+::\+Marker\+Array\+::\+Ptr {\bfseries marker\+\_\+msg\+\_\+}
+\item 
+\mbox{\Hypertarget{classArucoMarkerPublisher_a2c01d522e1856616428b45e7a6327158}\label{classArucoMarkerPublisher_a2c01d522e1856616428b45e7a6327158}} 
+cv\+::\+Mat {\bfseries in\+Image\+\_\+}
+\item 
+\mbox{\Hypertarget{classArucoMarkerPublisher_adeff6491226221611e95f8964a41e676}\label{classArucoMarkerPublisher_adeff6491226221611e95f8964a41e676}} 
+bool {\bfseries use\+Cam\+Info\+\_\+}
+\item 
+\mbox{\Hypertarget{classArucoMarkerPublisher_a49831a01f7cd1c3d4bd915b2311989c7}\label{classArucoMarkerPublisher_a49831a01f7cd1c3d4bd915b2311989c7}} 
+std\+\_\+msgs\+::msg\+::\+UInt32\+Multi\+Array {\bfseries marker\+\_\+list\+\_\+msg\+\_\+}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+all marker detector with pose 
+
+Definition at line 79 of file marker\+\_\+publish.\+hpp.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classArucoMarkerPublisher_afe76898abd73bb5be75452a3bbcf88ff}\label{classArucoMarkerPublisher_afe76898abd73bb5be75452a3bbcf88ff}} 
+\index{ArucoMarkerPublisher@{ArucoMarkerPublisher}!ArucoMarkerPublisher@{ArucoMarkerPublisher}}
+\index{ArucoMarkerPublisher@{ArucoMarkerPublisher}!ArucoMarkerPublisher@{ArucoMarkerPublisher}}
+\doxysubsubsection{\texorpdfstring{ArucoMarkerPublisher()}{ArucoMarkerPublisher()}}
+{\footnotesize\ttfamily Aruco\+Marker\+Publisher\+::\+Aruco\+Marker\+Publisher (\begin{DoxyParamCaption}\item[{rclcpp\+::\+Node\+Options}]{options }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+\mbox{\hyperlink{classArucoMarkerPublisher}{Aruco\+Marker\+Publisher}} constructor for \mbox{\hyperlink{classArucoMarkerPublisher}{Aruco\+Marker\+Publisher}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em option} & input rclcpp node option \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 48 of file marker\+\_\+publish.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{49 : \mbox{\hyperlink{classArucoMarkerPublisher_aa8d3228f2194de29df762848b65b86ff}{cam\_info\_received}}(\textcolor{keyword}{false}),}
+\DoxyCodeLine{50   \mbox{\hyperlink{classArucoMarkerPublisher_adeff6491226221611e95f8964a41e676}{useCamInfo\_}}(\textcolor{keyword}{true}),}
+\DoxyCodeLine{51   Node(\textcolor{stringliteral}{"{}aruco\_marker\_publisher"{}}, options),}
+\DoxyCodeLine{52   \mbox{\hyperlink{classArucoMarkerPublisher_a4f40d5e1497c2197ca2e5c8abcca4e24}{tf\_buffer\_}}(std::make\_shared<tf2\_ros::Buffer>(get\_clock()))}
+\DoxyCodeLine{53 \{}
+\DoxyCodeLine{54   \textcolor{keyword}{auto} timer\_interface = std::make\_shared<tf2\_ros::CreateTimerROS>(}
+\DoxyCodeLine{55     get\_node\_base\_interface(),}
+\DoxyCodeLine{56     get\_node\_timers\_interface());}
+\DoxyCodeLine{57   \mbox{\hyperlink{classArucoMarkerPublisher_a4f40d5e1497c2197ca2e5c8abcca4e24}{tf\_buffer\_}}-\/>setCreateTimerInterface(timer\_interface);}
+\DoxyCodeLine{58   \mbox{\hyperlink{classArucoMarkerPublisher_af239bee9f0a38b0d4dd214aac3779215}{tfListener\_}} = std::make\_shared<tf2\_ros::TransformListener>(*\mbox{\hyperlink{classArucoMarkerPublisher_a4f40d5e1497c2197ca2e5c8abcca4e24}{tf\_buffer\_}});}
+\DoxyCodeLine{59 }
+\DoxyCodeLine{60   \mbox{\hyperlink{classArucoMarkerPublisher_a77eb2ae5863f34f1e58ea09d8bb4abfa}{image\_sub\_}} =}
+\DoxyCodeLine{61     image\_transport::create\_subscription(}
+\DoxyCodeLine{62     \textcolor{keyword}{this}, \textcolor{stringliteral}{"{}/image"{}},}
+\DoxyCodeLine{63     std::bind(\&\mbox{\hyperlink{classArucoMarkerPublisher_a3db236b0425d8a9f6b7ad5f77b60b1e2}{ArucoMarkerPublisher::image\_callback}}, \textcolor{keyword}{this}, std::placeholders::\_1), \textcolor{stringliteral}{"{}raw"{}});}
+\DoxyCodeLine{64 }
+\DoxyCodeLine{65   get\_parameter\_or(\textcolor{stringliteral}{"{}use\_camera\_info"{}}, \mbox{\hyperlink{classArucoMarkerPublisher_adeff6491226221611e95f8964a41e676}{useCamInfo\_}}, \textcolor{keyword}{true});}
+\DoxyCodeLine{66 }
+\DoxyCodeLine{67   \mbox{\hyperlink{classArucoMarkerPublisher_a25d04556c6b1e89e5c9d6175c163cb61}{cam\_info\_sub}} = create\_subscription<sensor\_msgs::msg::CameraInfo>(}
+\DoxyCodeLine{68     \textcolor{stringliteral}{"{}/camera\_info"{}},}
+\DoxyCodeLine{69     rclcpp::SensorDataQoS(),}
+\DoxyCodeLine{70     std::bind(\&\mbox{\hyperlink{classArucoMarkerPublisher_a667727d4e7ca9f248e64e2c20d5c25ea}{ArucoMarkerPublisher::cam\_info\_callback}}, \textcolor{keyword}{this}, std::placeholders::\_1));}
+\DoxyCodeLine{71   \textcolor{keywordflow}{if} (\mbox{\hyperlink{classArucoMarkerPublisher_adeff6491226221611e95f8964a41e676}{useCamInfo\_}}) \{}
+\DoxyCodeLine{72     get\_parameter\_or(\textcolor{stringliteral}{"{}marker\_size"{}}, \mbox{\hyperlink{classArucoMarkerPublisher_a0e7ecfe298afe6df225bdafc58b8bb8b}{marker\_size\_}}, 0.1);}
+\DoxyCodeLine{73     get\_parameter\_or(\textcolor{stringliteral}{"{}image\_is\_rectified"{}}, \mbox{\hyperlink{classArucoMarkerPublisher_a3d8df55bbb54852f06ecf34af93645bd}{useRectifiedImages\_}}, \textcolor{keyword}{false});}
+\DoxyCodeLine{74     get\_parameter\_or(\textcolor{stringliteral}{"{}reference\_frame"{}}, \mbox{\hyperlink{classArucoMarkerPublisher_adec78f0170ae7300a74db1e5fe462044}{reference\_frame\_}}, \textcolor{keywordtype}{string}\{\textcolor{stringliteral}{"{}"{}}\});}
+\DoxyCodeLine{75     get\_parameter\_or(\textcolor{stringliteral}{"{}camera\_frame"{}}, \mbox{\hyperlink{classArucoMarkerPublisher_a0aa9149ab7657959837e6abbded4075b}{camera\_frame\_}}, \textcolor{keywordtype}{string}\{\textcolor{stringliteral}{"{}camera"{}}\});}
+\DoxyCodeLine{76     get\_parameter\_or(\textcolor{stringliteral}{"{}rotate\_marker\_axis"{}}, \mbox{\hyperlink{classArucoMarkerPublisher_a9ba23e326e6918ba5e345e08edc117eb}{rotate\_marker\_axis\_}}, \textcolor{keyword}{false});}
+\DoxyCodeLine{77     \textcolor{keywordflow}{if} (\mbox{\hyperlink{classArucoMarkerPublisher_adec78f0170ae7300a74db1e5fe462044}{reference\_frame\_}}.empty()) \{}
+\DoxyCodeLine{78       \mbox{\hyperlink{classArucoMarkerPublisher_adec78f0170ae7300a74db1e5fe462044}{reference\_frame\_}} = \mbox{\hyperlink{classArucoMarkerPublisher_a0aa9149ab7657959837e6abbded4075b}{camera\_frame\_}};}
+\DoxyCodeLine{79     \}}
+\DoxyCodeLine{80   \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{81     \mbox{\hyperlink{classArucoMarkerPublisher_aefbf53abfcd8c79fc408bf79e339fd41}{camParam\_}} = aruco::CameraParameters();}
+\DoxyCodeLine{82   \}}
+\DoxyCodeLine{83   \mbox{\hyperlink{classArucoMarkerPublisher_a7ed5150dba78318c202d4026820207ed}{image\_pub\_}} = image\_transport::create\_publisher(\textcolor{keyword}{this}, \textcolor{stringliteral}{"{}result"{}});}
+\DoxyCodeLine{84   \mbox{\hyperlink{classArucoMarkerPublisher_a3b8f8307838477c121192adf7f55d92e}{debug\_pub\_}} = image\_transport::create\_publisher(\textcolor{keyword}{this}, \textcolor{stringliteral}{"{}debug"{}});}
+\DoxyCodeLine{85   \mbox{\hyperlink{classArucoMarkerPublisher_a7b72508125ab74ecc581682227a3c455}{marker\_pub\_}} = create\_publisher<aruco\_msgs::msg::MarkerArray>(\textcolor{stringliteral}{"{}markers"{}}, 100);}
+\DoxyCodeLine{86   \mbox{\hyperlink{classArucoMarkerPublisher_aadfabf4cd08ad720de2044f7093b7a5b}{marker\_list\_pub\_}} = create\_publisher<std\_msgs::msg::UInt32MultiArray>(\textcolor{stringliteral}{"{}markers\_list"{}}, 10);}
+\DoxyCodeLine{87   \mbox{\hyperlink{classArucoMarkerPublisher_a2b52c6761ddc0490cc8e46a3ffa6b7fe}{marker\_msg\_}} = aruco\_msgs::msg::MarkerArray::Ptr(\textcolor{keyword}{new} aruco\_msgs::msg::MarkerArray());}
+\DoxyCodeLine{88   \mbox{\hyperlink{classArucoMarkerPublisher_a2b52c6761ddc0490cc8e46a3ffa6b7fe}{marker\_msg\_}}-\/>header.frame\_id = \mbox{\hyperlink{classArucoMarkerPublisher_adec78f0170ae7300a74db1e5fe462044}{reference\_frame\_}};}
+\DoxyCodeLine{89 \}}
+
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classArucoMarkerPublisher_afe76898abd73bb5be75452a3bbcf88ff_cgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classArucoMarkerPublisher_a667727d4e7ca9f248e64e2c20d5c25ea}\label{classArucoMarkerPublisher_a667727d4e7ca9f248e64e2c20d5c25ea}} 
+\index{ArucoMarkerPublisher@{ArucoMarkerPublisher}!cam\_info\_callback@{cam\_info\_callback}}
+\index{cam\_info\_callback@{cam\_info\_callback}!ArucoMarkerPublisher@{ArucoMarkerPublisher}}
+\doxysubsubsection{\texorpdfstring{cam\_info\_callback()}{cam\_info\_callback()}}
+{\footnotesize\ttfamily void Aruco\+Marker\+Publisher\+::cam\+\_\+info\+\_\+callback (\begin{DoxyParamCaption}\item[{sensor\+\_\+msgs\+::msg\+::\+Camera\+Info\+::\+Const\+Ptr}]{msg }\end{DoxyParamCaption})}
+
+
+
+aruco\+Marker2\+Tf convert the marker pose info to TF2 transform type 
+
+
+\begin{DoxyParams}{Parameters}
+{\em marker} & input marker \\
+\hline
+{\em rotate\+\_\+marker\+\_\+axis} & if true, Rotate axis direction as to fit from opencv to ROS frame. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+transformation of marker in type TF2 
+\end{DoxyReturn}
+
+
+Definition at line 261 of file marker\+\_\+publish.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{262 \{}
+\DoxyCodeLine{263   \textcolor{keywordflow}{if} (\mbox{\hyperlink{classArucoMarkerPublisher_adeff6491226221611e95f8964a41e676}{useCamInfo\_}}) \{}
+\DoxyCodeLine{264     \mbox{\hyperlink{classArucoMarkerPublisher_aefbf53abfcd8c79fc408bf79e339fd41}{camParam\_}} = \mbox{\hyperlink{namespacearuco__ros_ac69b37c14d6ea5e5f2f7e70719dd369c}{aruco\_ros::rosCameraInfo2ArucoCamParams}}(*msg, \mbox{\hyperlink{classArucoMarkerPublisher_a3d8df55bbb54852f06ecf34af93645bd}{useRectifiedImages\_}});}
+\DoxyCodeLine{265 }
+\DoxyCodeLine{266     \mbox{\hyperlink{classArucoMarkerPublisher_aa8d3228f2194de29df762848b65b86ff}{cam\_info\_received}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{267   \}}
+\DoxyCodeLine{268 \}}
+
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classArucoMarkerPublisher_a667727d4e7ca9f248e64e2c20d5c25ea_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classArucoMarkerPublisher_a447465b2b336b9cc3901d117f359c9f4}\label{classArucoMarkerPublisher_a447465b2b336b9cc3901d117f359c9f4}} 
+\index{ArucoMarkerPublisher@{ArucoMarkerPublisher}!getTransform@{getTransform}}
+\index{getTransform@{getTransform}!ArucoMarkerPublisher@{ArucoMarkerPublisher}}
+\doxysubsubsection{\texorpdfstring{getTransform()}{getTransform()}}
+{\footnotesize\ttfamily bool Aruco\+Marker\+Publisher\+::get\+Transform (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{ref\+Frame,  }\item[{const std\+::string \&}]{child\+Frame,  }\item[{geometry\+\_\+msgs\+::msg\+::\+Transform\+Stamped \&}]{transform }\end{DoxyParamCaption})}
+
+
+
+get\+Transform get transformation from 2 frame 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ref\+Frame} & input reference frame \\
+\hline
+{\em child\+Frame} & input child frame \\
+\hline
+{\em transform} & output transformation \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if success, false if fail to get transform 
+\end{DoxyReturn}
+
+
+Definition at line 91 of file marker\+\_\+publish.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{95 \{}
+\DoxyCodeLine{96   std::string errMsg;}
+\DoxyCodeLine{97   \textcolor{keywordflow}{if} (!\mbox{\hyperlink{classArucoMarkerPublisher_a4f40d5e1497c2197ca2e5c8abcca4e24}{tf\_buffer\_}}-\/>canTransform(}
+\DoxyCodeLine{98       refFrame,}
+\DoxyCodeLine{99       childFrame,}
+\DoxyCodeLine{100       tf2::TimePointZero,}
+\DoxyCodeLine{101       tf2::durationFromSec(1.0),}
+\DoxyCodeLine{102       \&errMsg))}
+\DoxyCodeLine{103   \{}
+\DoxyCodeLine{104     RCLCPP\_ERROR\_STREAM(get\_logger(), \textcolor{stringliteral}{"{}Unable to get pose from TF: "{}} << errMsg);}
+\DoxyCodeLine{105     \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{106   \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{107     \textcolor{keywordflow}{try} \{}
+\DoxyCodeLine{108       transform = \mbox{\hyperlink{classArucoMarkerPublisher_a4f40d5e1497c2197ca2e5c8abcca4e24}{tf\_buffer\_}}-\/>lookupTransform(}
+\DoxyCodeLine{109         refFrame, childFrame,}
+\DoxyCodeLine{110         tf2::TimePointZero);}
+\DoxyCodeLine{111     \} \textcolor{keywordflow}{catch} (\textcolor{keyword}{const} tf2::TransformException \& e) \{}
+\DoxyCodeLine{112       RCLCPP\_ERROR\_STREAM(}
+\DoxyCodeLine{113         get\_logger(), \textcolor{stringliteral}{"{}Error in lookupTransform of "{}} << childFrame << \textcolor{stringliteral}{"{} in "{}} << refFrame);}
+\DoxyCodeLine{114       \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{115     \}}
+\DoxyCodeLine{116   \}}
+\DoxyCodeLine{117   \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
+\DoxyCodeLine{118 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classArucoMarkerPublisher_a3db236b0425d8a9f6b7ad5f77b60b1e2}\label{classArucoMarkerPublisher_a3db236b0425d8a9f6b7ad5f77b60b1e2}} 
+\index{ArucoMarkerPublisher@{ArucoMarkerPublisher}!image\_callback@{image\_callback}}
+\index{image\_callback@{image\_callback}!ArucoMarkerPublisher@{ArucoMarkerPublisher}}
+\doxysubsubsection{\texorpdfstring{image\_callback()}{image\_callback()}}
+{\footnotesize\ttfamily void Aruco\+Marker\+Publisher\+::image\+\_\+callback (\begin{DoxyParamCaption}\item[{const sensor\+\_\+msgs\+::msg\+::\+Image\+::\+Const\+Ptr \&}]{msg }\end{DoxyParamCaption})}
+
+
+
+image topic subscribe callback 
+
+
+\begin{DoxyParams}{Parameters}
+{\em msg} & image message pointer \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 120 of file marker\+\_\+publish.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{121 \{}
+\DoxyCodeLine{122   std::cout << \textcolor{stringliteral}{"{}check call back"{}} << std::endl;}
+\DoxyCodeLine{123 }
+\DoxyCodeLine{124   \textcolor{keywordflow}{if} (!\mbox{\hyperlink{classArucoMarkerPublisher_adeff6491226221611e95f8964a41e676}{useCamInfo\_}} || \mbox{\hyperlink{classArucoMarkerPublisher_aa8d3228f2194de29df762848b65b86ff}{cam\_info\_received}}) \{}
+\DoxyCodeLine{125     \textcolor{keywordtype}{bool} publishImage = \mbox{\hyperlink{classArucoMarkerPublisher_a7ed5150dba78318c202d4026820207ed}{image\_pub\_}}.getNumSubscribers() > 0;}
+\DoxyCodeLine{126     \textcolor{keywordtype}{bool} publishDebug = \mbox{\hyperlink{classArucoMarkerPublisher_a3b8f8307838477c121192adf7f55d92e}{debug\_pub\_}}.getNumSubscribers() > 0;}
+\DoxyCodeLine{127 }
+\DoxyCodeLine{128     rclcpp::Time curr\_stamp(now());}
+\DoxyCodeLine{129     cv\_bridge::CvImagePtr cv\_ptr;}
+\DoxyCodeLine{130     \textcolor{keywordflow}{try} \{}
+\DoxyCodeLine{131       cv\_ptr = cv\_bridge::toCvCopy(msg, sensor\_msgs::image\_encodings::RGB8);}
+\DoxyCodeLine{132       \mbox{\hyperlink{classArucoMarkerPublisher_a2c01d522e1856616428b45e7a6327158}{inImage\_}} = cv\_ptr-\/>image;}
+\DoxyCodeLine{133 }
+\DoxyCodeLine{134       \textcolor{comment}{// clear out previous detection results}}
+\DoxyCodeLine{135       \mbox{\hyperlink{classArucoMarkerPublisher_a465d7cc2b4c7b16b2fdb9ffd5b286383}{markers\_}}.clear();}
+\DoxyCodeLine{136 }
+\DoxyCodeLine{137       \textcolor{comment}{// Ok, let's detect}}
+\DoxyCodeLine{138       \mbox{\hyperlink{classArucoMarkerPublisher_a722ad1906595df0f214dafcbbf2386af}{mDetector\_}}.detect(\mbox{\hyperlink{classArucoMarkerPublisher_a2c01d522e1856616428b45e7a6327158}{inImage\_}}, \mbox{\hyperlink{classArucoMarkerPublisher_a465d7cc2b4c7b16b2fdb9ffd5b286383}{markers\_}}, \mbox{\hyperlink{classArucoMarkerPublisher_aefbf53abfcd8c79fc408bf79e339fd41}{camParam\_}}, \mbox{\hyperlink{classArucoMarkerPublisher_a0e7ecfe298afe6df225bdafc58b8bb8b}{marker\_size\_}}, \textcolor{keyword}{false});}
+\DoxyCodeLine{139 }
+\DoxyCodeLine{140       \textcolor{comment}{// marker array publish}}
+\DoxyCodeLine{141 }
+\DoxyCodeLine{142       \{}
+\DoxyCodeLine{143         \mbox{\hyperlink{classArucoMarkerPublisher_a2b52c6761ddc0490cc8e46a3ffa6b7fe}{marker\_msg\_}}-\/>markers.clear();}
+\DoxyCodeLine{144         \mbox{\hyperlink{classArucoMarkerPublisher_a2b52c6761ddc0490cc8e46a3ffa6b7fe}{marker\_msg\_}}-\/>markers.resize(\mbox{\hyperlink{classArucoMarkerPublisher_a465d7cc2b4c7b16b2fdb9ffd5b286383}{markers\_}}.size());}
+\DoxyCodeLine{145         \mbox{\hyperlink{classArucoMarkerPublisher_a2b52c6761ddc0490cc8e46a3ffa6b7fe}{marker\_msg\_}}-\/>header.stamp = curr\_stamp;}
+\DoxyCodeLine{146 }
+\DoxyCodeLine{147         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i = 0; i < \mbox{\hyperlink{classArucoMarkerPublisher_a465d7cc2b4c7b16b2fdb9ffd5b286383}{markers\_}}.size(); ++i) \{}
+\DoxyCodeLine{148           aruco\_msgs::msg::Marker \& marker\_i = \mbox{\hyperlink{classArucoMarkerPublisher_a2b52c6761ddc0490cc8e46a3ffa6b7fe}{marker\_msg\_}}-\/>markers.at(i);}
+\DoxyCodeLine{149           marker\_i.header.stamp = curr\_stamp;}
+\DoxyCodeLine{150           marker\_i.id = \mbox{\hyperlink{classArucoMarkerPublisher_a465d7cc2b4c7b16b2fdb9ffd5b286383}{markers\_}}.at(i).id;}
+\DoxyCodeLine{151           marker\_i.confidence = 1.0;}
+\DoxyCodeLine{152         \}}
+\DoxyCodeLine{153 }
+\DoxyCodeLine{154         \textcolor{comment}{// if there is camera info let's do 3D stuff}}
+\DoxyCodeLine{155         \textcolor{keywordflow}{if} (\mbox{\hyperlink{classArucoMarkerPublisher_adeff6491226221611e95f8964a41e676}{useCamInfo\_}}) \{}
+\DoxyCodeLine{156           geometry\_msgs::msg::TransformStamped cameraToReference;}
+\DoxyCodeLine{157           tf2::Transform cameraToReference\_tf;}
+\DoxyCodeLine{158 }
+\DoxyCodeLine{159           \textcolor{keywordflow}{if} (\mbox{\hyperlink{classArucoMarkerPublisher_adec78f0170ae7300a74db1e5fe462044}{reference\_frame\_}} != \mbox{\hyperlink{classArucoMarkerPublisher_a0aa9149ab7657959837e6abbded4075b}{camera\_frame\_}}) \{}
+\DoxyCodeLine{160             \textcolor{keywordflow}{if} (!\mbox{\hyperlink{classArucoMarkerPublisher_a447465b2b336b9cc3901d117f359c9f4}{getTransform}}(\mbox{\hyperlink{classArucoMarkerPublisher_adec78f0170ae7300a74db1e5fe462044}{reference\_frame\_}}, \mbox{\hyperlink{classArucoMarkerPublisher_a0aa9149ab7657959837e6abbded4075b}{camera\_frame\_}}, cameraToReference)) \{}
+\DoxyCodeLine{161               \textcolor{keywordflow}{return};}
+\DoxyCodeLine{162             \}}
+\DoxyCodeLine{163             tf2::fromMsg(cameraToReference.transform, cameraToReference\_tf);}
+\DoxyCodeLine{164           \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{165             cameraToReference\_tf.setIdentity();}
+\DoxyCodeLine{166           \}}
+\DoxyCodeLine{167 }
+\DoxyCodeLine{168           \textcolor{comment}{// Now find the transform for each detected marker}}
+\DoxyCodeLine{169           \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i = 0; i < \mbox{\hyperlink{classArucoMarkerPublisher_a465d7cc2b4c7b16b2fdb9ffd5b286383}{markers\_}}.size(); ++i) \{}
+\DoxyCodeLine{170             aruco\_msgs::msg::Marker \& marker\_i = \mbox{\hyperlink{classArucoMarkerPublisher_a2b52c6761ddc0490cc8e46a3ffa6b7fe}{marker\_msg\_}}-\/>markers.at(i);}
+\DoxyCodeLine{171             tf2::Transform transform = \mbox{\hyperlink{namespacearuco__ros_a01ddfb8b1a95fd19d8c2d6da8fc18583}{aruco\_ros::arucoMarker2Tf}}(\mbox{\hyperlink{classArucoMarkerPublisher_a465d7cc2b4c7b16b2fdb9ffd5b286383}{markers\_}}[i], \mbox{\hyperlink{classArucoMarkerPublisher_a9ba23e326e6918ba5e345e08edc117eb}{rotate\_marker\_axis\_}});}
+\DoxyCodeLine{172 }
+\DoxyCodeLine{173             std::cout << transform.getOrigin().getX() << \textcolor{stringliteral}{"{} || "{}} << transform.getOrigin().getY() <<}
+\DoxyCodeLine{174               \textcolor{stringliteral}{"{} || "{}} << transform.getOrigin().getZ() << endl;}
+\DoxyCodeLine{175             transform = cameraToReference\_tf * transform;}
+\DoxyCodeLine{176 }
+\DoxyCodeLine{177             tf2::toMsg(transform, marker\_i.pose.pose);}
+\DoxyCodeLine{178 }
+\DoxyCodeLine{179             marker\_i.header.frame\_id = \mbox{\hyperlink{classArucoMarkerPublisher_adec78f0170ae7300a74db1e5fe462044}{reference\_frame\_}};}
+\DoxyCodeLine{180           \}}
+\DoxyCodeLine{181         \}}
+\DoxyCodeLine{182 }
+\DoxyCodeLine{183         \textcolor{comment}{// publish marker array}}
+\DoxyCodeLine{184         \textcolor{keywordflow}{if} (\mbox{\hyperlink{classArucoMarkerPublisher_a2b52c6761ddc0490cc8e46a3ffa6b7fe}{marker\_msg\_}}-\/>markers.size() > 0) \{}
+\DoxyCodeLine{185           \mbox{\hyperlink{classArucoMarkerPublisher_a7b72508125ab74ecc581682227a3c455}{marker\_pub\_}}-\/>publish(*\mbox{\hyperlink{classArucoMarkerPublisher_a2b52c6761ddc0490cc8e46a3ffa6b7fe}{marker\_msg\_}});}
+\DoxyCodeLine{186         \}}
+\DoxyCodeLine{187       \}}
+\DoxyCodeLine{188 }
+\DoxyCodeLine{189       \{}
+\DoxyCodeLine{190         \mbox{\hyperlink{classArucoMarkerPublisher_a49831a01f7cd1c3d4bd915b2311989c7}{marker\_list\_msg\_}}.data.resize(\mbox{\hyperlink{classArucoMarkerPublisher_a465d7cc2b4c7b16b2fdb9ffd5b286383}{markers\_}}.size());}
+\DoxyCodeLine{191         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i = 0; i < \mbox{\hyperlink{classArucoMarkerPublisher_a465d7cc2b4c7b16b2fdb9ffd5b286383}{markers\_}}.size(); ++i) \{}
+\DoxyCodeLine{192           \mbox{\hyperlink{classArucoMarkerPublisher_a49831a01f7cd1c3d4bd915b2311989c7}{marker\_list\_msg\_}}.data[i] = \mbox{\hyperlink{classArucoMarkerPublisher_a465d7cc2b4c7b16b2fdb9ffd5b286383}{markers\_}}[i].id;}
+\DoxyCodeLine{193         \}}
+\DoxyCodeLine{194 }
+\DoxyCodeLine{195         \mbox{\hyperlink{classArucoMarkerPublisher_aadfabf4cd08ad720de2044f7093b7a5b}{marker\_list\_pub\_}}-\/>publish(\mbox{\hyperlink{classArucoMarkerPublisher_a49831a01f7cd1c3d4bd915b2311989c7}{marker\_list\_msg\_}});}
+\DoxyCodeLine{196       \}}
+\DoxyCodeLine{197 }
+\DoxyCodeLine{198       \textcolor{comment}{// Draw detected markers on the image for visualization}}
+\DoxyCodeLine{199       \textcolor{comment}{/*}}
+\DoxyCodeLine{200 \textcolor{comment}{          for(size\_t i=0; i<markers\_.size(); ++i)}}
+\DoxyCodeLine{201 \textcolor{comment}{          \{}}
+\DoxyCodeLine{202 \textcolor{comment}{              markers\_[i].draw(inImage\_,cv::Scalar(0,0,255),2);}}
+\DoxyCodeLine{203 \textcolor{comment}{}}
+\DoxyCodeLine{204 \textcolor{comment}{              if(markers\_[i].id == 101)\{}}
+\DoxyCodeLine{205 \textcolor{comment}{                   putText(inImage\_,"{}      Bed = 1"{},markers\_[i].getCenter() + cv::Point2f(0,0),cv::FONT\_HERSHEY\_SIMPLEX, 1.5, cv::Scalar(0,0,255,255),2);}}
+\DoxyCodeLine{206 \textcolor{comment}{              \}}}
+\DoxyCodeLine{207 \textcolor{comment}{              if(markers\_[i].id == 201)\{}}
+\DoxyCodeLine{208 \textcolor{comment}{                   putText(inImage\_,"{}      Bed = 2"{}, markers\_[i].getCenter(),cv::FONT\_HERSHEY\_SIMPLEX, 1.5, cv::Scalar(0,0,255,255),2);}}
+\DoxyCodeLine{209 \textcolor{comment}{              \}}}
+\DoxyCodeLine{210 \textcolor{comment}{              if(markers\_[i].id == 301)\{}}
+\DoxyCodeLine{211 \textcolor{comment}{                   putText(inImage\_,"{}      Bed = 3"{}, markers\_[i].getCenter(),cv::FONT\_HERSHEY\_SIMPLEX, 1.5, cv::Scalar(0,0,255,255),2);}}
+\DoxyCodeLine{212 \textcolor{comment}{              \}}}
+\DoxyCodeLine{213 \textcolor{comment}{              if(markers\_[i].id == 401)\{}}
+\DoxyCodeLine{214 \textcolor{comment}{                   putText(inImage\_,"{}      Bed = 4"{}, markers\_[i].getCenter(),cv::FONT\_HERSHEY\_SIMPLEX, 1.5, cv::Scalar(0,0,255,255),2);}}
+\DoxyCodeLine{215 \textcolor{comment}{              \}}}
+\DoxyCodeLine{216 \textcolor{comment}{              if(markers\_[i].id == 701)\{}}
+\DoxyCodeLine{217 \textcolor{comment}{                   putText(inImage\_,"{}        Docking station"{}, markers\_[i].getCenter(),cv::FONT\_HERSHEY\_SIMPLEX, 1.5, cv::Scalar(0,0,255,255),2);}}
+\DoxyCodeLine{218 \textcolor{comment}{              \}}}
+\DoxyCodeLine{219 \textcolor{comment}{}}
+\DoxyCodeLine{220 \textcolor{comment}{          \}*/}}
+\DoxyCodeLine{221 }
+\DoxyCodeLine{222       \textcolor{comment}{// draw a 3d cube in each marker if there is 3d info}}
+\DoxyCodeLine{223       \textcolor{keywordflow}{if} (\mbox{\hyperlink{classArucoMarkerPublisher_aefbf53abfcd8c79fc408bf79e339fd41}{camParam\_}}.isValid() \&\& \mbox{\hyperlink{classArucoMarkerPublisher_a0e7ecfe298afe6df225bdafc58b8bb8b}{marker\_size\_}} > 0) \{}
+\DoxyCodeLine{224         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i = 0; i < \mbox{\hyperlink{classArucoMarkerPublisher_a465d7cc2b4c7b16b2fdb9ffd5b286383}{markers\_}}.size(); ++i) \{}
+\DoxyCodeLine{225           aruco::CvDrawingUtils::draw3dAxis(\mbox{\hyperlink{classArucoMarkerPublisher_a2c01d522e1856616428b45e7a6327158}{inImage\_}}, \mbox{\hyperlink{classArucoMarkerPublisher_a465d7cc2b4c7b16b2fdb9ffd5b286383}{markers\_}}[i], \mbox{\hyperlink{classArucoMarkerPublisher_aefbf53abfcd8c79fc408bf79e339fd41}{camParam\_}});}
+\DoxyCodeLine{226         \}}
+\DoxyCodeLine{227       \}}
+\DoxyCodeLine{228 }
+\DoxyCodeLine{229       \textcolor{comment}{// cv::namedWindow("{}Camera view"{},cv::WINDOW\_NORMAL);}}
+\DoxyCodeLine{230       \textcolor{comment}{// cv::resizeWindow("{}Camera view"{}, 800, 450);}}
+\DoxyCodeLine{231       \textcolor{comment}{// cv::imshow("{}Camera view"{},inImage\_);}}
+\DoxyCodeLine{232       \textcolor{comment}{// cv::waitKey(1);}}
+\DoxyCodeLine{233 }
+\DoxyCodeLine{234       \textcolor{comment}{// publish input image with markers drawn on it}}
+\DoxyCodeLine{235       \textcolor{keywordflow}{if} (publishImage) \{}
+\DoxyCodeLine{236         \textcolor{comment}{// show input with augmented information}}
+\DoxyCodeLine{237         cv\_bridge::CvImage out\_msg;}
+\DoxyCodeLine{238         out\_msg.header.stamp = curr\_stamp;}
+\DoxyCodeLine{239         out\_msg.header.frame\_id = \mbox{\hyperlink{classArucoMarkerPublisher_a0aa9149ab7657959837e6abbded4075b}{camera\_frame\_}};}
+\DoxyCodeLine{240         out\_msg.encoding = sensor\_msgs::image\_encodings::RGB8;}
+\DoxyCodeLine{241         out\_msg.image = \mbox{\hyperlink{classArucoMarkerPublisher_a2c01d522e1856616428b45e7a6327158}{inImage\_}};}
+\DoxyCodeLine{242         \mbox{\hyperlink{classArucoMarkerPublisher_a7ed5150dba78318c202d4026820207ed}{image\_pub\_}}.publish(out\_msg.toImageMsg());}
+\DoxyCodeLine{243       \}}
+\DoxyCodeLine{244 }
+\DoxyCodeLine{245       \textcolor{comment}{// publish image after internal image processing}}
+\DoxyCodeLine{246       \textcolor{keywordflow}{if} (publishDebug) \{}
+\DoxyCodeLine{247         \textcolor{comment}{// show also the internal image resulting from the threshold operation}}
+\DoxyCodeLine{248         cv\_bridge::CvImage debug\_msg;}
+\DoxyCodeLine{249         debug\_msg.header.stamp = curr\_stamp;}
+\DoxyCodeLine{250         debug\_msg.header.frame\_id = \mbox{\hyperlink{classArucoMarkerPublisher_a0aa9149ab7657959837e6abbded4075b}{camera\_frame\_}};}
+\DoxyCodeLine{251         debug\_msg.encoding = sensor\_msgs::image\_encodings::MONO8;}
+\DoxyCodeLine{252         debug\_msg.image = \mbox{\hyperlink{classArucoMarkerPublisher_a722ad1906595df0f214dafcbbf2386af}{mDetector\_}}.getThresholdedImage();}
+\DoxyCodeLine{253         \mbox{\hyperlink{classArucoMarkerPublisher_a3b8f8307838477c121192adf7f55d92e}{debug\_pub\_}}.publish(debug\_msg.toImageMsg());}
+\DoxyCodeLine{254       \}}
+\DoxyCodeLine{255     \} \textcolor{keywordflow}{catch} (cv\_bridge::Exception \& e) \{}
+\DoxyCodeLine{256       RCLCPP\_ERROR(get\_logger(), \textcolor{stringliteral}{"{}cv\_bridge exception: \%s"{}}, e.what());}
+\DoxyCodeLine{257     \}}
+\DoxyCodeLine{258   \}}
+\DoxyCodeLine{259 \}}
+
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classArucoMarkerPublisher_a3db236b0425d8a9f6b7ad5f77b60b1e2_cgraph}
+\end{center}
+\end{figure}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/aruco\+\_\+ros/\mbox{\hyperlink{marker__publish_8hpp}{marker\+\_\+publish.\+hpp}}\item 
+src/\mbox{\hyperlink{marker__publish_8cpp}{marker\+\_\+publish.\+cpp}}\end{DoxyCompactItemize}

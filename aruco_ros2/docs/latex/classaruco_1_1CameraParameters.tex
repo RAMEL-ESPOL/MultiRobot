@@ -1,0 +1,697 @@
+\hypertarget{classaruco_1_1CameraParameters}{}\doxysection{aruco\+::Camera\+Parameters Class Reference}
+\label{classaruco_1_1CameraParameters}\index{aruco::CameraParameters@{aruco::CameraParameters}}
+
+
+Parameters of the camera.  
+
+
+
+
+{\ttfamily \#include $<$cameraparameters.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classaruco_1_1CameraParameters_a23e30ef777f22f819a332592bf3db075}{Camera\+Parameters}} ()
+\item 
+\mbox{\hyperlink{classaruco_1_1CameraParameters_a8abee4cd106b36900f0860b39ea7ef2a}{Camera\+Parameters}} (cv\+::\+Mat camera\+Matrix, cv\+::\+Mat distorsion\+Coeff, cv\+::\+Size size)  throw (cv\+::\+Exception)
+\item 
+void \mbox{\hyperlink{classaruco_1_1CameraParameters_af51ad02ac8a968ed20161baa18ca6435}{set\+Params}} (cv\+::\+Mat camera\+Matrix, cv\+::\+Mat distorsion\+Coeff, cv\+::\+Size size)  throw (cv\+::\+Exception)
+\item 
+\mbox{\hyperlink{classaruco_1_1CameraParameters_a9f9c0c3a68c29f3f5dd2b718de5217e1}{Camera\+Parameters}} (const \mbox{\hyperlink{classaruco_1_1CameraParameters}{Camera\+Parameters}} \&CI)
+\item 
+bool \mbox{\hyperlink{classaruco_1_1CameraParameters_ab5ff265805e264fb13f119b97e0597f7}{is\+Valid}} () const
+\item 
+\mbox{\hyperlink{classaruco_1_1CameraParameters}{Camera\+Parameters}} \& \mbox{\hyperlink{classaruco_1_1CameraParameters_a4c13267368caccb7d05e79769460e1b3}{operator=}} (const \mbox{\hyperlink{classaruco_1_1CameraParameters}{Camera\+Parameters}} \&CI)
+\item 
+void \mbox{\hyperlink{classaruco_1_1CameraParameters_a65062b40124245d0386a365189ce86bc}{read\+From\+File}} (string path)  throw (cv\+::\+Exception)
+\item 
+void \mbox{\hyperlink{classaruco_1_1CameraParameters_a0fb7e36dcc255b6d8f6cb191bf5bb635}{save\+To\+File}} (string path, bool in\+XML=true)  throw (cv\+::\+Exception)
+\item 
+void \mbox{\hyperlink{classaruco_1_1CameraParameters_a866dbc61304f56166da41220e94f4f0f}{read\+From\+XMLFile}} (string file\+Path)  throw (cv\+::\+Exception)
+\item 
+void \mbox{\hyperlink{classaruco_1_1CameraParameters_aabf139725fb75759b4172a53de63100f}{resize}} (cv\+::\+Size size)  throw (cv\+::\+Exception)
+\item 
+void \mbox{\hyperlink{classaruco_1_1CameraParameters_adbfb82ecadfbe6c59c47798f558064ac}{gl\+Get\+Projection\+Matrix}} (cv\+::\+Size org\+Img\+Size, cv\+::\+Size size, double proj\+\_\+matrix\mbox{[}16\mbox{]}, double gnear, double gfar, bool invert=false)  throw (cv\+::\+Exception)
+\item 
+void \mbox{\hyperlink{classaruco_1_1CameraParameters_adb5924aaec7e149ba5ea509158663540}{Ogre\+Get\+Projection\+Matrix}} (cv\+::\+Size org\+Img\+Size, cv\+::\+Size size, double proj\+\_\+matrix\mbox{[}16\mbox{]}, double gnear, double gfar, bool invert=false)  throw (cv\+::\+Exception)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static cv\+::\+Point3f \mbox{\hyperlink{classaruco_1_1CameraParameters_ab3f102b448814ed007788d9d6020beb2}{get\+Camera\+Location}} (cv\+::\+Mat Rvec, cv\+::\+Mat Tvec)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classaruco_1_1CameraParameters_a5210f7dd5f0f4f0fea728357005d6bcd}\label{classaruco_1_1CameraParameters_a5210f7dd5f0f4f0fea728357005d6bcd}} 
+cv\+::\+Mat {\bfseries Camera\+Matrix}
+\item 
+\mbox{\Hypertarget{classaruco_1_1CameraParameters_a33a5ab0b2f00a4753a2fda307e24360a}\label{classaruco_1_1CameraParameters_a33a5ab0b2f00a4753a2fda307e24360a}} 
+cv\+::\+Mat {\bfseries Distorsion}
+\item 
+\mbox{\Hypertarget{classaruco_1_1CameraParameters_a08fdd4888daf7140cf31bdd341c3f303}\label{classaruco_1_1CameraParameters_a08fdd4888daf7140cf31bdd341c3f303}} 
+cv\+::\+Size {\bfseries Cam\+Size}
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \mbox{\hyperlink{classaruco_1_1CameraParameters_ad498a612c9625ece5c9ab9f7f9387c6b}{arg\+Conv\+GLcpara2}} (double cparam\mbox{[}3\mbox{]}\mbox{[}4\mbox{]}, int width, int height, double gnear, double gfar, double m\mbox{[}16\mbox{]}, bool invert)  throw (cv\+::\+Exception)
+\item 
+static int \mbox{\hyperlink{classaruco_1_1CameraParameters_adf5f7f0c00a740e307081f0d6c5a6f51}{ar\+Param\+Decomp\+Mat}} (double source\mbox{[}3\mbox{]}\mbox{[}4\mbox{]}, double cpara\mbox{[}3\mbox{]}\mbox{[}4\mbox{]}, double trans\mbox{[}3\mbox{]}\mbox{[}4\mbox{]})  throw (cv\+::\+Exception)
+\item 
+static double \mbox{\hyperlink{classaruco_1_1CameraParameters_aa36d1dbd66dc9365abcc6c11fb07b7c7}{norm}} (double a, double b, double c)
+\item 
+static double \mbox{\hyperlink{classaruco_1_1CameraParameters_a9a4f28d311fd393e2aa87e41717c1352}{dot}} (double a1, double a2, double a3, double b1, double b2, double b3)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Parameters of the camera. 
+
+Definition at line 39 of file cameraparameters.\+h.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classaruco_1_1CameraParameters_a23e30ef777f22f819a332592bf3db075}\label{classaruco_1_1CameraParameters_a23e30ef777f22f819a332592bf3db075}} 
+\index{aruco::CameraParameters@{aruco::CameraParameters}!CameraParameters@{CameraParameters}}
+\index{CameraParameters@{CameraParameters}!aruco::CameraParameters@{aruco::CameraParameters}}
+\doxysubsubsection{\texorpdfstring{CameraParameters()}{CameraParameters()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily aruco\+::\+Camera\+Parameters\+::\+Camera\+Parameters (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Empty constructor 
+
+Definition at line 37 of file cameraparameters.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{37                                    \{}
+\DoxyCodeLine{38     \mbox{\hyperlink{classaruco_1_1CameraParameters_a5210f7dd5f0f4f0fea728357005d6bcd}{CameraMatrix}}=cv::Mat();}
+\DoxyCodeLine{39     \mbox{\hyperlink{classaruco_1_1CameraParameters_a33a5ab0b2f00a4753a2fda307e24360a}{Distorsion}}=cv::Mat();}
+\DoxyCodeLine{40     \mbox{\hyperlink{classaruco_1_1CameraParameters_a08fdd4888daf7140cf31bdd341c3f303}{CamSize}}=cv::Size(-\/1,-\/1);}
+\DoxyCodeLine{41 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classaruco_1_1CameraParameters_a8abee4cd106b36900f0860b39ea7ef2a}\label{classaruco_1_1CameraParameters_a8abee4cd106b36900f0860b39ea7ef2a}} 
+\index{aruco::CameraParameters@{aruco::CameraParameters}!CameraParameters@{CameraParameters}}
+\index{CameraParameters@{CameraParameters}!aruco::CameraParameters@{aruco::CameraParameters}}
+\doxysubsubsection{\texorpdfstring{CameraParameters()}{CameraParameters()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily aruco\+::\+Camera\+Parameters\+::\+Camera\+Parameters (\begin{DoxyParamCaption}\item[{cv\+::\+Mat}]{camera\+Matrix,  }\item[{cv\+::\+Mat}]{distorsion\+Coeff,  }\item[{cv\+::\+Size}]{size }\end{DoxyParamCaption}) throw ( cv\+::\+Exception) }
+
+Creates the object from the info passed 
+\begin{DoxyParams}{Parameters}
+{\em camera\+Matrix} & 3x3 matrix (fx 0 cx, 0 fy cy, 0 0 1) \\
+\hline
+{\em distorsion\+Coeff} & 4x1 matrix (k1,k2,p1,p2) \\
+\hline
+{\em size} & image size \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 47 of file cameraparameters.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{47                                                                                                           \{}
+\DoxyCodeLine{48     \mbox{\hyperlink{classaruco_1_1CameraParameters_af51ad02ac8a968ed20161baa18ca6435}{setParams}}(cameraMatrix,distorsionCoeff,size);}
+\DoxyCodeLine{49 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classaruco_1_1CameraParameters_a9f9c0c3a68c29f3f5dd2b718de5217e1}\label{classaruco_1_1CameraParameters_a9f9c0c3a68c29f3f5dd2b718de5217e1}} 
+\index{aruco::CameraParameters@{aruco::CameraParameters}!CameraParameters@{CameraParameters}}
+\index{CameraParameters@{CameraParameters}!aruco::CameraParameters@{aruco::CameraParameters}}
+\doxysubsubsection{\texorpdfstring{CameraParameters()}{CameraParameters()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily aruco\+::\+Camera\+Parameters\+::\+Camera\+Parameters (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classaruco_1_1CameraParameters}{Camera\+Parameters}} \&}]{CI }\end{DoxyParamCaption})}
+
+Copy constructor 
+
+Definition at line 52 of file cameraparameters.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{52                                                              \{}
+\DoxyCodeLine{53     CI.CameraMatrix.copyTo(\mbox{\hyperlink{classaruco_1_1CameraParameters_a5210f7dd5f0f4f0fea728357005d6bcd}{CameraMatrix}});}
+\DoxyCodeLine{54     CI.Distorsion.copyTo(\mbox{\hyperlink{classaruco_1_1CameraParameters_a33a5ab0b2f00a4753a2fda307e24360a}{Distorsion}});}
+\DoxyCodeLine{55     \mbox{\hyperlink{classaruco_1_1CameraParameters_a08fdd4888daf7140cf31bdd341c3f303}{CamSize}}=CI.CamSize;}
+\DoxyCodeLine{56 \}}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classaruco_1_1CameraParameters_ad498a612c9625ece5c9ab9f7f9387c6b}\label{classaruco_1_1CameraParameters_ad498a612c9625ece5c9ab9f7f9387c6b}} 
+\index{aruco::CameraParameters@{aruco::CameraParameters}!argConvGLcpara2@{argConvGLcpara2}}
+\index{argConvGLcpara2@{argConvGLcpara2}!aruco::CameraParameters@{aruco::CameraParameters}}
+\doxysubsubsection{\texorpdfstring{argConvGLcpara2()}{argConvGLcpara2()}}
+{\footnotesize\ttfamily void aruco\+::\+Camera\+Parameters\+::arg\+Conv\+GLcpara2 (\begin{DoxyParamCaption}\item[{double}]{cparam\mbox{[}3\mbox{]}\mbox{[}4\mbox{]},  }\item[{int}]{width,  }\item[{int}]{height,  }\item[{double}]{gnear,  }\item[{double}]{gfar,  }\item[{double}]{m\mbox{[}16\mbox{]},  }\item[{bool}]{invert }\end{DoxyParamCaption}) throw ( cv\+::\+Exception) \hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+Definition at line 271 of file cameraparameters.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{272 \{}
+\DoxyCodeLine{273 }
+\DoxyCodeLine{274     \textcolor{keywordtype}{double}   icpara[3][4];}
+\DoxyCodeLine{275     \textcolor{keywordtype}{double}   trans[3][4];}
+\DoxyCodeLine{276     \textcolor{keywordtype}{double}   p[3][3], q[4][4];}
+\DoxyCodeLine{277     \textcolor{keywordtype}{int}      i, j;}
+\DoxyCodeLine{278 }
+\DoxyCodeLine{279     cparam[0][2] *= -\/1.0;}
+\DoxyCodeLine{280     cparam[1][2] *= -\/1.0;}
+\DoxyCodeLine{281     cparam[2][2] *= -\/1.0;}
+\DoxyCodeLine{282 }
+\DoxyCodeLine{283     \textcolor{keywordflow}{if} ( \mbox{\hyperlink{classaruco_1_1CameraParameters_adf5f7f0c00a740e307081f0d6c5a6f51}{arParamDecompMat}}(cparam, icpara, trans) < 0 )}
+\DoxyCodeLine{284         \textcolor{keywordflow}{throw} cv::Exception(9002,\textcolor{stringliteral}{"{}parameter error"{}},\textcolor{stringliteral}{"{}MarkerDetector::argConvGLcpara2"{}},\_\_FILE\_\_,\_\_LINE\_\_);}
+\DoxyCodeLine{285 }
+\DoxyCodeLine{286     \textcolor{keywordflow}{for} ( i = 0; i < 3; i++ )}
+\DoxyCodeLine{287     \{}
+\DoxyCodeLine{288         \textcolor{keywordflow}{for} ( j = 0; j < 3; j++ )}
+\DoxyCodeLine{289         \{}
+\DoxyCodeLine{290             p[i][j] = icpara[i][j] / icpara[2][2];}
+\DoxyCodeLine{291         \}}
+\DoxyCodeLine{292     \}}
+\DoxyCodeLine{293     q[0][0] = (2.0 * p[0][0] / width);}
+\DoxyCodeLine{294     q[0][1] = (2.0 * p[0][1] / width);}
+\DoxyCodeLine{295     q[0][2] = ((2.0 * p[0][2] / width)  -\/ 1.0);}
+\DoxyCodeLine{296     q[0][3] = 0.0;}
+\DoxyCodeLine{297 }
+\DoxyCodeLine{298     q[1][0] = 0.0;}
+\DoxyCodeLine{299     q[1][1] = (2.0 * p[1][1] / height);}
+\DoxyCodeLine{300     q[1][2] = ((2.0 * p[1][2] / height) -\/ 1.0);}
+\DoxyCodeLine{301     q[1][3] = 0.0;}
+\DoxyCodeLine{302 }
+\DoxyCodeLine{303     q[2][0] = 0.0;}
+\DoxyCodeLine{304     q[2][1] = 0.0;}
+\DoxyCodeLine{305     q[2][2] = (gfar + gnear)/(gfar -\/ gnear);}
+\DoxyCodeLine{306     q[2][3] = -\/2.0 * gfar * gnear / (gfar -\/ gnear);}
+\DoxyCodeLine{307 }
+\DoxyCodeLine{308     q[3][0] = 0.0;}
+\DoxyCodeLine{309     q[3][1] = 0.0;}
+\DoxyCodeLine{310     q[3][2] = 1.0;}
+\DoxyCodeLine{311     q[3][3] = 0.0;}
+\DoxyCodeLine{312 }
+\DoxyCodeLine{313     \textcolor{keywordflow}{for} ( i = 0; i < 4; i++ )}
+\DoxyCodeLine{314     \{}
+\DoxyCodeLine{315         \textcolor{keywordflow}{for} ( j = 0; j < 3; j++ )}
+\DoxyCodeLine{316         \{}
+\DoxyCodeLine{317             m[i+j*4] = q[i][0] * trans[0][j]}
+\DoxyCodeLine{318                        + q[i][1] * trans[1][j]}
+\DoxyCodeLine{319                        + q[i][2] * trans[2][j];}
+\DoxyCodeLine{320         \}}
+\DoxyCodeLine{321         m[i+3*4] = q[i][0] * trans[0][3]}
+\DoxyCodeLine{322                    + q[i][1] * trans[1][3]}
+\DoxyCodeLine{323                    + q[i][2] * trans[2][3]}
+\DoxyCodeLine{324                    + q[i][3];}
+\DoxyCodeLine{325     \}}
+\DoxyCodeLine{326 }
+\DoxyCodeLine{327     \textcolor{keywordflow}{if} (!invert)}
+\DoxyCodeLine{328     \{}
+\DoxyCodeLine{329         m[13]=-\/m[13] ;}
+\DoxyCodeLine{330         m[1]=-\/m[1];}
+\DoxyCodeLine{331         m[5]=-\/m[5];}
+\DoxyCodeLine{332         m[9]=-\/m[9];}
+\DoxyCodeLine{333     \}}
+\DoxyCodeLine{334 }
+\DoxyCodeLine{335 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classaruco_1_1CameraParameters_adf5f7f0c00a740e307081f0d6c5a6f51}\label{classaruco_1_1CameraParameters_adf5f7f0c00a740e307081f0d6c5a6f51}} 
+\index{aruco::CameraParameters@{aruco::CameraParameters}!arParamDecompMat@{arParamDecompMat}}
+\index{arParamDecompMat@{arParamDecompMat}!aruco::CameraParameters@{aruco::CameraParameters}}
+\doxysubsubsection{\texorpdfstring{arParamDecompMat()}{arParamDecompMat()}}
+{\footnotesize\ttfamily int aruco\+::\+Camera\+Parameters\+::ar\+Param\+Decomp\+Mat (\begin{DoxyParamCaption}\item[{double}]{source\mbox{[}3\mbox{]}\mbox{[}4\mbox{]},  }\item[{double}]{cpara\mbox{[}3\mbox{]}\mbox{[}4\mbox{]},  }\item[{double}]{trans\mbox{[}3\mbox{]}\mbox{[}4\mbox{]} }\end{DoxyParamCaption}) throw ( cv\+::\+Exception) \hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+Definition at line 341 of file cameraparameters.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{342 \{}
+\DoxyCodeLine{343     \textcolor{keywordtype}{int}       r, c;}
+\DoxyCodeLine{344     \textcolor{keywordtype}{double}    Cpara[3][4];}
+\DoxyCodeLine{345     \textcolor{keywordtype}{double}    rem1, rem2, rem3;}
+\DoxyCodeLine{346 }
+\DoxyCodeLine{347     \textcolor{keywordflow}{if} ( source[2][3] >= 0 )}
+\DoxyCodeLine{348     \{}
+\DoxyCodeLine{349         \textcolor{keywordflow}{for} ( r = 0; r < 3; r++ )}
+\DoxyCodeLine{350         \{}
+\DoxyCodeLine{351             \textcolor{keywordflow}{for} ( c = 0; c < 4; c++ )}
+\DoxyCodeLine{352             \{}
+\DoxyCodeLine{353                 Cpara[r][c] = source[r][c];}
+\DoxyCodeLine{354             \}}
+\DoxyCodeLine{355         \}}
+\DoxyCodeLine{356     \}}
+\DoxyCodeLine{357     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{358     \{}
+\DoxyCodeLine{359         \textcolor{keywordflow}{for} ( r = 0; r < 3; r++ )}
+\DoxyCodeLine{360         \{}
+\DoxyCodeLine{361             \textcolor{keywordflow}{for} ( c = 0; c < 4; c++ )}
+\DoxyCodeLine{362             \{}
+\DoxyCodeLine{363                 Cpara[r][c] = -\/(source[r][c]);}
+\DoxyCodeLine{364             \}}
+\DoxyCodeLine{365         \}}
+\DoxyCodeLine{366     \}}
+\DoxyCodeLine{367 }
+\DoxyCodeLine{368     \textcolor{keywordflow}{for} ( r = 0; r < 3; r++ )}
+\DoxyCodeLine{369     \{}
+\DoxyCodeLine{370         \textcolor{keywordflow}{for} ( c = 0; c < 4; c++ )}
+\DoxyCodeLine{371         \{}
+\DoxyCodeLine{372             cpara[r][c] = 0.0;}
+\DoxyCodeLine{373         \}}
+\DoxyCodeLine{374     \}}
+\DoxyCodeLine{375     cpara[2][2] = \mbox{\hyperlink{classaruco_1_1CameraParameters_aa36d1dbd66dc9365abcc6c11fb07b7c7}{norm}}( Cpara[2][0], Cpara[2][1], Cpara[2][2] );}
+\DoxyCodeLine{376     trans[2][0] = Cpara[2][0] / cpara[2][2];}
+\DoxyCodeLine{377     trans[2][1] = Cpara[2][1] / cpara[2][2];}
+\DoxyCodeLine{378     trans[2][2] = Cpara[2][2] / cpara[2][2];}
+\DoxyCodeLine{379     trans[2][3] = Cpara[2][3] / cpara[2][2];}
+\DoxyCodeLine{380 }
+\DoxyCodeLine{381     cpara[1][2] = \mbox{\hyperlink{classaruco_1_1CameraParameters_a9a4f28d311fd393e2aa87e41717c1352}{dot}}( trans[2][0], trans[2][1], trans[2][2],}
+\DoxyCodeLine{382                        Cpara[1][0], Cpara[1][1], Cpara[1][2] );}
+\DoxyCodeLine{383     rem1 = Cpara[1][0] -\/ cpara[1][2] * trans[2][0];}
+\DoxyCodeLine{384     rem2 = Cpara[1][1] -\/ cpara[1][2] * trans[2][1];}
+\DoxyCodeLine{385     rem3 = Cpara[1][2] -\/ cpara[1][2] * trans[2][2];}
+\DoxyCodeLine{386     cpara[1][1] = \mbox{\hyperlink{classaruco_1_1CameraParameters_aa36d1dbd66dc9365abcc6c11fb07b7c7}{norm}}( rem1, rem2, rem3 );}
+\DoxyCodeLine{387     trans[1][0] = rem1 / cpara[1][1];}
+\DoxyCodeLine{388     trans[1][1] = rem2 / cpara[1][1];}
+\DoxyCodeLine{389     trans[1][2] = rem3 / cpara[1][1];}
+\DoxyCodeLine{390 }
+\DoxyCodeLine{391     cpara[0][2] = \mbox{\hyperlink{classaruco_1_1CameraParameters_a9a4f28d311fd393e2aa87e41717c1352}{dot}}( trans[2][0], trans[2][1], trans[2][2],}
+\DoxyCodeLine{392                        Cpara[0][0], Cpara[0][1], Cpara[0][2] );}
+\DoxyCodeLine{393     cpara[0][1] = \mbox{\hyperlink{classaruco_1_1CameraParameters_a9a4f28d311fd393e2aa87e41717c1352}{dot}}( trans[1][0], trans[1][1], trans[1][2],}
+\DoxyCodeLine{394                        Cpara[0][0], Cpara[0][1], Cpara[0][2] );}
+\DoxyCodeLine{395     rem1 = Cpara[0][0] -\/ cpara[0][1]*trans[1][0] -\/ cpara[0][2]*trans[2][0];}
+\DoxyCodeLine{396     rem2 = Cpara[0][1] -\/ cpara[0][1]*trans[1][1] -\/ cpara[0][2]*trans[2][1];}
+\DoxyCodeLine{397     rem3 = Cpara[0][2] -\/ cpara[0][1]*trans[1][2] -\/ cpara[0][2]*trans[2][2];}
+\DoxyCodeLine{398     cpara[0][0] = \mbox{\hyperlink{classaruco_1_1CameraParameters_aa36d1dbd66dc9365abcc6c11fb07b7c7}{norm}}( rem1, rem2, rem3 );}
+\DoxyCodeLine{399     trans[0][0] = rem1 / cpara[0][0];}
+\DoxyCodeLine{400     trans[0][1] = rem2 / cpara[0][0];}
+\DoxyCodeLine{401     trans[0][2] = rem3 / cpara[0][0];}
+\DoxyCodeLine{402 }
+\DoxyCodeLine{403     trans[1][3] = (Cpara[1][3] -\/ cpara[1][2]*trans[2][3]) / cpara[1][1];}
+\DoxyCodeLine{404     trans[0][3] = (Cpara[0][3] -\/ cpara[0][1]*trans[1][3]}
+\DoxyCodeLine{405                    -\/ cpara[0][2]*trans[2][3]) / cpara[0][0];}
+\DoxyCodeLine{406 }
+\DoxyCodeLine{407     \textcolor{keywordflow}{for} ( r = 0; r < 3; r++ )}
+\DoxyCodeLine{408     \{}
+\DoxyCodeLine{409         \textcolor{keywordflow}{for} ( c = 0; c < 3; c++ )}
+\DoxyCodeLine{410         \{}
+\DoxyCodeLine{411             cpara[r][c] /= cpara[2][2];}
+\DoxyCodeLine{412         \}}
+\DoxyCodeLine{413     \}}
+\DoxyCodeLine{414 }
+\DoxyCodeLine{415     \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{416 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classaruco_1_1CameraParameters_a9a4f28d311fd393e2aa87e41717c1352}\label{classaruco_1_1CameraParameters_a9a4f28d311fd393e2aa87e41717c1352}} 
+\index{aruco::CameraParameters@{aruco::CameraParameters}!dot@{dot}}
+\index{dot@{dot}!aruco::CameraParameters@{aruco::CameraParameters}}
+\doxysubsubsection{\texorpdfstring{dot()}{dot()}}
+{\footnotesize\ttfamily double aruco\+::\+Camera\+Parameters\+::dot (\begin{DoxyParamCaption}\item[{double}]{a1,  }\item[{double}]{a2,  }\item[{double}]{a3,  }\item[{double}]{b1,  }\item[{double}]{b2,  }\item[{double}]{b3 }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+Definition at line 260 of file cameraparameters.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{262 \{}
+\DoxyCodeLine{263     \textcolor{keywordflow}{return}( a1 * b1 + a2 * b2 + a3 * b3 );}
+\DoxyCodeLine{264 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classaruco_1_1CameraParameters_ab3f102b448814ed007788d9d6020beb2}\label{classaruco_1_1CameraParameters_ab3f102b448814ed007788d9d6020beb2}} 
+\index{aruco::CameraParameters@{aruco::CameraParameters}!getCameraLocation@{getCameraLocation}}
+\index{getCameraLocation@{getCameraLocation}!aruco::CameraParameters@{aruco::CameraParameters}}
+\doxysubsubsection{\texorpdfstring{getCameraLocation()}{getCameraLocation()}}
+{\footnotesize\ttfamily cv\+::\+Point3f aruco\+::\+Camera\+Parameters\+::get\+Camera\+Location (\begin{DoxyParamCaption}\item[{cv\+::\+Mat}]{Rvec,  }\item[{cv\+::\+Mat}]{Tvec }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Returns the location of the camera in the reference system given by the rotation and translation vectors passed NOT TESTED 
+
+Definition at line 89 of file cameraparameters.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{90 \{}
+\DoxyCodeLine{91     cv::Mat m33(3,3,CV\_32FC1);}
+\DoxyCodeLine{92     cv::Rodrigues(Rvec, m33)  ;}
+\DoxyCodeLine{93 }
+\DoxyCodeLine{94     cv::Mat m44=cv::Mat::eye(4,4,CV\_32FC1);}
+\DoxyCodeLine{95     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<3;i++)}
+\DoxyCodeLine{96         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} j=0;j<3;j++)}
+\DoxyCodeLine{97             m44.at<\textcolor{keywordtype}{float}>(i,j)=m33.at<\textcolor{keywordtype}{float}>(i,j);}
+\DoxyCodeLine{98 }
+\DoxyCodeLine{99     \textcolor{comment}{//now, add translation information}}
+\DoxyCodeLine{100     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<3;i++)}
+\DoxyCodeLine{101         m44.at<\textcolor{keywordtype}{float}>(i,3)=Tvec.at<\textcolor{keywordtype}{float}>(0,i);}
+\DoxyCodeLine{102     \textcolor{comment}{//invert the matrix}}
+\DoxyCodeLine{103     m44.inv();}
+\DoxyCodeLine{104     \textcolor{keywordflow}{return}  cv::Point3f( m44.at<\textcolor{keywordtype}{float}>(0,0),m44.at<\textcolor{keywordtype}{float}>(0,1),m44.at<\textcolor{keywordtype}{float}>(0,2));}
+\DoxyCodeLine{105 }
+\DoxyCodeLine{106 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classaruco_1_1CameraParameters_adbfb82ecadfbe6c59c47798f558064ac}\label{classaruco_1_1CameraParameters_adbfb82ecadfbe6c59c47798f558064ac}} 
+\index{aruco::CameraParameters@{aruco::CameraParameters}!glGetProjectionMatrix@{glGetProjectionMatrix}}
+\index{glGetProjectionMatrix@{glGetProjectionMatrix}!aruco::CameraParameters@{aruco::CameraParameters}}
+\doxysubsubsection{\texorpdfstring{glGetProjectionMatrix()}{glGetProjectionMatrix()}}
+{\footnotesize\ttfamily void aruco\+::\+Camera\+Parameters\+::gl\+Get\+Projection\+Matrix (\begin{DoxyParamCaption}\item[{cv\+::\+Size}]{org\+Img\+Size,  }\item[{cv\+::\+Size}]{size,  }\item[{double}]{proj\+\_\+matrix\mbox{[}16\mbox{]},  }\item[{double}]{gnear,  }\item[{double}]{gfar,  }\item[{bool}]{invert = {\ttfamily false} }\end{DoxyParamCaption}) throw ( cv\+::\+Exception) }
+
+Given the intrinsic camera parameters returns the GL\+\_\+\+PROJECTION matrix for opengl. PLease NOTE that when using Open\+GL, it is assumed no camera distorsion! So, if it is not true, you should have undistor image
+
+
+\begin{DoxyParams}{Parameters}
+{\em org\+Img\+Size} & size of the original image \\
+\hline
+{\em size} & of the image/window where to render (can be different from the real camera image). Please not that it must be related to Cam\+Matrix \\
+\hline
+{\em proj\+\_\+matrix} & output projection matrix to give to opengl \\
+\hline
+{\em gnear,gfar} & visible rendering range \\
+\hline
+{\em invert} & indicates if the output projection matrix has to yield a horizontally inverted image because image data has not been stored in the order of gl\+Draw\+Pixels\+: bottom-\/to-\/top. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 220 of file cameraparameters.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{221 \{}
+\DoxyCodeLine{222 }
+\DoxyCodeLine{223     \textcolor{keywordflow}{if} (cv::countNonZero(\mbox{\hyperlink{classaruco_1_1CameraParameters_a33a5ab0b2f00a4753a2fda307e24360a}{Distorsion}})!=0) std::cerr<< \textcolor{stringliteral}{"{}CameraParameters::glGetProjectionMatrix :: The camera has distortion coefficients "{}} <<\_\_FILE\_\_<<\textcolor{stringliteral}{"{} "{}}<<\_\_LINE\_\_<<endl;}
+\DoxyCodeLine{224     \textcolor{keywordflow}{if} (\mbox{\hyperlink{classaruco_1_1CameraParameters_ab5ff265805e264fb13f119b97e0597f7}{isValid}}()==\textcolor{keyword}{false}) \textcolor{keywordflow}{throw} cv::Exception(9100,\textcolor{stringliteral}{"{}invalid camera parameters"{}},\textcolor{stringliteral}{"{}CameraParameters::glGetProjectionMatrix"{}},\_\_FILE\_\_,\_\_LINE\_\_);}
+\DoxyCodeLine{225 }
+\DoxyCodeLine{226     \textcolor{comment}{//Deterime the rsized info}}
+\DoxyCodeLine{227     \textcolor{keywordtype}{double} Ax=double(size.width)/double(orgImgSize.width);}
+\DoxyCodeLine{228     \textcolor{keywordtype}{double} Ay=double(size.height)/double(orgImgSize.height);}
+\DoxyCodeLine{229     \textcolor{keywordtype}{double} \_fx=\mbox{\hyperlink{classaruco_1_1CameraParameters_a5210f7dd5f0f4f0fea728357005d6bcd}{CameraMatrix}}.at<\textcolor{keywordtype}{float}>(0,0)*Ax;}
+\DoxyCodeLine{230     \textcolor{keywordtype}{double} \_cx=\mbox{\hyperlink{classaruco_1_1CameraParameters_a5210f7dd5f0f4f0fea728357005d6bcd}{CameraMatrix}}.at<\textcolor{keywordtype}{float}>(0,2)*Ax;}
+\DoxyCodeLine{231     \textcolor{keywordtype}{double} \_fy=\mbox{\hyperlink{classaruco_1_1CameraParameters_a5210f7dd5f0f4f0fea728357005d6bcd}{CameraMatrix}}.at<\textcolor{keywordtype}{float}>(1,1)*Ay;}
+\DoxyCodeLine{232     \textcolor{keywordtype}{double} \_cy=\mbox{\hyperlink{classaruco_1_1CameraParameters_a5210f7dd5f0f4f0fea728357005d6bcd}{CameraMatrix}}.at<\textcolor{keywordtype}{float}>(1,2)*Ay;}
+\DoxyCodeLine{233     \textcolor{keywordtype}{double} cparam[3][4] =}
+\DoxyCodeLine{234     \{}
+\DoxyCodeLine{235         \{}
+\DoxyCodeLine{236             \_fx,  0,  \_cx,  0}
+\DoxyCodeLine{237         \},}
+\DoxyCodeLine{238         \{0,          \_fy,  \_cy, 0\},}
+\DoxyCodeLine{239         \{0,      0,      1,      0\}}
+\DoxyCodeLine{240     \};}
+\DoxyCodeLine{241 }
+\DoxyCodeLine{242     \mbox{\hyperlink{classaruco_1_1CameraParameters_ad498a612c9625ece5c9ab9f7f9387c6b}{argConvGLcpara2}}( cparam, size.width, size.height, gnear, gfar, proj\_matrix, invert );}
+\DoxyCodeLine{243 }
+\DoxyCodeLine{244 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classaruco_1_1CameraParameters_ab5ff265805e264fb13f119b97e0597f7}\label{classaruco_1_1CameraParameters_ab5ff265805e264fb13f119b97e0597f7}} 
+\index{aruco::CameraParameters@{aruco::CameraParameters}!isValid@{isValid}}
+\index{isValid@{isValid}!aruco::CameraParameters@{aruco::CameraParameters}}
+\doxysubsubsection{\texorpdfstring{isValid()}{isValid()}}
+{\footnotesize\ttfamily bool aruco\+::\+Camera\+Parameters\+::is\+Valid (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Indicates whether this object is valid 
+
+Definition at line 71 of file cameraparameters.\+h.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{71                         \{}
+\DoxyCodeLine{72         \textcolor{keywordflow}{return} \mbox{\hyperlink{classaruco_1_1CameraParameters_a5210f7dd5f0f4f0fea728357005d6bcd}{CameraMatrix}}.rows!=0 \&\& \mbox{\hyperlink{classaruco_1_1CameraParameters_a5210f7dd5f0f4f0fea728357005d6bcd}{CameraMatrix}}.cols!=0  \&\& \mbox{\hyperlink{classaruco_1_1CameraParameters_a33a5ab0b2f00a4753a2fda307e24360a}{Distorsion}}.rows!=0 \&\& \mbox{\hyperlink{classaruco_1_1CameraParameters_a33a5ab0b2f00a4753a2fda307e24360a}{Distorsion}}.cols!=0 \&\& \mbox{\hyperlink{classaruco_1_1CameraParameters_a08fdd4888daf7140cf31bdd341c3f303}{CamSize}}.width!=-\/1 \&\& \mbox{\hyperlink{classaruco_1_1CameraParameters_a08fdd4888daf7140cf31bdd341c3f303}{CamSize}}.height!=-\/1;}
+\DoxyCodeLine{73     \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classaruco_1_1CameraParameters_aa36d1dbd66dc9365abcc6c11fb07b7c7}\label{classaruco_1_1CameraParameters_aa36d1dbd66dc9365abcc6c11fb07b7c7}} 
+\index{aruco::CameraParameters@{aruco::CameraParameters}!norm@{norm}}
+\index{norm@{norm}!aruco::CameraParameters@{aruco::CameraParameters}}
+\doxysubsubsection{\texorpdfstring{norm()}{norm()}}
+{\footnotesize\ttfamily double aruco\+::\+Camera\+Parameters\+::norm (\begin{DoxyParamCaption}\item[{double}]{a,  }\item[{double}]{b,  }\item[{double}]{c }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+Definition at line 250 of file cameraparameters.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{251 \{}
+\DoxyCodeLine{252     \textcolor{keywordflow}{return}( sqrt( a*a + b*b + c*c ) );}
+\DoxyCodeLine{253 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classaruco_1_1CameraParameters_adb5924aaec7e149ba5ea509158663540}\label{classaruco_1_1CameraParameters_adb5924aaec7e149ba5ea509158663540}} 
+\index{aruco::CameraParameters@{aruco::CameraParameters}!OgreGetProjectionMatrix@{OgreGetProjectionMatrix}}
+\index{OgreGetProjectionMatrix@{OgreGetProjectionMatrix}!aruco::CameraParameters@{aruco::CameraParameters}}
+\doxysubsubsection{\texorpdfstring{OgreGetProjectionMatrix()}{OgreGetProjectionMatrix()}}
+{\footnotesize\ttfamily void aruco\+::\+Camera\+Parameters\+::\+Ogre\+Get\+Projection\+Matrix (\begin{DoxyParamCaption}\item[{cv\+::\+Size}]{org\+Img\+Size,  }\item[{cv\+::\+Size}]{size,  }\item[{double}]{proj\+\_\+matrix\mbox{[}16\mbox{]},  }\item[{double}]{gnear,  }\item[{double}]{gfar,  }\item[{bool}]{invert = {\ttfamily false} }\end{DoxyParamCaption}) throw ( cv\+::\+Exception) }
+
+setup camera for an Ogre project. Use\+: ... Ogre\+::\+Matrix4 PM(proj\+\_\+matrix\mbox{[}0\mbox{]}, proj\+\_\+matrix\mbox{[}1\mbox{]}, ... , proj\+\_\+matrix\mbox{[}15\mbox{]}); your\+Camera-\/$>$set\+Custom\+Projection\+Matrix(true, PM); your\+Camera-\/$>$set\+Custom\+View\+Matrix(true, Ogre\+::\+Matrix4\+::\+IDENTITY); ... As in Open\+GL, it assumes no camera distorsion 
+
+Definition at line 422 of file cameraparameters.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{423 \{}
+\DoxyCodeLine{424     \textcolor{keywordtype}{double} temp\_matrix[16];}
+\DoxyCodeLine{425     (*this).glGetProjectionMatrix(orgImgSize, size, temp\_matrix, gnear, gfar, invert);}
+\DoxyCodeLine{426     proj\_matrix[0]=-\/temp\_matrix[0];}
+\DoxyCodeLine{427     proj\_matrix[1]=-\/temp\_matrix[4];}
+\DoxyCodeLine{428     proj\_matrix[2]=-\/temp\_matrix[8];}
+\DoxyCodeLine{429     proj\_matrix[3]=temp\_matrix[12];}
+\DoxyCodeLine{430 }
+\DoxyCodeLine{431     proj\_matrix[4]=-\/temp\_matrix[1];}
+\DoxyCodeLine{432     proj\_matrix[5]=-\/temp\_matrix[5];}
+\DoxyCodeLine{433     proj\_matrix[6]=-\/temp\_matrix[9];}
+\DoxyCodeLine{434     proj\_matrix[7]=temp\_matrix[13];}
+\DoxyCodeLine{435 }
+\DoxyCodeLine{436     proj\_matrix[8]=-\/temp\_matrix[2];}
+\DoxyCodeLine{437     proj\_matrix[9]=-\/temp\_matrix[6];}
+\DoxyCodeLine{438     proj\_matrix[10]=-\/temp\_matrix[10];}
+\DoxyCodeLine{439     proj\_matrix[11]=temp\_matrix[14];}
+\DoxyCodeLine{440 }
+\DoxyCodeLine{441     proj\_matrix[12]=-\/temp\_matrix[3];}
+\DoxyCodeLine{442     proj\_matrix[13]=-\/temp\_matrix[7];}
+\DoxyCodeLine{443     proj\_matrix[14]=-\/temp\_matrix[11];}
+\DoxyCodeLine{444     proj\_matrix[15]=temp\_matrix[15];}
+\DoxyCodeLine{445 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classaruco_1_1CameraParameters_a4c13267368caccb7d05e79769460e1b3}\label{classaruco_1_1CameraParameters_a4c13267368caccb7d05e79769460e1b3}} 
+\index{aruco::CameraParameters@{aruco::CameraParameters}!operator=@{operator=}}
+\index{operator=@{operator=}!aruco::CameraParameters@{aruco::CameraParameters}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classaruco_1_1CameraParameters}{Camera\+Parameters}} \& aruco\+::\+Camera\+Parameters\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classaruco_1_1CameraParameters}{Camera\+Parameters}} \&}]{CI }\end{DoxyParamCaption})}
+
+Assign operator 
+
+Definition at line 60 of file cameraparameters.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{60                                                                          \{}
+\DoxyCodeLine{61     CI.CameraMatrix.copyTo(\mbox{\hyperlink{classaruco_1_1CameraParameters_a5210f7dd5f0f4f0fea728357005d6bcd}{CameraMatrix}});}
+\DoxyCodeLine{62     CI.Distorsion.copyTo(\mbox{\hyperlink{classaruco_1_1CameraParameters_a33a5ab0b2f00a4753a2fda307e24360a}{Distorsion}});}
+\DoxyCodeLine{63     \mbox{\hyperlink{classaruco_1_1CameraParameters_a08fdd4888daf7140cf31bdd341c3f303}{CamSize}}=CI.CamSize;}
+\DoxyCodeLine{64     \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{65 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classaruco_1_1CameraParameters_a65062b40124245d0386a365189ce86bc}\label{classaruco_1_1CameraParameters_a65062b40124245d0386a365189ce86bc}} 
+\index{aruco::CameraParameters@{aruco::CameraParameters}!readFromFile@{readFromFile}}
+\index{readFromFile@{readFromFile}!aruco::CameraParameters@{aruco::CameraParameters}}
+\doxysubsubsection{\texorpdfstring{readFromFile()}{readFromFile()}}
+{\footnotesize\ttfamily void aruco\+::\+Camera\+Parameters\+::read\+From\+File (\begin{DoxyParamCaption}\item[{string}]{path }\end{DoxyParamCaption}) throw ( cv\+::\+Exception) }
+
+Reads the camera parameters from a file generated using save\+To\+File.
+
+Reads the camera parameters from file 
+
+Definition at line 110 of file cameraparameters.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{111 \{}
+\DoxyCodeLine{112 }
+\DoxyCodeLine{113     ifstream file(path.c\_str());}
+\DoxyCodeLine{114     \textcolor{keywordflow}{if} (!file)  \textcolor{keywordflow}{throw} cv::Exception(9005,\textcolor{stringliteral}{"{}could not open file:"{}}+path,\textcolor{stringliteral}{"{}CameraParameters::readFromFile"{}},\_\_FILE\_\_,\_\_LINE\_\_);}
+\DoxyCodeLine{115 \textcolor{comment}{//Create the matrices}}
+\DoxyCodeLine{116     \mbox{\hyperlink{classaruco_1_1CameraParameters_a33a5ab0b2f00a4753a2fda307e24360a}{Distorsion}}=cv::Mat::zeros(4,1,CV\_32FC1);}
+\DoxyCodeLine{117     \mbox{\hyperlink{classaruco_1_1CameraParameters_a5210f7dd5f0f4f0fea728357005d6bcd}{CameraMatrix}}=cv::Mat::eye(3,3,CV\_32FC1);}
+\DoxyCodeLine{118     \textcolor{keywordtype}{char} line[1024];}
+\DoxyCodeLine{119     \textcolor{keywordflow}{while} (!file.eof()) \{}
+\DoxyCodeLine{120         file.getline(line,1024);}
+\DoxyCodeLine{121         \textcolor{keywordtype}{char} cmd[20];}
+\DoxyCodeLine{122         \textcolor{keywordtype}{float} fval;}
+\DoxyCodeLine{123         \textcolor{keywordflow}{if} ( sscanf(line,\textcolor{stringliteral}{"{}\%s = \%f"{}},cmd,\&fval)==2) \{}
+\DoxyCodeLine{124             \textcolor{keywordtype}{string} scmd(cmd);}
+\DoxyCodeLine{125             \textcolor{keywordflow}{if} (scmd==\textcolor{stringliteral}{"{}fx"{}}) \mbox{\hyperlink{classaruco_1_1CameraParameters_a5210f7dd5f0f4f0fea728357005d6bcd}{CameraMatrix}}.at<\textcolor{keywordtype}{float}>(0,0)=fval;}
+\DoxyCodeLine{126             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (scmd==\textcolor{stringliteral}{"{}cx"{}}) \mbox{\hyperlink{classaruco_1_1CameraParameters_a5210f7dd5f0f4f0fea728357005d6bcd}{CameraMatrix}}.at<\textcolor{keywordtype}{float}>(0,2)=fval;}
+\DoxyCodeLine{127             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (scmd==\textcolor{stringliteral}{"{}fy"{}}) \mbox{\hyperlink{classaruco_1_1CameraParameters_a5210f7dd5f0f4f0fea728357005d6bcd}{CameraMatrix}}.at<\textcolor{keywordtype}{float}>(1,1)=fval;}
+\DoxyCodeLine{128             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (scmd==\textcolor{stringliteral}{"{}cy"{}}) \mbox{\hyperlink{classaruco_1_1CameraParameters_a5210f7dd5f0f4f0fea728357005d6bcd}{CameraMatrix}}.at<\textcolor{keywordtype}{float}>(1,2)=fval;}
+\DoxyCodeLine{129             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (scmd==\textcolor{stringliteral}{"{}k1"{}}) \mbox{\hyperlink{classaruco_1_1CameraParameters_a33a5ab0b2f00a4753a2fda307e24360a}{Distorsion}}.at<\textcolor{keywordtype}{float}>(0,0)=fval;}
+\DoxyCodeLine{130             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (scmd==\textcolor{stringliteral}{"{}k2"{}}) \mbox{\hyperlink{classaruco_1_1CameraParameters_a33a5ab0b2f00a4753a2fda307e24360a}{Distorsion}}.at<\textcolor{keywordtype}{float}>(1,0)=fval;}
+\DoxyCodeLine{131             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (scmd==\textcolor{stringliteral}{"{}p1"{}}) \mbox{\hyperlink{classaruco_1_1CameraParameters_a33a5ab0b2f00a4753a2fda307e24360a}{Distorsion}}.at<\textcolor{keywordtype}{float}>(2,0)=fval;}
+\DoxyCodeLine{132             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (scmd==\textcolor{stringliteral}{"{}p2"{}}) \mbox{\hyperlink{classaruco_1_1CameraParameters_a33a5ab0b2f00a4753a2fda307e24360a}{Distorsion}}.at<\textcolor{keywordtype}{float}>(3,0)=fval;}
+\DoxyCodeLine{133             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (scmd==\textcolor{stringliteral}{"{}width"{}}) \mbox{\hyperlink{classaruco_1_1CameraParameters_a08fdd4888daf7140cf31bdd341c3f303}{CamSize}}.width=fval;}
+\DoxyCodeLine{134             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (scmd==\textcolor{stringliteral}{"{}height"{}}) \mbox{\hyperlink{classaruco_1_1CameraParameters_a08fdd4888daf7140cf31bdd341c3f303}{CamSize}}.height=fval;}
+\DoxyCodeLine{135         \}}
+\DoxyCodeLine{136     \}}
+\DoxyCodeLine{137 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classaruco_1_1CameraParameters_a866dbc61304f56166da41220e94f4f0f}\label{classaruco_1_1CameraParameters_a866dbc61304f56166da41220e94f4f0f}} 
+\index{aruco::CameraParameters@{aruco::CameraParameters}!readFromXMLFile@{readFromXMLFile}}
+\index{readFromXMLFile@{readFromXMLFile}!aruco::CameraParameters@{aruco::CameraParameters}}
+\doxysubsubsection{\texorpdfstring{readFromXMLFile()}{readFromXMLFile()}}
+{\footnotesize\ttfamily void aruco\+::\+Camera\+Parameters\+::read\+From\+XMLFile (\begin{DoxyParamCaption}\item[{string}]{file\+Path }\end{DoxyParamCaption}) throw ( cv\+::\+Exception) }
+
+Reads from a YAML file generated with the opencv2.\+2 calibration utility 
+
+Definition at line 189 of file cameraparameters.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{190 \{}
+\DoxyCodeLine{191     cv::FileStorage fs(filePath, cv::FileStorage::READ);}
+\DoxyCodeLine{192     \textcolor{keywordtype}{int} w=-\/1,h=-\/1;}
+\DoxyCodeLine{193     cv::Mat MCamera,MDist;}
+\DoxyCodeLine{194 }
+\DoxyCodeLine{195     fs[\textcolor{stringliteral}{"{}image\_width"{}}] >> w;}
+\DoxyCodeLine{196     fs[\textcolor{stringliteral}{"{}image\_height"{}}] >> h;}
+\DoxyCodeLine{197     fs[\textcolor{stringliteral}{"{}distortion\_coefficients"{}}] >> MDist;}
+\DoxyCodeLine{198     fs[\textcolor{stringliteral}{"{}camera\_matrix"{}}] >> MCamera;}
+\DoxyCodeLine{199 }
+\DoxyCodeLine{200     \textcolor{keywordflow}{if} (MCamera.cols==0 || MCamera.rows==0)\textcolor{keywordflow}{throw} cv::Exception(9007,\textcolor{stringliteral}{"{}File :"{}}+filePath+\textcolor{stringliteral}{"{} does not contains valid camera matrix"{}},\textcolor{stringliteral}{"{}CameraParameters::readFromXML"{}},\_\_FILE\_\_,\_\_LINE\_\_);}
+\DoxyCodeLine{201     \textcolor{keywordflow}{if} (w==-\/1 || h==0)\textcolor{keywordflow}{throw} cv::Exception(9007,\textcolor{stringliteral}{"{}File :"{}}+filePath+\textcolor{stringliteral}{"{} does not contains valid camera dimensions"{}},\textcolor{stringliteral}{"{}CameraParameters::readFromXML"{}},\_\_FILE\_\_,\_\_LINE\_\_);}
+\DoxyCodeLine{202 }
+\DoxyCodeLine{203     \textcolor{keywordflow}{if} (MCamera.type()!=CV\_32FC1) MCamera.convertTo(\mbox{\hyperlink{classaruco_1_1CameraParameters_a5210f7dd5f0f4f0fea728357005d6bcd}{CameraMatrix}},CV\_32FC1);}
+\DoxyCodeLine{204     \textcolor{keywordflow}{else} \mbox{\hyperlink{classaruco_1_1CameraParameters_a5210f7dd5f0f4f0fea728357005d6bcd}{CameraMatrix}}=MCamera;}
+\DoxyCodeLine{205 }
+\DoxyCodeLine{206     \textcolor{keywordflow}{if} (MDist.total()<4) \textcolor{keywordflow}{throw} cv::Exception(9007,\textcolor{stringliteral}{"{}File :"{}}+filePath+\textcolor{stringliteral}{"{} does not contains valid distortion\_coefficients"{}},\textcolor{stringliteral}{"{}CameraParameters::readFromXML"{}},\_\_FILE\_\_,\_\_LINE\_\_);}
+\DoxyCodeLine{207     \textcolor{comment}{//convert to 32 and get the 4 first elements only}}
+\DoxyCodeLine{208     cv::Mat mdist32;}
+\DoxyCodeLine{209     MDist.convertTo(mdist32,CV\_32FC1);}
+\DoxyCodeLine{210     \mbox{\hyperlink{classaruco_1_1CameraParameters_a33a5ab0b2f00a4753a2fda307e24360a}{Distorsion}}.create(1,4,CV\_32FC1);}
+\DoxyCodeLine{211     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<4;i++)}
+\DoxyCodeLine{212         \mbox{\hyperlink{classaruco_1_1CameraParameters_a33a5ab0b2f00a4753a2fda307e24360a}{Distorsion}}.ptr<\textcolor{keywordtype}{float}>(0)[i]=mdist32.ptr<\textcolor{keywordtype}{float}>(0)[i];}
+\DoxyCodeLine{213 }
+\DoxyCodeLine{214     \mbox{\hyperlink{classaruco_1_1CameraParameters_a08fdd4888daf7140cf31bdd341c3f303}{CamSize}}.width=w;}
+\DoxyCodeLine{215     \mbox{\hyperlink{classaruco_1_1CameraParameters_a08fdd4888daf7140cf31bdd341c3f303}{CamSize}}.height=h;}
+\DoxyCodeLine{216 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classaruco_1_1CameraParameters_aabf139725fb75759b4172a53de63100f}\label{classaruco_1_1CameraParameters_aabf139725fb75759b4172a53de63100f}} 
+\index{aruco::CameraParameters@{aruco::CameraParameters}!resize@{resize}}
+\index{resize@{resize}!aruco::CameraParameters@{aruco::CameraParameters}}
+\doxysubsubsection{\texorpdfstring{resize()}{resize()}}
+{\footnotesize\ttfamily void aruco\+::\+Camera\+Parameters\+::resize (\begin{DoxyParamCaption}\item[{cv\+::\+Size}]{size }\end{DoxyParamCaption}) throw ( cv\+::\+Exception) }
+
+Adjust the parameters to the size of the image indicated 
+
+Definition at line 169 of file cameraparameters.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{170 \{}
+\DoxyCodeLine{171     \textcolor{keywordflow}{if} (!\mbox{\hyperlink{classaruco_1_1CameraParameters_ab5ff265805e264fb13f119b97e0597f7}{isValid}}())  \textcolor{keywordflow}{throw} cv::Exception(9007,\textcolor{stringliteral}{"{}invalid object"{}},\textcolor{stringliteral}{"{}CameraParameters::resize"{}},\_\_FILE\_\_,\_\_LINE\_\_);}
+\DoxyCodeLine{172     \textcolor{keywordflow}{if} (size==\mbox{\hyperlink{classaruco_1_1CameraParameters_a08fdd4888daf7140cf31bdd341c3f303}{CamSize}}) \textcolor{keywordflow}{return};}
+\DoxyCodeLine{173     \textcolor{comment}{//now, read the camera size}}
+\DoxyCodeLine{174     \textcolor{comment}{//resize the camera parameters to fit this image size}}
+\DoxyCodeLine{175     \textcolor{keywordtype}{float} AxFactor= float(size.width)/ float(\mbox{\hyperlink{classaruco_1_1CameraParameters_a08fdd4888daf7140cf31bdd341c3f303}{CamSize}}.width);}
+\DoxyCodeLine{176     \textcolor{keywordtype}{float} AyFactor= float(size.height)/ float(\mbox{\hyperlink{classaruco_1_1CameraParameters_a08fdd4888daf7140cf31bdd341c3f303}{CamSize}}.height);}
+\DoxyCodeLine{177     \mbox{\hyperlink{classaruco_1_1CameraParameters_a5210f7dd5f0f4f0fea728357005d6bcd}{CameraMatrix}}.at<\textcolor{keywordtype}{float}>(0,0)*=AxFactor;}
+\DoxyCodeLine{178     \mbox{\hyperlink{classaruco_1_1CameraParameters_a5210f7dd5f0f4f0fea728357005d6bcd}{CameraMatrix}}.at<\textcolor{keywordtype}{float}>(0,2)*=AxFactor;}
+\DoxyCodeLine{179     \mbox{\hyperlink{classaruco_1_1CameraParameters_a5210f7dd5f0f4f0fea728357005d6bcd}{CameraMatrix}}.at<\textcolor{keywordtype}{float}>(1,1)*=AyFactor;}
+\DoxyCodeLine{180     \mbox{\hyperlink{classaruco_1_1CameraParameters_a5210f7dd5f0f4f0fea728357005d6bcd}{CameraMatrix}}.at<\textcolor{keywordtype}{float}>(1,2)*=AyFactor;}
+\DoxyCodeLine{181 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classaruco_1_1CameraParameters_a0fb7e36dcc255b6d8f6cb191bf5bb635}\label{classaruco_1_1CameraParameters_a0fb7e36dcc255b6d8f6cb191bf5bb635}} 
+\index{aruco::CameraParameters@{aruco::CameraParameters}!saveToFile@{saveToFile}}
+\index{saveToFile@{saveToFile}!aruco::CameraParameters@{aruco::CameraParameters}}
+\doxysubsubsection{\texorpdfstring{saveToFile()}{saveToFile()}}
+{\footnotesize\ttfamily void aruco\+::\+Camera\+Parameters\+::save\+To\+File (\begin{DoxyParamCaption}\item[{string}]{path,  }\item[{bool}]{in\+XML = {\ttfamily true} }\end{DoxyParamCaption}) throw ( cv\+::\+Exception) }
+
+Saves this to a file 
+
+Definition at line 140 of file cameraparameters.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{141 \{}
+\DoxyCodeLine{142     \textcolor{keywordflow}{if} (!\mbox{\hyperlink{classaruco_1_1CameraParameters_ab5ff265805e264fb13f119b97e0597f7}{isValid}}())  \textcolor{keywordflow}{throw} cv::Exception(9006,\textcolor{stringliteral}{"{}invalid object"{}},\textcolor{stringliteral}{"{}CameraParameters::saveToFile"{}},\_\_FILE\_\_,\_\_LINE\_\_);}
+\DoxyCodeLine{143     \textcolor{keywordflow}{if} (!inXML) \{}
+\DoxyCodeLine{144         ofstream file(path.c\_str());}
+\DoxyCodeLine{145         \textcolor{keywordflow}{if} (!file)  \textcolor{keywordflow}{throw} cv::Exception(9006,\textcolor{stringliteral}{"{}could not open file:"{}}+path,\textcolor{stringliteral}{"{}CameraParameters::saveToFile"{}},\_\_FILE\_\_,\_\_LINE\_\_);}
+\DoxyCodeLine{146         file<<\textcolor{stringliteral}{"{}\# Aruco 1.0 CameraParameters"{}}<<endl;}
+\DoxyCodeLine{147         file<<\textcolor{stringliteral}{"{}fx = "{}}<<\mbox{\hyperlink{classaruco_1_1CameraParameters_a5210f7dd5f0f4f0fea728357005d6bcd}{CameraMatrix}}.at<\textcolor{keywordtype}{float}>(0,0)<<endl;}
+\DoxyCodeLine{148         file<<\textcolor{stringliteral}{"{}cx = "{}}<<\mbox{\hyperlink{classaruco_1_1CameraParameters_a5210f7dd5f0f4f0fea728357005d6bcd}{CameraMatrix}}.at<\textcolor{keywordtype}{float}>(0,2)<<endl;}
+\DoxyCodeLine{149         file<<\textcolor{stringliteral}{"{}fy = "{}}<<\mbox{\hyperlink{classaruco_1_1CameraParameters_a5210f7dd5f0f4f0fea728357005d6bcd}{CameraMatrix}}.at<\textcolor{keywordtype}{float}>(1,1)<<endl;}
+\DoxyCodeLine{150         file<<\textcolor{stringliteral}{"{}cy = "{}}<<\mbox{\hyperlink{classaruco_1_1CameraParameters_a5210f7dd5f0f4f0fea728357005d6bcd}{CameraMatrix}}.at<\textcolor{keywordtype}{float}>(1,2)<<endl;}
+\DoxyCodeLine{151         file<<\textcolor{stringliteral}{"{}k1 = "{}}<<\mbox{\hyperlink{classaruco_1_1CameraParameters_a33a5ab0b2f00a4753a2fda307e24360a}{Distorsion}}.at<\textcolor{keywordtype}{float}>(0,0)<<endl;}
+\DoxyCodeLine{152         file<<\textcolor{stringliteral}{"{}k2 = "{}}<<\mbox{\hyperlink{classaruco_1_1CameraParameters_a33a5ab0b2f00a4753a2fda307e24360a}{Distorsion}}.at<\textcolor{keywordtype}{float}>(1,0)<<endl;}
+\DoxyCodeLine{153         file<<\textcolor{stringliteral}{"{}p1 = "{}}<<\mbox{\hyperlink{classaruco_1_1CameraParameters_a33a5ab0b2f00a4753a2fda307e24360a}{Distorsion}}.at<\textcolor{keywordtype}{float}>(2,0)<<endl;}
+\DoxyCodeLine{154         file<<\textcolor{stringliteral}{"{}p2 = "{}}<<\mbox{\hyperlink{classaruco_1_1CameraParameters_a33a5ab0b2f00a4753a2fda307e24360a}{Distorsion}}.at<\textcolor{keywordtype}{float}>(3,0)<<endl;}
+\DoxyCodeLine{155         file<<\textcolor{stringliteral}{"{}width = "{}}<<\mbox{\hyperlink{classaruco_1_1CameraParameters_a08fdd4888daf7140cf31bdd341c3f303}{CamSize}}.width<<endl;}
+\DoxyCodeLine{156         file<<\textcolor{stringliteral}{"{}height = "{}}<<\mbox{\hyperlink{classaruco_1_1CameraParameters_a08fdd4888daf7140cf31bdd341c3f303}{CamSize}}.height<<endl;}
+\DoxyCodeLine{157     \}}
+\DoxyCodeLine{158     \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{159         cv::FileStorage fs(path,cv::FileStorage::WRITE);}
+\DoxyCodeLine{160         fs<<\textcolor{stringliteral}{"{}image\_width"{}} << \mbox{\hyperlink{classaruco_1_1CameraParameters_a08fdd4888daf7140cf31bdd341c3f303}{CamSize}}.width;}
+\DoxyCodeLine{161         fs<<\textcolor{stringliteral}{"{}image\_height"{}} << \mbox{\hyperlink{classaruco_1_1CameraParameters_a08fdd4888daf7140cf31bdd341c3f303}{CamSize}}.height;}
+\DoxyCodeLine{162         fs<<\textcolor{stringliteral}{"{}camera\_matrix"{}} << \mbox{\hyperlink{classaruco_1_1CameraParameters_a5210f7dd5f0f4f0fea728357005d6bcd}{CameraMatrix}};}
+\DoxyCodeLine{163         fs<<\textcolor{stringliteral}{"{}distortion\_coefficients"{}} <<\mbox{\hyperlink{classaruco_1_1CameraParameters_a33a5ab0b2f00a4753a2fda307e24360a}{Distorsion}};}
+\DoxyCodeLine{164     \}}
+\DoxyCodeLine{165 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classaruco_1_1CameraParameters_af51ad02ac8a968ed20161baa18ca6435}\label{classaruco_1_1CameraParameters_af51ad02ac8a968ed20161baa18ca6435}} 
+\index{aruco::CameraParameters@{aruco::CameraParameters}!setParams@{setParams}}
+\index{setParams@{setParams}!aruco::CameraParameters@{aruco::CameraParameters}}
+\doxysubsubsection{\texorpdfstring{setParams()}{setParams()}}
+{\footnotesize\ttfamily void aruco\+::\+Camera\+Parameters\+::set\+Params (\begin{DoxyParamCaption}\item[{cv\+::\+Mat}]{camera\+Matrix,  }\item[{cv\+::\+Mat}]{distorsion\+Coeff,  }\item[{cv\+::\+Size}]{size }\end{DoxyParamCaption}) throw ( cv\+::\+Exception) }
+
+Sets the parameters 
+\begin{DoxyParams}{Parameters}
+{\em camera\+Matrix} & 3x3 matrix (fx 0 cx, 0 fy cy, 0 0 1) \\
+\hline
+{\em distorsion\+Coeff} & 4x1 matrix (k1,k2,p1,p2) \\
+\hline
+{\em size} & image size \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 68 of file cameraparameters.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{69 \{}
+\DoxyCodeLine{70     \textcolor{keywordflow}{if} (cameraMatrix.rows!=3 || cameraMatrix.cols!=3)}
+\DoxyCodeLine{71         \textcolor{keywordflow}{throw} cv::Exception(9000,\textcolor{stringliteral}{"{}invalid input cameraMatrix"{}},\textcolor{stringliteral}{"{}CameraParameters::setParams"{}},\_\_FILE\_\_,\_\_LINE\_\_);}
+\DoxyCodeLine{72     cameraMatrix.convertTo(\mbox{\hyperlink{classaruco_1_1CameraParameters_a5210f7dd5f0f4f0fea728357005d6bcd}{CameraMatrix}},CV\_32FC1);}
+\DoxyCodeLine{73     \textcolor{keywordflow}{if} (  distorsionCoeff.total()<4 ||  distorsionCoeff.total()>=7 )}
+\DoxyCodeLine{74         \textcolor{keywordflow}{throw} cv::Exception(9000,\textcolor{stringliteral}{"{}invalid input distorsionCoeff"{}},\textcolor{stringliteral}{"{}CameraParameters::setParams"{}},\_\_FILE\_\_,\_\_LINE\_\_);}
+\DoxyCodeLine{75     cv::Mat auxD;}
+\DoxyCodeLine{76 }
+\DoxyCodeLine{77     distorsionCoeff.convertTo( \mbox{\hyperlink{classaruco_1_1CameraParameters_a33a5ab0b2f00a4753a2fda307e24360a}{Distorsion}},CV\_32FC1);}
+\DoxyCodeLine{78 }
+\DoxyCodeLine{79 \textcolor{comment}{//     Distorsion.create(1,4,CV\_32FC1);}}
+\DoxyCodeLine{80 \textcolor{comment}{//     for (int i=0;i<4;i++)}}
+\DoxyCodeLine{81 \textcolor{comment}{//         Distorsion.ptr<float>(0)[i]=auxD.ptr<float>(0)[i];}}
+\DoxyCodeLine{82 }
+\DoxyCodeLine{83     \mbox{\hyperlink{classaruco_1_1CameraParameters_a08fdd4888daf7140cf31bdd341c3f303}{CamSize}}=size;}
+\DoxyCodeLine{84 }
+\DoxyCodeLine{85 \}}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+aruco/include/aruco/\mbox{\hyperlink{cameraparameters_8h}{cameraparameters.\+h}}\item 
+aruco/src/aruco/\mbox{\hyperlink{cameraparameters_8cpp}{cameraparameters.\+cpp}}\end{DoxyCompactItemize}

@@ -1,0 +1,144 @@
+\hypertarget{namespacearuco__ros}{}\doxysection{aruco\+\_\+ros Namespace Reference}
+\label{namespacearuco__ros}\index{aruco\_ros@{aruco\_ros}}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+aruco\+::\+Camera\+Parameters \mbox{\hyperlink{namespacearuco__ros_ac69b37c14d6ea5e5f2f7e70719dd369c}{ros\+Camera\+Info2\+Aruco\+Cam\+Params}} (const sensor\+\_\+msgs\+::msg\+::\+Camera\+Info \&cam\+\_\+info, bool use\+Rectified\+Parameters)
+\begin{DoxyCompactList}\small\item\em ros\+Camera\+Info2\+Aruco\+Cam\+Params gets the camera intrinsics from a Camera\+Info message and copies them to \mbox{\hyperlink{namespacearuco__ros}{aruco\+\_\+ros}} own data structure \end{DoxyCompactList}\item 
+tf2\+::\+Transform \mbox{\hyperlink{namespacearuco__ros_a01ddfb8b1a95fd19d8c2d6da8fc18583}{aruco\+Marker2\+Tf}} (const aruco\+::\+Marker \&marker, bool rotate\+\_\+marker\+\_\+axis=true)
+\begin{DoxyCompactList}\small\item\em aruco\+Marker2\+Tf convert the marker pose info to TF2 transform type \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespacearuco__ros_a01ddfb8b1a95fd19d8c2d6da8fc18583}\label{namespacearuco__ros_a01ddfb8b1a95fd19d8c2d6da8fc18583}} 
+\index{aruco\_ros@{aruco\_ros}!arucoMarker2Tf@{arucoMarker2Tf}}
+\index{arucoMarker2Tf@{arucoMarker2Tf}!aruco\_ros@{aruco\_ros}}
+\doxysubsubsection{\texorpdfstring{arucoMarker2Tf()}{arucoMarker2Tf()}}
+{\footnotesize\ttfamily tf2\+::\+Transform aruco\+\_\+ros\+::aruco\+Marker2\+Tf (\begin{DoxyParamCaption}\item[{const aruco\+::\+Marker \&}]{marker,  }\item[{bool}]{rotate\+\_\+marker\+\_\+axis = {\ttfamily true} }\end{DoxyParamCaption})}
+
+
+
+aruco\+Marker2\+Tf convert the marker pose info to TF2 transform type 
+
+
+\begin{DoxyParams}{Parameters}
+{\em marker} & input marker \\
+\hline
+{\em rotate\+\_\+marker\+\_\+axis} & if true, Rotate axis direction as to fit from opencv to ROS frame. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+transformation of marker in type TF2 
+\end{DoxyReturn}
+
+
+Definition at line 88 of file aruco\+\_\+ros\+\_\+utils.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{89 \{}
+\DoxyCodeLine{90   aruco::Marker dmarker;}
+\DoxyCodeLine{91   aruco::MarkerDetector mdetec;}
+\DoxyCodeLine{92   cv::Mat rot(3, 3, CV\_64FC1);}
+\DoxyCodeLine{93   cv::Mat Rvec64;}
+\DoxyCodeLine{94   marker.Rvec.convertTo(Rvec64, CV\_64FC1);}
+\DoxyCodeLine{95   cv::Rodrigues(Rvec64, rot);}
+\DoxyCodeLine{96   cv::Mat tran64;}
+\DoxyCodeLine{97   marker.Tvec.convertTo(tran64, CV\_64FC1);}
+\DoxyCodeLine{98 }
+\DoxyCodeLine{99   \textcolor{comment}{// Rotate axis direction as to fit from opencv to ROS frame}}
+\DoxyCodeLine{100   \textcolor{keywordflow}{if} (rotate\_marker\_axis) \{}
+\DoxyCodeLine{101     cv::Mat rotate\_to\_ros(3, 3, CV\_64FC1);}
+\DoxyCodeLine{102     \textcolor{comment}{// -\/1 0 0}}
+\DoxyCodeLine{103     \textcolor{comment}{// 0 0 1}}
+\DoxyCodeLine{104     \textcolor{comment}{// 0 1 0}}
+\DoxyCodeLine{105     rotate\_to\_ros.at<\textcolor{keywordtype}{double}>(0, 0) = -\/1.0;}
+\DoxyCodeLine{106     rotate\_to\_ros.at<\textcolor{keywordtype}{double}>(0, 1) = 0.0;}
+\DoxyCodeLine{107     rotate\_to\_ros.at<\textcolor{keywordtype}{double}>(0, 2) = 0.0;}
+\DoxyCodeLine{108     rotate\_to\_ros.at<\textcolor{keywordtype}{double}>(1, 0) = 0.0;}
+\DoxyCodeLine{109     rotate\_to\_ros.at<\textcolor{keywordtype}{double}>(1, 1) = 0.0;}
+\DoxyCodeLine{110     rotate\_to\_ros.at<\textcolor{keywordtype}{double}>(1, 2) = 1.0;}
+\DoxyCodeLine{111     rotate\_to\_ros.at<\textcolor{keywordtype}{double}>(2, 0) = 0.0;}
+\DoxyCodeLine{112     rotate\_to\_ros.at<\textcolor{keywordtype}{double}>(2, 1) = 1.0;}
+\DoxyCodeLine{113     rotate\_to\_ros.at<\textcolor{keywordtype}{double}>(2, 2) = 0.0;}
+\DoxyCodeLine{114     rot = rot * rotate\_to\_ros.t();}
+\DoxyCodeLine{115   \}}
+\DoxyCodeLine{116   tf2::Matrix3x3 tf\_rot(rot.at<\textcolor{keywordtype}{double}>(0, 0), rot.at<\textcolor{keywordtype}{double}>(0, 1), rot.at<\textcolor{keywordtype}{double}>(0, 2),}
+\DoxyCodeLine{117     rot.at<\textcolor{keywordtype}{double}>(1, 0), rot.at<\textcolor{keywordtype}{double}>(1, 1), rot.at<\textcolor{keywordtype}{double}>(1, 2),}
+\DoxyCodeLine{118     rot.at<\textcolor{keywordtype}{double}>(2, 0), rot.at<\textcolor{keywordtype}{double}>(2, 1), rot.at<\textcolor{keywordtype}{double}>(2, 2));}
+\DoxyCodeLine{119 }
+\DoxyCodeLine{120 }
+\DoxyCodeLine{121   tf2::Vector3 tf\_orig(tran64.at<\textcolor{keywordtype}{double}>(2, 0), -\/tran64.at<\textcolor{keywordtype}{double}>(0, 0), -\/tran64.at<\textcolor{keywordtype}{double}>(1, 0));}
+\DoxyCodeLine{122 }
+\DoxyCodeLine{123 }
+\DoxyCodeLine{124   \textcolor{keywordflow}{return} tf2::Transform(tf\_rot, tf\_orig);}
+\DoxyCodeLine{125 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacearuco__ros_ac69b37c14d6ea5e5f2f7e70719dd369c}\label{namespacearuco__ros_ac69b37c14d6ea5e5f2f7e70719dd369c}} 
+\index{aruco\_ros@{aruco\_ros}!rosCameraInfo2ArucoCamParams@{rosCameraInfo2ArucoCamParams}}
+\index{rosCameraInfo2ArucoCamParams@{rosCameraInfo2ArucoCamParams}!aruco\_ros@{aruco\_ros}}
+\doxysubsubsection{\texorpdfstring{rosCameraInfo2ArucoCamParams()}{rosCameraInfo2ArucoCamParams()}}
+{\footnotesize\ttfamily aruco\+::\+Camera\+Parameters aruco\+\_\+ros\+::ros\+Camera\+Info2\+Aruco\+Cam\+Params (\begin{DoxyParamCaption}\item[{const sensor\+\_\+msgs\+::msg\+::\+Camera\+Info \&}]{cam\+\_\+info,  }\item[{bool}]{use\+Rectified\+Parameters }\end{DoxyParamCaption})}
+
+
+
+ros\+Camera\+Info2\+Aruco\+Cam\+Params gets the camera intrinsics from a Camera\+Info message and copies them to \mbox{\hyperlink{namespacearuco__ros}{aruco\+\_\+ros}} own data structure 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cam\+\_\+info} & \\
+\hline
+{\em use\+Rectified\+Parameters} & if true, the intrinsics are taken from cam\+\_\+info.\+P and the distortion parameters are set to 0. Otherwise, cam\+\_\+info.\+K and cam\+\_\+info.\+D are taken. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+return camera matrix or parameter 
+\end{DoxyReturn}
+
+
+Definition at line 45 of file aruco\+\_\+ros\+\_\+utils.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{48 \{}
+\DoxyCodeLine{49   cv::Mat cameraMatrix(3, 3, CV\_64FC1);}
+\DoxyCodeLine{50   cv::Mat distorsionCoeff(4, 1, CV\_64FC1);}
+\DoxyCodeLine{51   cv::Size size(cam\_info.width, cam\_info.height);}
+\DoxyCodeLine{52 }
+\DoxyCodeLine{53   \textcolor{keywordflow}{if} (useRectifiedParameters) \{}
+\DoxyCodeLine{54     cameraMatrix.setTo(0);}
+\DoxyCodeLine{55     cameraMatrix.at<\textcolor{keywordtype}{double}>(0, 0) = cam\_info.p[0];   cameraMatrix.at<\textcolor{keywordtype}{double}>(0, 1) = cam\_info.p[1];}
+\DoxyCodeLine{56     cameraMatrix.at<\textcolor{keywordtype}{double}>(0, 2) = cam\_info.p[2];}
+\DoxyCodeLine{57     cameraMatrix.at<\textcolor{keywordtype}{double}>(1, 0) = cam\_info.p[4];   cameraMatrix.at<\textcolor{keywordtype}{double}>(1, 1) = cam\_info.p[5];}
+\DoxyCodeLine{58     cameraMatrix.at<\textcolor{keywordtype}{double}>(1, 2) = cam\_info.p[6];}
+\DoxyCodeLine{59     cameraMatrix.at<\textcolor{keywordtype}{double}>(2, 0) = cam\_info.p[8];   cameraMatrix.at<\textcolor{keywordtype}{double}>(2, 1) = cam\_info.p[9];}
+\DoxyCodeLine{60     cameraMatrix.at<\textcolor{keywordtype}{double}>(2, 2) = cam\_info.p[10];}
+\DoxyCodeLine{61 }
+\DoxyCodeLine{62     for (\textcolor{keywordtype}{int} i = 0; i < 4; ++i) \{}
+\DoxyCodeLine{63       distorsionCoeff.at<\textcolor{keywordtype}{double}>(i, 0) = 0;}
+\DoxyCodeLine{64     \}}
+\DoxyCodeLine{65   \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{66     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < 9; ++i) \{}
+\DoxyCodeLine{67       cameraMatrix.at<\textcolor{keywordtype}{double}>(i \% 3, i -\/ (i \% 3) * 3) = cam\_info.k[i];}
+\DoxyCodeLine{68     \}}
+\DoxyCodeLine{69 }
+\DoxyCodeLine{70     \textcolor{keywordflow}{if} (cam\_info.d.size() == 4) \{}
+\DoxyCodeLine{71       \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < 4; ++i) \{}
+\DoxyCodeLine{72         distorsionCoeff.at<\textcolor{keywordtype}{double}>(i, 0) = cam\_info.d[i];}
+\DoxyCodeLine{73       \}}
+\DoxyCodeLine{74     \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{75       RCLCPP\_WARN(}
+\DoxyCodeLine{76         rclcpp::get\_logger(}
+\DoxyCodeLine{77           \textcolor{stringliteral}{"{}LifecyclePublisher"{}}),}
+\DoxyCodeLine{78         \textcolor{stringliteral}{"{}length of camera\_info D vector is not 4, assuming zero distortion..."{}});}
+\DoxyCodeLine{79       \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < 4; ++i) \{}
+\DoxyCodeLine{80         distorsionCoeff.at<\textcolor{keywordtype}{double}>(i, 0) = 0;}
+\DoxyCodeLine{81       \}}
+\DoxyCodeLine{82     \}}
+\DoxyCodeLine{83   \}}
+\DoxyCodeLine{84 }
+\DoxyCodeLine{85   \textcolor{keywordflow}{return} aruco::CameraParameters(cameraMatrix, distorsionCoeff, size);}
+\DoxyCodeLine{86 \}}
+
+\end{DoxyCode}
