@@ -1,4 +1,0 @@
-[submodule "aruco_ros2"]
-	url = https://gitlab.com/raymondchaneee/aruco_ros2
-[submodule "/aruco_ros2"]
-	url = https://gitlab.com/raymondchaneee/aruco_ros2
