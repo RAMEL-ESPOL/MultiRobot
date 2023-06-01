@@ -3,11 +3,12 @@
 # ... (License and author information)
 
 import os
+from pathlib import Path
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, ExecuteProcess, DeclareLaunchArgument
+from launch.actions import IncludeLaunchDescription, ExecuteProcess, DeclareLaunchArgument, SetEnvironmentVariable
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution, EnvironmentVariable
 from launch_ros.actions import Node
 
 ARGUMENTS = [
@@ -20,27 +21,36 @@ ARGUMENTS = [
     DeclareLaunchArgument('spawn_dock', default_value='true',
                           choices=['true', 'false'],
                           description='Spawn the standard dock model.'),
-    DeclareLaunchArgument('world_path', default_value='',
-                          description='Set world path, by default is empty.world'),
     DeclareLaunchArgument('namespace', default_value='',
                           description='Robot namespace'),
 ]
+# Rviz requires US locale to correctly display the wheels
+os.environ['LC_NUMERIC'] = 'en_US.UTF-8'
 
 def generate_launch_description():
     pkg_gazebo_ros = get_package_share_directory('gazebo_ros')
 
     use_sim_time = LaunchConfiguration('use_sim_time', default='true')
-    x_pose = LaunchConfiguration('x_pose', default='0.0')
-    y_pose = LaunchConfiguration('y_pose', default='0.0')
 
     world = os.path.join(
         get_package_share_directory('turtlebot3_gazebo'),
         'worlds',
         'empty_world.world'
     )
+
     pkg_create3_gazebo_bringup = get_package_share_directory('irobot_create_gazebo_bringup')
     gazebo_params_yaml_file = os.path.join(pkg_create3_gazebo_bringup, 'config', 'gazebo_params.yaml')
+    pkg_irobot_create_description = get_package_share_directory('irobot_create_description')
+    # Set ignition resource path
+    gz_resource_path = SetEnvironmentVariable(name='GAZEBO_MODEL_PATH', value=[
+                                                EnvironmentVariable('GAZEBO_MODEL_PATH',
+                                                                    default_value=''),
+                                                '/usr/share/gazebo-11/models/:',
+                                                str(Path(pkg_irobot_create_description).
+                                                    parent.resolve())])
     
+    # Set GAZEBO_MODEL_URI to empty string to prevent Gazebo from downloading models
+    gz_model_uri = SetEnvironmentVariable(name='GAZEBO_MODEL_URI', value=[''])
     # Gazebo server
     gzserver = ExecuteProcess(
         cmd=['gzserver',
@@ -62,7 +72,7 @@ def generate_launch_description():
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([gazebo_launch]),
         launch_arguments=[
-            ('world_path', LaunchConfiguration('world_path')),
+            ('world_path', world),
             ('use_gazebo_gui', LaunchConfiguration('use_gazebo_gui'))
         ]
     )
@@ -86,8 +96,8 @@ def generate_launch_description():
     arguments=[
         '-entity', 'tb3',
         '-file', model_path,
-        '-x', x_pose,
-        '-y', y_pose,
+        '-x', '-0.5',
+        '-y', '-0.5',
         '-z', '0.01',
          '-robot_namespace', 'tb3'  # Set the robot namespace
     ],
@@ -99,8 +109,8 @@ def generate_launch_description():
     arguments=[
         '-entity', 'tb3_2',
         '-file', model_path,
-        '-x', '2.0',
-        '-y', '2.0',
+        '-x', '0.5',
+        '-y', '0.5',
         '-z', '0.01',
          '-robot_namespace', 'tb3_2'  # Set the robot namespace
     ],
@@ -115,8 +125,8 @@ def generate_launch_description():
         launch_arguments=[
             ('namespace', ''),
             ('use_rviz', 'true'),
-            ('x', '-2.0'),
-            ('y', '-2.0'),
+            ('x', '0.0'),
+            ('y', '0.0'),
             ('z', '0.01'),
             ('yaw', '0.0')
         ],
@@ -152,13 +162,17 @@ def generate_launch_description():
     # Add the commands to the launch description
     # Define LaunchDescription variable
     ld = LaunchDescription(ARGUMENTS)
-    #ld.add_action(gzserver)
-    ld.add_action(gazebo)
+    ld.add_action(gz_resource_path)
+    ld.add_action(gz_model_uri)
+    ld.add_action(gzserver)
+    ld.add_action(gzclient_cmd)
+    #ld.add_action(gazebo)
     ld.add_action(create3_spawn_cmd)
     ld.add_action(robot_state_publisher_cmd_1)
     ld.add_action(robot_state_publisher_cmd_2)
     ld.add_action(start_gazebo_ros_spawner_cmd)
     ld.add_action(start_gazebo_ros_spawner_cmd_2)
+    
     
 
     return ld
