@@ -33,9 +33,9 @@ def generate_launch_description():
     use_sim_time = LaunchConfiguration('use_sim_time', default='true')
 
     world = os.path.join(
-        get_package_share_directory('turtlebot3_gazebo'),
-        'worlds',
-        'empty_world.world'
+        get_package_share_directory('ramel'),
+        'config',
+        'lab_ramel.world'
     )
 
     pkg_create3_gazebo_bringup = get_package_share_directory('irobot_create_gazebo_bringup')
@@ -96,8 +96,8 @@ def generate_launch_description():
     arguments=[
         '-entity', 'tb3',
         '-file', model_path,
-        '-x', '-0.5',
-        '-y', '-0.5',
+        '-x', '0.5',
+        '-y', '0.5',
         '-z', '0.01',
          '-robot_namespace', 'tb3'  # Set the robot namespace
     ],
@@ -109,8 +109,8 @@ def generate_launch_description():
     arguments=[
         '-entity', 'tb3_2',
         '-file', model_path,
-        '-x', '0.5',
-        '-y', '0.5',
+        '-x', '1',
+        '-y', '1',
         '-z', '0.01',
          '-robot_namespace', 'tb3_2'  # Set the robot namespace
     ],
@@ -123,7 +123,7 @@ def generate_launch_description():
             os.path.join(get_package_share_directory('irobot_create_gazebo_bringup'), 'launch', 'create3_spawn.launch.py')
         ),
         launch_arguments=[
-            ('namespace', ''),
+            ('namespace', 'c3'),
             ('use_rviz', 'true'),
             ('x', '0.0'),
             ('y', '0.0'),

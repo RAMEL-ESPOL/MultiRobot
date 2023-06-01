@@ -12,3 +12,7 @@
 	path = turtlebot3
 	url = https://github.com/ROBOTIS-GIT/turtlebot3.git
 	branch = humble-devel
+[submodule "create3_examples"]
+	path = create3_examples
+	url = https://github.com/iRobotEducation/create3_examples.git
+	branch = humble
