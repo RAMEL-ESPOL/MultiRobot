@@ -123,7 +123,6 @@ def generate_launch_description():
             os.path.join(get_package_share_directory('irobot_create_gazebo_bringup'), 'launch', 'create3_spawn.launch.py')
         ),
         launch_arguments=[
-            ('namespace', 'c3'),
             ('use_rviz', 'true'),
             ('x', '0.0'),
             ('y', '0.0'),
