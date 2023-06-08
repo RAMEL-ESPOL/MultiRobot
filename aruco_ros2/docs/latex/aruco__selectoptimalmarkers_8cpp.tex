@@ -1,0 +1,272 @@
+\hypertarget{aruco__selectoptimalmarkers_8cpp}{}\doxysection{aruco/src/aruco/aruco\+\_\+selectoptimalmarkers.cpp File Reference}
+\label{aruco__selectoptimalmarkers_8cpp}\index{aruco/src/aruco/aruco\_selectoptimalmarkers.cpp@{aruco/src/aruco/aruco\_selectoptimalmarkers.cpp}}
+{\ttfamily \#include $<$opencv2/highgui/highgui.\+hpp$>$}\newline
+{\ttfamily \#include $<$aruco/aruco.\+h$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$limits$>$}\newline
+{\ttfamily \#include $<$aruco/arucofidmarkers.\+h$>$}\newline
+Include dependency graph for aruco\+\_\+selectoptimalmarkers.\+cpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{aruco__selectoptimalmarkers_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{aruco__selectoptimalmarkers_8cpp_a35cfab807729bc84cecff3956a27c7b8}{Hamm\+Dist\+\_\+}} (const cv\+::\+Mat \&m1, const cv\+::\+Mat \&m2)
+\item 
+Mat \mbox{\hyperlink{aruco__selectoptimalmarkers_8cpp_af53e62c5432a8b8312c781a7c85891bd}{rotate}} (Mat in)
+\item 
+int \mbox{\hyperlink{aruco__selectoptimalmarkers_8cpp_a58714456a735acd81f172c82c91b866b}{Hamm\+Dist}} (const cv\+::\+Mat \&m1, const cv\+::\+Mat \&m2)
+\item 
+int \mbox{\hyperlink{aruco__selectoptimalmarkers_8cpp_a1dc61fe5c6599d4a1ec79d4eae0f7201}{entropy}} (const cv\+::\+Mat \&marker)
+\item 
+int \mbox{\hyperlink{aruco__selectoptimalmarkers_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}} (int argc, char $\ast$$\ast$argv)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{aruco__selectoptimalmarkers_8cpp_a1dc61fe5c6599d4a1ec79d4eae0f7201}\label{aruco__selectoptimalmarkers_8cpp_a1dc61fe5c6599d4a1ec79d4eae0f7201}} 
+\index{aruco\_selectoptimalmarkers.cpp@{aruco\_selectoptimalmarkers.cpp}!entropy@{entropy}}
+\index{entropy@{entropy}!aruco\_selectoptimalmarkers.cpp@{aruco\_selectoptimalmarkers.cpp}}
+\doxysubsubsection{\texorpdfstring{entropy()}{entropy()}}
+{\footnotesize\ttfamily int entropy (\begin{DoxyParamCaption}\item[{const cv\+::\+Mat \&}]{marker }\end{DoxyParamCaption})}
+
+
+
+Definition at line 81 of file aruco\+\_\+selectoptimalmarkers.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{82 \{}
+\DoxyCodeLine{83   }
+\DoxyCodeLine{84   \textcolor{comment}{//the entropy is calcualte for each bin as the number of elements different from it in its sourroundings}}
+\DoxyCodeLine{85   \textcolor{keywordtype}{int} totalEntropy=0;}
+\DoxyCodeLine{86     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} y=0;y<5;y++)}
+\DoxyCodeLine{87         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x=0;x<5;x++)\{}
+\DoxyCodeLine{88         \textcolor{keywordtype}{int} minX=max(x-\/1,0);}
+\DoxyCodeLine{89         \textcolor{keywordtype}{int} maxX=min(x+1,5);}
+\DoxyCodeLine{90         \textcolor{keywordtype}{int} minY=max(y-\/1,0);}
+\DoxyCodeLine{91         \textcolor{keywordtype}{int} maxY=min(y+1,5);}
+\DoxyCodeLine{92         }
+\DoxyCodeLine{93         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} yy=minY;yy<maxY;yy++)}
+\DoxyCodeLine{94           \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} xx=minX;xx<maxX;xx++)}
+\DoxyCodeLine{95           \textcolor{keywordflow}{if} (marker.at<uchar>(y,x)!=marker.at<uchar>(yy,xx)) totalEntropy++;}
+\DoxyCodeLine{96     \}}
+\DoxyCodeLine{97      }
+\DoxyCodeLine{98     \textcolor{keywordflow}{return} totalEntropy;}
+\DoxyCodeLine{99 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{aruco__selectoptimalmarkers_8cpp_a58714456a735acd81f172c82c91b866b}\label{aruco__selectoptimalmarkers_8cpp_a58714456a735acd81f172c82c91b866b}} 
+\index{aruco\_selectoptimalmarkers.cpp@{aruco\_selectoptimalmarkers.cpp}!HammDist@{HammDist}}
+\index{HammDist@{HammDist}!aruco\_selectoptimalmarkers.cpp@{aruco\_selectoptimalmarkers.cpp}}
+\doxysubsubsection{\texorpdfstring{HammDist()}{HammDist()}}
+{\footnotesize\ttfamily int Hamm\+Dist (\begin{DoxyParamCaption}\item[{const cv\+::\+Mat \&}]{m1,  }\item[{const cv\+::\+Mat \&}]{m2 }\end{DoxyParamCaption})}
+
+
+
+Definition at line 68 of file aruco\+\_\+selectoptimalmarkers.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{69 \{}
+\DoxyCodeLine{70     cv::Mat mc=m1.clone();}
+\DoxyCodeLine{71     \textcolor{keywordtype}{int} minD=std::numeric\_limits<int>::max();}
+\DoxyCodeLine{72     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i=0;i<4;i++)\{}
+\DoxyCodeLine{73       \textcolor{keywordtype}{int} dist=\mbox{\hyperlink{aruco__selectoptimalmarkers_8cpp_a35cfab807729bc84cecff3956a27c7b8}{HammDist\_}}(mc,m2);}
+\DoxyCodeLine{74       \textcolor{keywordflow}{if}( dist<minD) minD=dist;}
+\DoxyCodeLine{75       mc= \mbox{\hyperlink{aruco__selectoptimalmarkers_8cpp_af53e62c5432a8b8312c781a7c85891bd}{rotate}}(mc);}
+\DoxyCodeLine{76     \}}
+\DoxyCodeLine{77     \textcolor{keywordflow}{return} minD;}
+\DoxyCodeLine{78 }
+\DoxyCodeLine{79 \}}
+
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=249pt]{aruco__selectoptimalmarkers_8cpp_a58714456a735acd81f172c82c91b866b_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{aruco__selectoptimalmarkers_8cpp_a35cfab807729bc84cecff3956a27c7b8}\label{aruco__selectoptimalmarkers_8cpp_a35cfab807729bc84cecff3956a27c7b8}} 
+\index{aruco\_selectoptimalmarkers.cpp@{aruco\_selectoptimalmarkers.cpp}!HammDist\_@{HammDist\_}}
+\index{HammDist\_@{HammDist\_}!aruco\_selectoptimalmarkers.cpp@{aruco\_selectoptimalmarkers.cpp}}
+\doxysubsubsection{\texorpdfstring{HammDist\_()}{HammDist\_()}}
+{\footnotesize\ttfamily int Hamm\+Dist\+\_\+ (\begin{DoxyParamCaption}\item[{const cv\+::\+Mat \&}]{m1,  }\item[{const cv\+::\+Mat \&}]{m2 }\end{DoxyParamCaption})}
+
+
+
+Definition at line 43 of file aruco\+\_\+selectoptimalmarkers.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{44 \{}
+\DoxyCodeLine{45   }
+\DoxyCodeLine{46     \textcolor{keywordtype}{int} dist=0;}
+\DoxyCodeLine{47     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} y=0;y<5;y++)}
+\DoxyCodeLine{48         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x=0;x<5;x++)}
+\DoxyCodeLine{49             \textcolor{keywordflow}{if} (m1.at<uchar>(y,x)!=m2.at<uchar>(y,x)) dist++;}
+\DoxyCodeLine{50     \textcolor{keywordflow}{return} dist;}
+\DoxyCodeLine{51 }
+\DoxyCodeLine{52 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{aruco__selectoptimalmarkers_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}\label{aruco__selectoptimalmarkers_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}} 
+\index{aruco\_selectoptimalmarkers.cpp@{aruco\_selectoptimalmarkers.cpp}!main@{main}}
+\index{main@{main}!aruco\_selectoptimalmarkers.cpp@{aruco\_selectoptimalmarkers.cpp}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{argv }\end{DoxyParamCaption})}
+
+
+
+Definition at line 101 of file aruco\+\_\+selectoptimalmarkers.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{102 \{}
+\DoxyCodeLine{103     \textcolor{keywordflow}{try} \{}
+\DoxyCodeLine{104 }
+\DoxyCodeLine{105         cout<<\textcolor{stringliteral}{"{}check argc: "{}}<<argc<<endl;}
+\DoxyCodeLine{106         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} s=0; s<argc; s++)\{}
+\DoxyCodeLine{107              cout<<\textcolor{stringliteral}{"{}check argv["{}}<<s<<\textcolor{stringliteral}{"{}]: "{}}<<argv[s]<<endl;}
+\DoxyCodeLine{108         \}}
+\DoxyCodeLine{109 }
+\DoxyCodeLine{110         \textcolor{keywordflow}{if} (argc<4) \{}
+\DoxyCodeLine{111 }
+\DoxyCodeLine{112             \textcolor{comment}{//You can also use ids 2000-\/2007 but it is not safe since there are a lot of false positives.}}
+\DoxyCodeLine{113             cerr<<\textcolor{stringliteral}{"{}Usage: nofMarkers outbasename size [minimum\_entropy(9,25)]"{}}<<endl;}
+\DoxyCodeLine{114             \textcolor{keywordflow}{return} -\/1;}
+\DoxyCodeLine{115         \}}
+\DoxyCodeLine{116 }
+\DoxyCodeLine{117       }
+\DoxyCodeLine{118         \textcolor{comment}{//create a vector with all markers}}
+\DoxyCodeLine{119         \textcolor{keywordtype}{int} minimimEntropy=0;}
+\DoxyCodeLine{120     \textcolor{keywordflow}{if}(argc>=5) minimimEntropy=atoi(argv[4]);}
+\DoxyCodeLine{121         vector<cv::Mat> markers;}
+\DoxyCodeLine{122     vector<int> ventropy;}
+\DoxyCodeLine{123         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<1024;i++)\{}
+\DoxyCodeLine{124             markers.push\_back(\mbox{\hyperlink{classaruco_1_1FiducidalMarkers_a3390126a77b1667d3350dabcc683cc9e}{aruco::FiducidalMarkers::getMarkerMat}}(i) );}
+\DoxyCodeLine{125         ventropy.push\_back(\mbox{\hyperlink{aruco__selectoptimalmarkers_8cpp_a1dc61fe5c6599d4a1ec79d4eae0f7201}{entropy}}( \mbox{\hyperlink{classaruco_1_1FiducidalMarkers_a3390126a77b1667d3350dabcc683cc9e}{aruco::FiducidalMarkers::getMarkerMat}}(i) ));}
+\DoxyCodeLine{126     \}}
+\DoxyCodeLine{127       cout<<\textcolor{stringliteral}{"{}Calculating distance matrix"{}}<<endl;}
+\DoxyCodeLine{128         \textcolor{comment}{//create a matrix with all distances}}
+\DoxyCodeLine{129         cv::Mat distances=cv::Mat::zeros(1024,1024,CV\_32SC1);}
+\DoxyCodeLine{130         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<1024;i++)}
+\DoxyCodeLine{131             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} j=i+1;j<1024;j++)}
+\DoxyCodeLine{132                 distances.at<\textcolor{keywordtype}{int}>(i,j)=distances.at<\textcolor{keywordtype}{int}>(j,i)= \mbox{\hyperlink{aruco__selectoptimalmarkers_8cpp_a58714456a735acd81f172c82c91b866b}{HammDist}} (  markers[i],markers[j]);}
+\DoxyCodeLine{133     cout<<\textcolor{stringliteral}{"{}done"{}}<<endl;}
+\DoxyCodeLine{134         \textcolor{comment}{//}}
+\DoxyCodeLine{135         \textcolor{keywordtype}{int} nMarkers=atoi(argv[1]);}
+\DoxyCodeLine{136         \textcolor{comment}{//select the first marker}}
+\DoxyCodeLine{137         vector<bool> usedMarkers(1024,\textcolor{keyword}{false});}
+\DoxyCodeLine{138  }
+\DoxyCodeLine{139     }
+\DoxyCodeLine{140     }
+\DoxyCodeLine{141         vector<int> selectedMarkers;}
+\DoxyCodeLine{142     \textcolor{comment}{//select the masker with higher entropy first}}
+\DoxyCodeLine{143     \textcolor{keywordtype}{int} bestEntr=0;}
+\DoxyCodeLine{144     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{size\_t} i=0;i<ventropy.size();i++)}
+\DoxyCodeLine{145       \textcolor{keywordflow}{if} (ventropy[i]>ventropy[bestEntr]) bestEntr=i;}
+\DoxyCodeLine{146         selectedMarkers.push\_back(bestEntr);}
+\DoxyCodeLine{147         usedMarkers[bestEntr]=\textcolor{keyword}{true};}
+\DoxyCodeLine{148     }
+\DoxyCodeLine{149     \textcolor{comment}{//remove these with low entropy. Not very elegnat. Other day I will improve the algorithm}}
+\DoxyCodeLine{150     \textcolor{comment}{//to make it multiobjective}}
+\DoxyCodeLine{151     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{size\_t} i=0;i<ventropy.size();i++)}
+\DoxyCodeLine{152       \textcolor{keywordflow}{if} (ventropy[i]<minimimEntropy) usedMarkers[i]=\textcolor{keyword}{true};}
+\DoxyCodeLine{153       }
+\DoxyCodeLine{154     cout<<\textcolor{stringliteral}{"{}Max Entroy in ="{}}<<bestEntr<<\textcolor{stringliteral}{"{} "{}}<<ventropy[bestEntr]<<endl;}
+\DoxyCodeLine{155         \textcolor{comment}{//add new markers according to the distance added to the global}}
+\DoxyCodeLine{156         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=1;i<nMarkers;i++) \{}
+\DoxyCodeLine{157       \textcolor{keywordtype}{int} bestMarker=-\/1;}
+\DoxyCodeLine{158       \textcolor{keywordtype}{int} shorterDist=0;}
+\DoxyCodeLine{159             \textcolor{comment}{//select as new marker the one that maximizes mean distance to}}
+\DoxyCodeLine{160             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} j=0;j<distances.cols;j++) \{}
+\DoxyCodeLine{161                 \textcolor{keywordflow}{if} (!usedMarkers[j]) \{}
+\DoxyCodeLine{162                     \textcolor{keywordtype}{int} minDist=std::numeric\_limits< int >::max();}
+\DoxyCodeLine{163                     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} k=0;k<selectedMarkers.size();k++)}
+\DoxyCodeLine{164             \textcolor{keywordflow}{if} (distances.at<\textcolor{keywordtype}{int}> ( selectedMarkers[k], j)<minDist) minDist=distances.at<\textcolor{keywordtype}{int}> ( selectedMarkers[k], j);}
+\DoxyCodeLine{165 \textcolor{comment}{//          cout<<"{}j="{}<<j<<"{} "{}<<distSum<<"{}|"{}<<flush;}}
+\DoxyCodeLine{166             \textcolor{keywordflow}{if} (minDist>shorterDist)\{ }
+\DoxyCodeLine{167               shorterDist=minDist;}
+\DoxyCodeLine{168               bestMarker=j;}
+\DoxyCodeLine{169             \}}
+\DoxyCodeLine{170                 \}}
+\DoxyCodeLine{171             \}}
+\DoxyCodeLine{172             \textcolor{keywordflow}{if} (bestMarker!=-\/1 \&\& shorterDist>1 )\{}
+\DoxyCodeLine{173           selectedMarkers.push\_back(bestMarker);}
+\DoxyCodeLine{174           usedMarkers[bestMarker]=\textcolor{keyword}{true};}
+\DoxyCodeLine{175 \textcolor{comment}{//        cout<<"{}Best id="{}<<bestMarker<<"{} dist="{}<<farthestDist<< endl;}}
+\DoxyCodeLine{176         \}}
+\DoxyCodeLine{177         \textcolor{keywordflow}{else} \{cerr<<\textcolor{stringliteral}{"{}COUDL NOT ADD ANY MARKER"{}}<<endl;exit(0);\}}
+\DoxyCodeLine{178 \textcolor{comment}{//             char c;cin>>c;}}
+\DoxyCodeLine{179         \}}
+\DoxyCodeLine{180         }
+\DoxyCodeLine{181         sort(selectedMarkers.begin(),selectedMarkers.end());}
+\DoxyCodeLine{182         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{size\_t} i=0;i<selectedMarkers.size();i++)\{}
+\DoxyCodeLine{183       \textcolor{keywordtype}{char} name[1024];}
+\DoxyCodeLine{184       sprintf(name,\textcolor{stringliteral}{"{}\%s\%d.png"{}},argv[2],selectedMarkers[i]);}
+\DoxyCodeLine{185 \textcolor{comment}{//    cout<<"{}name="{}<<name<<endl;}}
+\DoxyCodeLine{186       cout<<selectedMarkers[i]<<\textcolor{stringliteral}{"{} "{}}<<flush;}
+\DoxyCodeLine{187       Mat markerImage=\mbox{\hyperlink{classaruco_1_1FiducidalMarkers_a47f92ec85722ff997a687d7283d0ed78}{aruco::FiducidalMarkers::createMarkerImage}}(selectedMarkers[i],atoi(argv[3]));}
+\DoxyCodeLine{188       imwrite(name,markerImage);}
+\DoxyCodeLine{189     \}}
+\DoxyCodeLine{190     cout<<endl;}
+\DoxyCodeLine{191     \textcolor{comment}{//print the minimim distance between any two  elements}}
+\DoxyCodeLine{192     \textcolor{keywordtype}{int} minDist=std::numeric\_limits<int>::max();}
+\DoxyCodeLine{193     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{size\_t} i=0;i<selectedMarkers.size()-\/1;i++)}
+\DoxyCodeLine{194       \textcolor{keywordflow}{for}(\textcolor{keywordtype}{size\_t} j=i+1;j<selectedMarkers.size();j++)\{}
+\DoxyCodeLine{195 \textcolor{comment}{//      cout<<"{} d="{} << selectedMarkers[i]<<"{} "{}<<selectedMarkers[j]<<"{}-\/>"{}<<distances.at<int> ( selectedMarkers[i], selectedMarkers[j])<<endl;}}
+\DoxyCodeLine{196         \textcolor{keywordflow}{if} (distances.at<\textcolor{keywordtype}{int}> ( selectedMarkers[i], selectedMarkers[j]) < minDist) minDist=distances.at<\textcolor{keywordtype}{int}> ( selectedMarkers[i], selectedMarkers[j]);}
+\DoxyCodeLine{197         }
+\DoxyCodeLine{198       \}}
+\DoxyCodeLine{199         }
+\DoxyCodeLine{200     }
+\DoxyCodeLine{201    cout<<\textcolor{stringliteral}{"{}Min Dist="{}}<<minDist<<endl;}
+\DoxyCodeLine{202 }
+\DoxyCodeLine{203     \}}
+\DoxyCodeLine{204     \textcolor{keywordflow}{catch} (std::exception \&ex)}
+\DoxyCodeLine{205     \{}
+\DoxyCodeLine{206         cout<<ex.what()<<endl;}
+\DoxyCodeLine{207     \}}
+\DoxyCodeLine{208 }
+\DoxyCodeLine{209 \}}
+
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{aruco__selectoptimalmarkers_8cpp_a3c04138a5bfe5d72780bb7e82a18e627_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{aruco__selectoptimalmarkers_8cpp_af53e62c5432a8b8312c781a7c85891bd}\label{aruco__selectoptimalmarkers_8cpp_af53e62c5432a8b8312c781a7c85891bd}} 
+\index{aruco\_selectoptimalmarkers.cpp@{aruco\_selectoptimalmarkers.cpp}!rotate@{rotate}}
+\index{rotate@{rotate}!aruco\_selectoptimalmarkers.cpp@{aruco\_selectoptimalmarkers.cpp}}
+\doxysubsubsection{\texorpdfstring{rotate()}{rotate()}}
+{\footnotesize\ttfamily Mat rotate (\begin{DoxyParamCaption}\item[{Mat}]{in }\end{DoxyParamCaption})}
+
+
+
+Definition at line 53 of file aruco\+\_\+selectoptimalmarkers.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{54 \{}
+\DoxyCodeLine{55     Mat out;}
+\DoxyCodeLine{56     in.copyTo(out);}
+\DoxyCodeLine{57     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<in.rows;i++)}
+\DoxyCodeLine{58     \{}
+\DoxyCodeLine{59         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} j=0;j<in.cols;j++)}
+\DoxyCodeLine{60         \{}
+\DoxyCodeLine{61             out.at<uchar>(i,j)=in.at<uchar>(in.cols-\/j-\/1,i);}
+\DoxyCodeLine{62         \}}
+\DoxyCodeLine{63     \}}
+\DoxyCodeLine{64     \textcolor{keywordflow}{return} out;}
+\DoxyCodeLine{65 \}}
+
+\end{DoxyCode}

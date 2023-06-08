@@ -1,0 +1,540 @@
+\hypertarget{test__simplesingle__aruco__ros2_8cpp}{}\doxysection{test/test\+\_\+simplesingle\+\_\+aruco\+\_\+ros2.cpp File Reference}
+\label{test__simplesingle__aruco__ros2_8cpp}\index{test/test\_simplesingle\_aruco\_ros2.cpp@{test/test\_simplesingle\_aruco\_ros2.cpp}}
+{\ttfamily \#include $<$memory$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$map$>$}\newline
+{\ttfamily \#include \char`\"{}aruco\+\_\+ros/test\+\_\+simplesingle\+\_\+aruco\+\_\+ros2.\+hpp\char`\"{}}\newline
+Include dependency graph for test\+\_\+simplesingle\+\_\+aruco\+\_\+ros2.\+cpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{test__simplesingle__aruco__ros2_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{test__simplesingle__aruco__ros2_8cpp_aab87acb6243689563cc76449ae38d46a}{TEST}} (test\+\_\+simplesingle\+\_\+aruco\+\_\+ros2, test\+\_\+caminfo)
+\item 
+\mbox{\hyperlink{test__simplesingle__aruco__ros2_8cpp_a576f1e8f1b8dff138d208a13382af1a0}{TEST}} (test\+\_\+simplesingle\+\_\+aruco\+\_\+ros2, test\+\_\+caminfo2)
+\item 
+\mbox{\hyperlink{test__simplesingle__aruco__ros2_8cpp_ac4f7f21b8f2d52403991fab139dcf92f}{TEST}} (test\+\_\+simplesingle\+\_\+aruco\+\_\+ros2, test\+\_\+caminfo3)
+\item 
+\mbox{\hyperlink{test__simplesingle__aruco__ros2_8cpp_afcd6e87ca418ed4848fc7c37e2bd2a4b}{TEST}} (test\+\_\+simplesingle\+\_\+aruco\+\_\+ros2, test\+\_\+aruco\+\_\+detected\+\_\+\+ID)
+\item 
+\mbox{\hyperlink{test__simplesingle__aruco__ros2_8cpp_abb35309c5db3f59c57473252fde13a09}{TEST}} (test\+\_\+simplesingle\+\_\+aruco\+\_\+ros2, test\+\_\+aruco\+\_\+detected\+\_\+multiple\+\_\+id)
+\item 
+\mbox{\hyperlink{test__simplesingle__aruco__ros2_8cpp_a62dac5ecb88909079598134805af505c}{TEST}} (test\+\_\+simplesingle\+\_\+aruco\+\_\+ros2, test\+\_\+aruco\+\_\+detected\+\_\+position1)
+\item 
+\mbox{\hyperlink{test__simplesingle__aruco__ros2_8cpp_a73d0f90e4548de68a0308fc0c1211d89}{TEST}} (test\+\_\+simplesingle\+\_\+aruco\+\_\+ros2, test\+\_\+aruco\+\_\+detected\+\_\+position2)
+\item 
+\mbox{\hyperlink{test__simplesingle__aruco__ros2_8cpp_a0a6a7fe96d0cb3795d233681aed51ac7}{TEST}} (test\+\_\+simplesingle\+\_\+aruco\+\_\+ros2, test\+\_\+aruco\+\_\+detected\+\_\+position3)
+\item 
+int \mbox{\hyperlink{test__simplesingle__aruco__ros2_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}} (int argc, char $\ast$$\ast$argv)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{test__simplesingle__aruco__ros2_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}\label{test__simplesingle__aruco__ros2_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}} 
+\index{test\_simplesingle\_aruco\_ros2.cpp@{test\_simplesingle\_aruco\_ros2.cpp}!main@{main}}
+\index{main@{main}!test\_simplesingle\_aruco\_ros2.cpp@{test\_simplesingle\_aruco\_ros2.cpp}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{argv }\end{DoxyParamCaption})}
+
+
+
+Definition at line 426 of file test\+\_\+simplesingle\+\_\+aruco\+\_\+ros2.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{427 \{}
+\DoxyCodeLine{428   rclcpp::init(argc, argv);}
+\DoxyCodeLine{429   testing::InitGoogleTest(\&argc, argv);}
+\DoxyCodeLine{430   \textcolor{keywordflow}{return} RUN\_ALL\_TESTS();}
+\DoxyCodeLine{431 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{test__simplesingle__aruco__ros2_8cpp_afcd6e87ca418ed4848fc7c37e2bd2a4b}\label{test__simplesingle__aruco__ros2_8cpp_afcd6e87ca418ed4848fc7c37e2bd2a4b}} 
+\index{test\_simplesingle\_aruco\_ros2.cpp@{test\_simplesingle\_aruco\_ros2.cpp}!TEST@{TEST}}
+\index{TEST@{TEST}!test\_simplesingle\_aruco\_ros2.cpp@{test\_simplesingle\_aruco\_ros2.cpp}}
+\doxysubsubsection{\texorpdfstring{TEST()}{TEST()}\hspace{0.1cm}{\footnotesize\ttfamily [1/8]}}
+{\footnotesize\ttfamily TEST (\begin{DoxyParamCaption}\item[{test\+\_\+simplesingle\+\_\+aruco\+\_\+ros2}]{,  }\item[{test\+\_\+aruco\+\_\+detected\+\_\+\+ID}]{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 168 of file test\+\_\+simplesingle\+\_\+aruco\+\_\+ros2.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{169 \{}
+\DoxyCodeLine{170   sensor\_msgs::msg::CameraInfo::SharedPtr camera\_info =}
+\DoxyCodeLine{171     std::make\_shared<sensor\_msgs::msg::CameraInfo>();}
+\DoxyCodeLine{172   camera\_info-\/>height = 720;}
+\DoxyCodeLine{173   camera\_info-\/>width = 1280;}
+\DoxyCodeLine{174   camera\_info-\/>distortion\_model = \textcolor{stringliteral}{"{}plumb\_bob"{}};}
+\DoxyCodeLine{175   array<double,}
+\DoxyCodeLine{176     9> veck = \{783.8192972, 0.0, 649.1396957, 0.0, 786.38339479, 345.07377121, 0.0, 0.0, 1.0\};}
+\DoxyCodeLine{177   camera\_info-\/>k = veck;}
+\DoxyCodeLine{178   vector<double> vecd = \{0.10258321, -\/0.2406874, -\/0.00259027, -\/0.00244419, 0.11205082\};}
+\DoxyCodeLine{179   camera\_info-\/>d = vecd;}
+\DoxyCodeLine{180   array<double, 9> vecr = \{1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0\};}
+\DoxyCodeLine{181   camera\_info-\/>r = vecr;}
+\DoxyCodeLine{182   array<double,}
+\DoxyCodeLine{183     12> vecp =}
+\DoxyCodeLine{184   \{852.395142, 0.0, 565.89763, 0.0, 0.0, 922.066223, 386.58625, 0.0, 0.0, 0.0, 1.0, 0.0\};}
+\DoxyCodeLine{185   camera\_info-\/>p = vecp;}
+\DoxyCodeLine{186 }
+\DoxyCodeLine{187   \textcolor{keyword}{auto} node = std::make\_shared<ArucoSimple>(rclcpp::NodeOptions());}
+\DoxyCodeLine{188   node-\/>marker\_size = 0.1;}
+\DoxyCodeLine{189   node-\/>cam\_info\_callback(camera\_info);}
+\DoxyCodeLine{190   EXPECT\_EQ(node-\/>cam\_info\_received, \textcolor{keyword}{true});}
+\DoxyCodeLine{191   \textcolor{keywordtype}{string} path\_to\_test\_image1 = \textcolor{stringliteral}{"{}test/1test.jpg"{}};}
+\DoxyCodeLine{192   cv::Mat rgb\_frame = cv::imread(path\_to\_test\_image1, cv::IMREAD\_COLOR);}
+\DoxyCodeLine{193   sensor\_msgs::msg::Image::SharedPtr input\_msg =}
+\DoxyCodeLine{194     cv\_bridge::CvImage(std\_msgs::msg::Header(), \textcolor{stringliteral}{"{}bgr8"{}}, rgb\_frame).toImageMsg();}
+\DoxyCodeLine{195   node-\/>image\_callback(input\_msg);}
+\DoxyCodeLine{196 }
+\DoxyCodeLine{197   EXPECT\_EQ(node-\/>markers.size(), 1);}
+\DoxyCodeLine{198   EXPECT\_EQ(node-\/>markers[0].id, 590);}
+\DoxyCodeLine{199 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{test__simplesingle__aruco__ros2_8cpp_abb35309c5db3f59c57473252fde13a09}\label{test__simplesingle__aruco__ros2_8cpp_abb35309c5db3f59c57473252fde13a09}} 
+\index{test\_simplesingle\_aruco\_ros2.cpp@{test\_simplesingle\_aruco\_ros2.cpp}!TEST@{TEST}}
+\index{TEST@{TEST}!test\_simplesingle\_aruco\_ros2.cpp@{test\_simplesingle\_aruco\_ros2.cpp}}
+\doxysubsubsection{\texorpdfstring{TEST()}{TEST()}\hspace{0.1cm}{\footnotesize\ttfamily [2/8]}}
+{\footnotesize\ttfamily TEST (\begin{DoxyParamCaption}\item[{test\+\_\+simplesingle\+\_\+aruco\+\_\+ros2}]{,  }\item[{test\+\_\+aruco\+\_\+detected\+\_\+multiple\+\_\+id}]{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 202 of file test\+\_\+simplesingle\+\_\+aruco\+\_\+ros2.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{203 \{}
+\DoxyCodeLine{204   sensor\_msgs::msg::CameraInfo::SharedPtr camera\_info =}
+\DoxyCodeLine{205     std::make\_shared<sensor\_msgs::msg::CameraInfo>();}
+\DoxyCodeLine{206   camera\_info-\/>height = 720;}
+\DoxyCodeLine{207   camera\_info-\/>width = 1280;}
+\DoxyCodeLine{208   camera\_info-\/>distortion\_model = \textcolor{stringliteral}{"{}plumb\_bob"{}};}
+\DoxyCodeLine{209   array<double,}
+\DoxyCodeLine{210     9> veck = \{783.8192972, 0.0, 649.1396957, 0.0, 786.38339479, 345.07377121, 0.0, 0.0, 1.0\};}
+\DoxyCodeLine{211   camera\_info-\/>k = veck;}
+\DoxyCodeLine{212   vector<double> vecd = \{0.10258321, -\/0.2406874, -\/0.00259027, -\/0.00244419, 0.11205082\};}
+\DoxyCodeLine{213   camera\_info-\/>d = vecd;}
+\DoxyCodeLine{214   array<double, 9> vecr = \{1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0\};}
+\DoxyCodeLine{215   camera\_info-\/>r = vecr;}
+\DoxyCodeLine{216   array<double,}
+\DoxyCodeLine{217     12> vecp =}
+\DoxyCodeLine{218   \{852.395142, 0.0, 565.89763, 0.0, 0.0, 922.066223, 386.58625, 0.0, 0.0, 0.0, 1.0, 0.0\};}
+\DoxyCodeLine{219   camera\_info-\/>p = vecp;}
+\DoxyCodeLine{220 }
+\DoxyCodeLine{221   \textcolor{keyword}{auto} node = std::make\_shared<ArucoSimple>(rclcpp::NodeOptions());}
+\DoxyCodeLine{222   node-\/>cam\_info\_callback(camera\_info);}
+\DoxyCodeLine{223   EXPECT\_EQ(node-\/>cam\_info\_received, \textcolor{keyword}{true});}
+\DoxyCodeLine{224   \textcolor{keywordtype}{string} path\_to\_test\_image2 = \textcolor{stringliteral}{"{}test/71test.jpg"{}};}
+\DoxyCodeLine{225   cv::Mat rgb\_frame = cv::imread(path\_to\_test\_image2, cv::IMREAD\_COLOR);}
+\DoxyCodeLine{226   sensor\_msgs::msg::Image::SharedPtr input\_msg =}
+\DoxyCodeLine{227     cv\_bridge::CvImage(std\_msgs::msg::Header(), \textcolor{stringliteral}{"{}bgr8"{}}, rgb\_frame).toImageMsg();}
+\DoxyCodeLine{228   node-\/>image\_callback(input\_msg);}
+\DoxyCodeLine{229 }
+\DoxyCodeLine{230   EXPECT\_EQ(node-\/>markers.size(), 4);}
+\DoxyCodeLine{231   vector<int> anw = \{4, 12, 1011, 1019\};}
+\DoxyCodeLine{232 }
+\DoxyCodeLine{233   \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; node-\/>markers.size() > i; i++) \{}
+\DoxyCodeLine{234     anw.erase(std::remove(anw.begin(), anw.end(), node-\/>markers[i].id), anw.end());}
+\DoxyCodeLine{235   \}}
+\DoxyCodeLine{236   EXPECT\_EQ(anw.size(), 0);}
+\DoxyCodeLine{237 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{test__simplesingle__aruco__ros2_8cpp_a62dac5ecb88909079598134805af505c}\label{test__simplesingle__aruco__ros2_8cpp_a62dac5ecb88909079598134805af505c}} 
+\index{test\_simplesingle\_aruco\_ros2.cpp@{test\_simplesingle\_aruco\_ros2.cpp}!TEST@{TEST}}
+\index{TEST@{TEST}!test\_simplesingle\_aruco\_ros2.cpp@{test\_simplesingle\_aruco\_ros2.cpp}}
+\doxysubsubsection{\texorpdfstring{TEST()}{TEST()}\hspace{0.1cm}{\footnotesize\ttfamily [3/8]}}
+{\footnotesize\ttfamily TEST (\begin{DoxyParamCaption}\item[{test\+\_\+simplesingle\+\_\+aruco\+\_\+ros2}]{,  }\item[{test\+\_\+aruco\+\_\+detected\+\_\+position1}]{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 238 of file test\+\_\+simplesingle\+\_\+aruco\+\_\+ros2.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{239 \{}
+\DoxyCodeLine{240   sensor\_msgs::msg::CameraInfo::SharedPtr camera\_info =}
+\DoxyCodeLine{241     std::make\_shared<sensor\_msgs::msg::CameraInfo>();}
+\DoxyCodeLine{242   camera\_info-\/>height = 720;}
+\DoxyCodeLine{243   camera\_info-\/>width = 1280;}
+\DoxyCodeLine{244   camera\_info-\/>distortion\_model = \textcolor{stringliteral}{"{}plumb\_bob"{}};}
+\DoxyCodeLine{245   array<double,}
+\DoxyCodeLine{246     9> veck = \{783.8192972, 0.0, 649.1396957, 0.0, 786.38339479, 345.07377121, 0.0, 0.0, 1.0\};}
+\DoxyCodeLine{247   camera\_info-\/>k = veck;}
+\DoxyCodeLine{248   vector<double> vecd = \{0.10258321, -\/0.2406874, -\/0.00259027, -\/0.00244419, 0.11205082\};}
+\DoxyCodeLine{249   camera\_info-\/>d = vecd;}
+\DoxyCodeLine{250   array<double, 9> vecr = \{1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0\};}
+\DoxyCodeLine{251   camera\_info-\/>r = vecr;}
+\DoxyCodeLine{252   array<double,}
+\DoxyCodeLine{253     12> vecp =}
+\DoxyCodeLine{254   \{852.395142, 0.0, 565.89763, 0.0, 0.0, 922.066223, 386.58625, 0.0, 0.0, 0.0, 1.0, 0.0\};}
+\DoxyCodeLine{255   camera\_info-\/>p = vecp;}
+\DoxyCodeLine{256 }
+\DoxyCodeLine{257   std::vector<rclcpp::Parameter> initial\_parameters =}
+\DoxyCodeLine{258   \{rclcpp::Parameter(\textcolor{stringliteral}{"{}refinementMethod"{}}, std::string(\textcolor{stringliteral}{"{}SUBPIX"{}})),}
+\DoxyCodeLine{259     rclcpp::Parameter(\textcolor{stringliteral}{"{}marker\_id"{}}, 590),}
+\DoxyCodeLine{260     rclcpp::Parameter(\textcolor{stringliteral}{"{}reference\_frame"{}}, std::string(\textcolor{stringliteral}{"{}"{}}))\};}
+\DoxyCodeLine{261   rclcpp::NodeOptions node\_options;}
+\DoxyCodeLine{262   node\_options.allow\_undeclared\_parameters(\textcolor{keyword}{true});}
+\DoxyCodeLine{263   node\_options.automatically\_declare\_parameters\_from\_overrides(\textcolor{keyword}{true});}
+\DoxyCodeLine{264   node\_options.parameter\_overrides(initial\_parameters);}
+\DoxyCodeLine{265   \textcolor{keyword}{auto} node = std::make\_shared<ArucoSimple>(node\_options);}
+\DoxyCodeLine{266   node-\/>cam\_info\_callback(camera\_info);}
+\DoxyCodeLine{267   EXPECT\_EQ(node-\/>cam\_info\_received, \textcolor{keyword}{true});}
+\DoxyCodeLine{268   \textcolor{keywordtype}{string} path\_to\_test\_image1 = \textcolor{stringliteral}{"{}test/1test.jpg"{}};}
+\DoxyCodeLine{269   cv::Mat rgb\_frame = cv::imread(path\_to\_test\_image1, cv::IMREAD\_COLOR);}
+\DoxyCodeLine{270   sensor\_msgs::msg::Image::SharedPtr input\_msg =}
+\DoxyCodeLine{271     cv\_bridge::CvImage(std\_msgs::msg::Header(), \textcolor{stringliteral}{"{}bgr8"{}}, rgb\_frame).toImageMsg();}
+\DoxyCodeLine{272   node-\/>image\_callback(input\_msg);}
+\DoxyCodeLine{273 }
+\DoxyCodeLine{274   EXPECT\_EQ(node-\/>markers.size(), 1);}
+\DoxyCodeLine{275 }
+\DoxyCodeLine{276   \textcolor{comment}{// cv::Mat answertvec = (cv::Mat\_<float>(3, 1) << -\/0.46442503,}}
+\DoxyCodeLine{277   \textcolor{comment}{//   0.035325821,}}
+\DoxyCodeLine{278   \textcolor{comment}{//   1.3718389);}}
+\DoxyCodeLine{279 }
+\DoxyCodeLine{280   \textcolor{comment}{// cv::Mat different = node-\/>markers\_[0].Tvec -\/ answertvec;}}
+\DoxyCodeLine{281   \textcolor{comment}{// float p = cv::norm(different);}}
+\DoxyCodeLine{282   \textcolor{comment}{// EXPECT\_EQ((p < 0.01), true);}}
+\DoxyCodeLine{283 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{test__simplesingle__aruco__ros2_8cpp_a73d0f90e4548de68a0308fc0c1211d89}\label{test__simplesingle__aruco__ros2_8cpp_a73d0f90e4548de68a0308fc0c1211d89}} 
+\index{test\_simplesingle\_aruco\_ros2.cpp@{test\_simplesingle\_aruco\_ros2.cpp}!TEST@{TEST}}
+\index{TEST@{TEST}!test\_simplesingle\_aruco\_ros2.cpp@{test\_simplesingle\_aruco\_ros2.cpp}}
+\doxysubsubsection{\texorpdfstring{TEST()}{TEST()}\hspace{0.1cm}{\footnotesize\ttfamily [4/8]}}
+{\footnotesize\ttfamily TEST (\begin{DoxyParamCaption}\item[{test\+\_\+simplesingle\+\_\+aruco\+\_\+ros2}]{,  }\item[{test\+\_\+aruco\+\_\+detected\+\_\+position2}]{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 284 of file test\+\_\+simplesingle\+\_\+aruco\+\_\+ros2.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{285 \{}
+\DoxyCodeLine{286   sensor\_msgs::msg::CameraInfo::SharedPtr camera\_info =}
+\DoxyCodeLine{287     std::make\_shared<sensor\_msgs::msg::CameraInfo>();}
+\DoxyCodeLine{288   camera\_info-\/>height = 720;}
+\DoxyCodeLine{289   camera\_info-\/>width = 1280;}
+\DoxyCodeLine{290   camera\_info-\/>distortion\_model = \textcolor{stringliteral}{"{}plumb\_bob"{}};}
+\DoxyCodeLine{291   array<double,}
+\DoxyCodeLine{292     9> veck = \{783.8192972, 0.0, 649.1396957, 0.0, 786.38339479, 345.07377121, 0.0, 0.0, 1.0\};}
+\DoxyCodeLine{293   camera\_info-\/>k = veck;}
+\DoxyCodeLine{294   vector<double> vecd = \{0.10258321, -\/0.2406874, -\/0.00259027, -\/0.00244419\};}
+\DoxyCodeLine{295   camera\_info-\/>d = vecd;}
+\DoxyCodeLine{296   array<double, 9> vecr = \{1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0\};}
+\DoxyCodeLine{297   camera\_info-\/>r = vecr;}
+\DoxyCodeLine{298   array<double,}
+\DoxyCodeLine{299     12> vecp =}
+\DoxyCodeLine{300   \{852.395142, 0.0, 565.89763, 0.0, 0.0, 922.066223, 386.58625, 0.0, 0.0, 0.0, 1.0, 0.0\};}
+\DoxyCodeLine{301   camera\_info-\/>p = vecp;}
+\DoxyCodeLine{302 }
+\DoxyCodeLine{303   std::vector<rclcpp::Parameter> initial\_parameters =}
+\DoxyCodeLine{304   \{rclcpp::Parameter(\textcolor{stringliteral}{"{}refinementMethod"{}}, std::string(\textcolor{stringliteral}{"{}HARRIS"{}})),}
+\DoxyCodeLine{305     rclcpp::Parameter(\textcolor{stringliteral}{"{}marker\_id"{}}, 590),}
+\DoxyCodeLine{306     rclcpp::Parameter(\textcolor{stringliteral}{"{}reference\_frame"{}}, std::string(\textcolor{stringliteral}{"{}testframe"{}}))\};}
+\DoxyCodeLine{307   rclcpp::NodeOptions node\_options;}
+\DoxyCodeLine{308   node\_options.allow\_undeclared\_parameters(\textcolor{keyword}{true});}
+\DoxyCodeLine{309   node\_options.automatically\_declare\_parameters\_from\_overrides(\textcolor{keyword}{true});}
+\DoxyCodeLine{310   node\_options.parameter\_overrides(initial\_parameters);}
+\DoxyCodeLine{311   \textcolor{keyword}{auto} node = std::make\_shared<ArucoSimple>(node\_options);}
+\DoxyCodeLine{312   node-\/>cam\_info\_callback(camera\_info);}
+\DoxyCodeLine{313   EXPECT\_EQ(node-\/>cam\_info\_received, \textcolor{keyword}{true});}
+\DoxyCodeLine{314   \textcolor{keywordtype}{string} path\_to\_test\_image1 = \textcolor{stringliteral}{"{}test/1test.jpg"{}};}
+\DoxyCodeLine{315   cv::Mat rgb\_frame = cv::imread(path\_to\_test\_image1, cv::IMREAD\_COLOR);}
+\DoxyCodeLine{316   sensor\_msgs::msg::Image::SharedPtr input\_msg =}
+\DoxyCodeLine{317     cv\_bridge::CvImage(std\_msgs::msg::Header(), \textcolor{stringliteral}{"{}bgr8"{}}, rgb\_frame).toImageMsg();}
+\DoxyCodeLine{318   node-\/>image\_callback(input\_msg);}
+\DoxyCodeLine{319 }
+\DoxyCodeLine{320   \textcolor{comment}{// EXPECT\_EQ(node-\/>markers.size(), 1);}}
+\DoxyCodeLine{321 }
+\DoxyCodeLine{322   \textcolor{comment}{// cv::Mat answertvec = (cv::Mat\_<float>(3, 1) << -\/0.46442503,}}
+\DoxyCodeLine{323   \textcolor{comment}{//   0.035325821,}}
+\DoxyCodeLine{324   \textcolor{comment}{//   1.3718389);}}
+\DoxyCodeLine{325 }
+\DoxyCodeLine{326   \textcolor{comment}{// cv::Mat different = node-\/>markers\_[0].Tvec -\/ answertvec;}}
+\DoxyCodeLine{327   \textcolor{comment}{// float p = cv::norm(different);}}
+\DoxyCodeLine{328   \textcolor{comment}{// EXPECT\_EQ((p < 0.01), true);}}
+\DoxyCodeLine{329 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{test__simplesingle__aruco__ros2_8cpp_a0a6a7fe96d0cb3795d233681aed51ac7}\label{test__simplesingle__aruco__ros2_8cpp_a0a6a7fe96d0cb3795d233681aed51ac7}} 
+\index{test\_simplesingle\_aruco\_ros2.cpp@{test\_simplesingle\_aruco\_ros2.cpp}!TEST@{TEST}}
+\index{TEST@{TEST}!test\_simplesingle\_aruco\_ros2.cpp@{test\_simplesingle\_aruco\_ros2.cpp}}
+\doxysubsubsection{\texorpdfstring{TEST()}{TEST()}\hspace{0.1cm}{\footnotesize\ttfamily [5/8]}}
+{\footnotesize\ttfamily TEST (\begin{DoxyParamCaption}\item[{test\+\_\+simplesingle\+\_\+aruco\+\_\+ros2}]{,  }\item[{test\+\_\+aruco\+\_\+detected\+\_\+position3}]{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 331 of file test\+\_\+simplesingle\+\_\+aruco\+\_\+ros2.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{332 \{}
+\DoxyCodeLine{333   sensor\_msgs::msg::CameraInfo::SharedPtr camera\_info =}
+\DoxyCodeLine{334     std::make\_shared<sensor\_msgs::msg::CameraInfo>();}
+\DoxyCodeLine{335   camera\_info-\/>height = 720;}
+\DoxyCodeLine{336   camera\_info-\/>width = 1280;}
+\DoxyCodeLine{337   camera\_info-\/>distortion\_model = \textcolor{stringliteral}{"{}plumb\_bob"{}};}
+\DoxyCodeLine{338   array<double,}
+\DoxyCodeLine{339     9> veck = \{783.8192972, 0.0, 649.1396957, 0.0, 786.38339479, 345.07377121, 0.0, 0.0, 1.0\};}
+\DoxyCodeLine{340   camera\_info-\/>k = veck;}
+\DoxyCodeLine{341   array<double, 9> vecr = \{1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0\};}
+\DoxyCodeLine{342   camera\_info-\/>r = vecr;}
+\DoxyCodeLine{343   array<double,}
+\DoxyCodeLine{344     12> vecp =}
+\DoxyCodeLine{345   \{852.395142, 0.0, 565.89763, 0.0, 0.0, 922.066223, 386.58625, 0.0, 0.0, 0.0, 1.0, 0.0\};}
+\DoxyCodeLine{346   camera\_info-\/>p = vecp;}
+\DoxyCodeLine{347   \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} k1 = 0; k1 < 2; k1++) \{}
+\DoxyCodeLine{348     \textcolor{keywordflow}{if} (k1 == 0) \{}
+\DoxyCodeLine{349       vector<double> vecd = \{0.10258321, -\/0.2406874, -\/0.00259027, -\/0.00244419\};}
+\DoxyCodeLine{350       camera\_info-\/>d = vecd;}
+\DoxyCodeLine{351     \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{352       vector<double> vecd = \{0.10258321, -\/0.2406874, -\/0.00259027, -\/0.00244419, 0.11205082\};}
+\DoxyCodeLine{353       camera\_info-\/>d = vecd;}
+\DoxyCodeLine{354     \}}
+\DoxyCodeLine{355     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} k2 = 0; k2 < 5; k2++) \{}
+\DoxyCodeLine{356       std::string refinementMethod;}
+\DoxyCodeLine{357       \textcolor{keywordflow}{switch} (k1) \{}
+\DoxyCodeLine{358         \textcolor{keywordflow}{case} 0:}
+\DoxyCodeLine{359           refinementMethod = \textcolor{stringliteral}{"{}SUBPIX"{}};}
+\DoxyCodeLine{360           \textcolor{keywordflow}{break};}
+\DoxyCodeLine{361         \textcolor{keywordflow}{case} 1:}
+\DoxyCodeLine{362           refinementMethod = \textcolor{stringliteral}{"{}HARRIS"{}};}
+\DoxyCodeLine{363           \textcolor{keywordflow}{break};}
+\DoxyCodeLine{364         \textcolor{keywordflow}{case} 2:}
+\DoxyCodeLine{365           refinementMethod = \textcolor{stringliteral}{"{}NONE"{}};}
+\DoxyCodeLine{366           \textcolor{keywordflow}{break};}
+\DoxyCodeLine{367         \textcolor{keywordflow}{case} 3:}
+\DoxyCodeLine{368           refinementMethod = \textcolor{stringliteral}{"{}LINES"{}};}
+\DoxyCodeLine{369           \textcolor{keywordflow}{break};}
+\DoxyCodeLine{370         \textcolor{keywordflow}{case} 4:}
+\DoxyCodeLine{371           refinementMethod = \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{372           \textcolor{keywordflow}{break};}
+\DoxyCodeLine{373       \}}
+\DoxyCodeLine{374       \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} k3 = 0; k3 < 2; k3++) \{}
+\DoxyCodeLine{375         \textcolor{keywordtype}{bool} useRectifiedImages = (k3 == 0);}
+\DoxyCodeLine{376         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} k4 = 0; k4 < 2; k4++) \{}
+\DoxyCodeLine{377           std::string reference\_frame;}
+\DoxyCodeLine{378           \textcolor{keywordflow}{if} (k4 == 0) \{}
+\DoxyCodeLine{379             reference\_frame = \textcolor{stringliteral}{"{}testframe"{}};}
+\DoxyCodeLine{380           \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{381             reference\_frame = \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{382           \}}
+\DoxyCodeLine{383 }
+\DoxyCodeLine{384           \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} k5 = 0; k5 < 2; k5++) \{}
+\DoxyCodeLine{385             \textcolor{keywordtype}{int} marker\_id;}
+\DoxyCodeLine{386             \textcolor{keywordflow}{if} (k5 == 0) \{}
+\DoxyCodeLine{387               marker\_id = 590;}
+\DoxyCodeLine{388             \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{389               marker\_id = 582;}
+\DoxyCodeLine{390             \}}
+\DoxyCodeLine{391 }
+\DoxyCodeLine{392             std::vector<rclcpp::Parameter> initial\_parameters =}
+\DoxyCodeLine{393             \{rclcpp::Parameter(\textcolor{stringliteral}{"{}refinementMethod"{}}, refinementMethod),}
+\DoxyCodeLine{394               rclcpp::Parameter(\textcolor{stringliteral}{"{}marker\_id"{}}, marker\_id),}
+\DoxyCodeLine{395               rclcpp::Parameter(\textcolor{stringliteral}{"{}reference\_frame"{}}, reference\_frame),}
+\DoxyCodeLine{396               rclcpp::Parameter(\textcolor{stringliteral}{"{}image\_is\_rectified"{}}, useRectifiedImages)\};}
+\DoxyCodeLine{397             rclcpp::NodeOptions node\_options;}
+\DoxyCodeLine{398             node\_options.allow\_undeclared\_parameters(\textcolor{keyword}{true});}
+\DoxyCodeLine{399             node\_options.automatically\_declare\_parameters\_from\_overrides(\textcolor{keyword}{true});}
+\DoxyCodeLine{400             node\_options.parameter\_overrides(initial\_parameters);}
+\DoxyCodeLine{401             \textcolor{keyword}{auto} node = std::make\_shared<ArucoSimple>(node\_options);}
+\DoxyCodeLine{402             node-\/>cam\_info\_callback(camera\_info);}
+\DoxyCodeLine{403             EXPECT\_EQ(node-\/>cam\_info\_received, \textcolor{keyword}{true});}
+\DoxyCodeLine{404             \textcolor{keywordtype}{string} path\_to\_test\_image1 = \textcolor{stringliteral}{"{}test/1test.jpg"{}};}
+\DoxyCodeLine{405             cv::Mat rgb\_frame = cv::imread(path\_to\_test\_image1, cv::IMREAD\_COLOR);}
+\DoxyCodeLine{406             sensor\_msgs::msg::Image::SharedPtr input\_msg =}
+\DoxyCodeLine{407               cv\_bridge::CvImage(std\_msgs::msg::Header(), \textcolor{stringliteral}{"{}bgr8"{}}, rgb\_frame).toImageMsg();}
+\DoxyCodeLine{408             node-\/>image\_callback(input\_msg);}
+\DoxyCodeLine{409           \}}
+\DoxyCodeLine{410         \}}
+\DoxyCodeLine{411       \}}
+\DoxyCodeLine{412     \}}
+\DoxyCodeLine{413   \}}
+\DoxyCodeLine{414 }
+\DoxyCodeLine{415 }
+\DoxyCodeLine{416   \textcolor{comment}{// EXPECT\_EQ(node-\/>markers.size(), 1);}}
+\DoxyCodeLine{417 }
+\DoxyCodeLine{418   \textcolor{comment}{// cv::Mat answertvec = (cv::Mat\_<float>(3, 1) << -\/0.46442503,}}
+\DoxyCodeLine{419   \textcolor{comment}{//   0.035325821,}}
+\DoxyCodeLine{420   \textcolor{comment}{//   1.3718389);}}
+\DoxyCodeLine{421 }
+\DoxyCodeLine{422   \textcolor{comment}{// cv::Mat different = node-\/>markers\_[0].Tvec -\/ answertvec;}}
+\DoxyCodeLine{423   \textcolor{comment}{// float p = cv::norm(different);}}
+\DoxyCodeLine{424   \textcolor{comment}{// EXPECT\_EQ((p < 0.01), true);}}
+\DoxyCodeLine{425 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{test__simplesingle__aruco__ros2_8cpp_aab87acb6243689563cc76449ae38d46a}\label{test__simplesingle__aruco__ros2_8cpp_aab87acb6243689563cc76449ae38d46a}} 
+\index{test\_simplesingle\_aruco\_ros2.cpp@{test\_simplesingle\_aruco\_ros2.cpp}!TEST@{TEST}}
+\index{TEST@{TEST}!test\_simplesingle\_aruco\_ros2.cpp@{test\_simplesingle\_aruco\_ros2.cpp}}
+\doxysubsubsection{\texorpdfstring{TEST()}{TEST()}\hspace{0.1cm}{\footnotesize\ttfamily [6/8]}}
+{\footnotesize\ttfamily TEST (\begin{DoxyParamCaption}\item[{test\+\_\+simplesingle\+\_\+aruco\+\_\+ros2}]{,  }\item[{test\+\_\+caminfo}]{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 45 of file test\+\_\+simplesingle\+\_\+aruco\+\_\+ros2.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{46 \{}
+\DoxyCodeLine{47   sensor\_msgs::msg::CameraInfo::SharedPtr camera\_info =}
+\DoxyCodeLine{48     std::make\_shared<sensor\_msgs::msg::CameraInfo>();}
+\DoxyCodeLine{49   camera\_info-\/>height = 720;}
+\DoxyCodeLine{50   camera\_info-\/>width = 1280;}
+\DoxyCodeLine{51   camera\_info-\/>distortion\_model = \textcolor{stringliteral}{"{}plumb\_bob"{}};}
+\DoxyCodeLine{52   array<double,}
+\DoxyCodeLine{53     9> veck = \{783.8192972, 0.0, 649.1396957, 0.0, 786.38339479, 345.07377121, 0.0, 0.0, 1.0\};}
+\DoxyCodeLine{54   camera\_info-\/>k = veck;}
+\DoxyCodeLine{55   vector<double> vecd = \{0.10258321, -\/0.2406874, -\/0.00259027, -\/0.00244419, 0.11205082\};}
+\DoxyCodeLine{56   camera\_info-\/>d = vecd;}
+\DoxyCodeLine{57   array<double, 9> vecr = \{1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0\};}
+\DoxyCodeLine{58   camera\_info-\/>r = vecr;}
+\DoxyCodeLine{59   array<double,}
+\DoxyCodeLine{60     12> vecp =}
+\DoxyCodeLine{61   \{852.395142, 0.0, 565.89763, 0.0, 0.0, 922.066223, 386.58625, 0.0, 0.0, 0.0, 1.0, 0.0\};}
+\DoxyCodeLine{62   camera\_info-\/>p = vecp;}
+\DoxyCodeLine{63 }
+\DoxyCodeLine{64 }
+\DoxyCodeLine{65   std::vector<rclcpp::Parameter> initial\_parameters =}
+\DoxyCodeLine{66   \{rclcpp::Parameter(\textcolor{stringliteral}{"{}refinementMethod"{}}, std::string(\textcolor{stringliteral}{"{}HARRIS"{}}))\};}
+\DoxyCodeLine{67   rclcpp::NodeOptions node\_options;}
+\DoxyCodeLine{68   node\_options.allow\_undeclared\_parameters(\textcolor{keyword}{true});}
+\DoxyCodeLine{69   node\_options.automatically\_declare\_parameters\_from\_overrides(\textcolor{keyword}{true});}
+\DoxyCodeLine{70   node\_options.parameter\_overrides(initial\_parameters);}
+\DoxyCodeLine{71   \textcolor{keyword}{auto} node = std::make\_shared<ArucoSimple>(node\_options);}
+\DoxyCodeLine{72   \textcolor{comment}{//   std::vector<rclcpp::Parameter> initial\_parameters =}}
+\DoxyCodeLine{73   \textcolor{comment}{//     \{rclcpp::Parameter("{}refinementMethod"{}, std::string("{}HARRIS"{}))\};}}
+\DoxyCodeLine{74   \textcolor{comment}{// node-\/>set\_parameters(initial\_parameters);}}
+\DoxyCodeLine{75   node-\/>useRectifiedImages = \textcolor{keyword}{false};}
+\DoxyCodeLine{76   node-\/>cam\_info\_callback(camera\_info);}
+\DoxyCodeLine{77   EXPECT\_EQ(node-\/>cam\_info\_received, \textcolor{keyword}{true});}
+\DoxyCodeLine{78   EXPECT\_EQ((\textcolor{keywordtype}{int})node-\/>camParam.CamSize.width, (\textcolor{keywordtype}{int})camera\_info-\/>width);}
+\DoxyCodeLine{79   EXPECT\_EQ((\textcolor{keywordtype}{int})node-\/>camParam.CamSize.height, (\textcolor{keywordtype}{int})camera\_info-\/>height);}
+\DoxyCodeLine{80 }
+\DoxyCodeLine{81   EXPECT\_EQ(node-\/>camParam.CameraMatrix.at<\textcolor{keywordtype}{float}>(0, 0), (\textcolor{keywordtype}{float})camera\_info-\/>k[0]);}
+\DoxyCodeLine{82   EXPECT\_EQ(node-\/>camParam.CameraMatrix.at<\textcolor{keywordtype}{float}>(1, 1), (\textcolor{keywordtype}{float})camera\_info-\/>k[4]);}
+\DoxyCodeLine{83   EXPECT\_EQ(node-\/>camParam.CameraMatrix.at<\textcolor{keywordtype}{float}>(0, 2), (\textcolor{keywordtype}{float})camera\_info-\/>k[2]);}
+\DoxyCodeLine{84   EXPECT\_EQ(node-\/>camParam.CameraMatrix.at<\textcolor{keywordtype}{float}>(1, 2), (\textcolor{keywordtype}{float})camera\_info-\/>k[5]);}
+\DoxyCodeLine{85 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{test__simplesingle__aruco__ros2_8cpp_a576f1e8f1b8dff138d208a13382af1a0}\label{test__simplesingle__aruco__ros2_8cpp_a576f1e8f1b8dff138d208a13382af1a0}} 
+\index{test\_simplesingle\_aruco\_ros2.cpp@{test\_simplesingle\_aruco\_ros2.cpp}!TEST@{TEST}}
+\index{TEST@{TEST}!test\_simplesingle\_aruco\_ros2.cpp@{test\_simplesingle\_aruco\_ros2.cpp}}
+\doxysubsubsection{\texorpdfstring{TEST()}{TEST()}\hspace{0.1cm}{\footnotesize\ttfamily [7/8]}}
+{\footnotesize\ttfamily TEST (\begin{DoxyParamCaption}\item[{test\+\_\+simplesingle\+\_\+aruco\+\_\+ros2}]{,  }\item[{test\+\_\+caminfo2}]{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 86 of file test\+\_\+simplesingle\+\_\+aruco\+\_\+ros2.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{87 \{}
+\DoxyCodeLine{88   sensor\_msgs::msg::CameraInfo::SharedPtr camera\_info =}
+\DoxyCodeLine{89     std::make\_shared<sensor\_msgs::msg::CameraInfo>();}
+\DoxyCodeLine{90   camera\_info-\/>height = 720;}
+\DoxyCodeLine{91   camera\_info-\/>width = 1280;}
+\DoxyCodeLine{92   camera\_info-\/>distortion\_model = \textcolor{stringliteral}{"{}plumb\_bob"{}};}
+\DoxyCodeLine{93   array<double,}
+\DoxyCodeLine{94     9> veck = \{783.8192972, 0.0, 649.1396957, 0.0, 786.38339479, 345.07377121, 0.0, 0.0, 1.0\};}
+\DoxyCodeLine{95   camera\_info-\/>k = veck;}
+\DoxyCodeLine{96   vector<double> vecd = \{0.10258321, -\/0.2406874, -\/0.00259027, -\/0.00244419, 0.11205082\};}
+\DoxyCodeLine{97   camera\_info-\/>d = vecd;}
+\DoxyCodeLine{98   array<double, 9> vecr = \{1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0\};}
+\DoxyCodeLine{99   camera\_info-\/>r = vecr;}
+\DoxyCodeLine{100   array<double,}
+\DoxyCodeLine{101     12> vecp =}
+\DoxyCodeLine{102   \{852.395142, 0.0, 565.89763, 0.0, 0.0, 922.066223, 386.58625, 0.0, 0.0, 0.0, 1.0, 0.0\};}
+\DoxyCodeLine{103   camera\_info-\/>p = vecp;}
+\DoxyCodeLine{104 }
+\DoxyCodeLine{105 }
+\DoxyCodeLine{106   std::vector<rclcpp::Parameter> initial\_parameters =}
+\DoxyCodeLine{107   \{rclcpp::Parameter(\textcolor{stringliteral}{"{}refinementMethod"{}}, std::string(\textcolor{stringliteral}{"{}NONE"{}}))\};}
+\DoxyCodeLine{108   rclcpp::NodeOptions node\_options;}
+\DoxyCodeLine{109   node\_options.allow\_undeclared\_parameters(\textcolor{keyword}{true});}
+\DoxyCodeLine{110   node\_options.automatically\_declare\_parameters\_from\_overrides(\textcolor{keyword}{true});}
+\DoxyCodeLine{111   node\_options.parameter\_overrides(initial\_parameters);}
+\DoxyCodeLine{112   \textcolor{keyword}{auto} node = std::make\_shared<ArucoSimple>(node\_options);}
+\DoxyCodeLine{113   \textcolor{comment}{//   std::vector<rclcpp::Parameter> initial\_parameters =}}
+\DoxyCodeLine{114   \textcolor{comment}{//     \{rclcpp::Parameter("{}refinementMethod"{}, std::string("{}HARRIS"{}))\};}}
+\DoxyCodeLine{115   \textcolor{comment}{// node-\/>set\_parameters(initial\_parameters);}}
+\DoxyCodeLine{116   node-\/>useRectifiedImages = \textcolor{keyword}{false};}
+\DoxyCodeLine{117   node-\/>cam\_info\_callback(camera\_info);}
+\DoxyCodeLine{118   EXPECT\_EQ(node-\/>cam\_info\_received, \textcolor{keyword}{true});}
+\DoxyCodeLine{119   EXPECT\_EQ((\textcolor{keywordtype}{int})node-\/>camParam.CamSize.width, (\textcolor{keywordtype}{int})camera\_info-\/>width);}
+\DoxyCodeLine{120   EXPECT\_EQ((\textcolor{keywordtype}{int})node-\/>camParam.CamSize.height, (\textcolor{keywordtype}{int})camera\_info-\/>height);}
+\DoxyCodeLine{121 }
+\DoxyCodeLine{122   EXPECT\_EQ(node-\/>camParam.CameraMatrix.at<\textcolor{keywordtype}{float}>(0, 0), (\textcolor{keywordtype}{float})camera\_info-\/>k[0]);}
+\DoxyCodeLine{123   EXPECT\_EQ(node-\/>camParam.CameraMatrix.at<\textcolor{keywordtype}{float}>(1, 1), (\textcolor{keywordtype}{float})camera\_info-\/>k[4]);}
+\DoxyCodeLine{124   EXPECT\_EQ(node-\/>camParam.CameraMatrix.at<\textcolor{keywordtype}{float}>(0, 2), (\textcolor{keywordtype}{float})camera\_info-\/>k[2]);}
+\DoxyCodeLine{125   EXPECT\_EQ(node-\/>camParam.CameraMatrix.at<\textcolor{keywordtype}{float}>(1, 2), (\textcolor{keywordtype}{float})camera\_info-\/>k[5]);}
+\DoxyCodeLine{126 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{test__simplesingle__aruco__ros2_8cpp_ac4f7f21b8f2d52403991fab139dcf92f}\label{test__simplesingle__aruco__ros2_8cpp_ac4f7f21b8f2d52403991fab139dcf92f}} 
+\index{test\_simplesingle\_aruco\_ros2.cpp@{test\_simplesingle\_aruco\_ros2.cpp}!TEST@{TEST}}
+\index{TEST@{TEST}!test\_simplesingle\_aruco\_ros2.cpp@{test\_simplesingle\_aruco\_ros2.cpp}}
+\doxysubsubsection{\texorpdfstring{TEST()}{TEST()}\hspace{0.1cm}{\footnotesize\ttfamily [8/8]}}
+{\footnotesize\ttfamily TEST (\begin{DoxyParamCaption}\item[{test\+\_\+simplesingle\+\_\+aruco\+\_\+ros2}]{,  }\item[{test\+\_\+caminfo3}]{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 127 of file test\+\_\+simplesingle\+\_\+aruco\+\_\+ros2.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{128 \{}
+\DoxyCodeLine{129   sensor\_msgs::msg::CameraInfo::SharedPtr camera\_info =}
+\DoxyCodeLine{130     std::make\_shared<sensor\_msgs::msg::CameraInfo>();}
+\DoxyCodeLine{131   camera\_info-\/>height = 720;}
+\DoxyCodeLine{132   camera\_info-\/>width = 1280;}
+\DoxyCodeLine{133   camera\_info-\/>distortion\_model = \textcolor{stringliteral}{"{}plumb\_bob"{}};}
+\DoxyCodeLine{134   array<double,}
+\DoxyCodeLine{135     9> veck = \{783.8192972, 0.0, 649.1396957, 0.0, 786.38339479, 345.07377121, 0.0, 0.0, 1.0\};}
+\DoxyCodeLine{136   camera\_info-\/>k = veck;}
+\DoxyCodeLine{137   vector<double> vecd = \{0.10258321, -\/0.2406874, -\/0.00259027, -\/0.00244419, 0.11205082\};}
+\DoxyCodeLine{138   camera\_info-\/>d = vecd;}
+\DoxyCodeLine{139   array<double, 9> vecr = \{1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0\};}
+\DoxyCodeLine{140   camera\_info-\/>r = vecr;}
+\DoxyCodeLine{141   array<double,}
+\DoxyCodeLine{142     12> vecp =}
+\DoxyCodeLine{143   \{852.395142, 0.0, 565.89763, 0.0, 0.0, 922.066223, 386.58625, 0.0, 0.0, 0.0, 1.0, 0.0\};}
+\DoxyCodeLine{144   camera\_info-\/>p = vecp;}
+\DoxyCodeLine{145 }
+\DoxyCodeLine{146 }
+\DoxyCodeLine{147   std::vector<rclcpp::Parameter> initial\_parameters =}
+\DoxyCodeLine{148   \{rclcpp::Parameter(\textcolor{stringliteral}{"{}refinementMethod"{}}, std::string(\textcolor{stringliteral}{"{}SUBPIX"{}}))\};}
+\DoxyCodeLine{149   rclcpp::NodeOptions node\_options;}
+\DoxyCodeLine{150   node\_options.allow\_undeclared\_parameters(\textcolor{keyword}{true});}
+\DoxyCodeLine{151   node\_options.automatically\_declare\_parameters\_from\_overrides(\textcolor{keyword}{true});}
+\DoxyCodeLine{152   node\_options.parameter\_overrides(initial\_parameters);}
+\DoxyCodeLine{153   \textcolor{keyword}{auto} node = std::make\_shared<ArucoSimple>(node\_options);}
+\DoxyCodeLine{154   \textcolor{comment}{//   std::vector<rclcpp::Parameter> initial\_parameters =}}
+\DoxyCodeLine{155   \textcolor{comment}{//     \{rclcpp::Parameter("{}refinementMethod"{}, std::string("{}HARRIS"{}))\};}}
+\DoxyCodeLine{156   \textcolor{comment}{// node-\/>set\_parameters(initial\_parameters);}}
+\DoxyCodeLine{157   node-\/>useRectifiedImages = \textcolor{keyword}{false};}
+\DoxyCodeLine{158   node-\/>cam\_info\_callback(camera\_info);}
+\DoxyCodeLine{159   EXPECT\_EQ(node-\/>cam\_info\_received, \textcolor{keyword}{true});}
+\DoxyCodeLine{160   EXPECT\_EQ((\textcolor{keywordtype}{int})node-\/>camParam.CamSize.width, (\textcolor{keywordtype}{int})camera\_info-\/>width);}
+\DoxyCodeLine{161   EXPECT\_EQ((\textcolor{keywordtype}{int})node-\/>camParam.CamSize.height, (\textcolor{keywordtype}{int})camera\_info-\/>height);}
+\DoxyCodeLine{162 }
+\DoxyCodeLine{163   EXPECT\_EQ(node-\/>camParam.CameraMatrix.at<\textcolor{keywordtype}{float}>(0, 0), (\textcolor{keywordtype}{float})camera\_info-\/>k[0]);}
+\DoxyCodeLine{164   EXPECT\_EQ(node-\/>camParam.CameraMatrix.at<\textcolor{keywordtype}{float}>(1, 1), (\textcolor{keywordtype}{float})camera\_info-\/>k[4]);}
+\DoxyCodeLine{165   EXPECT\_EQ(node-\/>camParam.CameraMatrix.at<\textcolor{keywordtype}{float}>(0, 2), (\textcolor{keywordtype}{float})camera\_info-\/>k[2]);}
+\DoxyCodeLine{166   EXPECT\_EQ(node-\/>camParam.CameraMatrix.at<\textcolor{keywordtype}{float}>(1, 2), (\textcolor{keywordtype}{float})camera\_info-\/>k[5]);}
+\DoxyCodeLine{167 \}}
+
+\end{DoxyCode}

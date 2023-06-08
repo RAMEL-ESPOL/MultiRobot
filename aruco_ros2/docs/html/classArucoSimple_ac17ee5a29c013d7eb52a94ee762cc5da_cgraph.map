@@ -1,0 +1,19 @@
+<map id="ArucoSimple::ArucoSimple" name="ArucoSimple::ArucoSimple">
+<area shape="rect" id="node1" title="ArucoSimple constructor for ArucoSimple." alt="" coords="5,274,184,301"/>
+<area shape="rect" id="node2" href="$classArucoSimple.html#a80237a79825e1fbd14868392f1ff9f9e" title="camera info topic subscribe callback" alt="" coords="252,5,409,47"/>
+<area shape="rect" id="node4" href="$classaruco_1_1MarkerDetector.html#ac6775c929bb5fc017cceaa1abdb5aca2" title=" " alt="" coords="232,71,429,112"/>
+<area shape="rect" id="node5" href="$classaruco_1_1MarkerDetector.html#a7076508d26ba9a3e0606052d2a570bb8" title=" " alt="" coords="255,136,407,177"/>
+<area shape="rect" id="node6" href="$classaruco_1_1MarkerDetector.html#a79a701055cdccd7816f509c91887fa2b" title=" " alt="" coords="255,201,407,243"/>
+<area shape="rect" id="node7" href="$classaruco_1_1MarkerDetector.html#a3b82148fd92145a36f24eb08aea75fb6" title=" " alt="" coords="255,267,407,308"/>
+<area shape="rect" id="node8" href="$classaruco_1_1MarkerDetector.html#a6a3f7889bd057f47425ade483833953d" title=" " alt="" coords="255,332,407,373"/>
+<area shape="rect" id="node9" href="$classArucoSimple.html#ac690575f6aa0b51b66a3956b44d62b1a" title="image topic subscribe callback" alt="" coords="261,397,400,439"/>
+<area shape="rect" id="node16" href="$classaruco_1_1MarkerDetector.html#ae46e37f9795c2d95084fab9f46a36a7a" title=" " alt="" coords="232,463,429,504"/>
+<area shape="rect" id="node17" href="$classaruco_1_1MarkerDetector.html#ae62e6b62bc82793d640c9c04ff00335c" title=" " alt="" coords="255,528,407,569"/>
+<area shape="rect" id="node3" href="$namespacearuco__ros.html#ac69b37c14d6ea5e5f2f7e70719dd369c" title="rosCameraInfo2ArucoCamParams gets the camera intrinsics from a CameraInfo message and copies them to ..." alt="" coords="478,5,658,47"/>
+<area shape="rect" id="node10" href="$namespacearuco__ros.html#a01ddfb8b1a95fd19d8c2d6da8fc18583" title="arucoMarker2Tf convert the marker pose info to TF2 transform type" alt="" coords="479,247,657,274"/>
+<area shape="rect" id="node11" href="$classaruco_1_1MarkerDetector.html#ac6da81367de2a8468925e1ac1b45760c" title=" " alt="" coords="492,299,644,340"/>
+<area shape="rect" id="node12" href="$classaruco_1_1CvDrawingUtils.html#a401f7c58975c90e9f2ca5a2e0076637b" title=" " alt="" coords="491,364,645,405"/>
+<area shape="rect" id="node13" href="$classaruco_1_1MarkerDetector.html#af5d46972fb431b3b147c78bdac2096f3" title=" " alt="" coords="491,429,645,471"/>
+<area shape="rect" id="node14" href="$classArucoSimple.html#ab08cfe145f251d1e88900b7f89302399" title="getTransform get transformation from 2 frame" alt="" coords="477,495,659,522"/>
+<area shape="rect" id="node15" href="$classaruco_1_1CameraParameters.html#ab5ff265805e264fb13f119b97e0597f7" title=" " alt="" coords="481,547,655,588"/>
+</map>

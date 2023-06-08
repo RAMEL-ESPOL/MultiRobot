@@ -1,0 +1,343 @@
+\hypertarget{classaruco_1_1Board}{}\doxysection{aruco\+::Board Class Reference}
+\label{classaruco_1_1Board}\index{aruco::Board@{aruco::Board}}
+
+
+{\ttfamily \#include $<$board.\+h$>$}
+
+
+
+Inheritance diagram for aruco\+::Board\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=172pt]{classaruco_1_1Board__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for aruco\+::Board\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=320pt]{classaruco_1_1Board__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classaruco_1_1Board_a2883cbb4638337775d48791ce0cffe27}{Board}} ()
+\item 
+void \mbox{\hyperlink{classaruco_1_1Board_a51e29c90a12a7d664f67991ea5af4b10}{gl\+Get\+Model\+View\+Matrix}} (double modelview\+\_\+matrix\mbox{[}16\mbox{]})  throw (cv\+::\+Exception)
+\item 
+void \mbox{\hyperlink{classaruco_1_1Board_a03ba66541f2f11cf987af420e5900d35}{Ogre\+Get\+Pose\+Parameters}} (double position\mbox{[}3\mbox{]}, double orientation\mbox{[}4\mbox{]})  throw (cv\+::\+Exception)
+\item 
+void \mbox{\hyperlink{classaruco_1_1Board_a96568f81af7d25f6d518b6480ec43e3a}{save\+To\+File}} (string file\+Path)  throw (cv\+::\+Exception)
+\item 
+void \mbox{\hyperlink{classaruco_1_1Board_aea91c59ff3acaf87f26cf0ab07504630}{read\+From\+File}} (string file\+Path)  throw (cv\+::\+Exception)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classaruco_1_1Board_aca7121011b4d6811ddfb691ffda290c3}\label{classaruco_1_1Board_aca7121011b4d6811ddfb691ffda290c3}} 
+\mbox{\hyperlink{classaruco_1_1BoardConfiguration}{Board\+Configuration}} {\bfseries conf}
+\item 
+\mbox{\Hypertarget{classaruco_1_1Board_a45e7959c9fd9050e230cb51d8c06440e}\label{classaruco_1_1Board_a45e7959c9fd9050e230cb51d8c06440e}} 
+cv\+::\+Mat {\bfseries Rvec}
+\item 
+\mbox{\Hypertarget{classaruco_1_1Board_a90864a8b804005c7dc6176de09f4a22e}\label{classaruco_1_1Board_a90864a8b804005c7dc6176de09f4a22e}} 
+cv\+::\+Mat {\bfseries Tvec}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line 123 of file board.\+h.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classaruco_1_1Board_a2883cbb4638337775d48791ce0cffe27}\label{classaruco_1_1Board_a2883cbb4638337775d48791ce0cffe27}} 
+\index{aruco::Board@{aruco::Board}!Board@{Board}}
+\index{Board@{Board}!aruco::Board@{aruco::Board}}
+\doxysubsubsection{\texorpdfstring{Board()}{Board()}}
+{\footnotesize\ttfamily aruco\+::\+Board\+::\+Board (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 132 of file board.\+h.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{133     \{}
+\DoxyCodeLine{134         \mbox{\hyperlink{classaruco_1_1Board_a45e7959c9fd9050e230cb51d8c06440e}{Rvec}}.create(3,1,CV\_32FC1);}
+\DoxyCodeLine{135         \mbox{\hyperlink{classaruco_1_1Board_a90864a8b804005c7dc6176de09f4a22e}{Tvec}}.create(3,1,CV\_32FC1);}
+\DoxyCodeLine{136         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<3;i++)}
+\DoxyCodeLine{137             \mbox{\hyperlink{classaruco_1_1Board_a90864a8b804005c7dc6176de09f4a22e}{Tvec}}.at<\textcolor{keywordtype}{float}>(i,0)=\mbox{\hyperlink{classaruco_1_1Board_a45e7959c9fd9050e230cb51d8c06440e}{Rvec}}.at<\textcolor{keywordtype}{float}>(i,0)=NAN;}
+\DoxyCodeLine{138     \}}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classaruco_1_1Board_a51e29c90a12a7d664f67991ea5af4b10}\label{classaruco_1_1Board_a51e29c90a12a7d664f67991ea5af4b10}} 
+\index{aruco::Board@{aruco::Board}!glGetModelViewMatrix@{glGetModelViewMatrix}}
+\index{glGetModelViewMatrix@{glGetModelViewMatrix}!aruco::Board@{aruco::Board}}
+\doxysubsubsection{\texorpdfstring{glGetModelViewMatrix()}{glGetModelViewMatrix()}}
+{\footnotesize\ttfamily void aruco\+::\+Board\+::gl\+Get\+Model\+View\+Matrix (\begin{DoxyParamCaption}\item[{double}]{modelview\+\_\+matrix\mbox{[}16\mbox{]} }\end{DoxyParamCaption}) throw ( cv\+::\+Exception) }
+
+Given the extrinsic camera parameters returns the GL\+\_\+\+MODELVIEW matrix for opengl. Setting this matrix, the reference corrdinate system will be set in this board 
+
+Definition at line 155 of file board.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{156 \{}
+\DoxyCodeLine{157     \textcolor{comment}{//check if paremeters are valid}}
+\DoxyCodeLine{158     \textcolor{keywordtype}{bool} invalid=\textcolor{keyword}{false};}
+\DoxyCodeLine{159     \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{int} i=0;i<3 \&\& !invalid ;i++ )}
+\DoxyCodeLine{160     \{}
+\DoxyCodeLine{161       invalid |= std::isnan(\mbox{\hyperlink{classaruco_1_1Board_a90864a8b804005c7dc6176de09f4a22e}{Tvec}}.at<\textcolor{keywordtype}{float}>(i,0));}
+\DoxyCodeLine{162       invalid |= std::isnan(\mbox{\hyperlink{classaruco_1_1Board_a45e7959c9fd9050e230cb51d8c06440e}{Rvec}}.at<\textcolor{keywordtype}{float}>(i,0));}
+\DoxyCodeLine{163     \}}
+\DoxyCodeLine{164     \textcolor{keywordflow}{if} ( invalid ) \textcolor{keywordflow}{throw} cv::Exception ( 9002,\textcolor{stringliteral}{"{}extrinsic parameters are not set"{}},\textcolor{stringliteral}{"{}Marker::getModelViewMatrix"{}},\_\_FILE\_\_,\_\_LINE\_\_ );}
+\DoxyCodeLine{165     Mat Rot ( 3,3,CV\_32FC1 ),Jacob;}
+\DoxyCodeLine{166     Rodrigues ( \mbox{\hyperlink{classaruco_1_1Board_a45e7959c9fd9050e230cb51d8c06440e}{Rvec}}, Rot, Jacob );}
+\DoxyCodeLine{167 }
+\DoxyCodeLine{168     \textcolor{keywordtype}{double} para[3][4];}
+\DoxyCodeLine{169     \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{int} i=0;i<3;i++ )}
+\DoxyCodeLine{170         \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{int} j=0;j<3;j++ ) para[i][j]=Rot.at<\textcolor{keywordtype}{float}> ( i,j );}
+\DoxyCodeLine{171     \textcolor{comment}{//now, add the translation}}
+\DoxyCodeLine{172     para[0][3]=\mbox{\hyperlink{classaruco_1_1Board_a90864a8b804005c7dc6176de09f4a22e}{Tvec}}.at<\textcolor{keywordtype}{float}> ( 0,0 );}
+\DoxyCodeLine{173     para[1][3]=\mbox{\hyperlink{classaruco_1_1Board_a90864a8b804005c7dc6176de09f4a22e}{Tvec}}.at<\textcolor{keywordtype}{float}> ( 1,0 );}
+\DoxyCodeLine{174     para[2][3]=\mbox{\hyperlink{classaruco_1_1Board_a90864a8b804005c7dc6176de09f4a22e}{Tvec}}.at<\textcolor{keywordtype}{float}> ( 2,0 );}
+\DoxyCodeLine{175     \textcolor{keywordtype}{double} scale=1;}
+\DoxyCodeLine{176 }
+\DoxyCodeLine{177     modelview\_matrix[0 + 0*4] = para[0][0];}
+\DoxyCodeLine{178     \textcolor{comment}{// R1C2}}
+\DoxyCodeLine{179     modelview\_matrix[0 + 1*4] = para[0][1];}
+\DoxyCodeLine{180     modelview\_matrix[0 + 2*4] = para[0][2];}
+\DoxyCodeLine{181     modelview\_matrix[0 + 3*4] = para[0][3];}
+\DoxyCodeLine{182     \textcolor{comment}{// R2}}
+\DoxyCodeLine{183     modelview\_matrix[1 + 0*4] = para[1][0];}
+\DoxyCodeLine{184     modelview\_matrix[1 + 1*4] = para[1][1];}
+\DoxyCodeLine{185     modelview\_matrix[1 + 2*4] = para[1][2];}
+\DoxyCodeLine{186     modelview\_matrix[1 + 3*4] = para[1][3];}
+\DoxyCodeLine{187     \textcolor{comment}{// R3}}
+\DoxyCodeLine{188     modelview\_matrix[2 + 0*4] = -\/para[2][0];}
+\DoxyCodeLine{189     modelview\_matrix[2 + 1*4] = -\/para[2][1];}
+\DoxyCodeLine{190     modelview\_matrix[2 + 2*4] = -\/para[2][2];}
+\DoxyCodeLine{191     modelview\_matrix[2 + 3*4] = -\/para[2][3];}
+\DoxyCodeLine{192     modelview\_matrix[3 + 0*4] = 0.0;}
+\DoxyCodeLine{193     modelview\_matrix[3 + 1*4] = 0.0;}
+\DoxyCodeLine{194     modelview\_matrix[3 + 2*4] = 0.0;}
+\DoxyCodeLine{195     modelview\_matrix[3 + 3*4] = 1.0;}
+\DoxyCodeLine{196     \textcolor{keywordflow}{if} ( scale > 0.0 )}
+\DoxyCodeLine{197     \{}
+\DoxyCodeLine{198         modelview\_matrix[12] *= scale;}
+\DoxyCodeLine{199         modelview\_matrix[13] *= scale;}
+\DoxyCodeLine{200         modelview\_matrix[14] *= scale;}
+\DoxyCodeLine{201     \}}
+\DoxyCodeLine{202 }
+\DoxyCodeLine{203 }
+\DoxyCodeLine{204 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classaruco_1_1Board_a03ba66541f2f11cf987af420e5900d35}\label{classaruco_1_1Board_a03ba66541f2f11cf987af420e5900d35}} 
+\index{aruco::Board@{aruco::Board}!OgreGetPoseParameters@{OgreGetPoseParameters}}
+\index{OgreGetPoseParameters@{OgreGetPoseParameters}!aruco::Board@{aruco::Board}}
+\doxysubsubsection{\texorpdfstring{OgreGetPoseParameters()}{OgreGetPoseParameters()}}
+{\footnotesize\ttfamily void aruco\+::\+Board\+::\+Ogre\+Get\+Pose\+Parameters (\begin{DoxyParamCaption}\item[{double}]{position\mbox{[}3\mbox{]},  }\item[{double}]{orientation\mbox{[}4\mbox{]} }\end{DoxyParamCaption}) throw ( cv\+::\+Exception) }
+
+Returns position vector and orientation quaternion for an Ogre scene node or entity. Use\+: ... Ogre\+::\+Vector3 ogre\+Pos (position\mbox{[}0\mbox{]}, position\mbox{[}1\mbox{]}, position\mbox{[}2\mbox{]}); Ogre\+::\+Quaternion ogre\+Orient (orientation\mbox{[}0\mbox{]}, orientation\mbox{[}1\mbox{]}, orientation\mbox{[}2\mbox{]}, orientation\mbox{[}3\mbox{]}); my\+Scene\+Node-\/$>$set\+Position( ogre\+Pos  ); my\+Scene\+Node-\/$>$set\+Orientation( ogre\+Orient  ); ... 
+
+Definition at line 210 of file board.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{211 \{}
+\DoxyCodeLine{212     \textcolor{comment}{//check if paremeters are valid}}
+\DoxyCodeLine{213     \textcolor{keywordtype}{bool} invalid=\textcolor{keyword}{false};}
+\DoxyCodeLine{214     \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{int} i=0;i<3 \&\& !invalid ;i++ )}
+\DoxyCodeLine{215     \{}
+\DoxyCodeLine{216       invalid |= std::isnan(\mbox{\hyperlink{classaruco_1_1Board_a90864a8b804005c7dc6176de09f4a22e}{Tvec}}.at<\textcolor{keywordtype}{float}>(i,0));}
+\DoxyCodeLine{217       invalid |= std::isnan(\mbox{\hyperlink{classaruco_1_1Board_a45e7959c9fd9050e230cb51d8c06440e}{Rvec}}.at<\textcolor{keywordtype}{float}>(i,0));}
+\DoxyCodeLine{218     \}}
+\DoxyCodeLine{219     \textcolor{keywordflow}{if} ( invalid ) \textcolor{keywordflow}{throw} cv::Exception ( 9003,\textcolor{stringliteral}{"{}extrinsic parameters are not set"{}},\textcolor{stringliteral}{"{}Marker::getModelViewMatrix"{}},\_\_FILE\_\_,\_\_LINE\_\_ );}
+\DoxyCodeLine{220 }
+\DoxyCodeLine{221     \textcolor{comment}{// calculate position vector}}
+\DoxyCodeLine{222     position[0] = -\/\mbox{\hyperlink{classaruco_1_1Board_a90864a8b804005c7dc6176de09f4a22e}{Tvec}}.ptr<\textcolor{keywordtype}{float}> ( 0 ) [0];}
+\DoxyCodeLine{223     position[1] = -\/\mbox{\hyperlink{classaruco_1_1Board_a90864a8b804005c7dc6176de09f4a22e}{Tvec}}.ptr<\textcolor{keywordtype}{float}> ( 0 ) [1];}
+\DoxyCodeLine{224     position[2] = +\mbox{\hyperlink{classaruco_1_1Board_a90864a8b804005c7dc6176de09f4a22e}{Tvec}}.ptr<\textcolor{keywordtype}{float}> ( 0 ) [2];}
+\DoxyCodeLine{225 }
+\DoxyCodeLine{226     \textcolor{comment}{// now calculare orientation quaternion}}
+\DoxyCodeLine{227     cv::Mat Rot ( 3,3,CV\_32FC1 );}
+\DoxyCodeLine{228     cv::Rodrigues ( \mbox{\hyperlink{classaruco_1_1Board_a45e7959c9fd9050e230cb51d8c06440e}{Rvec}}, Rot );}
+\DoxyCodeLine{229 }
+\DoxyCodeLine{230     \textcolor{comment}{// calculate axes for quaternion}}
+\DoxyCodeLine{231     \textcolor{keywordtype}{double} stAxes[3][3];}
+\DoxyCodeLine{232     \textcolor{comment}{// x axis}}
+\DoxyCodeLine{233     stAxes[0][0] = -\/Rot.at<\textcolor{keywordtype}{float}> ( 0,0 );}
+\DoxyCodeLine{234     stAxes[0][1] = -\/Rot.at<\textcolor{keywordtype}{float}> ( 1,0 );}
+\DoxyCodeLine{235     stAxes[0][2] = +Rot.at<\textcolor{keywordtype}{float}> ( 2,0 );}
+\DoxyCodeLine{236     \textcolor{comment}{// y axis}}
+\DoxyCodeLine{237     stAxes[1][0] = -\/Rot.at<\textcolor{keywordtype}{float}> ( 0,1 );}
+\DoxyCodeLine{238     stAxes[1][1] = -\/Rot.at<\textcolor{keywordtype}{float}> ( 1,1 );}
+\DoxyCodeLine{239     stAxes[1][2] = +Rot.at<\textcolor{keywordtype}{float}> ( 2,1 );}
+\DoxyCodeLine{240     \textcolor{comment}{// for z axis, we use cross product}}
+\DoxyCodeLine{241     stAxes[2][0] = stAxes[0][1]*stAxes[1][2] -\/ stAxes[0][2]*stAxes[1][1];}
+\DoxyCodeLine{242     stAxes[2][1] = -\/ stAxes[0][0]*stAxes[1][2] + stAxes[0][2]*stAxes[1][0];}
+\DoxyCodeLine{243     stAxes[2][2] = stAxes[0][0]*stAxes[1][1] -\/ stAxes[0][1]*stAxes[1][0];}
+\DoxyCodeLine{244 }
+\DoxyCodeLine{245     \textcolor{comment}{// transposed matrix}}
+\DoxyCodeLine{246     \textcolor{keywordtype}{double} axes[3][3];}
+\DoxyCodeLine{247     axes[0][0] = stAxes[0][0];}
+\DoxyCodeLine{248     axes[1][0] = stAxes[0][1];}
+\DoxyCodeLine{249     axes[2][0] = stAxes[0][2];}
+\DoxyCodeLine{250 }
+\DoxyCodeLine{251     axes[0][1] = stAxes[1][0];}
+\DoxyCodeLine{252     axes[1][1] = stAxes[1][1];}
+\DoxyCodeLine{253     axes[2][1] = stAxes[1][2];}
+\DoxyCodeLine{254 }
+\DoxyCodeLine{255     axes[0][2] = stAxes[2][0];}
+\DoxyCodeLine{256     axes[1][2] = stAxes[2][1];}
+\DoxyCodeLine{257     axes[2][2] = stAxes[2][2];}
+\DoxyCodeLine{258 }
+\DoxyCodeLine{259     \textcolor{comment}{// Algorithm in Ken Shoemake's article in 1987 SIGGRAPH course notes}}
+\DoxyCodeLine{260     \textcolor{comment}{// article "{}Quaternion Calculus and Fast Animation"{}.}}
+\DoxyCodeLine{261     \textcolor{keywordtype}{double} fTrace = axes[0][0]+axes[1][1]+axes[2][2];}
+\DoxyCodeLine{262     \textcolor{keywordtype}{double} fRoot;}
+\DoxyCodeLine{263 }
+\DoxyCodeLine{264     \textcolor{keywordflow}{if} ( fTrace > 0.0 )}
+\DoxyCodeLine{265     \{}
+\DoxyCodeLine{266         \textcolor{comment}{// |w| > 1/2, may as well choose w > 1/2}}
+\DoxyCodeLine{267         fRoot = sqrt ( fTrace + 1.0 );  \textcolor{comment}{// 2w}}
+\DoxyCodeLine{268         orientation[0] = 0.5*fRoot;}
+\DoxyCodeLine{269         fRoot = 0.5/fRoot;  \textcolor{comment}{// 1/(4w)}}
+\DoxyCodeLine{270         orientation[1] = ( axes[2][1]-\/axes[1][2] ) *fRoot;}
+\DoxyCodeLine{271         orientation[2] = ( axes[0][2]-\/axes[2][0] ) *fRoot;}
+\DoxyCodeLine{272         orientation[3] = ( axes[1][0]-\/axes[0][1] ) *fRoot;}
+\DoxyCodeLine{273     \}}
+\DoxyCodeLine{274     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{275     \{}
+\DoxyCodeLine{276         \textcolor{comment}{// |w| <= 1/2}}
+\DoxyCodeLine{277         \textcolor{keyword}{static} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} s\_iNext[3] = \{ 1, 2, 0 \};}
+\DoxyCodeLine{278         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = 0;}
+\DoxyCodeLine{279         \textcolor{keywordflow}{if} ( axes[1][1] > axes[0][0] )}
+\DoxyCodeLine{280             i = 1;}
+\DoxyCodeLine{281         \textcolor{keywordflow}{if} ( axes[2][2] > axes[i][i] )}
+\DoxyCodeLine{282             i = 2;}
+\DoxyCodeLine{283         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j = s\_iNext[i];}
+\DoxyCodeLine{284         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} k = s\_iNext[j];}
+\DoxyCodeLine{285 }
+\DoxyCodeLine{286         fRoot = sqrt ( axes[i][i]-\/axes[j][j]-\/axes[k][k] + 1.0 );}
+\DoxyCodeLine{287         \textcolor{keywordtype}{double}* apkQuat[3] = \{ \&orientation[1], \&orientation[2], \&orientation[3] \};}
+\DoxyCodeLine{288         *apkQuat[i] = 0.5*fRoot;}
+\DoxyCodeLine{289         fRoot = 0.5/fRoot;}
+\DoxyCodeLine{290         orientation[0] = ( axes[k][j]-\/axes[j][k] ) *fRoot;}
+\DoxyCodeLine{291         *apkQuat[j] = ( axes[j][i]+axes[i][j] ) *fRoot;}
+\DoxyCodeLine{292         *apkQuat[k] = ( axes[k][i]+axes[i][k] ) *fRoot;}
+\DoxyCodeLine{293     \}}
+\DoxyCodeLine{294 }
+\DoxyCodeLine{295 }
+\DoxyCodeLine{296 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classaruco_1_1Board_aea91c59ff3acaf87f26cf0ab07504630}\label{classaruco_1_1Board_aea91c59ff3acaf87f26cf0ab07504630}} 
+\index{aruco::Board@{aruco::Board}!readFromFile@{readFromFile}}
+\index{readFromFile@{readFromFile}!aruco::Board@{aruco::Board}}
+\doxysubsubsection{\texorpdfstring{readFromFile()}{readFromFile()}}
+{\footnotesize\ttfamily void aruco\+::\+Board\+::read\+From\+File (\begin{DoxyParamCaption}\item[{string}]{file\+Path }\end{DoxyParamCaption}) throw ( cv\+::\+Exception) }
+
+Read this from a file 
+
+Definition at line 330 of file board.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{331 \{}
+\DoxyCodeLine{332  cv::FileStorage fs ( filePath,cv::FileStorage::READ );}
+\DoxyCodeLine{333     \textcolor{keywordflow}{if} ( fs[\textcolor{stringliteral}{"{}aruco\_bo\_nmarkers"{}}].name() !=\textcolor{stringliteral}{"{}aruco\_bo\_nmarkers"{}} )}
+\DoxyCodeLine{334         \textcolor{keywordflow}{throw} cv::Exception ( 81818,\textcolor{stringliteral}{"{}Board::readFromFile"{}},\textcolor{stringliteral}{"{}invalid file type:"{}} ,\_\_FILE\_\_,\_\_LINE\_\_ );}
+\DoxyCodeLine{335 }
+\DoxyCodeLine{336     }
+\DoxyCodeLine{337     }
+\DoxyCodeLine{338     \textcolor{keywordtype}{int} aux=0;}
+\DoxyCodeLine{339     \textcolor{comment}{//look for the nmarkers}}
+\DoxyCodeLine{340     fs[\textcolor{stringliteral}{"{}aruco\_bo\_nmarkers"{}}]>>aux;}
+\DoxyCodeLine{341     resize ( aux );}
+\DoxyCodeLine{342     fs[\textcolor{stringliteral}{"{}aruco\_bo\_rvec"{}}]>> \mbox{\hyperlink{classaruco_1_1Board_a45e7959c9fd9050e230cb51d8c06440e}{Rvec}};}
+\DoxyCodeLine{343     fs[\textcolor{stringliteral}{"{}aruco\_bo\_tvec"{}}]>> \mbox{\hyperlink{classaruco_1_1Board_a90864a8b804005c7dc6176de09f4a22e}{Tvec}};}
+\DoxyCodeLine{344     }
+\DoxyCodeLine{345     cv::FileNode markers=fs[\textcolor{stringliteral}{"{}aruco\_bo\_markers"{}}];}
+\DoxyCodeLine{346     \textcolor{keywordtype}{int} i=0;}
+\DoxyCodeLine{347     \textcolor{keywordflow}{for} (FileNodeIterator it = markers.begin();it!=markers.end();++it,i++) \{}
+\DoxyCodeLine{348         at(i).id=(*it)[\textcolor{stringliteral}{"{}id"{}}];   }
+\DoxyCodeLine{349     \textcolor{keywordtype}{int} ncorners=(*it)[\textcolor{stringliteral}{"{}ncorners"{}}];}
+\DoxyCodeLine{350     at(i).resize(ncorners);}
+\DoxyCodeLine{351         FileNode FnCorners=(*it)[\textcolor{stringliteral}{"{}corners"{}}];}
+\DoxyCodeLine{352         \textcolor{keywordtype}{int} c=0;}
+\DoxyCodeLine{353         \textcolor{keywordflow}{for} (FileNodeIterator itc = FnCorners.begin();itc!=FnCorners.end();++itc,c++) \{}
+\DoxyCodeLine{354             vector<float> coordinates2d;}
+\DoxyCodeLine{355             (*itc)>>coordinates2d;}
+\DoxyCodeLine{356         \textcolor{keywordflow}{if}(coordinates2d.size()!=2) }
+\DoxyCodeLine{357           \textcolor{keywordflow}{throw} cv::Exception ( 81818,\textcolor{stringliteral}{"{}Board::readFromFile"{}},\textcolor{stringliteral}{"{}invalid file type 2"{}} ,\_\_FILE\_\_,\_\_LINE\_\_ );}
+\DoxyCodeLine{358         cv::Point2f point;}
+\DoxyCodeLine{359             point.x=coordinates2d[0];}
+\DoxyCodeLine{360             point.y=coordinates2d[1];}
+\DoxyCodeLine{361         at(i).push\_back(point);}
+\DoxyCodeLine{362         \}}
+\DoxyCodeLine{363     \}}
+\DoxyCodeLine{364     }
+\DoxyCodeLine{365  \mbox{\hyperlink{classaruco_1_1Board_aca7121011b4d6811ddfb691ffda290c3}{conf}}.\mbox{\hyperlink{classaruco_1_1BoardConfiguration_a58f2b872881f516845b35543e5a1912d}{readFromFile}}(fs);}
+\DoxyCodeLine{366  }
+\DoxyCodeLine{367  }
+\DoxyCodeLine{368 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classaruco_1_1Board_a96568f81af7d25f6d518b6480ec43e3a}\label{classaruco_1_1Board_a96568f81af7d25f6d518b6480ec43e3a}} 
+\index{aruco::Board@{aruco::Board}!saveToFile@{saveToFile}}
+\index{saveToFile@{saveToFile}!aruco::Board@{aruco::Board}}
+\doxysubsubsection{\texorpdfstring{saveToFile()}{saveToFile()}}
+{\footnotesize\ttfamily void aruco\+::\+Board\+::save\+To\+File (\begin{DoxyParamCaption}\item[{string}]{file\+Path }\end{DoxyParamCaption}) throw ( cv\+::\+Exception) }
+
+Save this from a file 
+
+Definition at line 301 of file board.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{302 \{}
+\DoxyCodeLine{303  cv::FileStorage fs ( filePath,cv::FileStorage::WRITE );}
+\DoxyCodeLine{304   }
+\DoxyCodeLine{305     fs<<\textcolor{stringliteral}{"{}aruco\_bo\_rvec"{}}<< \mbox{\hyperlink{classaruco_1_1Board_a45e7959c9fd9050e230cb51d8c06440e}{Rvec}};}
+\DoxyCodeLine{306     fs<<\textcolor{stringliteral}{"{}aruco\_bo\_tvec"{}}<< \mbox{\hyperlink{classaruco_1_1Board_a90864a8b804005c7dc6176de09f4a22e}{Tvec}};}
+\DoxyCodeLine{307     \textcolor{comment}{//now, the markers}}
+\DoxyCodeLine{308     fs<<\textcolor{stringliteral}{"{}aruco\_bo\_nmarkers"{}}<< ( int )  size();}
+\DoxyCodeLine{309     fs<<\textcolor{stringliteral}{"{}aruco\_bo\_markers"{}}<< \textcolor{stringliteral}{"{}["{}};}
+\DoxyCodeLine{310     \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{size\_t} i=0;i<size();++i )}
+\DoxyCodeLine{311     \{}
+\DoxyCodeLine{312         fs << \textcolor{stringliteral}{"{}\{:"{}} << \textcolor{stringliteral}{"{}id"{}} << at(i).id ;}
+\DoxyCodeLine{313         fs<<\textcolor{stringliteral}{"{}corners"{}}<< \textcolor{stringliteral}{"{}[:"{}};}
+\DoxyCodeLine{314         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} c=0;c<at(i).size();++c)}
+\DoxyCodeLine{315           fs<<at(i)[c];}
+\DoxyCodeLine{316         fs<<\textcolor{stringliteral}{"{}]"{}};}
+\DoxyCodeLine{317         fs <<  \textcolor{stringliteral}{"{}\}"{}};}
+\DoxyCodeLine{318     \}}
+\DoxyCodeLine{319     fs << \textcolor{stringliteral}{"{}]"{}};}
+\DoxyCodeLine{320   \textcolor{comment}{//save configuration file}}
+\DoxyCodeLine{321   \mbox{\hyperlink{classaruco_1_1Board_aca7121011b4d6811ddfb691ffda290c3}{conf}}.\mbox{\hyperlink{classaruco_1_1BoardConfiguration_a2b17fca95eab5bf49b7c804a0117c8b8}{saveToFile}}(fs);}
+\DoxyCodeLine{322  }
+\DoxyCodeLine{323  }
+\DoxyCodeLine{324  }
+\DoxyCodeLine{325 \textcolor{comment}{//  readFromFile(fs);}}
+\DoxyCodeLine{326 }
+\DoxyCodeLine{327 \}}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+aruco/include/aruco/\mbox{\hyperlink{board_8h}{board.\+h}}\item 
+aruco/src/aruco/\mbox{\hyperlink{board_8cpp}{board.\+cpp}}\end{DoxyCompactItemize}

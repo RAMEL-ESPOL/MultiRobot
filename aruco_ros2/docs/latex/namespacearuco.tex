@@ -1,0 +1,188 @@
+\hypertarget{namespacearuco}{}\doxysection{aruco Namespace Reference}
+\label{namespacearuco}\index{aruco@{aruco}}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classaruco_1_1Board}{Board}}
+\item 
+class \mbox{\hyperlink{classaruco_1_1BoardConfiguration}{Board\+Configuration}}
+\begin{DoxyCompactList}\small\item\em This class defines a board with several markers. A \mbox{\hyperlink{classaruco_1_1Board}{Board}} contains several markers so that they are more robustly detected. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classaruco_1_1BoardDetector}{Board\+Detector}}
+\begin{DoxyCompactList}\small\item\em This class detects AR boards Version 1.\+2 There are two modes for board detection. First, the old way. (You first detect markers with \mbox{\hyperlink{classaruco_1_1MarkerDetector}{Marker\+Detector}} and then call to detect in this class. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classaruco_1_1CameraParameters}{Camera\+Parameters}}
+\begin{DoxyCompactList}\small\item\em Parameters of the camera. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classaruco_1_1CvDrawingUtils}{Cv\+Drawing\+Utils}}
+\begin{DoxyCompactList}\small\item\em A set of functions to draw in opencv images. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classaruco_1_1FiducidalMarkers}{Fiducidal\+Markers}}
+\item 
+class \mbox{\hyperlink{classaruco_1_1Marker}{Marker}}
+\begin{DoxyCompactList}\small\item\em This class represents a marker. It is a vector of the fours corners ot the marker. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classaruco_1_1MarkerDetector}{Marker\+Detector}}
+\begin{DoxyCompactList}\small\item\em Main class for marker detection. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structaruco_1_1MarkerInfo}{Marker\+Info}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{namespacearuco_a73db10c733c0e8abc734db74e8b5a3be}{print}} (cv\+::\+Point3f p, string cad)
+\item 
+void \mbox{\hyperlink{namespacearuco_a202c0375a21968bf39111816f2a5b3d3}{find\+Corner\+Points\+In\+Contour}} (const vector$<$ cv\+::\+Point2f $>$ \&points, const vector$<$ cv\+::\+Point $>$ \&contour, vector$<$ int $>$ \&idxs)
+\item 
+int \mbox{\hyperlink{namespacearuco_a8987b1e430f340003ea28d9440f19fcf}{find\+Deformed\+Sides\+Idx}} (const vector$<$ cv\+::\+Point $>$ \&contour, const vector$<$ int $>$ \&idx\+Segments)
+\item 
+void \mbox{\hyperlink{namespacearuco_a58f14fa6c21f19c308b6ca0124e9a8e2}{set\+Point\+Into\+Image}} (cv\+::\+Point2f \&p, cv\+::\+Size s)
+\item 
+void \mbox{\hyperlink{namespacearuco_ae623f3002f10102bf0a4ce7865dd7c24}{set\+Point\+Into\+Image}} (cv\+::\+Point \&p, cv\+::\+Size s)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespacearuco_a202c0375a21968bf39111816f2a5b3d3}\label{namespacearuco_a202c0375a21968bf39111816f2a5b3d3}} 
+\index{aruco@{aruco}!findCornerPointsInContour@{findCornerPointsInContour}}
+\index{findCornerPointsInContour@{findCornerPointsInContour}!aruco@{aruco}}
+\doxysubsubsection{\texorpdfstring{findCornerPointsInContour()}{findCornerPointsInContour()}}
+{\footnotesize\ttfamily void aruco\+::find\+Corner\+Points\+In\+Contour (\begin{DoxyParamCaption}\item[{const vector$<$ cv\+::\+Point2f $>$ \&}]{points,  }\item[{const vector$<$ cv\+::\+Point $>$ \&}]{contour,  }\item[{vector$<$ int $>$ \&}]{idxs }\end{DoxyParamCaption})}
+
+
+
+Definition at line 470 of file markerdetector.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{471   \{}
+\DoxyCodeLine{472     assert(points.size()==4);}
+\DoxyCodeLine{473     \textcolor{keywordtype}{int} idxSegments[4]=\{-\/1,-\/1,-\/1,-\/1\};}
+\DoxyCodeLine{474     \textcolor{comment}{//the first point coincides with one}}
+\DoxyCodeLine{475     cv::Point points2i[4];}
+\DoxyCodeLine{476     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<4;i++) \{}
+\DoxyCodeLine{477       points2i[i].x=points[i].x;}
+\DoxyCodeLine{478       points2i[i].y=points[i].y;}
+\DoxyCodeLine{479     \}}
+\DoxyCodeLine{480 }
+\DoxyCodeLine{481     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i=0;i<contour.size();++i) \{}
+\DoxyCodeLine{482       \textcolor{keywordflow}{if} (idxSegments[0]==-\/1)}
+\DoxyCodeLine{483         \textcolor{keywordflow}{if} (contour[i]==points2i[0]) idxSegments[0]=i;}
+\DoxyCodeLine{484       \textcolor{keywordflow}{if} (idxSegments[1]==-\/1)}
+\DoxyCodeLine{485         \textcolor{keywordflow}{if} (contour[i]==points2i[1]) idxSegments[1]=i;}
+\DoxyCodeLine{486       \textcolor{keywordflow}{if} (idxSegments[2]==-\/1)}
+\DoxyCodeLine{487         \textcolor{keywordflow}{if} (contour[i]==points2i[2]) idxSegments[2]=i;}
+\DoxyCodeLine{488       \textcolor{keywordflow}{if} (idxSegments[3]==-\/1)}
+\DoxyCodeLine{489         \textcolor{keywordflow}{if} (contour[i]==points2i[3]) idxSegments[3]=i;}
+\DoxyCodeLine{490     \}}
+\DoxyCodeLine{491     idxs.resize(4);}
+\DoxyCodeLine{492     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<4;i++) idxs[i]=idxSegments[i];}
+\DoxyCodeLine{493   \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacearuco_a8987b1e430f340003ea28d9440f19fcf}\label{namespacearuco_a8987b1e430f340003ea28d9440f19fcf}} 
+\index{aruco@{aruco}!findDeformedSidesIdx@{findDeformedSidesIdx}}
+\index{findDeformedSidesIdx@{findDeformedSidesIdx}!aruco@{aruco}}
+\doxysubsubsection{\texorpdfstring{findDeformedSidesIdx()}{findDeformedSidesIdx()}}
+{\footnotesize\ttfamily int aruco\+::find\+Deformed\+Sides\+Idx (\begin{DoxyParamCaption}\item[{const vector$<$ cv\+::\+Point $>$ \&}]{contour,  }\item[{const vector$<$ int $>$ \&}]{idx\+Segments }\end{DoxyParamCaption})}
+
+
+
+Definition at line 495 of file markerdetector.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{496   \{}
+\DoxyCodeLine{497     \textcolor{keywordtype}{float} distSum[4]=\{0,0,0,0\};}
+\DoxyCodeLine{498 }
+\DoxyCodeLine{499     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<3;i++) \{}
+\DoxyCodeLine{500       cv::Point p1=contour[ idxSegments[i]];}
+\DoxyCodeLine{501       cv::Point p2=contour[ idxSegments[i+1]];}
+\DoxyCodeLine{502       \textcolor{keywordtype}{float} inv\_den=1./ sqrt(\textcolor{keywordtype}{float}(( p2.x-\/p1.x)*(p2.x-\/p1.x)+ (p2.y-\/p1.y)*(p2.y-\/p1.y)));}
+\DoxyCodeLine{503       \textcolor{comment}{//   d=|v\string^\string^·r|=(|(x\_2-\/x\_1)(y\_1-\/y\_0)-\/(x\_1-\/x\_0)(y\_2-\/y\_1)|)/(sqrt((x\_2-\/x\_1)\string^2+(y\_2-\/y\_1)\string^2)).}}
+\DoxyCodeLine{504       \textcolor{comment}{//         cerr<<"{}POSS="{}<<idxSegments[i]<<"{} "{}<<idxSegments[i+1]<<endl;}}
+\DoxyCodeLine{505       \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} j=idxSegments[i];j<idxSegments[i+1];++j) \{}
+\DoxyCodeLine{506         \textcolor{keywordtype}{float} dist=std::fabs( \textcolor{keywordtype}{float}(  (p2.x-\/p1.x)*(p1.y-\/contour[j].y)-\/  (p1.x-\/contour[j].x)*(p2.y-\/p1.y)) )*inv\_den;}
+\DoxyCodeLine{507         distSum[i]+=dist;}
+\DoxyCodeLine{508         \textcolor{comment}{//             cerr<< dist<<"{} "{};}}
+\DoxyCodeLine{509         \textcolor{comment}{//             cv::rectangle(\_ssImC,contour[j],contour[j],colors[i],-\/1);}}
+\DoxyCodeLine{510       \}}
+\DoxyCodeLine{511       distSum[i]/=float(idxSegments[i+1]-\/idxSegments[i]);}
+\DoxyCodeLine{512       \textcolor{comment}{//         cout<<endl<<endl;}}
+\DoxyCodeLine{513     \}}
+\DoxyCodeLine{514 }
+\DoxyCodeLine{515 }
+\DoxyCodeLine{516     \textcolor{comment}{//for the last one}}
+\DoxyCodeLine{517     cv::Point p1=contour[ idxSegments[0]];}
+\DoxyCodeLine{518     cv::Point p2=contour[ idxSegments[3]];}
+\DoxyCodeLine{519     \textcolor{keywordtype}{float} inv\_den=1./ std::sqrt(\textcolor{keywordtype}{float}(( p2.x-\/p1.x)*(p2.x-\/p1.x)+ (p2.y-\/p1.y)*(p2.y-\/p1.y)));}
+\DoxyCodeLine{520     \textcolor{comment}{//   d=|v\string^\string^·r|=(|(x\_2-\/x\_1)(y\_1-\/y\_0)-\/(x\_1-\/x\_0)(y\_2-\/y\_1)|)/(sqrt((x\_2-\/x\_1)\string^2+(y\_2-\/y\_1)\string^2)).}}
+\DoxyCodeLine{521     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} j=0;j<idxSegments[0];++j)}
+\DoxyCodeLine{522       distSum[3]+=std::fabs(   \textcolor{keywordtype}{float}((p2.x-\/p1.x)*(p1.y-\/contour[j].y)-\/  (p1.x-\/contour[j].x)*(p2.y-\/p1.y)))*inv\_den;}
+\DoxyCodeLine{523     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} j=idxSegments[3];j<static\_cast<int>(contour.size());++j)}
+\DoxyCodeLine{524       distSum[3]+=std::fabs(   \textcolor{keywordtype}{float}((p2.x-\/p1.x)*(p1.y-\/contour[j].y)-\/  (p1.x-\/contour[j].x)*(p2.y-\/p1.y)))*inv\_den;}
+\DoxyCodeLine{525 }
+\DoxyCodeLine{526     distSum[3]/=float(  idxSegments[0]+  (contour.size()-\/idxSegments[3]));}
+\DoxyCodeLine{527     \textcolor{comment}{//now, get the maximum}}
+\DoxyCodeLine{528     \textcolor{comment}{/*    for (int i=0;i<4;i++)}}
+\DoxyCodeLine{529 \textcolor{comment}{            cout<<"{}DD="{}<<distSum[i]<<endl;*/}}
+\DoxyCodeLine{530     \textcolor{comment}{//check the two combinations to see the one with higher error}}
+\DoxyCodeLine{531     \textcolor{keywordflow}{if} ( distSum[0]+distSum[2]> distSum[1]+distSum[3])}
+\DoxyCodeLine{532       \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{533     \textcolor{keywordflow}{else} \textcolor{keywordflow}{return} 1;}
+\DoxyCodeLine{534   \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacearuco_a73db10c733c0e8abc734db74e8b5a3be}\label{namespacearuco_a73db10c733c0e8abc734db74e8b5a3be}} 
+\index{aruco@{aruco}!print@{print}}
+\index{print@{print}!aruco@{aruco}}
+\doxysubsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily void aruco\+::print (\begin{DoxyParamCaption}\item[{cv\+::\+Point3f}]{p,  }\item[{string}]{cad }\end{DoxyParamCaption})}
+
+
+
+Definition at line 248 of file marker.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{249   \{}
+\DoxyCodeLine{250     cout<<cad<<\textcolor{stringliteral}{"{} "{}}<<p.x<<\textcolor{stringliteral}{"{} "{}}<<p.y<< \textcolor{stringliteral}{"{} "{}}<<p.z<<endl;}
+\DoxyCodeLine{251   \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacearuco_ae623f3002f10102bf0a4ce7865dd7c24}\label{namespacearuco_ae623f3002f10102bf0a4ce7865dd7c24}} 
+\index{aruco@{aruco}!setPointIntoImage@{setPointIntoImage}}
+\index{setPointIntoImage@{setPointIntoImage}!aruco@{aruco}}
+\doxysubsubsection{\texorpdfstring{setPointIntoImage()}{setPointIntoImage()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void aruco\+::set\+Point\+Into\+Image (\begin{DoxyParamCaption}\item[{cv\+::\+Point \&}]{p,  }\item[{cv\+::\+Size}]{s }\end{DoxyParamCaption})}
+
+
+
+Definition at line 544 of file markerdetector.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{544                                                \{}
+\DoxyCodeLine{545     \textcolor{keywordflow}{if} (p.x<0) p.x=0;}
+\DoxyCodeLine{546     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (p.x>=s.width )p.x=s.width-\/1;}
+\DoxyCodeLine{547     \textcolor{keywordflow}{if} (p.y<0)p.y=0;}
+\DoxyCodeLine{548     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (p.y>=s.height)p.y=s.height-\/1;}
+\DoxyCodeLine{549 }
+\DoxyCodeLine{550   \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacearuco_a58f14fa6c21f19c308b6ca0124e9a8e2}\label{namespacearuco_a58f14fa6c21f19c308b6ca0124e9a8e2}} 
+\index{aruco@{aruco}!setPointIntoImage@{setPointIntoImage}}
+\index{setPointIntoImage@{setPointIntoImage}!aruco@{aruco}}
+\doxysubsubsection{\texorpdfstring{setPointIntoImage()}{setPointIntoImage()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void aruco\+::set\+Point\+Into\+Image (\begin{DoxyParamCaption}\item[{cv\+::\+Point2f \&}]{p,  }\item[{cv\+::\+Size}]{s }\end{DoxyParamCaption})}
+
+
+
+Definition at line 536 of file markerdetector.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{536                                                 \{}
+\DoxyCodeLine{537     \textcolor{keywordflow}{if} (p.x<0) p.x=0;}
+\DoxyCodeLine{538     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (p.x>=s.width )p.x=s.width-\/1;}
+\DoxyCodeLine{539     \textcolor{keywordflow}{if} (p.y<0)p.y=0;}
+\DoxyCodeLine{540     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (p.y>=s.height)p.y=s.height-\/1;}
+\DoxyCodeLine{541 }
+\DoxyCodeLine{542   \}}
+
+\end{DoxyCode}

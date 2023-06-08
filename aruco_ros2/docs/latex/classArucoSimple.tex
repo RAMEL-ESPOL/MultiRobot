@@ -1,0 +1,483 @@
+\hypertarget{classArucoSimple}{}\doxysection{Aruco\+Simple Class Reference}
+\label{classArucoSimple}\index{ArucoSimple@{ArucoSimple}}
+
+
+simple aruco for single detection  
+
+
+
+
+{\ttfamily \#include $<$simple\+\_\+single.\+hpp$>$}
+
+
+
+Inheritance diagram for Aruco\+Simple\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=152pt]{classArucoSimple__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Aruco\+Simple\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classArucoSimple__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classArucoSimple_ac17ee5a29c013d7eb52a94ee762cc5da}{Aruco\+Simple}} (rclcpp\+::\+Node\+Options options)
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classArucoSimple}{Aruco\+Simple}} constructor for \mbox{\hyperlink{classArucoSimple}{Aruco\+Simple}}. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classArucoSimple_ab08cfe145f251d1e88900b7f89302399}{get\+Transform}} (const std\+::string \&ref\+Frame, const std\+::string \&child\+Frame, geometry\+\_\+msgs\+::msg\+::\+Transform\+Stamped \&transform)
+\begin{DoxyCompactList}\small\item\em get\+Transform get transformation from 2 frame \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classArucoSimple_ac690575f6aa0b51b66a3956b44d62b1a}{image\+\_\+callback}} (const sensor\+\_\+msgs\+::msg\+::\+Image\+::\+Const\+Ptr \&msg)
+\begin{DoxyCompactList}\small\item\em image topic subscribe callback \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classArucoSimple_a80237a79825e1fbd14868392f1ff9f9e}{cam\+\_\+info\+\_\+callback}} (sensor\+\_\+msgs\+::msg\+::\+Camera\+Info\+::\+Const\+Ptr msg)
+\begin{DoxyCompactList}\small\item\em camera info topic subscribe callback \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classArucoSimple_af3bb350a72474018773b5249c9ec3e89}\label{classArucoSimple_af3bb350a72474018773b5249c9ec3e89}} 
+cv\+::\+Mat {\bfseries in\+Image}
+\item 
+\mbox{\Hypertarget{classArucoSimple_ad8af732876af8f4875d859bb6c987b41}\label{classArucoSimple_ad8af732876af8f4875d859bb6c987b41}} 
+\mbox{\hyperlink{classaruco_1_1CameraParameters}{aruco\+::\+Camera\+Parameters}} {\bfseries cam\+Param}
+\item 
+\mbox{\Hypertarget{classArucoSimple_a59d445dc78f26666da060c6e56372ce3}\label{classArucoSimple_a59d445dc78f26666da060c6e56372ce3}} 
+tf2\+::\+Transform {\bfseries right\+To\+Left}
+\item 
+\mbox{\Hypertarget{classArucoSimple_a3fcf02095c93ad7a7e1324dec2364881}\label{classArucoSimple_a3fcf02095c93ad7a7e1324dec2364881}} 
+bool {\bfseries use\+Rectified\+Images}
+\item 
+\mbox{\Hypertarget{classArucoSimple_acbd51e70a69d59d9ae042ec2946e4f41}\label{classArucoSimple_acbd51e70a69d59d9ae042ec2946e4f41}} 
+\mbox{\hyperlink{classaruco_1_1MarkerDetector}{aruco\+::\+Marker\+Detector}} {\bfseries m\+Detector}
+\item 
+\mbox{\Hypertarget{classArucoSimple_a8835456ca7d69c2aa0a50b9df5a3cec0}\label{classArucoSimple_a8835456ca7d69c2aa0a50b9df5a3cec0}} 
+std\+::vector$<$ \mbox{\hyperlink{classaruco_1_1Marker}{aruco\+::\+Marker}} $>$ {\bfseries markers}
+\item 
+\mbox{\Hypertarget{classArucoSimple_a9a091d2eb5f5359de1de2ecd281bd15a}\label{classArucoSimple_a9a091d2eb5f5359de1de2ecd281bd15a}} 
+std\+::string {\bfseries refinement\+Method}
+\item 
+\mbox{\Hypertarget{classArucoSimple_a56f9481aa774613e2e45d72575b93354}\label{classArucoSimple_a56f9481aa774613e2e45d72575b93354}} 
+rclcpp\+::\+Subscription$<$ sensor\+\_\+msgs\+::msg\+::\+Camera\+Info $>$\+::Shared\+Ptr {\bfseries cam\+\_\+info\+\_\+sub}
+\item 
+\mbox{\Hypertarget{classArucoSimple_adf3796c7f2f4484d8f179d5cdfb2e285}\label{classArucoSimple_adf3796c7f2f4484d8f179d5cdfb2e285}} 
+bool {\bfseries cam\+\_\+info\+\_\+received}
+\item 
+\mbox{\Hypertarget{classArucoSimple_abe0d5a484027e4259da58b9344f5d915}\label{classArucoSimple_abe0d5a484027e4259da58b9344f5d915}} 
+image\+\_\+transport\+::\+Publisher {\bfseries image\+\_\+pub}
+\item 
+\mbox{\Hypertarget{classArucoSimple_acc004e680799d097484ef61b7fdff3b7}\label{classArucoSimple_acc004e680799d097484ef61b7fdff3b7}} 
+image\+\_\+transport\+::\+Publisher {\bfseries debug\+\_\+pub}
+\item 
+\mbox{\Hypertarget{classArucoSimple_ab1dd318b6b18900e30d8f4d72d693f15}\label{classArucoSimple_ab1dd318b6b18900e30d8f4d72d693f15}} 
+rclcpp\+::\+Publisher$<$ geometry\+\_\+msgs\+::msg\+::\+Pose\+Stamped $>$\+::Shared\+Ptr {\bfseries pose\+\_\+pub}
+\item 
+\mbox{\Hypertarget{classArucoSimple_a84bedaf0d742112a47e7b5366a64551c}\label{classArucoSimple_a84bedaf0d742112a47e7b5366a64551c}} 
+rclcpp\+::\+Publisher$<$ geometry\+\_\+msgs\+::msg\+::\+Transform\+Stamped $>$\+::Shared\+Ptr {\bfseries transform\+\_\+pub}
+\item 
+\mbox{\Hypertarget{classArucoSimple_a5c9c1ec08f005f779f76322badb70cfd}\label{classArucoSimple_a5c9c1ec08f005f779f76322badb70cfd}} 
+rclcpp\+::\+Publisher$<$ geometry\+\_\+msgs\+::msg\+::\+Vector3\+Stamped $>$\+::Shared\+Ptr {\bfseries position\+\_\+pub}
+\item 
+\mbox{\Hypertarget{classArucoSimple_a2ba5c06c97912110663c9cf432b2e7a8}\label{classArucoSimple_a2ba5c06c97912110663c9cf432b2e7a8}} 
+rclcpp\+::\+Publisher$<$ visualization\+\_\+msgs\+::msg\+::\+Marker $>$\+::Shared\+Ptr {\bfseries marker\+\_\+pub}
+\item 
+\mbox{\Hypertarget{classArucoSimple_a5cf112d346f4dce9e9f3bd3a16dd8546}\label{classArucoSimple_a5cf112d346f4dce9e9f3bd3a16dd8546}} 
+rclcpp\+::\+Publisher$<$ geometry\+\_\+msgs\+::msg\+::\+Point\+Stamped $>$\+::Shared\+Ptr {\bfseries pixel\+\_\+pub}
+\item 
+\mbox{\Hypertarget{classArucoSimple_a3d73dfa0875c0268013d808cc0f9f95c}\label{classArucoSimple_a3d73dfa0875c0268013d808cc0f9f95c}} 
+std\+::string {\bfseries marker\+\_\+frame}
+\item 
+\mbox{\Hypertarget{classArucoSimple_a4c1bfdcbb0587575f09c2ffdf2031b5f}\label{classArucoSimple_a4c1bfdcbb0587575f09c2ffdf2031b5f}} 
+std\+::string {\bfseries camera\+\_\+frame}
+\item 
+\mbox{\Hypertarget{classArucoSimple_acf859282a52a0d025b636ef32c36ebf5}\label{classArucoSimple_acf859282a52a0d025b636ef32c36ebf5}} 
+std\+::string {\bfseries reference\+\_\+frame}
+\item 
+\mbox{\Hypertarget{classArucoSimple_a8fa645cb9226521d3d8213384e7f27e0}\label{classArucoSimple_a8fa645cb9226521d3d8213384e7f27e0}} 
+std\+::shared\+\_\+ptr$<$ tf2\+\_\+ros\+::\+Transform\+Listener $>$ {\bfseries \+\_\+tf\+Listener}
+\item 
+\mbox{\Hypertarget{classArucoSimple_aec45702a9ef00b4f42af16167c1a0adb}\label{classArucoSimple_aec45702a9ef00b4f42af16167c1a0adb}} 
+std\+::shared\+\_\+ptr$<$ tf2\+\_\+ros\+::\+Buffer $>$ {\bfseries tf\+\_\+buffer\+\_\+}
+\item 
+\mbox{\Hypertarget{classArucoSimple_a4e858b4920e5323ee797f73ffc709034}\label{classArucoSimple_a4e858b4920e5323ee797f73ffc709034}} 
+double {\bfseries marker\+\_\+size}
+\item 
+\mbox{\Hypertarget{classArucoSimple_a3a8e1118c529d7a44b7d69081df8eb57}\label{classArucoSimple_a3a8e1118c529d7a44b7d69081df8eb57}} 
+int {\bfseries marker\+\_\+id}
+\item 
+\mbox{\Hypertarget{classArucoSimple_abcd023ad3840a2320bb883182ecadacc}\label{classArucoSimple_abcd023ad3840a2320bb883182ecadacc}} 
+bool {\bfseries rotate\+\_\+marker\+\_\+axis\+\_\+}
+\item 
+\mbox{\Hypertarget{classArucoSimple_a0db78ff3b40294557f665c7680779d79}\label{classArucoSimple_a0db78ff3b40294557f665c7680779d79}} 
+std\+::shared\+\_\+ptr$<$ tf2\+\_\+ros\+::\+Transform\+Broadcaster $>$ {\bfseries br}
+\item 
+\mbox{\Hypertarget{classArucoSimple_a3f9f58eebe0a03c00ecd190c9bd74bf5}\label{classArucoSimple_a3f9f58eebe0a03c00ecd190c9bd74bf5}} 
+image\+\_\+transport\+::\+Subscriber {\bfseries image\+\_\+sub}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+simple aruco for single detection 
+
+Definition at line 75 of file simple\+\_\+single.\+hpp.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classArucoSimple_ac17ee5a29c013d7eb52a94ee762cc5da}\label{classArucoSimple_ac17ee5a29c013d7eb52a94ee762cc5da}} 
+\index{ArucoSimple@{ArucoSimple}!ArucoSimple@{ArucoSimple}}
+\index{ArucoSimple@{ArucoSimple}!ArucoSimple@{ArucoSimple}}
+\doxysubsubsection{\texorpdfstring{ArucoSimple()}{ArucoSimple()}}
+{\footnotesize\ttfamily Aruco\+Simple\+::\+Aruco\+Simple (\begin{DoxyParamCaption}\item[{rclcpp\+::\+Node\+Options}]{options }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+\mbox{\hyperlink{classArucoSimple}{Aruco\+Simple}} constructor for \mbox{\hyperlink{classArucoSimple}{Aruco\+Simple}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em option} & input rclcpp node option \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 55 of file simple\+\_\+single.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{56 : \mbox{\hyperlink{classArucoSimple_adf3796c7f2f4484d8f179d5cdfb2e285}{cam\_info\_received}}(\textcolor{keyword}{false}),}
+\DoxyCodeLine{57   Node(\textcolor{stringliteral}{"{}aruco\_node"{}}, options),}
+\DoxyCodeLine{58   \mbox{\hyperlink{classArucoSimple_aec45702a9ef00b4f42af16167c1a0adb}{tf\_buffer\_}}(std::make\_shared<tf2\_ros::Buffer>(get\_clock()))}
+\DoxyCodeLine{59 \{}
+\DoxyCodeLine{60   \textcolor{keyword}{auto} timer\_interface = std::make\_shared<tf2\_ros::CreateTimerROS>(}
+\DoxyCodeLine{61     get\_node\_base\_interface(),}
+\DoxyCodeLine{62     get\_node\_timers\_interface());}
+\DoxyCodeLine{63   \mbox{\hyperlink{classArucoSimple_aec45702a9ef00b4f42af16167c1a0adb}{tf\_buffer\_}}-\/>setCreateTimerInterface(timer\_interface);}
+\DoxyCodeLine{64   \mbox{\hyperlink{classArucoSimple_a8fa645cb9226521d3d8213384e7f27e0}{\_tfListener}} = std::make\_shared<tf2\_ros::TransformListener>(*\mbox{\hyperlink{classArucoSimple_aec45702a9ef00b4f42af16167c1a0adb}{tf\_buffer\_}});}
+\DoxyCodeLine{65 }
+\DoxyCodeLine{66 }
+\DoxyCodeLine{67   \textcolor{comment}{// Print parameters of aruco marker detector:}}
+\DoxyCodeLine{68   RCLCPP\_INFO\_STREAM(}
+\DoxyCodeLine{69     get\_logger(), \textcolor{stringliteral}{"{}Corner refinement method: "{}} << \mbox{\hyperlink{classArucoSimple_acbd51e70a69d59d9ae042ec2946e4f41}{mDetector}}.\mbox{\hyperlink{classaruco_1_1MarkerDetector_ac6775c929bb5fc017cceaa1abdb5aca2}{getCornerRefinementMethod}}());}
+\DoxyCodeLine{70   RCLCPP\_INFO\_STREAM(get\_logger(), \textcolor{stringliteral}{"{}Threshold method: "{}} << \mbox{\hyperlink{classArucoSimple_acbd51e70a69d59d9ae042ec2946e4f41}{mDetector}}.\mbox{\hyperlink{classaruco_1_1MarkerDetector_a3b82148fd92145a36f24eb08aea75fb6}{getThresholdMethod}}());}
+\DoxyCodeLine{71   \textcolor{keywordtype}{double} th1, th2;}
+\DoxyCodeLine{72   \mbox{\hyperlink{classArucoSimple_acbd51e70a69d59d9ae042ec2946e4f41}{mDetector}}.\mbox{\hyperlink{classaruco_1_1MarkerDetector_a6a3f7889bd057f47425ade483833953d}{getThresholdParams}}(th1, th2);}
+\DoxyCodeLine{73   RCLCPP\_INFO\_STREAM(}
+\DoxyCodeLine{74     get\_logger(), \textcolor{stringliteral}{"{}Threshold method: "{}} <<}
+\DoxyCodeLine{75       \textcolor{stringliteral}{"{} th1: "{}} << th1 << \textcolor{stringliteral}{"{} th2: "{}} << th2);}
+\DoxyCodeLine{76   \textcolor{keywordtype}{float} mins, maxs;}
+\DoxyCodeLine{77   \mbox{\hyperlink{classArucoSimple_acbd51e70a69d59d9ae042ec2946e4f41}{mDetector}}.\mbox{\hyperlink{classaruco_1_1MarkerDetector_a79a701055cdccd7816f509c91887fa2b}{getMinMaxSize}}(mins, maxs);}
+\DoxyCodeLine{78   RCLCPP\_INFO\_STREAM(get\_logger(), \textcolor{stringliteral}{"{}Marker size min: "{}} << mins << \textcolor{stringliteral}{"{}  max: "{}} << maxs);}
+\DoxyCodeLine{79   RCLCPP\_INFO\_STREAM(get\_logger(), \textcolor{stringliteral}{"{}Desired speed: "{}} << \mbox{\hyperlink{classArucoSimple_acbd51e70a69d59d9ae042ec2946e4f41}{mDetector}}.\mbox{\hyperlink{classaruco_1_1MarkerDetector_a7076508d26ba9a3e0606052d2a570bb8}{getDesiredSpeed}}());}
+\DoxyCodeLine{80   \mbox{\hyperlink{classArucoSimple_a3f9f58eebe0a03c00ecd190c9bd74bf5}{image\_sub}} =}
+\DoxyCodeLine{81     image\_transport::create\_subscription(}
+\DoxyCodeLine{82     \textcolor{keyword}{this}, \textcolor{stringliteral}{"{}/image"{}},}
+\DoxyCodeLine{83     std::bind(}
+\DoxyCodeLine{84       \&\mbox{\hyperlink{classArucoSimple_ac690575f6aa0b51b66a3956b44d62b1a}{ArucoSimple::image\_callback}},}
+\DoxyCodeLine{85       \textcolor{keyword}{this}, std::placeholders::\_1), \textcolor{stringliteral}{"{}raw"{}});}
+\DoxyCodeLine{86   \mbox{\hyperlink{classArucoSimple_a56f9481aa774613e2e45d72575b93354}{cam\_info\_sub}} = create\_subscription<sensor\_msgs::msg::CameraInfo>(}
+\DoxyCodeLine{87     \textcolor{stringliteral}{"{}/camera\_info"{}},}
+\DoxyCodeLine{88     rclcpp::SensorDataQoS(),}
+\DoxyCodeLine{89     std::bind(\&\mbox{\hyperlink{classArucoSimple_a80237a79825e1fbd14868392f1ff9f9e}{ArucoSimple::cam\_info\_callback}}, \textcolor{keyword}{this}, std::placeholders::\_1));}
+\DoxyCodeLine{90   \mbox{\hyperlink{classArucoSimple_abe0d5a484027e4259da58b9344f5d915}{image\_pub}} = image\_transport::create\_publisher(\textcolor{keyword}{this}, \textcolor{stringliteral}{"{}result"{}});}
+\DoxyCodeLine{91   \mbox{\hyperlink{classArucoSimple_acc004e680799d097484ef61b7fdff3b7}{debug\_pub}} = image\_transport::create\_publisher(\textcolor{keyword}{this}, \textcolor{stringliteral}{"{}debug"{}});}
+\DoxyCodeLine{92   \mbox{\hyperlink{classArucoSimple_ab1dd318b6b18900e30d8f4d72d693f15}{pose\_pub}} = create\_publisher<geometry\_msgs::msg::PoseStamped>(}
+\DoxyCodeLine{93     \textcolor{stringliteral}{"{}pose/aruco2"{}},}
+\DoxyCodeLine{94     rclcpp::QoS(rclcpp::KeepLast(1)).transient\_local().reliable());}
+\DoxyCodeLine{95   \mbox{\hyperlink{classArucoSimple_a84bedaf0d742112a47e7b5366a64551c}{transform\_pub}} = create\_publisher<geometry\_msgs::msg::TransformStamped>(}
+\DoxyCodeLine{96     \textcolor{stringliteral}{"{}transform"{}},}
+\DoxyCodeLine{97     rclcpp::QoS(rclcpp::KeepLast(1)).transient\_local().reliable());}
+\DoxyCodeLine{98   \mbox{\hyperlink{classArucoSimple_a5c9c1ec08f005f779f76322badb70cfd}{position\_pub}} = create\_publisher<geometry\_msgs::msg::Vector3Stamped>(}
+\DoxyCodeLine{99     \textcolor{stringliteral}{"{}position"{}},}
+\DoxyCodeLine{100     rclcpp::QoS(rclcpp::KeepLast(1)).transient\_local().reliable());}
+\DoxyCodeLine{101   \mbox{\hyperlink{classArucoSimple_a2ba5c06c97912110663c9cf432b2e7a8}{marker\_pub}} = create\_publisher<visualization\_msgs::msg::Marker>(}
+\DoxyCodeLine{102     \textcolor{stringliteral}{"{}marker"{}}, 1);}
+\DoxyCodeLine{103   \mbox{\hyperlink{classArucoSimple_a5cf112d346f4dce9e9f3bd3a16dd8546}{pixel\_pub}} = create\_publisher<geometry\_msgs::msg::PointStamped>(}
+\DoxyCodeLine{104     \textcolor{stringliteral}{"{}pixel"{}},}
+\DoxyCodeLine{105     rclcpp::SensorDataQoS());}
+\DoxyCodeLine{106   get\_parameter\_or(\textcolor{stringliteral}{"{}marker\_size"{}}, \mbox{\hyperlink{classArucoSimple_a4e858b4920e5323ee797f73ffc709034}{marker\_size}}, 0.05);}
+\DoxyCodeLine{107   get\_parameter\_or(\textcolor{stringliteral}{"{}marker\_id"{}}, \mbox{\hyperlink{classArucoSimple_a3a8e1118c529d7a44b7d69081df8eb57}{marker\_id}}, 582);}
+\DoxyCodeLine{108   get\_parameter\_or(\textcolor{stringliteral}{"{}reference\_frame"{}}, \mbox{\hyperlink{classArucoSimple_acf859282a52a0d025b636ef32c36ebf5}{reference\_frame}}, \textcolor{keywordtype}{string}(\textcolor{stringliteral}{"{}"{}}));}
+\DoxyCodeLine{109   get\_parameter\_or(\textcolor{stringliteral}{"{}camera\_frame"{}}, \mbox{\hyperlink{classArucoSimple_a4c1bfdcbb0587575f09c2ffdf2031b5f}{camera\_frame}}, \textcolor{keywordtype}{string}(\textcolor{stringliteral}{"{}camera\_frame"{}}));}
+\DoxyCodeLine{110   get\_parameter\_or(\textcolor{stringliteral}{"{}marker\_frame"{}}, \mbox{\hyperlink{classArucoSimple_a3d73dfa0875c0268013d808cc0f9f95c}{marker\_frame}}, \textcolor{keywordtype}{string}(\textcolor{stringliteral}{"{}marker\_frame"{}}));}
+\DoxyCodeLine{111   get\_parameter\_or(\textcolor{stringliteral}{"{}image\_is\_rectified"{}}, \mbox{\hyperlink{classArucoSimple_a3fcf02095c93ad7a7e1324dec2364881}{useRectifiedImages}}, \textcolor{keyword}{false});}
+\DoxyCodeLine{112   get\_parameter\_or(\textcolor{stringliteral}{"{}rotate\_marker\_axis"{}}, \mbox{\hyperlink{classArucoSimple_abcd023ad3840a2320bb883182ecadacc}{rotate\_marker\_axis\_}}, \textcolor{keyword}{true});}
+\DoxyCodeLine{113   get\_parameter\_or(\textcolor{stringliteral}{"{}refinementMethod"{}}, \mbox{\hyperlink{classArucoSimple_a9a091d2eb5f5359de1de2ecd281bd15a}{refinementMethod}}, \textcolor{keywordtype}{string}(\textcolor{stringliteral}{"{}"{}}));}
+\DoxyCodeLine{114 }
+\DoxyCodeLine{115   \textcolor{keywordflow}{if} (\mbox{\hyperlink{classArucoSimple_a9a091d2eb5f5359de1de2ecd281bd15a}{refinementMethod}} == \textcolor{stringliteral}{"{}SUBPIX"{}}) \{}
+\DoxyCodeLine{116     \mbox{\hyperlink{classArucoSimple_acbd51e70a69d59d9ae042ec2946e4f41}{mDetector}}.\mbox{\hyperlink{classaruco_1_1MarkerDetector_ae46e37f9795c2d95084fab9f46a36a7a}{setCornerRefinementMethod}}(\mbox{\hyperlink{classaruco_1_1MarkerDetector_ace0069f60aa5cef25a455be1e3d66dc1a6a41c357297ab089899bad573f91cc58}{aruco::MarkerDetector::SUBPIX}});}
+\DoxyCodeLine{117   \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (\mbox{\hyperlink{classArucoSimple_a9a091d2eb5f5359de1de2ecd281bd15a}{refinementMethod}} == \textcolor{stringliteral}{"{}HARRIS"{}}) \{}
+\DoxyCodeLine{118     \mbox{\hyperlink{classArucoSimple_acbd51e70a69d59d9ae042ec2946e4f41}{mDetector}}.\mbox{\hyperlink{classaruco_1_1MarkerDetector_ae46e37f9795c2d95084fab9f46a36a7a}{setCornerRefinementMethod}}(\mbox{\hyperlink{classaruco_1_1MarkerDetector_ace0069f60aa5cef25a455be1e3d66dc1a96acc78a258cbd0ee75815a114c82367}{aruco::MarkerDetector::HARRIS}});}
+\DoxyCodeLine{119   \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (\mbox{\hyperlink{classArucoSimple_a9a091d2eb5f5359de1de2ecd281bd15a}{refinementMethod}} == \textcolor{stringliteral}{"{}NONE"{}}) \{}
+\DoxyCodeLine{120     \mbox{\hyperlink{classArucoSimple_acbd51e70a69d59d9ae042ec2946e4f41}{mDetector}}.\mbox{\hyperlink{classaruco_1_1MarkerDetector_ae46e37f9795c2d95084fab9f46a36a7a}{setCornerRefinementMethod}}(\mbox{\hyperlink{classaruco_1_1MarkerDetector_ace0069f60aa5cef25a455be1e3d66dc1a818e862759af62704385015cf0ca2239}{aruco::MarkerDetector::NONE}});}
+\DoxyCodeLine{121   \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{122     \mbox{\hyperlink{classArucoSimple_acbd51e70a69d59d9ae042ec2946e4f41}{mDetector}}.\mbox{\hyperlink{classaruco_1_1MarkerDetector_ae46e37f9795c2d95084fab9f46a36a7a}{setCornerRefinementMethod}}(\mbox{\hyperlink{classaruco_1_1MarkerDetector_ace0069f60aa5cef25a455be1e3d66dc1a96976a499df924efb6218a01cd226e1f}{aruco::MarkerDetector::LINES}});}
+\DoxyCodeLine{123   \}}
+\DoxyCodeLine{124   \textcolor{keywordflow}{if} (\mbox{\hyperlink{classArucoSimple_acf859282a52a0d025b636ef32c36ebf5}{reference\_frame}}.empty()) \{}
+\DoxyCodeLine{125     \mbox{\hyperlink{classArucoSimple_acf859282a52a0d025b636ef32c36ebf5}{reference\_frame}} = \mbox{\hyperlink{classArucoSimple_a4c1bfdcbb0587575f09c2ffdf2031b5f}{camera\_frame}};}
+\DoxyCodeLine{126   \}}
+\DoxyCodeLine{127   RCLCPP\_INFO(}
+\DoxyCodeLine{128     get\_logger(), \textcolor{stringliteral}{"{}Aruco node started with marker size of \%f m and marker id to track: \%d"{}},}
+\DoxyCodeLine{129     \mbox{\hyperlink{classArucoSimple_a4e858b4920e5323ee797f73ffc709034}{marker\_size}}, \mbox{\hyperlink{classArucoSimple_a3a8e1118c529d7a44b7d69081df8eb57}{marker\_id}});}
+\DoxyCodeLine{130   RCLCPP\_INFO(}
+\DoxyCodeLine{131     get\_logger(), \textcolor{stringliteral}{"{}Aruco node will publish pose to TF with \%s as parent and \%s as child."{}},}
+\DoxyCodeLine{132     \mbox{\hyperlink{classArucoSimple_acf859282a52a0d025b636ef32c36ebf5}{reference\_frame}}.c\_str(), \mbox{\hyperlink{classArucoSimple_a3d73dfa0875c0268013d808cc0f9f95c}{marker\_frame}}.c\_str());}
+\DoxyCodeLine{133   \mbox{\hyperlink{classArucoSimple_acbd51e70a69d59d9ae042ec2946e4f41}{mDetector}}.\mbox{\hyperlink{classaruco_1_1MarkerDetector_ae62e6b62bc82793d640c9c04ff00335c}{setThresholdParams}}(7, 7);}
+\DoxyCodeLine{134   \mbox{\hyperlink{classArucoSimple_a0db78ff3b40294557f665c7680779d79}{br}} = std::make\_shared<tf2\_ros::TransformBroadcaster>(\textcolor{keyword}{this});}
+\DoxyCodeLine{135 \}}
+
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classArucoSimple_ac17ee5a29c013d7eb52a94ee762cc5da_cgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classArucoSimple_a80237a79825e1fbd14868392f1ff9f9e}\label{classArucoSimple_a80237a79825e1fbd14868392f1ff9f9e}} 
+\index{ArucoSimple@{ArucoSimple}!cam\_info\_callback@{cam\_info\_callback}}
+\index{cam\_info\_callback@{cam\_info\_callback}!ArucoSimple@{ArucoSimple}}
+\doxysubsubsection{\texorpdfstring{cam\_info\_callback()}{cam\_info\_callback()}}
+{\footnotesize\ttfamily void Aruco\+Simple\+::cam\+\_\+info\+\_\+callback (\begin{DoxyParamCaption}\item[{sensor\+\_\+msgs\+::msg\+::\+Camera\+Info\+::\+Const\+Ptr}]{msg }\end{DoxyParamCaption})}
+
+
+
+camera info topic subscribe callback 
+
+
+\begin{DoxyParams}{Parameters}
+{\em msg} & camera info message pointer \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 275 of file simple\+\_\+single.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{276 \{}
+\DoxyCodeLine{277   \mbox{\hyperlink{classArucoSimple_ad8af732876af8f4875d859bb6c987b41}{camParam}} = \mbox{\hyperlink{namespacearuco__ros_ac69b37c14d6ea5e5f2f7e70719dd369c}{aruco\_ros::rosCameraInfo2ArucoCamParams}}(*msg, \mbox{\hyperlink{classArucoSimple_a3fcf02095c93ad7a7e1324dec2364881}{useRectifiedImages}});}
+\DoxyCodeLine{278   \textcolor{comment}{// handle cartesian offset between stereo pairs}}
+\DoxyCodeLine{279   \textcolor{comment}{// see the sensor\_msgs/CamaraInfo documentation for details}}
+\DoxyCodeLine{280   \mbox{\hyperlink{classArucoSimple_a59d445dc78f26666da060c6e56372ce3}{rightToLeft}}.setIdentity();}
+\DoxyCodeLine{281   \mbox{\hyperlink{classArucoSimple_a59d445dc78f26666da060c6e56372ce3}{rightToLeft}}.setOrigin(}
+\DoxyCodeLine{282     tf2::Vector3(}
+\DoxyCodeLine{283       -\/msg-\/>p[3] / msg-\/>p[0],}
+\DoxyCodeLine{284       -\/msg-\/>p[7] / msg-\/>p[5],}
+\DoxyCodeLine{285       0.0));}
+\DoxyCodeLine{286   \mbox{\hyperlink{classArucoSimple_adf3796c7f2f4484d8f179d5cdfb2e285}{cam\_info\_received}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{287 \}}
+
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classArucoSimple_a80237a79825e1fbd14868392f1ff9f9e_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classArucoSimple_ab08cfe145f251d1e88900b7f89302399}\label{classArucoSimple_ab08cfe145f251d1e88900b7f89302399}} 
+\index{ArucoSimple@{ArucoSimple}!getTransform@{getTransform}}
+\index{getTransform@{getTransform}!ArucoSimple@{ArucoSimple}}
+\doxysubsubsection{\texorpdfstring{getTransform()}{getTransform()}}
+{\footnotesize\ttfamily bool Aruco\+Simple\+::get\+Transform (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{ref\+Frame,  }\item[{const std\+::string \&}]{child\+Frame,  }\item[{geometry\+\_\+msgs\+::msg\+::\+Transform\+Stamped \&}]{transform }\end{DoxyParamCaption})}
+
+
+
+get\+Transform get transformation from 2 frame 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ref\+Frame} & input reference frame \\
+\hline
+{\em child\+Frame} & input child frame \\
+\hline
+{\em transform} & output transformation \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if success, false if fail to get transform 
+\end{DoxyReturn}
+
+
+Definition at line 137 of file simple\+\_\+single.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{141 \{}
+\DoxyCodeLine{142   std::string errMsg;}
+\DoxyCodeLine{143   \textcolor{keywordflow}{if} (!\mbox{\hyperlink{classArucoSimple_aec45702a9ef00b4f42af16167c1a0adb}{tf\_buffer\_}}-\/>canTransform(}
+\DoxyCodeLine{144       refFrame,}
+\DoxyCodeLine{145       childFrame,}
+\DoxyCodeLine{146       rclcpp::Time(0),}
+\DoxyCodeLine{147       rclcpp::Duration(0.5),}
+\DoxyCodeLine{148       \&errMsg))}
+\DoxyCodeLine{149   \{}
+\DoxyCodeLine{150     RCLCPP\_ERROR\_STREAM(get\_logger(), \textcolor{stringliteral}{"{}Unable to get pose from TF: "{}} << errMsg << \textcolor{stringliteral}{"{} YY"{}});}
+\DoxyCodeLine{151     \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{152   \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{153     \textcolor{keywordflow}{try} \{}
+\DoxyCodeLine{154       transform = \mbox{\hyperlink{classArucoSimple_aec45702a9ef00b4f42af16167c1a0adb}{tf\_buffer\_}}-\/>lookupTransform(}
+\DoxyCodeLine{155         refFrame, childFrame,}
+\DoxyCodeLine{156         rclcpp::Time(0),}
+\DoxyCodeLine{157         rclcpp::Duration(0.5));}
+\DoxyCodeLine{158     \} \textcolor{keywordflow}{catch} (\textcolor{keyword}{const} tf2::TransformException \& e) \{}
+\DoxyCodeLine{159       RCLCPP\_ERROR\_STREAM(}
+\DoxyCodeLine{160         get\_logger(), \textcolor{stringliteral}{"{}Error in lookupTransform of "{}} << childFrame << \textcolor{stringliteral}{"{} in "{}} << refFrame);}
+\DoxyCodeLine{161       \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{162     \}}
+\DoxyCodeLine{163   \}}
+\DoxyCodeLine{164   \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
+\DoxyCodeLine{165 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classArucoSimple_ac690575f6aa0b51b66a3956b44d62b1a}\label{classArucoSimple_ac690575f6aa0b51b66a3956b44d62b1a}} 
+\index{ArucoSimple@{ArucoSimple}!image\_callback@{image\_callback}}
+\index{image\_callback@{image\_callback}!ArucoSimple@{ArucoSimple}}
+\doxysubsubsection{\texorpdfstring{image\_callback()}{image\_callback()}}
+{\footnotesize\ttfamily void Aruco\+Simple\+::image\+\_\+callback (\begin{DoxyParamCaption}\item[{const sensor\+\_\+msgs\+::msg\+::\+Image\+::\+Const\+Ptr \&}]{msg }\end{DoxyParamCaption})}
+
+
+
+image topic subscribe callback 
+
+
+\begin{DoxyParams}{Parameters}
+{\em msg} & image message pointer \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 167 of file simple\+\_\+single.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{168 \{}
+\DoxyCodeLine{169   \textcolor{keywordflow}{if} (\mbox{\hyperlink{classArucoSimple_adf3796c7f2f4484d8f179d5cdfb2e285}{cam\_info\_received}}) \{}
+\DoxyCodeLine{170     rclcpp::Time curr\_stamp(now());}
+\DoxyCodeLine{171     cv\_bridge::CvImagePtr cv\_ptr;}
+\DoxyCodeLine{172     \textcolor{keywordflow}{try} \{}
+\DoxyCodeLine{173       cv\_ptr = cv\_bridge::toCvCopy(msg, sensor\_msgs::image\_encodings::RGB8);}
+\DoxyCodeLine{174       \mbox{\hyperlink{classArucoSimple_af3bb350a72474018773b5249c9ec3e89}{inImage}} = cv\_ptr-\/>image;}
+\DoxyCodeLine{175       \textcolor{comment}{// detection results will go into "{}markers"{}}}
+\DoxyCodeLine{176       \mbox{\hyperlink{classArucoSimple_a8835456ca7d69c2aa0a50b9df5a3cec0}{markers}}.clear();}
+\DoxyCodeLine{177       \textcolor{comment}{// Ok, let's detect}}
+\DoxyCodeLine{178       \mbox{\hyperlink{classArucoSimple_acbd51e70a69d59d9ae042ec2946e4f41}{mDetector}}.\mbox{\hyperlink{classaruco_1_1MarkerDetector_ac6da81367de2a8468925e1ac1b45760c}{detect}}(\mbox{\hyperlink{classArucoSimple_af3bb350a72474018773b5249c9ec3e89}{inImage}}, \mbox{\hyperlink{classArucoSimple_a8835456ca7d69c2aa0a50b9df5a3cec0}{markers}}, \mbox{\hyperlink{classArucoSimple_ad8af732876af8f4875d859bb6c987b41}{camParam}}, \mbox{\hyperlink{classArucoSimple_a4e858b4920e5323ee797f73ffc709034}{marker\_size}}, \textcolor{keyword}{false});}
+\DoxyCodeLine{179       \textcolor{comment}{// for each marker, draw info and its boundaries in the image}}
+\DoxyCodeLine{180       \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i = 0; i < \mbox{\hyperlink{classArucoSimple_a8835456ca7d69c2aa0a50b9df5a3cec0}{markers}}.size(); ++i) \{}
+\DoxyCodeLine{181         \textcolor{comment}{// only publishing the selected marker}}
+\DoxyCodeLine{182         \textcolor{keywordflow}{if} (\mbox{\hyperlink{classArucoSimple_a8835456ca7d69c2aa0a50b9df5a3cec0}{markers}}[i].\textcolor{keywordtype}{id} == \mbox{\hyperlink{classArucoSimple_a3a8e1118c529d7a44b7d69081df8eb57}{marker\_id}}) \{}
+\DoxyCodeLine{183           tf2::Transform transform = \mbox{\hyperlink{namespacearuco__ros_a01ddfb8b1a95fd19d8c2d6da8fc18583}{aruco\_ros::arucoMarker2Tf}}(\mbox{\hyperlink{classArucoSimple_a8835456ca7d69c2aa0a50b9df5a3cec0}{markers}}[i], \mbox{\hyperlink{classArucoSimple_abcd023ad3840a2320bb883182ecadacc}{rotate\_marker\_axis\_}});}
+\DoxyCodeLine{184           geometry\_msgs::msg::TransformStamped cameraToReference;}
+\DoxyCodeLine{185           tf2::Transform cameraToReference\_tf = tf2::Transform::getIdentity();}
+\DoxyCodeLine{186           \textcolor{comment}{// <false,true>=> tf to msg, <true,false>=> msg to tf}}
+\DoxyCodeLine{187           tf2::impl::Converter<false, true>::convert(}
+\DoxyCodeLine{188             cameraToReference\_tf,}
+\DoxyCodeLine{189             cameraToReference.transform);}
+\DoxyCodeLine{190           \textcolor{keywordflow}{if} (\mbox{\hyperlink{classArucoSimple_acf859282a52a0d025b636ef32c36ebf5}{reference\_frame}} != \mbox{\hyperlink{classArucoSimple_a4c1bfdcbb0587575f09c2ffdf2031b5f}{camera\_frame}}) \{}
+\DoxyCodeLine{191             \textcolor{keywordflow}{if} (!\mbox{\hyperlink{classArucoSimple_ab08cfe145f251d1e88900b7f89302399}{getTransform}}(\mbox{\hyperlink{classArucoSimple_acf859282a52a0d025b636ef32c36ebf5}{reference\_frame}}, \mbox{\hyperlink{classArucoSimple_a4c1bfdcbb0587575f09c2ffdf2031b5f}{camera\_frame}}, cameraToReference)) \{}
+\DoxyCodeLine{192               \textcolor{keywordflow}{return};}
+\DoxyCodeLine{193             \}}
+\DoxyCodeLine{194           \}}
+\DoxyCodeLine{195           tf2::impl::Converter<true, false>::convert(}
+\DoxyCodeLine{196             cameraToReference.transform,}
+\DoxyCodeLine{197             cameraToReference\_tf);}
+\DoxyCodeLine{198           transform =}
+\DoxyCodeLine{199             \textcolor{keyword}{static\_cast<}tf2::Transform\textcolor{keyword}{>}(cameraToReference\_tf) *}
+\DoxyCodeLine{200             \textcolor{keyword}{static\_cast<}tf2::Transform\textcolor{keyword}{>}(\mbox{\hyperlink{classArucoSimple_a59d445dc78f26666da060c6e56372ce3}{rightToLeft}}) * transform;}
+\DoxyCodeLine{201           geometry\_msgs::msg::TransformStamped stampedTransform;}
+\DoxyCodeLine{202           stampedTransform.header.frame\_id = \mbox{\hyperlink{classArucoSimple_acf859282a52a0d025b636ef32c36ebf5}{reference\_frame}};}
+\DoxyCodeLine{203           stampedTransform.header.stamp = curr\_stamp;}
+\DoxyCodeLine{204           stampedTransform.child\_frame\_id = \mbox{\hyperlink{classArucoSimple_a3d73dfa0875c0268013d808cc0f9f95c}{marker\_frame}};}
+\DoxyCodeLine{205           tf2::impl::Converter<false, true>::convert(transform, stampedTransform.transform);}
+\DoxyCodeLine{206           \mbox{\hyperlink{classArucoSimple_a0db78ff3b40294557f665c7680779d79}{br}}-\/>sendTransform(stampedTransform);}
+\DoxyCodeLine{207           geometry\_msgs::msg::PoseStamped poseMsg;}
+\DoxyCodeLine{208           tf2::toMsg(transform, poseMsg.pose);}
+\DoxyCodeLine{209           poseMsg.header.frame\_id = \mbox{\hyperlink{classArucoSimple_acf859282a52a0d025b636ef32c36ebf5}{reference\_frame}};}
+\DoxyCodeLine{210           poseMsg.header.stamp = curr\_stamp;}
+\DoxyCodeLine{211           \mbox{\hyperlink{classArucoSimple_ab1dd318b6b18900e30d8f4d72d693f15}{pose\_pub}}-\/>publish(poseMsg);}
+\DoxyCodeLine{212           \mbox{\hyperlink{classArucoSimple_a84bedaf0d742112a47e7b5366a64551c}{transform\_pub}}-\/>publish(stampedTransform);}
+\DoxyCodeLine{213           geometry\_msgs::msg::Vector3Stamped positionMsg;}
+\DoxyCodeLine{214           positionMsg.header = stampedTransform.header;}
+\DoxyCodeLine{215           positionMsg.vector = stampedTransform.transform.translation;}
+\DoxyCodeLine{216           \mbox{\hyperlink{classArucoSimple_a5c9c1ec08f005f779f76322badb70cfd}{position\_pub}}-\/>publish(positionMsg);}
+\DoxyCodeLine{217           geometry\_msgs::msg::PointStamped pixelMsg;}
+\DoxyCodeLine{218           pixelMsg.header = stampedTransform.header;}
+\DoxyCodeLine{219           pixelMsg.point.x = \mbox{\hyperlink{classArucoSimple_a8835456ca7d69c2aa0a50b9df5a3cec0}{markers}}[i].getCenter().x;}
+\DoxyCodeLine{220           pixelMsg.point.y = \mbox{\hyperlink{classArucoSimple_a8835456ca7d69c2aa0a50b9df5a3cec0}{markers}}[i].getCenter().y;}
+\DoxyCodeLine{221           pixelMsg.point.z = 0;}
+\DoxyCodeLine{222           \mbox{\hyperlink{classArucoSimple_a5cf112d346f4dce9e9f3bd3a16dd8546}{pixel\_pub}}-\/>publish(pixelMsg);}
+\DoxyCodeLine{223           \textcolor{comment}{// Publish rviz marker representing the ArUco marker patch}}
+\DoxyCodeLine{224           visualization\_msgs::msg::Marker visMarker;}
+\DoxyCodeLine{225           visMarker.header = stampedTransform.header;}
+\DoxyCodeLine{226           visMarker.id = 1;}
+\DoxyCodeLine{227           visMarker.type = visualization\_msgs::msg::Marker::CUBE;}
+\DoxyCodeLine{228           visMarker.action = visualization\_msgs::msg::Marker::ADD;}
+\DoxyCodeLine{229           visMarker.pose = poseMsg.pose;}
+\DoxyCodeLine{230           visMarker.scale.x = \mbox{\hyperlink{classArucoSimple_a4e858b4920e5323ee797f73ffc709034}{marker\_size}};}
+\DoxyCodeLine{231           visMarker.scale.y = 0.001;}
+\DoxyCodeLine{232           visMarker.scale.z = \mbox{\hyperlink{classArucoSimple_a4e858b4920e5323ee797f73ffc709034}{marker\_size}};}
+\DoxyCodeLine{233           visMarker.color.r = 1.0;}
+\DoxyCodeLine{234           visMarker.color.g = 0;}
+\DoxyCodeLine{235           visMarker.color.b = 0;}
+\DoxyCodeLine{236           visMarker.color.a = 1.0;}
+\DoxyCodeLine{237           visMarker.lifetime = rclcpp::Duration(3.0);}
+\DoxyCodeLine{238           \mbox{\hyperlink{classArucoSimple_a2ba5c06c97912110663c9cf432b2e7a8}{marker\_pub}}-\/>publish(visMarker);}
+\DoxyCodeLine{239         \}}
+\DoxyCodeLine{240         \textcolor{comment}{// but drawing all the detected markers}}
+\DoxyCodeLine{241         \mbox{\hyperlink{classArucoSimple_a8835456ca7d69c2aa0a50b9df5a3cec0}{markers}}[i].draw(\mbox{\hyperlink{classArucoSimple_af3bb350a72474018773b5249c9ec3e89}{inImage}}, cv::Scalar(0, 0, 255), 2);}
+\DoxyCodeLine{242       \}}
+\DoxyCodeLine{243       \textcolor{comment}{// draw a 3d cube in each marker if there is 3d info}}
+\DoxyCodeLine{244       \textcolor{keywordflow}{if} (\mbox{\hyperlink{classArucoSimple_ad8af732876af8f4875d859bb6c987b41}{camParam}}.\mbox{\hyperlink{classaruco_1_1CameraParameters_ab5ff265805e264fb13f119b97e0597f7}{isValid}}() \&\& \mbox{\hyperlink{classArucoSimple_a4e858b4920e5323ee797f73ffc709034}{marker\_size}} > 0) \{}
+\DoxyCodeLine{245         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i = 0; i < \mbox{\hyperlink{classArucoSimple_a8835456ca7d69c2aa0a50b9df5a3cec0}{markers}}.size(); ++i) \{}
+\DoxyCodeLine{246           \mbox{\hyperlink{classaruco_1_1CvDrawingUtils_a401f7c58975c90e9f2ca5a2e0076637b}{aruco::CvDrawingUtils::draw3dAxis}}(\mbox{\hyperlink{classArucoSimple_af3bb350a72474018773b5249c9ec3e89}{inImage}}, \mbox{\hyperlink{classArucoSimple_a8835456ca7d69c2aa0a50b9df5a3cec0}{markers}}[i], \mbox{\hyperlink{classArucoSimple_ad8af732876af8f4875d859bb6c987b41}{camParam}});}
+\DoxyCodeLine{247         \}}
+\DoxyCodeLine{248       \}}
+\DoxyCodeLine{249       \textcolor{keywordflow}{if} (\mbox{\hyperlink{classArucoSimple_abe0d5a484027e4259da58b9344f5d915}{image\_pub}}.getNumSubscribers() > 0) \{}
+\DoxyCodeLine{250         \textcolor{comment}{// show input with augmented information}}
+\DoxyCodeLine{251         cv\_bridge::CvImage out\_msg;}
+\DoxyCodeLine{252         out\_msg.header.stamp = curr\_stamp;}
+\DoxyCodeLine{253         out\_msg.encoding = sensor\_msgs::image\_encodings::RGB8;}
+\DoxyCodeLine{254         out\_msg.image = \mbox{\hyperlink{classArucoSimple_af3bb350a72474018773b5249c9ec3e89}{inImage}};}
+\DoxyCodeLine{255         \mbox{\hyperlink{classArucoSimple_abe0d5a484027e4259da58b9344f5d915}{image\_pub}}.publish(out\_msg.toImageMsg());}
+\DoxyCodeLine{256       \}}
+\DoxyCodeLine{257       \textcolor{comment}{// cv::imshow("{}display check"{}, inImage);}}
+\DoxyCodeLine{258       \textcolor{comment}{// cv::waitKey(1);}}
+\DoxyCodeLine{259       \textcolor{keywordflow}{if} (\mbox{\hyperlink{classArucoSimple_acc004e680799d097484ef61b7fdff3b7}{debug\_pub}}.getNumSubscribers() > 0) \{}
+\DoxyCodeLine{260         \textcolor{comment}{// show also the internal image resulting from the threshold operation}}
+\DoxyCodeLine{261         cv\_bridge::CvImage debug\_msg;}
+\DoxyCodeLine{262         debug\_msg.header.stamp = curr\_stamp;}
+\DoxyCodeLine{263         debug\_msg.encoding = sensor\_msgs::image\_encodings::MONO8;}
+\DoxyCodeLine{264         debug\_msg.image = \mbox{\hyperlink{classArucoSimple_acbd51e70a69d59d9ae042ec2946e4f41}{mDetector}}.\mbox{\hyperlink{classaruco_1_1MarkerDetector_af5d46972fb431b3b147c78bdac2096f3}{getThresholdedImage}}();}
+\DoxyCodeLine{265         \mbox{\hyperlink{classArucoSimple_acc004e680799d097484ef61b7fdff3b7}{debug\_pub}}.publish(debug\_msg.toImageMsg());}
+\DoxyCodeLine{266       \}}
+\DoxyCodeLine{267     \} \textcolor{keywordflow}{catch} (cv\_bridge::Exception \& e) \{}
+\DoxyCodeLine{268       std::cout << \textcolor{stringliteral}{"{}try failed"{}} << std::endl;}
+\DoxyCodeLine{269       RCLCPP\_ERROR(get\_logger(), \textcolor{stringliteral}{"{}cv\_bridge exception: \%s"{}}, e.what());}
+\DoxyCodeLine{270       \textcolor{keywordflow}{return};}
+\DoxyCodeLine{271     \}}
+\DoxyCodeLine{272   \}}
+\DoxyCodeLine{273 \}}
+
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classArucoSimple_ac690575f6aa0b51b66a3956b44d62b1a_cgraph}
+\end{center}
+\end{figure}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+aruco\+\_\+ros2/include/aruco\+\_\+ros/\mbox{\hyperlink{simple__single_8hpp}{simple\+\_\+single.\+hpp}}\item 
+aruco\+\_\+ros2/src/\mbox{\hyperlink{simple__single_8cpp}{simple\+\_\+single.\+cpp}}\end{DoxyCompactItemize}

@@ -1,0 +1,6 @@
+<map id="ArucoSimple" name="ArucoSimple">
+<area shape="rect" id="node1" title="simple aruco for single detection" alt="" coords="165,95,261,121"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,5,101,32"/>
+<area shape="rect" id="node3" href="$classaruco_1_1CameraParameters.html" title="Parameters of the camera." alt="" coords="126,5,301,32"/>
+<area shape="rect" id="node4" href="$classaruco_1_1MarkerDetector.html" title="Main class for marker detection." alt="" coords="325,5,477,32"/>
+</map>
