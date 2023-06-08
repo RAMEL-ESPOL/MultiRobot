@@ -6,16 +6,16 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
     # Launch aruco_ros2 node
-    """aruco_marker_publisher_node = ExecuteProcess(
+    aruco_marker_publisher_node = ExecuteProcess(
         cmd=['ros2', 'launch', 'aruco_ros2', 'marker_publisher.launch.xml'],
         output='screen'
-    )"""
+    )
 
     # Launch aruco_ros2 node
-    aruco_marker_publisher_node = ExecuteProcess(
+    """aruco_marker_publisher_node = ExecuteProcess(
         cmd=['ros2', 'run', 'ros2_aruco', 'aruco_node'],
         output='screen'
-    )
+    )"""
 
     # Launch realsense2_camera node
     realsense_camera_node = ExecuteProcess(
