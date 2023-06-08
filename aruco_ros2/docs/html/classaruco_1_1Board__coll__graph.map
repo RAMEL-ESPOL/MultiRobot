@@ -1,6 +1,0 @@
-<map id="aruco::Board" name="aruco::Board">
-<area shape="rect" id="node1" title=" " alt="" coords="72,171,168,197"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,81,128,108"/>
-<area shape="rect" id="node3" href="$classaruco_1_1BoardConfiguration.html" title="This class defines a board with several markers. A Board contains several markers so that they are mo..." alt="" coords="152,81,325,108"/>
-<area shape="rect" id="node4" title=" " alt="" coords="167,5,311,32"/>
-</map>

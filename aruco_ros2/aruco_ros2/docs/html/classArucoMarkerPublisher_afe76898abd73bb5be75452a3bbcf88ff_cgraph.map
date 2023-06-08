@@ -1,8 +1,0 @@
-<map id="ArucoMarkerPublisher::ArucoMarkerPublisher" name="ArucoMarkerPublisher::ArucoMarkerPublisher">
-<area shape="rect" id="node1" title="ArucoMarkerPublisher constructor for ArucoMarkerPublisher." alt="" coords="5,39,164,80"/>
-<area shape="rect" id="node2" href="$classArucoMarkerPublisher.html#a667727d4e7ca9f248e64e2c20d5c25ea" title="arucoMarker2Tf convert the marker pose info to TF2 transform type" alt="" coords="212,5,363,47"/>
-<area shape="rect" id="node4" href="$classArucoMarkerPublisher.html#a3db236b0425d8a9f6b7ad5f77b60b1e2" title="image topic subscribe callback" alt="" coords="212,71,363,112"/>
-<area shape="rect" id="node3" href="$namespacearuco__ros.html#ac69b37c14d6ea5e5f2f7e70719dd369c" title="rosCameraInfo2ArucoCamParams gets the camera intrinsics from a CameraInfo message and copies them to ..." alt="" coords="411,5,591,47"/>
-<area shape="rect" id="node5" href="$namespacearuco__ros.html#a01ddfb8b1a95fd19d8c2d6da8fc18583" title="arucoMarker2Tf convert the marker pose info to TF2 transform type" alt="" coords="411,74,590,101"/>
-<area shape="rect" id="node6" href="$classArucoMarkerPublisher.html#a447465b2b336b9cc3901d117f359c9f4" title="getTransform get transformation from 2 frame" alt="" coords="425,125,576,167"/>
-</map>

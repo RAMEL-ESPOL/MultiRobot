@@ -1,9 +1,0 @@
-<map id="ArucoMarkerPublisher::image_callback" name="ArucoMarkerPublisher::image_callback">
-<area shape="rect" id="node1" title="image topic subscribe callback" alt="" coords="5,155,156,197"/>
-<area shape="rect" id="node2" href="$namespacearuco__ros.html#a01ddfb8b1a95fd19d8c2d6da8fc18583" title="arucoMarker2Tf convert the marker pose info to TF2 transform type" alt="" coords="204,5,383,32"/>
-<area shape="rect" id="node3" href="$classaruco_1_1MarkerDetector.html#ac6da81367de2a8468925e1ac1b45760c" title=" " alt="" coords="217,57,369,98"/>
-<area shape="rect" id="node4" href="$classaruco_1_1CvDrawingUtils.html#a401f7c58975c90e9f2ca5a2e0076637b" title=" " alt="" coords="216,122,371,163"/>
-<area shape="rect" id="node5" href="$classaruco_1_1MarkerDetector.html#af5d46972fb431b3b147c78bdac2096f3" title=" " alt="" coords="216,187,371,229"/>
-<area shape="rect" id="node6" href="$classArucoMarkerPublisher.html#a447465b2b336b9cc3901d117f359c9f4" title="getTransform get transformation from 2 frame" alt="" coords="218,253,369,294"/>
-<area shape="rect" id="node7" href="$classaruco_1_1CameraParameters.html#ab5ff265805e264fb13f119b97e0597f7" title=" " alt="" coords="206,318,381,359"/>
-</map>

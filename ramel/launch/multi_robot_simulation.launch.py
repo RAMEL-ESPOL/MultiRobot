@@ -6,10 +6,13 @@ import os
 from pathlib import Path
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, ExecuteProcess, DeclareLaunchArgument, SetEnvironmentVariable
+from launch.actions import IncludeLaunchDescription, ExecuteProcess, DeclareLaunchArgument, SetEnvironmentVariable, EmitEvent, GroupAction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution, EnvironmentVariable
+from launch.conditions import IfCondition
 from launch_ros.actions import Node
+from launch.events import Shutdown
+from launch.event_handlers import OnProcessExit
 
 ARGUMENTS = [
     DeclareLaunchArgument('use_rviz', default_value='true',
@@ -28,6 +31,7 @@ ARGUMENTS = [
 os.environ['LC_NUMERIC'] = 'en_US.UTF-8'
 
 def generate_launch_description():
+    
     pkg_gazebo_ros = get_package_share_directory('gazebo_ros')
 
     use_sim_time = LaunchConfiguration('use_sim_time', default='true')
@@ -84,11 +88,22 @@ def generate_launch_description():
         model_folder,
         'model.sdf'
     )
+    model_path2 = os.path.join(
+        get_package_share_directory('turtlebot3_gazebo'),
+        'models',
+        model_folder,
+        'model2.sdf'
+    )
     urdf_file_name = 'turtlebot3_burger.urdf'
     urdf_path = os.path.join(
         get_package_share_directory('turtlebot3_gazebo'),
         'urdf',
         urdf_file_name
+        )
+    urdf_path2 = os.path.join(
+        get_package_share_directory('turtlebot3_gazebo'),
+        'urdf',
+        'turtlebot3_burger2.urdf'
         )
     start_gazebo_ros_spawner_cmd = Node(
     package='gazebo_ros',
@@ -99,7 +114,7 @@ def generate_launch_description():
         '-x', '0.5',
         '-y', '0.5',
         '-z', '0.01',
-         '-robot_namespace', 'tb3'  # Set the robot namespace
+        '-robot_namespace', 'tb3'  # Set the robot namespace
     ],
     output='screen',
     )
@@ -108,7 +123,7 @@ def generate_launch_description():
     executable='spawn_entity.py',
     arguments=[
         '-entity', 'tb3_2',
-        '-file', model_path,
+        '-file', model_path2,
         '-x', '1',
         '-y', '1',
         '-z', '0.01',
@@ -123,7 +138,7 @@ def generate_launch_description():
             os.path.join(get_package_share_directory('irobot_create_gazebo_bringup'), 'launch', 'create3_spawn.launch.py')
         ),
         launch_arguments=[
-            ('use_rviz', 'true'),
+            ('use_rviz', 'false'),
             ('x', '0.0'),
             ('y', '0.0'),
             ('z', '0.01'),
@@ -132,11 +147,13 @@ def generate_launch_description():
     )
     with open(urdf_path, 'r') as infp:
         robot_desc = infp.read()
+    with open(urdf_path2, 'r') as infp:
+        robot_desc2 = infp.read()
 
     robot_state_publisher_cmd_1 = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
-        name='robot_state_publisher',
+        name='robot_state_publisher_1',
         namespace='tb3',  # Set the namespace for the first robot state publisher
         output='screen',
         parameters=[{
@@ -147,17 +164,14 @@ def generate_launch_description():
     robot_state_publisher_cmd_2 = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
-        name='robot_state_publisher',
+        name='robot_state_publisher_2',
         namespace='tb3_2',  # Set the namespace for the second robot state publisher
         output='screen',
         parameters=[{
             'use_sim_time': use_sim_time,
-            'robot_description': robot_desc,
+            'robot_description': robot_desc2,
         }],
     )
-
-    ld = LaunchDescription()
-
     # Add the commands to the launch description
     # Define LaunchDescription variable
     ld = LaunchDescription(ARGUMENTS)
@@ -165,13 +179,9 @@ def generate_launch_description():
     ld.add_action(gz_model_uri)
     ld.add_action(gzserver)
     ld.add_action(gzclient_cmd)
-    #ld.add_action(gazebo)
     ld.add_action(create3_spawn_cmd)
     ld.add_action(robot_state_publisher_cmd_1)
     ld.add_action(robot_state_publisher_cmd_2)
     ld.add_action(start_gazebo_ros_spawner_cmd)
     ld.add_action(start_gazebo_ros_spawner_cmd_2)
-    
-    
-
     return ld

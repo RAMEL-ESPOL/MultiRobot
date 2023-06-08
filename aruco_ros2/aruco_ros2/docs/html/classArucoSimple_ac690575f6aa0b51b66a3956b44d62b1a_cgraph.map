@@ -1,5 +1,0 @@
-<map id="ArucoSimple::image_callback" name="ArucoSimple::image_callback">
-<area shape="rect" id="node1" title="image topic subscribe callback" alt="" coords="5,23,144,65"/>
-<area shape="rect" id="node2" href="$namespacearuco__ros.html#a01ddfb8b1a95fd19d8c2d6da8fc18583" title="arucoMarker2Tf convert the marker pose info to TF2 transform type" alt="" coords="193,5,372,32"/>
-<area shape="rect" id="node3" href="$classArucoSimple.html#ab08cfe145f251d1e88900b7f89302399" title="getTransform get transformation from 2 frame" alt="" coords="192,56,373,83"/>
-</map>
