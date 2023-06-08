@@ -72,7 +72,7 @@ ArucoMarkerPublisher::ArucoMarkerPublisher(rclcpp::NodeOptions options)
     std::bind(&ArucoMarkerPublisher::image_callback, this, std::placeholders::_1), "raw");
 
   get_parameter_or("use_camera_info", useCamInfo_, true);
-  declare_parameter<std::string>("aruco_dictionary_id", "DICT_4X4_50");
+  declare_parameter<std::string>("aruco_dictionary_id", "DICT_4X4_250");
   std::string dictionary_id_name = get_parameter("aruco_dictionary_id").as_string();
 
   cam_info_sub = create_subscription<sensor_msgs::msg::CameraInfo>(
@@ -186,7 +186,7 @@ void ArucoMarkerPublisher::image_callback(const sensor_msgs::msg::Image::ConstPt
       cv::Mat distCoeffs(5, 1, CV_32FC1);
 
       // Custom values for the matrix
-      float values[] = {813.3988940868342, 0.0, 318.4712794866602, 0.0, 812.726511979149, 239.56513966695684, 0.0, 0.0, 1.0};
+      float values[] = {1364.8021240234375, 0.0, 973.9801025390625, 0.0, 1365.6466064453125, 551.3172607421875, 0.0, 0.0, 1.0};
 
       // Fill the matrix with custom values
       int index = 0;
@@ -197,7 +197,7 @@ void ArucoMarkerPublisher::image_callback(const sensor_msgs::msg::Image::ConstPt
           }
       }
 
-      float values2[] = {-0.09133057693930957, 0.2248885786788923, -1.510880757335887e-05, 0.0019272406434716642, 0.5716165549682208};
+      float values2[] = {0.1670105755329132, -0.5500425100326538, -0.0003902913013007492, -0.0008471994078718126, 0.49133142828941345};
       int index2 = 0;
       for (int i = 0; i < distCoeffs.rows; i++) {
           for (int j = 0; j < distCoeffs.cols; j++) {
@@ -243,7 +243,7 @@ void ArucoMarkerPublisher::image_callback(const sensor_msgs::msg::Image::ConstPt
 
       //cv::Mat thres2
       //inImage_.copyTo(thres2);
-      cv::Ptr<cv::aruco::Dictionary> dictionary = cv::aruco::getPredefinedDictionary(cv::aruco::DICT_4X4_50);
+      cv::Ptr<cv::aruco::Dictionary> dictionary = cv::aruco::getPredefinedDictionary(cv::aruco::DICT_4X4_250);
       cv::aruco::detectMarkers(inImage_, dictionary, corners, marker_ids);
       if  (marker_ids.size() > 0) {
         int nMarkers = marker_ids.size();
@@ -305,21 +305,21 @@ void ArucoMarkerPublisher::image_callback(const sensor_msgs::msg::Image::ConstPt
           cv::Mat rot_mat;
           cv::Rodrigues(rvecs[i], rot_mat);
           cv::Matx33d rotation_matrix(rot_mat);
-
+/*
           tf2::Matrix3x3 tf2_matrix(
               rotation_matrix(0, 0), rotation_matrix(0, 1), rotation_matrix(0, 2),
               rotation_matrix(1, 0), rotation_matrix(1, 1), rotation_matrix(1, 2),
               rotation_matrix(2, 0), rotation_matrix(2, 1), rotation_matrix(2, 2)
-          );
-          /*
+          );*/
+          
           cv::Vec3d rotation_vector;
           cv::Rodrigues(rotation_matrix, rotation_vector);
 
           tf2::Quaternion q;
-          q.setRPY(rotation_vector[0], rotation_vector[1], rotation_vector[2]);
-*/
-          tf2::Quaternion q;
-          tf2_matrix.getRotation(q);
+          q.setRPY(rotation_vector[1], rotation_vector[0], rotation_vector[2]);
+
+          //tf2::Quaternion q;
+          //tf2_matrix.getRotation(q);
           //tf2::Matrix3x3(rotation_matrix).getRotation(q);
 
           tf_msg.transform.rotation.x = q.getX();
