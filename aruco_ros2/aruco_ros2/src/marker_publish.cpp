@@ -44,6 +44,11 @@ or implied, of Rafael Muñoz Salinas.
 #include <string>
 #include <memory>
 #include "aruco_ros/marker_publish.hpp"
+#include <opencv2/aruco.hpp>
+#include <opencv2/opencv.hpp>
+#include <tf2/convert.h>
+#include <tf2/LinearMath/Quaternion.h>
+#include <tf2/LinearMath/Matrix3x3.h>
 #include <tf2_ros/transform_broadcaster.h>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 #include <rclcpp/rclcpp.hpp>
@@ -67,13 +72,15 @@ ArucoMarkerPublisher::ArucoMarkerPublisher(rclcpp::NodeOptions options)
     std::bind(&ArucoMarkerPublisher::image_callback, this, std::placeholders::_1), "raw");
 
   get_parameter_or("use_camera_info", useCamInfo_, true);
+  declare_parameter<std::string>("aruco_dictionary_id", "DICT_4X4_50");
+  std::string dictionary_id_name = get_parameter("aruco_dictionary_id").as_string();
 
   cam_info_sub = create_subscription<sensor_msgs::msg::CameraInfo>(
     "/camera_info",
     rclcpp::SensorDataQoS(),
     std::bind(&ArucoMarkerPublisher::cam_info_callback, this, std::placeholders::_1));
   if (useCamInfo_) {
-    get_parameter_or("marker_size", marker_size_, 0.1);
+    get_parameter_or("marker_size", marker_size_, 0.026);
     get_parameter_or("image_is_rectified", useRectifiedImages_, false);
     get_parameter_or("reference_frame", reference_frame_, string{""});
     get_parameter_or("camera_frame", camera_frame_, string{"camera_color_frame"});
@@ -84,12 +91,35 @@ ArucoMarkerPublisher::ArucoMarkerPublisher(rclcpp::NodeOptions options)
   } else {
     camParam_ = aruco::CameraParameters();
   }
+  // Set up publishers
   image_pub_ = image_transport::create_publisher(this, "result");
   debug_pub_ = image_transport::create_publisher(this, "debug");
   marker_pub_ = create_publisher<aruco_msgs::msg::MarkerArray>("markers", 100);
   marker_list_pub_ = create_publisher<std_msgs::msg::UInt32MultiArray>("markers_list", 10);
   marker_msg_ = aruco_msgs::msg::MarkerArray::Ptr(new aruco_msgs::msg::MarkerArray());
   marker_msg_->header.frame_id = reference_frame_;
+
+  // Make sure we have a valid dictionary id
+  /*  try {
+      dictionary_id_ = cv::aruco::getPredefinedDictionary(cv::aruco::__getattribute__(dictionary_id_name));
+      if (dictionary_id_.empty() || dictionary_id_.total() == 0) {
+        throw std::runtime_error("");
+      }
+    } catch (const std::exception& e) {
+      RCLCPP_ERROR(get_logger(), "bad aruco_dictionary_id: %s", dictionary_id_name.c_str());
+      std::string options;
+      const auto dict_attrs = cv::aruco:dictionary:__getattr__();
+      for (const auto& attr : dict_attrs) {
+        if (attr.find("DICT") == 0) {
+          options += attr + "\n";
+        }
+      }
+      RCLCPP_ERROR(get_logger(), "valid options:\n%s", options.c_str());
+      throw;
+    }*/
+
+  //std::shared_ptr<cv_bridge::CvBridge> bridge_;
+  //bridge_ = std::make_shared<cv_bridge::CvBridge>();
 }
 
 bool ArucoMarkerPublisher::getTransform(
@@ -134,29 +164,193 @@ void ArucoMarkerPublisher::image_callback(const sensor_msgs::msg::Image::ConstPt
     try {
       cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::RGB8);
       inImage_ = cv_ptr->image;
+      inImage_.copyTo(inImage_copy);
 
       // clear out previous detection results
       markers_.clear();
+      
+      std::vector<std::vector<cv::Point2f>> corners, rejected;
+      std::vector<int> marker_ids;
 
+      //std::vector<cv::Point2f> rejected;
+
+      
+      //cv::Ptr<cv::aruco::DetectorParameters> aruco_parameters_ = cv::aruco::DetectorParameters::create();
+      
       // Ok, let's detect
-      mDetector_.detect(inImage_, markers_, camParam_, marker_size_, false);
+      //mDetector_.detect(inImage_, markers_, camParam_, marker_size_, false);
+      
+      //cv::Mat cameraMatrix, distCoeffs;
 
-      // marker array publish
+      cv::Mat cameraMatrix = cv::Mat::zeros(3, 3, CV_32FC1);
+      cv::Mat distCoeffs(5, 1, CV_32FC1);
 
-      {
+      // Custom values for the matrix
+      float values[] = {813.3988940868342, 0.0, 318.4712794866602, 0.0, 812.726511979149, 239.56513966695684, 0.0, 0.0, 1.0};
+
+      // Fill the matrix with custom values
+      int index = 0;
+      for (int i = 0; i < cameraMatrix.cols; i++) {
+          for (int j = 0; j < cameraMatrix.rows; j++) {
+              cameraMatrix.at<float>(i, j) = values[index];
+              index++;
+          }
+      }
+
+      float values2[] = {-0.09133057693930957, 0.2248885786788923, -1.510880757335887e-05, 0.0019272406434716642, 0.5716165549682208};
+      int index2 = 0;
+      for (int i = 0; i < distCoeffs.rows; i++) {
+          for (int j = 0; j < distCoeffs.cols; j++) {
+              distCoeffs.at<float>(i, j) = values2[index2];
+              index2++;
+          }
+      }
+
+      //cv::Size size;
+      //aruco::CameraParameters(cameraMatrix, distCoeffs, size);
+/*
+      cv::FileStorage fs("calibration.yaml", cv::FileStorage::READ);
+      if (fs.isOpened()){
+          std::cout << "SIIIIIUUUUUUUUU" << std::endl;
+      }
+      fs["camera_matrix"] >> cameraMatrix;
+      fs["distortion_coefficients"] >> distCoeffs;
+*/
+
+      std::cout << "Camera Matrix:" << std::endl;
+      for (int i = 0; i < cameraMatrix.rows; i++) {
+          for (int j = 0; j < cameraMatrix.cols; j++) {
+              std::cout << cameraMatrix.at<float>(i, j) << " ";
+          }
+          std::cout << std::endl;
+      }
+
+      std::cout << "Distortion Coefficients:" << std::endl;
+      for (int i = 0; i < distCoeffs.rows; i++) {
+          for (int j = 0; j < distCoeffs.cols; j++) {
+              std::cout << distCoeffs.at<float>(i, j) << " ";
+          }
+          std::cout << std::endl;
+      }
+
+
+      //cv::FileStorage fs("calibration.yaml", cv::FileStorage::READ);
+      //if (!fs.isOpened())
+          //return false;
+      //fs["camera_matrix"] >> cameraMatrix;
+      //fs["distortion_coefficients"] >> distCoeffs;
+      //return true;
+
+      //cv::Mat thres2
+      //inImage_.copyTo(thres2);
+      cv::Ptr<cv::aruco::Dictionary> dictionary = cv::aruco::getPredefinedDictionary(cv::aruco::DICT_4X4_50);
+      cv::aruco::detectMarkers(inImage_, dictionary, corners, marker_ids);
+      if  (marker_ids.size() > 0) {
+        int nMarkers = marker_ids.size();
+        std::vector<cv::Vec3d> rvecs, tvecs;
+        cv::aruco::drawDetectedMarkers(inImage_copy, corners, marker_ids);
+        cv::aruco::estimatePoseSingleMarkers(corners, marker_size_, cameraMatrix, distCoeffs, rvecs, tvecs);
+        for (int i = 0; i < marker_ids.size(); ++i) {
+          //cv::Mat markerImage;
+          //cv::aruco::drawMarker(dictionary, marker_ids[i], 200, markerImage, 1);
+          //cv::aruco::drawDetectedMarkers(inImage_, corners, ids);
+          
+          //for (int j = 0; j < nMarkers; j++) {
+            //solvePnP(objPoints, corners.at(i), cameraMatrix, distCoeffs, rvecs.at(i), tvecs.at(i));
+          //cv::aruco::estimatePoseSingleMarkers(corners.at(i), marker_size_, cameraMatrix, distCoeffs, rvecs.at(i), tvecs.at(i));
+          //}
+          /*
+          std::vector<std::vector<cv::Point> > contours2;
+          std::vector<cv::Vec4i> hierarchy2;
+          inImage_.copyTo ( thres2 );
+          cv::findContours ( thres2 , contours2, hierarchy2,cv::RetrievalModes::RETR_TREE, cv::ContourApproximationModes::CHAIN_APPROX_NONE );
+          vector<Point>  approxCurve;
+          */
+          markers_.push_back (aruco::Marker());
+          //for ( int c=0;c<4;c++ )     markers_[i][c]=corners[i][c];
+          markers_.back().id=marker_ids[i];  
+          markers_.back().Rvec= rvecs[i];
+          markers_.back().Tvec= tvecs[i];
+
+          cv::drawFrameAxes(inImage_copy, cameraMatrix, distCoeffs, rvecs[i], tvecs[i], 0.1);
+
+        }
+
         marker_msg_->markers.clear();
         marker_msg_->markers.resize(markers_.size());
         marker_msg_->header.stamp = curr_stamp;
 
+        for (int i = 0; i < marker_ids.size(); ++i) {
+
+          //cv::drawFrameAxes(inImage_copy, cameraMatrix, distCoeffs, rvecs[i], tvecs[i], 0.05);
+
+          aruco_msgs::msg::Marker & marker_i = marker_msg_->markers.at(i);
+          marker_i.header.stamp = curr_stamp;
+          marker_i.id = marker_ids[i];
+          marker_i.confidence = 1.0;
+
+          //tf2::Transform transform = aruco_ros::arucoMarker2Tf(markers_[i], rotate_marker_axis_);
+
+          /*std::cout << transform.getOrigin().getX() << " || " << transform.getOrigin().getY() <<
+            " || " << transform.getOrigin().getZ() << endl;
+          transform = cameraToReference_tf * transform;*/
+          geometry_msgs::msg::TransformStamped tf_msg;
+	        tf_msg.header.stamp = curr_stamp;
+          tf_msg.header.frame_id = camera_frame_;
+          tf_msg.child_frame_id = "marker_frame_" + std::to_string(marker_ids[i]);
+          tf_msg.transform.translation.x = tvecs[i][0];
+          tf_msg.transform.translation.y = tvecs[i][1];
+          tf_msg.transform.translation.z = tvecs[i][2];
+
+          cv::Mat rot_mat;
+          cv::Rodrigues(rvecs[i], rot_mat);
+          cv::Matx33d rotation_matrix(rot_mat);
+
+          tf2::Matrix3x3 tf2_matrix(
+              rotation_matrix(0, 0), rotation_matrix(0, 1), rotation_matrix(0, 2),
+              rotation_matrix(1, 0), rotation_matrix(1, 1), rotation_matrix(1, 2),
+              rotation_matrix(2, 0), rotation_matrix(2, 1), rotation_matrix(2, 2)
+          );
+          /*
+          cv::Vec3d rotation_vector;
+          cv::Rodrigues(rotation_matrix, rotation_vector);
+
+          tf2::Quaternion q;
+          q.setRPY(rotation_vector[0], rotation_vector[1], rotation_vector[2]);
+*/
+          tf2::Quaternion q;
+          tf2_matrix.getRotation(q);
+          //tf2::Matrix3x3(rotation_matrix).getRotation(q);
+
+          tf_msg.transform.rotation.x = q.getX();
+          tf_msg.transform.rotation.y = q.getY();
+          tf_msg.transform.rotation.z = q.getZ();
+          tf_msg.transform.rotation.w = q.getW();
+          tf_broadcaster->sendTransform(tf_msg);
+          tf2::Transform transform;
+          tf2::fromMsg(tf_msg.transform, transform);
+	        tf2::toMsg(transform, marker_i.pose.pose);
+          marker_i.header.frame_id = reference_frame_;
+
+
+        }
+      }
+      // marker array publish
+
+      {
+        /*marker_msg_->markers.clear();
+        marker_msg_->markers.resize(markers_.size());
+        marker_msg_->header.stamp = curr_stamp;*/
+        /*
         for (size_t i = 0; i < markers_.size(); ++i) {
           aruco_msgs::msg::Marker & marker_i = marker_msg_->markers.at(i);
           marker_i.header.stamp = curr_stamp;
           marker_i.id = markers_.at(i).id;
           marker_i.confidence = 1.0;
-        }
+        }*/
 
         // if there is camera info let's do 3D stuff
-        if (useCamInfo_) {
+        /*if (useCamInfo_) {
           geometry_msgs::msg::TransformStamped cameraToReference;
           tf2::Transform cameraToReference_tf;
 
@@ -167,10 +361,10 @@ void ArucoMarkerPublisher::image_callback(const sensor_msgs::msg::Image::ConstPt
             tf2::fromMsg(cameraToReference.transform, cameraToReference_tf);
           } else {
             cameraToReference_tf.setIdentity();
-          }
+          }*/
 
           // Now find the transform for each detected marker
-          for (size_t i = 0; i < markers_.size(); ++i) {
+          /*for (size_t i = 0; i < markers_.size(); ++i) {
             aruco_msgs::msg::Marker & marker_i = marker_msg_->markers.at(i);
             tf2::Transform transform = aruco_ros::arucoMarker2Tf(markers_[i], rotate_marker_axis_);
 
@@ -192,7 +386,7 @@ void ArucoMarkerPublisher::image_callback(const sensor_msgs::msg::Image::ConstPt
 	    tf2::toMsg(transform, marker_i.pose.pose);
             marker_i.header.frame_id = reference_frame_;
           }
-        }
+        }*/
 
         // publish marker array
         if (marker_msg_->markers.size() > 0) {
@@ -234,11 +428,11 @@ void ArucoMarkerPublisher::image_callback(const sensor_msgs::msg::Image::ConstPt
           }*/
 
       // draw a 3d cube in each marker if there is 3d info
-      if (camParam_.isValid() && marker_size_ > 0) {
+      /*if (camParam_.isValid() && marker_size_ > 0) {
         for (size_t i = 0; i < markers_.size(); ++i) {
           aruco::CvDrawingUtils::draw3dAxis(inImage_, markers_[i], camParam_);
         }
-      }
+      }*/
 
       // cv::namedWindow("Camera view",cv::WINDOW_NORMAL);
       // cv::resizeWindow("Camera view", 800, 450);
@@ -252,7 +446,7 @@ void ArucoMarkerPublisher::image_callback(const sensor_msgs::msg::Image::ConstPt
         out_msg.header.stamp = curr_stamp;
         out_msg.header.frame_id = camera_frame_;
         out_msg.encoding = sensor_msgs::image_encodings::RGB8;
-        out_msg.image = inImage_;
+        out_msg.image = inImage_copy;
         image_pub_.publish(out_msg.toImageMsg());
       }
 
@@ -263,7 +457,8 @@ void ArucoMarkerPublisher::image_callback(const sensor_msgs::msg::Image::ConstPt
         debug_msg.header.stamp = curr_stamp;
         debug_msg.header.frame_id = camera_frame_;
         debug_msg.encoding = sensor_msgs::image_encodings::MONO8;
-        debug_msg.image = mDetector_.getThresholdedImage();
+        //debug_msg.image = mDetector_.getThresholdedImage();
+        debug_msg.image = inImage_copy;
         debug_pub_.publish(debug_msg.toImageMsg());
       }
     } catch (cv_bridge::Exception & e) {
@@ -280,3 +475,12 @@ void ArucoMarkerPublisher::cam_info_callback(sensor_msgs::msg::CameraInfo::Const
     cam_info_received = true;
   }
 }
+
+/*inline static bool readCameraParameters(std::string filename, cv::Mat &camMatrix, cv::Mat &distCoeffs) {
+    cv::FileStorage fs(filename, cv::FileStorage::READ);
+    if (!fs.isOpened())
+        return false;
+    fs["camera_matrix"] >> camMatrix;
+    fs["distortion_coefficients"] >> distCoeffs;
+    return true;
+}*/

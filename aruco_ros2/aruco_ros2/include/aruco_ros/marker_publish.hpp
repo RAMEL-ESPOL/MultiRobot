@@ -69,6 +69,7 @@ or implied, of Rafael Muñoz Salinas.
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/u_int32_multi_array.hpp"
 #include "aruco_ros/aruco_ros_utils.hpp"
+#include <aruco/marker.h>
 #include "aruco_msgs/msg/marker_array.hpp"
 #include <tf2_ros/buffer.h>
 #include <rclcpp/rclcpp.hpp>
@@ -112,7 +113,7 @@ public:
 
   rclcpp::Subscription<sensor_msgs::msg::CameraInfo>::SharedPtr cam_info_sub_;
   aruco_msgs::msg::MarkerArray::Ptr marker_msg_;
-  cv::Mat inImage_;
+  cv::Mat inImage_, inImage_copy;
   bool useCamInfo_;
   std_msgs::msg::UInt32MultiArray marker_list_msg_;
 

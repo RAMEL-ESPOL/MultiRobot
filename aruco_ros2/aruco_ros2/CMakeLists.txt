@@ -127,7 +127,7 @@ install(TARGETS
     DESTINATION lib/${PROJECT_NAME}
 )
 
-foreach(dir etc launch)
+foreach(dir etc launch src)
     install(DIRECTORY ${dir}/
         DESTINATION  share/${PROJECT_NAME}/${dir})
 endforeach()
