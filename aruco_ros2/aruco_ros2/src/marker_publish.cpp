@@ -1,44 +1,13 @@
-// Copyright 2011 Rafael Muñoz Salinas
-// All rights reserved.
-//
-// Software License Agreement (BSD 2-Clause Simplified License)
-//
-// Redistribution and use in source and binary forms, with or without
-// modification, are permitted provided that the following conditions
-// are met:
-//
-//  * Redistributions of source code must retain the above copyright
-//    notice, this list of conditions and the following disclaimer.
-//  * Redistributions in binary form must reproduce the above
-//    copyright notice, this list of conditions and the following
-//    disclaimer in the documentation and/or other materials provided
-//    with the distribution.
-//
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
-// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
-// COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-// LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-// CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
-// LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
-// ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-// POSSIBILITY OF SUCH DAMAGE.
-
 /*****************************
-The views and conclusions contained in the software and documentation are those of the
-authors and should not be interpreted as representing official policies, either expressed
-or implied, of Rafael Muñoz Salinas.
+Detect and Draw Aruco Markers.
 ********************************/
 
 /**
-* @file simple_double.cpp
-* @author Raymond Chan Chee Leong  (Bence Magyar-> ROS1)
-* @date June 2020
-* @version 0.1
-* @brief Modified copy of simple_single.cpp ROS 2 to publish all visible markers and pose of markers.
+* @file marker_publish.cpp
+* @author Ramel
+* @date June 2023
+* @version 1.0
+* @brief Detect and Draw Aruco Markers, and broadcast TFs to Rviz
 */
 
 #include <string>
@@ -66,31 +35,34 @@ ArucoMarkerPublisher::ArucoMarkerPublisher(rclcpp::NodeOptions options)
   tf_buffer_->setCreateTimerInterface(timer_interface);
   tfListener_ = std::make_shared<tf2_ros::TransformListener>(*tf_buffer_);
   tf_broadcaster= std::make_shared<tf2_ros::TransformBroadcaster>(this);
-  image_sub_ =
-    image_transport::create_subscription(
-    this, "/image",
-    std::bind(&ArucoMarkerPublisher::image_callback, this, std::placeholders::_1), "raw");
+  
 
   get_parameter_or("use_camera_info", useCamInfo_, true);
   declare_parameter<std::string>("aruco_dictionary_id", "DICT_4X4_250");
   std::string dictionary_id_name = get_parameter("aruco_dictionary_id").as_string();
 
+  // Set up subscriptions
+  image_sub_ =
+    image_transport::create_subscription(
+    this, "/image",
+    std::bind(&ArucoMarkerPublisher::image_callback, this, std::placeholders::_1), "raw");
   cam_info_sub = create_subscription<sensor_msgs::msg::CameraInfo>(
     "/camera_info",
     rclcpp::SensorDataQoS(),
     std::bind(&ArucoMarkerPublisher::cam_info_callback, this, std::placeholders::_1));
   if (useCamInfo_) {
     get_parameter_or("marker_size", marker_size_, 0.026);
-    get_parameter_or("image_is_rectified", useRectifiedImages_, false);
-    get_parameter_or("reference_frame", reference_frame_, string{""});
-    get_parameter_or("camera_frame", camera_frame_, string{"camera_color_frame"});
-    get_parameter_or("rotate_marker_axis", rotate_marker_axis_, false);
+    //get_parameter_or("image_is_rectified", useRectifiedImages_, false);
+    get_parameter_or("reference_frame", reference_frame_, string{"camera_color_frame"});
+    get_parameter_or("camera_frame", camera_frame_, string{"camera_color_optical_frame"});
+    //get_parameter_or("rotate_marker_axis", rotate_marker_axis_, false);
     if (reference_frame_.empty()) {
       reference_frame_ = camera_frame_;
     }
   } else {
     camParam_ = aruco::CameraParameters();
   }
+
   // Set up publishers
   image_pub_ = image_transport::create_publisher(this, "result");
   debug_pub_ = image_transport::create_publisher(this, "debug");
@@ -244,7 +216,8 @@ void ArucoMarkerPublisher::image_callback(const sensor_msgs::msg::Image::ConstPt
       //cv::Mat thres2
       //inImage_.copyTo(thres2);
       cv::Ptr<cv::aruco::Dictionary> dictionary = cv::aruco::getPredefinedDictionary(cv::aruco::DICT_4X4_250);
-      cv::aruco::detectMarkers(inImage_, dictionary, corners, marker_ids);
+      cv::Ptr<cv::aruco::DetectorParameters> detectorParams = cv::aruco::DetectorParameters::create();
+      cv::aruco::detectMarkers(inImage_, dictionary, corners, marker_ids, detectorParams, rejected);
       if  (marker_ids.size() > 0) {
         int nMarkers = marker_ids.size();
         std::vector<cv::Vec3d> rvecs, tvecs;
@@ -272,7 +245,7 @@ void ArucoMarkerPublisher::image_callback(const sensor_msgs::msg::Image::ConstPt
           markers_.back().Rvec= rvecs[i];
           markers_.back().Tvec= tvecs[i];
 
-          cv::drawFrameAxes(inImage_copy, cameraMatrix, distCoeffs, rvecs[i], tvecs[i], 0.1);
+          cv::aruco::drawAxis(inImage_copy, cameraMatrix, distCoeffs, rvecs[i], tvecs[i], 0.05);
 
         }
 
@@ -289,35 +262,80 @@ void ArucoMarkerPublisher::image_callback(const sensor_msgs::msg::Image::ConstPt
           marker_i.id = marker_ids[i];
           marker_i.confidence = 1.0;
 
+          geometry_msgs::msg::TransformStamped cameraToReference;
+          tf2::Transform cameraToReference_tf;
+
+          if (reference_frame_ != camera_frame_) {
+            if (!getTransform(reference_frame_, camera_frame_, cameraToReference)) {
+              return;
+            }
+            tf2::fromMsg(cameraToReference.transform, cameraToReference_tf);
+          } else {
+            cameraToReference_tf.setIdentity();
+          }
           //tf2::Transform transform = aruco_ros::arucoMarker2Tf(markers_[i], rotate_marker_axis_);
 
           /*std::cout << transform.getOrigin().getX() << " || " << transform.getOrigin().getY() <<
             " || " << transform.getOrigin().getZ() << endl;
           transform = cameraToReference_tf * transform;*/
+          
+          //RotationAndTranslationVectorsToTransform
+          cv::Mat rot_mat(3, 3, CV_64F);
+          cv::Rodrigues(aruco_ros::rotationVectorWithROSAxes(rvecs[i]), rot_mat);
+          tf2::Matrix3x3 tf_rot(
+              rot_mat.at<double>(0, 0), rot_mat.at<double>(0, 1), rot_mat.at<double>(0, 2),
+              rot_mat.at<double>(1, 0), rot_mat.at<double>(1, 1), rot_mat.at<double>(1, 2),
+              rot_mat.at<double>(2, 0), rot_mat.at<double>(2, 1), rot_mat.at<double>(2, 2));
+          tf2::Vector3 tf_orig(-tvecs[i][1], -tvecs[i][2], tvecs[i][0]);
+          tf2::Transform transform(tf_rot, tf_orig);
+
+          //cameraToMarker Reference
+          transform = cameraToReference_tf*transform;
+
           geometry_msgs::msg::TransformStamped tf_msg;
 	        tf_msg.header.stamp = curr_stamp;
           tf_msg.header.frame_id = camera_frame_;
           tf_msg.child_frame_id = "marker_frame_" + std::to_string(marker_ids[i]);
+          tf_msg.transform = tf2::toMsg(transform);
+          tf_broadcaster->sendTransform(tf_msg);
+          
+          /*
           tf_msg.transform.translation.x = tvecs[i][0];
           tf_msg.transform.translation.y = tvecs[i][1];
           tf_msg.transform.translation.z = tvecs[i][2];
 
-          cv::Mat rot_mat;
+          cv::Mat rot_mat(3, 3, CV_64F);
           cv::Rodrigues(rvecs[i], rot_mat);
+          cv::Mat rotate_to_ros =
+              (cv::Mat_<double>(3, 3) << 0, 0, 1, 0, -1, 0, 1, 0, 0);
+          rot_mat = rot_mat * rotate_to_ros.t();
+          cv::Vec3d ret;
+          cv::Rodrigues(rot_mat, ret);
+          
+          
           cv::Matx33d rotation_matrix(rot_mat);
+          */
+          //cv::Mat rotationTransposed = rot_mat.t();
 /*
           tf2::Matrix3x3 tf2_matrix(
               rotation_matrix(0, 0), rotation_matrix(0, 1), rotation_matrix(0, 2),
               rotation_matrix(1, 0), rotation_matrix(1, 1), rotation_matrix(1, 2),
               rotation_matrix(2, 0), rotation_matrix(2, 1), rotation_matrix(2, 2)
           );*/
-          
+          /*
           cv::Vec3d rotation_vector;
           cv::Rodrigues(rotation_matrix, rotation_vector);
 
           tf2::Quaternion q;
           q.setRPY(rotation_vector[1], rotation_vector[0], rotation_vector[2]);
 
+
+          tf2::Matrix3x3 tf_rot(
+              rot.at<double>(0, 0), rot.at<double>(0, 1), rot.at<double>(0, 2),
+              rot.at<double>(1, 0), rot.at<double>(1, 1), rot.at<double>(1, 2),
+              rot.at<double>(2, 0), rot.at<double>(2, 1), rot.at<double>(2, 2));
+          tf2::Vector3 tf_orig(Tvec[0], Tvec[1], Tvec[2]);
+          tf2::Transform tf_msg(tf_rot, tf_orig);
           //tf2::Quaternion q;
           //tf2_matrix.getRotation(q);
           //tf2::Matrix3x3(rotation_matrix).getRotation(q);
@@ -329,9 +347,10 @@ void ArucoMarkerPublisher::image_callback(const sensor_msgs::msg::Image::ConstPt
           tf_broadcaster->sendTransform(tf_msg);
           tf2::Transform transform;
           tf2::fromMsg(tf_msg.transform, transform);
+          */
 	        tf2::toMsg(transform, marker_i.pose.pose);
           marker_i.header.frame_id = reference_frame_;
-
+          
 
         }
       }
@@ -470,6 +489,23 @@ void ArucoMarkerPublisher::image_callback(const sensor_msgs::msg::Image::ConstPt
 void ArucoMarkerPublisher::cam_info_callback(sensor_msgs::msg::CameraInfo::ConstPtr msg)
 {
   if (useCamInfo_) {
+
+    //int dist_dim = msg.d.size();
+/*
+    cv::Mat cameraMatrix = cv::Mat::zeros(3, 3, CV_64FC1);
+    cv::Mat distCoeffs(dist_dim, 1, CV_64FC1);
+
+    cameraMatrix.at<double>(0, 0) = msg.p[0];   cameraMatrix.at<double>(0, 1) = msg.p[1];
+    cameraMatrix.at<double>(0, 2) = msg.p[2];
+    cameraMatrix.at<double>(1, 0) = msg.p[4];   cameraMatrix.at<double>(1, 1) = msg.p[5];
+    cameraMatrix.at<double>(1, 2) = msg.p[6];
+    cameraMatrix.at<double>(2, 0) = msg.p[8];   cameraMatrix.at<double>(2, 1) = msg.p[9];
+    cameraMatrix.at<double>(2, 2) = msg.p[10];
+
+    for (int i = 0; i < dist_dim; ++i) {
+        distCoeffs.at<double>(i, 0) = msg.d[i];
+    }
+*/
     camParam_ = aruco_ros::rosCameraInfo2ArucoCamParams(*msg, useRectifiedImages_);
 
     cam_info_received = true;
@@ -484,3 +520,4 @@ void ArucoMarkerPublisher::cam_info_callback(sensor_msgs::msg::CameraInfo::Const
     fs["distortion_coefficients"] >> distCoeffs;
     return true;
 }*/
+

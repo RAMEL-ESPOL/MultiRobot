@@ -9,7 +9,7 @@
         <param name="image_is_rectified"    type="bool"     value="True"/>
         <param name="marker_size"           type="float"   value="$(var markerSize)"/>
         <param name="reference_frame"       type="str"      value="$(var ref_frame)"/>   <!-- frame in which the marker pose will be refered -->
-        <!-- <param name="camera_frame"       value="$(var side)_hand_camera"/> -->
+        <!-- <param name="camera_frame_"       value="$(var side)_hand_camera"/> -->
     </node>
 </launch>
 

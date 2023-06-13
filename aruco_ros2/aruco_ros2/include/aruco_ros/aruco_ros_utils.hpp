@@ -175,6 +175,15 @@ namespace aruco_ros
 
 
 /**
+ * @brief arucoMarker2Tf convert the marker pose info to TF2 transform type
+ * @param marker   input marker
+ * @param rotate_marker_axis if true, Rotate axis direction as to fit from opencv to ROS frame.
+ * @return transformation of marker in type TF2
+ */
+
+cv::Vec3d rotationVectorWithROSAxes(const cv::Vec3d &Rvec);
+
+/**
    * @brief rosCameraInfo2ArucoCamParams gets the camera intrinsics from a CameraInfo message and copies them
    *                                     to aruco_ros own data structure
    * @param cam_info

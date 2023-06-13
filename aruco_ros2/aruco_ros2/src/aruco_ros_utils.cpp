@@ -41,6 +41,23 @@ or implied, of Rafael Muñoz Salinas.
 // #include "tf2/transform_datatypes.h"
 // #include "tf2/LinearMath/Transform.h"
 
+cv::Vec3d aruco_ros::rotationVectorWithROSAxes(const cv::Vec3d &Rvec) {
+  cv::Mat rot(3, 3, CV_64FC1);
+  cv::Rodrigues(Rvec, rot);
+
+  // Rotate axis direction as to fit ROS
+  cv::Mat rotate_to_ros =
+      //(cv::Mat_<double>(3, 3) << 1, 0, 0, 0, 1, 0, 0, 0, 1);
+      (cv::Mat_<double>(3, 3) << 0, 1, 0, 0, 0, -1, -1, 0, 0);
+      //(cv::Mat_<double>(3, 3) << 0, -1, 0, 1, 0, 0, 0, 0, 1);
+      //(cv::Mat_<double>(3, 3) << 0, 0, 1, 0, -1, 0, 1, 0, 0);
+      //(cv::Mat_<double>(3, 3) << -1, 0, 0, 0, 0, 1, 0, 1, 0);
+  rot = rot * rotate_to_ros.t();
+
+  cv::Vec3d ret;
+  cv::Rodrigues(rot, ret);
+  return ret;
+}
 
 aruco::CameraParameters aruco_ros::rosCameraInfo2ArucoCamParams(
   const sensor_msgs::msg::CameraInfo & cam_info,
