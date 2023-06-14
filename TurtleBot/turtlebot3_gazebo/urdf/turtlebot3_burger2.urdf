@@ -44,15 +44,15 @@
     <color rgba="1.0 1.0 1.0 1.0"/>
   </material>
   
-  <link name="tb3_2/base_footprint"/>
+  <link name="tb3_2_base_footprint"/>
 
   <joint name="base_joint" type="fixed">
-    <parent link="tb3_2/base_footprint"/>
-    <child link="tb3_2/base_link"/>
+    <parent link="tb3_2_base_footprint"/>
+    <child link="tb3_2_base_link"/>
     <origin xyz="0.0 0.0 0.010" rpy="0 0 0"/>
   </joint>
 
-  <link name="tb3_2/base_link">
+  <link name="tb3_2_base_link">
     <visual>
       <origin xyz="-0.032 0 0.0" rpy="0 0 0"/>
       <geometry>
@@ -76,13 +76,13 @@
   </link>
 
   <joint name="wheel_left_joint" type="continuous">
-    <parent link="tb3_2/base_link"/>
-    <child link="tb3_2/wheel_left_link"/>
+    <parent link="tb3_2_base_link"/>
+    <child link="tb3_2_wheel_left_link"/>
     <origin xyz="0.0 0.08 0.023" rpy="-1.57 0 0"/>
     <axis xyz="0 0 1"/>
   </joint>
 
-  <link name="tb3_2/wheel_left_link">
+  <link name="tb3_2_wheel_left_link">
     <visual>
       <origin xyz="0 0 0" rpy="1.57 0 0"/>
       <geometry>
@@ -106,13 +106,13 @@
   </link>
 
   <joint name="wheel_right_joint" type="continuous">
-    <parent link="tb3_2/base_link"/>
-    <child link="tb3_2/wheel_right_link"/>
+    <parent link="tb3_2_base_link"/>
+    <child link="tb3_2_wheel_right_link"/>
     <origin xyz="0.0 -0.080 0.023" rpy="-1.57 0 0"/>
     <axis xyz="0 0 1"/>
   </joint>
 
-  <link name="tb3_2/wheel_right_link">
+  <link name="tb3_2_wheel_right_link">
     <visual>
       <origin xyz="0 0 0" rpy="1.57 0 0"/>
       <geometry>
@@ -136,12 +136,12 @@
   </link>
 
   <joint name="caster_back_joint" type="fixed">
-    <parent link="tb3_2/base_link"/>
-    <child link="tb3_2/caster_back_link"/>
+    <parent link="tb3_2_base_link"/>
+    <child link="tb3_2_caster_back_link"/>
     <origin xyz="-0.081 0 -0.004" rpy="-1.57 0 0"/>
   </joint>
 
-  <link name="tb3_2/caster_back_link">
+  <link name="tb3_2_caster_back_link">
     <collision>
       <origin xyz="0 0.001 0" rpy="0 0 0"/>
       <geometry>
@@ -157,20 +157,20 @@
   </link>
 
   <joint name="imu_joint" type="fixed">
-    <parent link="tb3_2/base_link"/>
-    <child link="tb3_2/imu_link"/>
+    <parent link="tb3_2_base_link"/>
+    <child link="tb3_2_imu_link"/>
     <origin xyz="-0.032 0 0.068" rpy="0 0 0"/>
   </joint>
 
-  <link name="tb3_2/imu_link"/>
+  <link name="tb3_2_imu_link"/>
 
   <joint name="scan_joint" type="fixed">
-    <parent link="tb3_2/base_link"/>
-    <child link="tb3_2/base_scan"/>
+    <parent link="tb3_2_base_link"/>
+    <child link="tb3_2_base_scan"/>
     <origin xyz="-0.032 0 0.172" rpy="0 0 0"/>
   </joint>
 
-  <link name="tb3_2/base_scan">
+  <link name="tb3_2_base_scan">
     <visual>
       <origin xyz="0 0 0.0" rpy="0 0 0"/>
       <geometry>

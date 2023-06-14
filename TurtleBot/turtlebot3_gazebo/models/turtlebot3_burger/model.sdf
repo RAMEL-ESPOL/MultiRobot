@@ -4,9 +4,9 @@
     <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose>
     
  	 
-    <link name="tb3/base_footprint"/>
+    <link name="tb3_base_footprint"/>
 
-    <link name="tb3/base_link">
+    <link name="tb3_base_link">
 
       <inertial>
         <pose>-0.032 0 0.070 0 0 0</pose>
@@ -41,7 +41,7 @@
       </visual>
     </link>
 
-    <link name="tb3/imu_link">
+    <link name="tb3_imu_link">
       <sensor name="tb3_imu" type="imu">
         <always_on>true</always_on>
         <update_rate>200</update_rate>
@@ -96,7 +96,7 @@
       </sensor>
     </link>
 
-    <link name="tb3/base_scan">
+    <link name="tb3_base_scan">
       <inertial>
         <pose>-0.020 0 0.161 0 0 0</pose>
         <inertia>
@@ -161,12 +161,12 @@
             <remapping>~/out:=scan</remapping>
           </ros>
           <output_type>sensor_msgs/LaserScan</output_type>
-          <frame_name>tb3/base_scan</frame_name>
+          <frame_name>tb3_base_scan</frame_name>
         </plugin>
       </sensor>
     </link>
 
-    <link name="tb3/wheel_left_link">
+    <link name="tb3_wheel_left_link">
 
       <inertial>
         <pose>0 0.08 0.023 -1.57 0 0</pose>
@@ -224,7 +224,7 @@
       </visual>
     </link>
 
-    <link name="tb3/wheel_right_link">
+    <link name="tb3_wheel_right_link">
 
       <inertial>
         <pose>0.0 -0.08 0.023 -1.57 0 0</pose>
@@ -282,7 +282,7 @@
       </visual>
     </link>
 
-    <link name='tb3/caster_back_link'>
+    <link name='tb3_caster_back_link'>
       <pose>-0.081 0 -0.004 -1.57 0 0</pose>
       <inertial>
         <mass>0.005</mass>
@@ -317,14 +317,14 @@
     </link>
 
     <joint name="base_joint" type="fixed">
-      <parent>tb3/base_footprint</parent>
-      <child>tb3/base_link</child>
+      <parent>tb3_base_footprint</parent>
+      <child>tb3_base_link</child>
       <pose>0.0 0.0 0.010 0 0 0</pose>
     </joint>
 
     <joint name="wheel_left_joint" type="revolute">
-      <parent>tb3/base_link</parent>
-      <child>tb3/wheel_left_link</child>
+      <parent>tb3_base_link</parent>
+      <child>tb3_wheel_left_link</child>
       <pose>0.0 0.08 0.023 -1.57 0 0</pose>
       <axis>
         <xyz>0 0 1</xyz>
@@ -332,8 +332,8 @@
     </joint>
 
     <joint name="wheel_right_joint" type="revolute">
-      <parent>tb3/base_link</parent>
-      <child>tb3/wheel_right_link</child>
+      <parent>tb3_base_link</parent>
+      <child>tb3_wheel_right_link</child>
       <pose>0.0 -0.08 0.023 -1.57 0 0</pose>
       <axis>
         <xyz>0 0 1</xyz>
@@ -341,13 +341,13 @@
     </joint>
 
     <joint name='caster_back_joint' type='ball'>
-      <parent>tb3/base_link</parent>
-      <child>tb3/caster_back_link</child>
+      <parent>tb3_base_link</parent>
+      <child>tb3_caster_back_link</child>
     </joint>
 
     <joint name="imu_joint" type="fixed">
-      <parent>tb3/base_link</parent>
-      <child>tb3/imu_link</child>
+      <parent>tb3_base_link</parent>
+      <child>tb3_imu_link</child>
       <pose>-0.032 0 0.068 0 0 0</pose>
       <axis>
         <xyz>0 0 1</xyz>
@@ -355,8 +355,8 @@
     </joint>
 
     <joint name="lidar_joint" type="fixed">
-      <parent>tb3/base_link</parent>
-      <child>tb3/base_scan</child>
+      <parent>tb3_base_link</parent>
+      <child>tb3_base_scan</child>
       <pose>-0.032 0 0.171 0 0 0</pose>
       <axis>
         <xyz>0 0 1</xyz>
@@ -391,8 +391,8 @@
       <publish_wheel_tf>false</publish_wheel_tf>
 
       <odometry_topic>tb3/odom</odometry_topic>
-      <odometry_frame>tb3/odom</odometry_frame>
-      <robot_base_frame>tb3/base_footprint</robot_base_frame>
+      <odometry_frame>tb3_odom</odometry_frame>
+      <robot_base_frame>tb3_base_footprint</robot_base_frame>
 
     </plugin>
 

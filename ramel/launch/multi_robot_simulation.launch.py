@@ -172,6 +172,35 @@ def generate_launch_description():
             'robot_description': robot_desc2,
         }],
     )
+    slam_r1 = IncludeLaunchDescription(
+    PythonLaunchDescriptionSource(os.path.join(get_package_share_directory('ramel'),'launch','slam.launch.py')),
+    	launch_arguments={
+    		'namespace': 'tb3',
+        }.items()
+    )
+    slam_r2 = IncludeLaunchDescription(
+    PythonLaunchDescriptionSource(os.path.join(get_package_share_directory('ramel'),'launch','slam.launch.py')),
+    	launch_arguments={
+    		'namespace': 'tb3_2',
+        }.items()
+    )
+    # Create the RViz2 node
+    rviz_node = Node(
+        package='rviz2',
+        executable='rviz2',
+        name='rviz2',
+        output='screen',
+        arguments=['-d', os.path.join(get_package_share_directory('ramel'),'config','slam_config.rviz')]
+    )
+    # Create the RViz2 node
+    rviz_node2 = Node(
+        package='rviz2',
+        executable='rviz2',
+        name='rviz2_2',
+        output='screen',
+        arguments=['-d', os.path.join(get_package_share_directory('ramel'),'config','slam_config2.rviz')]
+    )
+
     # Add the commands to the launch description
     # Define LaunchDescription variable
     ld = LaunchDescription(ARGUMENTS)
@@ -184,4 +213,8 @@ def generate_launch_description():
     ld.add_action(robot_state_publisher_cmd_2)
     ld.add_action(start_gazebo_ros_spawner_cmd)
     ld.add_action(start_gazebo_ros_spawner_cmd_2)
+    ld.add_action(slam_r1)
+    ld.add_action(slam_r2)
+    ld.add_action(rviz_node)
+    ld.add_action(rviz_node2)
     return ld
