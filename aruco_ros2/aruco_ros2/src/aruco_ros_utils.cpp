@@ -41,21 +41,54 @@ or implied, of Rafael Muñoz Salinas.
 // #include "tf2/transform_datatypes.h"
 // #include "tf2/LinearMath/Transform.h"
 
-cv::Vec3d aruco_ros::rotationVectorWithROSAxes(const cv::Vec3d &Rvec) {
+cv::Vec3d aruco_ros::rotationVectorWithROSAxes(cv::Vec3d &Rvec) {
   cv::Mat rot(3, 3, CV_64FC1);
   cv::Rodrigues(Rvec, rot);
 
+  std::cout << "Rvec_USED: " << " ";
+  std::cout << Rvec << std::endl;
+
+  std::cout << "rot: " << " ";
+  std::cout << rot << std::endl;
+
   // Rotate axis direction as to fit ROS
   cv::Mat rotate_to_ros =
-      //(cv::Mat_<double>(3, 3) << 1, 0, 0, 0, 1, 0, 0, 0, 1);
-      (cv::Mat_<double>(3, 3) << 0, 1, 0, 0, 0, -1, -1, 0, 0);
-      //(cv::Mat_<double>(3, 3) << 0, -1, 0, 1, 0, 0, 0, 0, 1);
-      //(cv::Mat_<double>(3, 3) << 0, 0, 1, 0, -1, 0, 1, 0, 0);
-      //(cv::Mat_<double>(3, 3) << -1, 0, 0, 0, 0, 1, 0, 1, 0);
-  rot = rot * rotate_to_ros.t();
+      (cv::Mat_<double>(3, 3) << 1, 0, 0, 0, -1, 0, 0, 0, -1);
+
+  std::cout << "rotate_to_ros: " << " ";
+  std::cout << rotate_to_ros << std::endl;
+
+  cv::Mat rot2 = rot * rotate_to_ros;
+
+  std::cout << "rot new: " << " ";
+  std::cout << rot2 << std::endl;
+
 
   cv::Vec3d ret;
-  cv::Rodrigues(rot, ret);
+  cv::Rodrigues(rot2, ret);
+
+  std::cout << "ret: " << " ";
+  std::cout << ret << std::endl;
+
+  return ret;
+}
+
+cv::Vec3d aruco_ros::rotationVectorwrtCamera(cv::Vec3d &Rvec) {
+  cv::Mat rot(3, 3, CV_64FC1);
+  cv::Rodrigues(Rvec, rot);
+
+  // Rotate axis direction as to fit Camera img
+  cv::Mat rotate_to_cmr =
+      (cv::Mat_<double>(3, 3) << 0, 0, 1, 0, 1, 0, -1, 0, 0);
+      //(cv::Mat_<double>(3, 3) << 0, 0, 1, 0, -1, 0, -1, 0, 0);
+      //(cv::Mat_<double>(3, 3) << 0.6135935, 0.7728130, -0.1620590, 0.7728130, -0.5456259, 0.3241180, 0.1620590, -0.3241180, -0.9320324);
+      //(cv::Mat_<double>(3, 3) << 1, 0, 0, 0, 1, 0, 0, 0, 1);
+
+  cv::Mat rot2 = rot * rotate_to_cmr;
+
+  cv::Vec3d ret;
+  cv::Rodrigues(rot2, ret);
+
   return ret;
 }
 
@@ -139,4 +172,15 @@ tf2::Transform aruco_ros::arucoMarker2Tf(const aruco::Marker & marker, bool rota
 
 
   return tf2::Transform(tf_rot, tf_orig);
+}
+
+cv::Mat draw_axis(cv::Mat& img, cv::Mat& rotation_vec, cv::Mat& t, cv::Mat& K, float scale = 0.1, cv::Mat& dist) {
+    img.convertTo(img, CV_32F);
+    cv::Mat points = scale * (cv::Mat_<float>(4, 3) << 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0);
+    cv::Mat axis_points;
+    cv::projectPoints(points, rotation_vec, t, K, dist, axis_points);
+    cv::line(img, cv::Point(axis_points.at<float>(3, 0), axis_points.at<float>(3, 1)), cv::Point(axis_points.at<float>(0, 0), axis_points.at<float>(0, 1)), cv::Scalar(255, 0, 0), 3);
+    cv::line(img, cv::Point(axis_points.at<float>(3, 0), axis_points.at<float>(3, 1)), cv::Point(axis_points.at<float>(1, 0), axis_points.at<float>(1, 1)), cv::Scalar(0, 255, 0), 3);
+    cv::line(img, cv::Point(axis_points.at<float>(3, 0), axis_points.at<float>(3, 1)), cv::Point(axis_points.at<float>(2, 0), axis_points.at<float>(2, 1)), cv::Scalar(0, 0, 255), 3);
+    return img;
 }

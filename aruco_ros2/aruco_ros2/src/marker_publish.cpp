@@ -245,7 +245,13 @@ void ArucoMarkerPublisher::image_callback(const sensor_msgs::msg::Image::ConstPt
           markers_.back().Rvec= rvecs[i];
           markers_.back().Tvec= tvecs[i];
 
-          cv::aruco::drawAxis(inImage_copy, cameraMatrix, distCoeffs, rvecs[i], tvecs[i], 0.05);
+          std::cout << "RVECS: " << " ";
+          std::cout << rvecs[i] << std::endl;
+
+          std::cout << "TVECS: " << " ";
+          std::cout << tvecs[i] << std::endl;
+
+          
 
         }
 
@@ -273,31 +279,62 @@ void ArucoMarkerPublisher::image_callback(const sensor_msgs::msg::Image::ConstPt
           } else {
             cameraToReference_tf.setIdentity();
           }
+
+          std::cout << "reference2camera tf: " << "x: ";
+          std::cout << cameraToReference_tf.getOrigin().getX() << " y: ";
+          std::cout << cameraToReference_tf.getOrigin().getY() << " z: ";
+          std::cout << cameraToReference_tf.getOrigin().getZ() << " X: ";
+          std::cout << cameraToReference_tf.getRotation().getX() << " Y: ";
+          std::cout << cameraToReference_tf.getRotation().getY() << " Z: ";
+          std::cout << cameraToReference_tf.getRotation().getZ() << " W: ";
+          std::cout << cameraToReference_tf.getRotation().getW() << std::endl;
           //tf2::Transform transform = aruco_ros::arucoMarker2Tf(markers_[i], rotate_marker_axis_);
 
           /*std::cout << transform.getOrigin().getX() << " || " << transform.getOrigin().getY() <<
             " || " << transform.getOrigin().getZ() << endl;
           transform = cameraToReference_tf * transform;*/
           
+          cv::Mat rot_mat1(3, 3, CV_64F);
+          cv::Rodrigues(rvecs[i], rot_mat1);
+
+          std::cout << "rot_mat1_OUT: " << " ";
+          std::cout << rot_mat1 << std::endl;
+
           //RotationAndTranslationVectorsToTransform
           cv::Mat rot_mat(3, 3, CV_64F);
-          cv::Rodrigues(aruco_ros::rotationVectorWithROSAxes(rvecs[i]), rot_mat);
+          cv::Vec3d ret_ros = aruco_ros::rotationVectorWithROSAxes(rvecs[i]);
+          cv::Rodrigues(ret_ros, rot_mat);
           tf2::Matrix3x3 tf_rot(
               rot_mat.at<double>(0, 0), rot_mat.at<double>(0, 1), rot_mat.at<double>(0, 2),
               rot_mat.at<double>(1, 0), rot_mat.at<double>(1, 1), rot_mat.at<double>(1, 2),
               rot_mat.at<double>(2, 0), rot_mat.at<double>(2, 1), rot_mat.at<double>(2, 2));
-          tf2::Vector3 tf_orig(-tvecs[i][1], -tvecs[i][2], tvecs[i][0]);
+          tf2::Vector3 tf_orig(tvecs[i][0], tvecs[i][1], tvecs[i][2]);
           tf2::Transform transform(tf_rot, tf_orig);
+
+          //std::cout << transform << std::endl;
+          std::cout << "camera2marker tf: " << "x: ";
+          std::cout << transform.getOrigin().getX() << " y: ";
+          std::cout << transform.getOrigin().getY() << " z: ";
+          std::cout << transform.getOrigin().getZ() << " X: ";
+          std::cout << transform.getRotation().getX() << " Y: ";
+          std::cout << transform.getRotation().getY() << " Z: ";
+          std::cout << transform.getRotation().getZ() << " W: ";
+          std::cout << transform.getRotation().getW() << std::endl;
 
           //cameraToMarker Reference
           transform = cameraToReference_tf*transform;
 
           geometry_msgs::msg::TransformStamped tf_msg;
 	        tf_msg.header.stamp = curr_stamp;
-          tf_msg.header.frame_id = camera_frame_;
+          tf_msg.header.frame_id = reference_frame_;
           tf_msg.child_frame_id = "marker_frame_" + std::to_string(marker_ids[i]);
           tf_msg.transform = tf2::toMsg(transform);
           tf_broadcaster->sendTransform(tf_msg);
+
+          
+          cv::Vec3d ret_cmr = aruco_ros::rotationVectorwrtCamera(ret_ros);
+          //cv::drawFrameAxes(inImage_copy, cameraMatrix, distCoeffs, rvecs[i], tvecs[i], 0.05);
+          aruco_ros::draw_axis(inImage_copy, rvecs[i], tvecs[i], cameraMatrix, 0.05, distCoeffs);
           
           /*
           tf_msg.transform.translation.x = tvecs[i][0];

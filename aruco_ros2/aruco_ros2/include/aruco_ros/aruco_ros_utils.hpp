@@ -167,7 +167,12 @@ For testing the applications, the library provides videos and the corresponding 
 #include "tf2/LinearMath/Transform.h"
 #include "tf2/transform_datatypes.h"
 #include "aruco/aruco.h"
+#include <opencv2/aruco.hpp>
+#include <opencv2/opencv.hpp>
 #include "sensor_msgs/msg/camera_info.hpp"
+#include <opencv2/core.hpp>
+#include <opencv2/imgproc.hpp>
+#include <opencv2/highgui.hpp>
 
 
 namespace aruco_ros
@@ -181,7 +186,10 @@ namespace aruco_ros
  * @return transformation of marker in type TF2
  */
 
-cv::Vec3d rotationVectorWithROSAxes(const cv::Vec3d &Rvec);
+cv::Vec3d rotationVectorWithROSAxes(cv::Vec3d &Rvec);
+
+
+cv::Vec3d rotationVectorwrtCamera(cv::Vec3d &Rvec);
 
 /**
    * @brief rosCameraInfo2ArucoCamParams gets the camera intrinsics from a CameraInfo message and copies them
@@ -207,6 +215,9 @@ aruco::CameraParameters rosCameraInfo2ArucoCamParams(
 
 
 tf2::Transform arucoMarker2Tf(const aruco::Marker & marker, bool rotate_marker_axis = true);
+
+cv::Mat draw_axis(cv::Mat& img, cv::Mat& rotation_vec, cv::Mat& t, cv::Mat& K, float scale = 0.1, cv::Mat& dist);
+
 
 }  // namespace aruco_ros
 #endif  // ARUCO_ROS__ARUCO_ROS_UTILS_HPP_
