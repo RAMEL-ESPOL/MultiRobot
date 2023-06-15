@@ -216,7 +216,8 @@ aruco::CameraParameters rosCameraInfo2ArucoCamParams(
 
 tf2::Transform arucoMarker2Tf(const aruco::Marker & marker, bool rotate_marker_axis = true);
 
-cv::Mat draw_axis(cv::Mat& img, cv::Mat& rotation_vec, cv::Mat& t, cv::Mat& K, float scale = 0.1, cv::Mat& dist);
+void draw_axis(const cv::Mat  &image, const cv::InputArray &cameraMatrix, const cv::InputArray &distCoeffs,
+                   const cv::InputArray &rvec, const cv::InputArray &tvec, float length, float markerLength, int thickness = 2);
 
 
 }  // namespace aruco_ros

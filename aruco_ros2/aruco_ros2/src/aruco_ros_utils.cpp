@@ -174,13 +174,40 @@ tf2::Transform aruco_ros::arucoMarker2Tf(const aruco::Marker & marker, bool rota
   return tf2::Transform(tf_rot, tf_orig);
 }
 
-cv::Mat draw_axis(cv::Mat& img, cv::Mat& rotation_vec, cv::Mat& t, cv::Mat& K, float scale = 0.1, cv::Mat& dist) {
-    img.convertTo(img, CV_32F);
-    cv::Mat points = scale * (cv::Mat_<float>(4, 3) << 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0);
-    cv::Mat axis_points;
-    cv::projectPoints(points, rotation_vec, t, K, dist, axis_points);
-    cv::line(img, cv::Point(axis_points.at<float>(3, 0), axis_points.at<float>(3, 1)), cv::Point(axis_points.at<float>(0, 0), axis_points.at<float>(0, 1)), cv::Scalar(255, 0, 0), 3);
-    cv::line(img, cv::Point(axis_points.at<float>(3, 0), axis_points.at<float>(3, 1)), cv::Point(axis_points.at<float>(1, 0), axis_points.at<float>(1, 1)), cv::Scalar(0, 255, 0), 3);
-    cv::line(img, cv::Point(axis_points.at<float>(3, 0), axis_points.at<float>(3, 1)), cv::Point(axis_points.at<float>(2, 0), axis_points.at<float>(2, 1)), cv::Scalar(0, 0, 255), 3);
-    return img;
+void aruco_ros::draw_axis(const cv::Mat  &image, const cv::InputArray &cameraMatrix, const cv::InputArray &distCoeffs,
+                   const cv::InputArray &rvec, const cv::InputArray &tvec, float length, float markerLength, int thickness) 
+{
+  /*cv::Mat objPoints(4, 1, CV_32FC3);
+  objPoints.ptr<cv::Vec3f>(0)[0] = cv::Vec3f(-markerLength/2.f, markerLength/2.f, 0);
+  objPoints.ptr<cv::Vec3f>(0)[1] = cv::Vec3f(markerLength/2.f, markerLength/2.f, 0);
+  objPoints.ptr<cv::Vec3f>(0)[2] = cv::Vec3f(markerLength/2.f, -markerLength/2.f, 0);
+  objPoints.ptr<cv::Vec3f>(0)[3] = cv::Vec3f(-markerLength/2.f, -markerLength/2.f, 0);
+*/
+
+  float size= markerLength;
+  cv::Mat objectPoints (4,3,CV_32FC1);
+  objectPoints.at<float>(0,0)=0;
+  objectPoints.at<float>(0,1)=0;
+  objectPoints.at<float>(0,2)=0;
+  objectPoints.at<float>(1,0)=size;
+  objectPoints.at<float>(1,1)=0;
+  objectPoints.at<float>(1,2)=0;
+  objectPoints.at<float>(2,0)=0;
+  objectPoints.at<float>(2,1)=size;
+  objectPoints.at<float>(2,2)=0;
+  objectPoints.at<float>(3,0)=0;
+  objectPoints.at<float>(3,1)=0;
+  objectPoints.at<float>(3,2)=size;
+
+  vector<cv::Point2f> imagePoints;
+  projectPoints( objectPoints, rvec, tvec, cameraMatrix , distCoeffs,   imagePoints);
+
+  //draw lines of different colours
+  cv::line(image,imagePoints[0],imagePoints[1],cv::Scalar(255,0,0,255),thickness,cv::LINE_AA);
+  cv::line(image,imagePoints[0],imagePoints[2],cv::Scalar(0,255,0,255),thickness,cv::LINE_AA);
+  cv::line(image,imagePoints[0],imagePoints[3],cv::Scalar(0,0,255,255),thickness,cv::LINE_AA);
+  //putText(image,"x", imagePoints[1],FONT_HERSHEY_SIMPLEX, 0.6, Scalar(255,0,0,255),2);
+  //putText(image,"y", imagePoints[2],FONT_HERSHEY_SIMPLEX, 0.6, Scalar(0,255,0,255),2);
+  //putText(image,"z", imagePoints[3],FONT_HERSHEY_SIMPLEX, 0.6, Scalar(0,0,255,255),2);
+
 }

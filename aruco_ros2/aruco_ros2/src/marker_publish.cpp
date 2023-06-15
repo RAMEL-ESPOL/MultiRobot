@@ -334,7 +334,7 @@ void ArucoMarkerPublisher::image_callback(const sensor_msgs::msg::Image::ConstPt
           
           cv::Vec3d ret_cmr = aruco_ros::rotationVectorwrtCamera(ret_ros);
           //cv::drawFrameAxes(inImage_copy, cameraMatrix, distCoeffs, rvecs[i], tvecs[i], 0.05);
-          aruco_ros::draw_axis(inImage_copy, rvecs[i], tvecs[i], cameraMatrix, 0.05, distCoeffs);
+          aruco_ros::draw_axis(inImage_copy, cameraMatrix, distCoeffs, ret_ros, tvecs[i], marker_size_/2 , marker_size_);
           
           /*
           tf_msg.transform.translation.x = tvecs[i][0];
