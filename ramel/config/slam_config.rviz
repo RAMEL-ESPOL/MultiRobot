@@ -62,13 +62,13 @@ Visualization Manager:
         Filter size: 10
         History Policy: Keep Last
         Reliability Policy: Reliable
-        Value: /tb3/map
+        Value: /map
       Update Topic:
         Depth: 5
         Durability Policy: Volatile
         History Policy: Keep Last
         Reliability Policy: Reliable
-        Value: /tb3/map_updates
+        Value: /map_updates
       Use Timestamp: false
       Value: true
     - Alpha: 1
@@ -199,8 +199,6 @@ Visualization Manager:
           Value: true
         tb3_2_imu_link:
           Value: true
-        tb3_2_map:
-          Value: true
         tb3_2_odom:
           Value: true
         tb3_2_wheel_left_link:
@@ -217,7 +215,7 @@ Visualization Manager:
           Value: true
         tb3_imu_link:
           Value: true
-        tb3_map:
+        map:
           Value: true
         tb3_odom:
           Value: true
@@ -231,7 +229,7 @@ Visualization Manager:
       Show Axes: true
       Show Names: false
       Tree:
-        tb3_2_map:
+        map:
           tb3_2_odom:
             tb3_2_base_footprint:
               tb3_2_base_link:
@@ -245,7 +243,6 @@ Visualization Manager:
                   {}
                 tb3_2_wheel_right_link:
                   {}
-        tb3_map:
           tb3_odom:
             tb3_base_footprint:
               tb3_base_link:
@@ -357,7 +354,7 @@ Visualization Manager:
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
-    Fixed Frame: tb3_map
+    Fixed Frame: map
     Frame Rate: 30
   Name: root
   Tools:

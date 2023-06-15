@@ -13,17 +13,34 @@ def generate_launch_description():
         default_value='tb3',
         description='Namespace for the robot'
     )
+    mode = DeclareLaunchArgument(
+        'mode',
+        default_value='mappping',
+        description='SLAM mode'
+    )
+    initial_pose = DeclareLaunchArgument(
+        'initial_pose',
+        default_value='[0.0, 0.0, 0.0]',
+        description='Map pose'
+    )
     # Create the launch description
     ld = LaunchDescription()
     # Add the namespace argument
     ld.add_action(namespace_arg)
+    ld.add_action(mode)
+    map_file = os.path.join(get_package_share_directory('ramel'), 'config', 'ramel_map_serialized')
     
     # Get the string parameter passed from the main launch file
     ns = LaunchConfiguration('namespace')
     # Define the concatenated strings using the namespace variable
     base_frame = [LaunchConfiguration('namespace'), '_base_footprint']
     odom_frame = [LaunchConfiguration('namespace'), '_odom']
-    map_frame = [LaunchConfiguration('namespace'), '_map']
+    if LaunchConfiguration('mode') == "mapping":
+    	map_frame = [LaunchConfiguration('namespace'), '_map']
+    	map_topic= ['/',LaunchConfiguration('namespace'), '/map']
+    else:
+    	map_frame = 'map'
+    	map_topic = '/map'
 
     # Run slam_toolbox's online_sync node and remap the parameters
     ld.add_action(Node(
@@ -35,10 +52,14 @@ def generate_launch_description():
             {'base_frame': base_frame},
             {'odom_frame': odom_frame},
             {'map_frame': map_frame},
+            {'mode': LaunchConfiguration('mode')},
+            {'map_start_at_dock': True},
+            {'map_start_pose': LaunchConfiguration('initial_pose')},
+            {'map_file_name': map_file},
         ],
         arguments=['--ros-args', '--log-level', 'info'],
         remappings=[
-            ('/map', ['/',LaunchConfiguration('namespace'), '/map']),
+            ('/map', map_topic),
             ('/scan',['/',LaunchConfiguration('namespace'), '/scan']),
             ('/initialpose', ['/',LaunchConfiguration('namespace'), '/initialpose']),
         ],
