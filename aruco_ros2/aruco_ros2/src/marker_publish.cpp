@@ -42,14 +42,14 @@ ArucoMarkerPublisher::ArucoMarkerPublisher(rclcpp::NodeOptions options)
   std::string dictionary_id_name = get_parameter("aruco_dictionary_id").as_string();
 
   // Set up subscriptions
-  image_sub_ =
-    image_transport::create_subscription(
-    this, "/image",
-    std::bind(&ArucoMarkerPublisher::image_callback, this, std::placeholders::_1), "raw");
   cam_info_sub = create_subscription<sensor_msgs::msg::CameraInfo>(
     "/camera_info",
     rclcpp::SensorDataQoS(),
     std::bind(&ArucoMarkerPublisher::cam_info_callback, this, std::placeholders::_1));
+  image_sub_ =
+    image_transport::create_subscription(
+    this, "/image",
+    std::bind(&ArucoMarkerPublisher::image_callback, this, std::placeholders::_1), "raw");
   if (useCamInfo_) {
     get_parameter_or("marker_size", marker_size_, 0.026);
     //get_parameter_or("image_is_rectified", useRectifiedImages_, false);
@@ -154,11 +154,11 @@ void ArucoMarkerPublisher::image_callback(const sensor_msgs::msg::Image::ConstPt
       
       //cv::Mat cameraMatrix, distCoeffs;
 
-      //cv::Mat cameraMatrix = cv::Mat::zeros(3, 3, CV_32FC1);
-      //cv::Mat distCoeffs(5, 1, CV_32FC1);
+      cv::Mat cameraMatrix = cv::Mat::zeros(3, 3, CV_32FC1);
+      cv::Mat distCoeffs(5, 1, CV_32FC1);
 
       // Custom values for the matrix
-      /*float values[] = {1364.8021240234375, 0.0, 973.9801025390625, 0.0, 1365.6466064453125, 551.3172607421875, 0.0, 0.0, 1.0};
+      float values[] = {1364.8021240234375, 0.0, 973.9801025390625, 0.0, 1365.6466064453125, 551.3172607421875, 0.0, 0.0, 1.0};
 
       int index = 0;
       for (int i = 0; i < cameraMatrix.cols; i++) {
@@ -175,7 +175,7 @@ void ArucoMarkerPublisher::image_callback(const sensor_msgs::msg::Image::ConstPt
               distCoeffs.at<float>(i, j) = values2[index2];
               index2++;
           }
-      }*/
+      }
 
       //cv::Size size;
       //aruco::CameraParameters(cameraMatrix, distCoeffs, size);
@@ -526,7 +526,7 @@ void ArucoMarkerPublisher::cam_info_callback(sensor_msgs::msg::CameraInfo::Const
 {
   if (useCamInfo_) {
 
-    int dist_dim = msg->d.size();
+    /*int dist_dim = msg->d.size();
 
     std::cout << "dist_dim: " << " ";
     std::cout << dist_dim << std::endl;
@@ -547,7 +547,7 @@ void ArucoMarkerPublisher::cam_info_callback(sensor_msgs::msg::CameraInfo::Const
 
     for (size_t i = 0; i < dist_dim; ++i) {
         distCoeffs.at<float>(i, 0) = msg->d[i];
-    }
+    }*/
 
     //std::copy(msg->k.begin(), msg->k.end(), cameraMatrix.begin());
     //std::copy(msg->d.begin(), msg->d.end(), distCoeffs.begin());
@@ -562,7 +562,7 @@ void ArucoMarkerPublisher::cam_info_callback(sensor_msgs::msg::CameraInfo::Const
 */
 
 
-    //camParam_ = aruco_ros::rosCameraInfo2ArucoCamParams(*msg, useRectifiedImages_);
+    camParam_ = aruco_ros::rosCameraInfo2ArucoCamParams(*msg, useRectifiedImages_);
 
     cam_info_received = true;
   }

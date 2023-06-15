@@ -204,5 +204,35 @@ void draw_axis(const cv::Mat  &image, const cv::InputArray &cameraMatrix, const 
                    const cv::InputArray &rvec, const cv::InputArray &tvec, float length, float markerLength, int thickness = 2);
 
 
-}  // namespace aruco_ros
+
+/**
+   * @brief rosCameraInfo2ArucoCamParams gets the camera intrinsics from a CameraInfo message and copies them
+   *                                     to aruco_ros own data structure
+   * @param cam_info
+   * @param useRectifiedParameters if true, the intrinsics are taken from cam_info.P and the distortion parameters
+   *                               are set to 0. Otherwise, cam_info.K and cam_info.D are taken.
+   * @return return camera matrix or parameter
+   */
+
+
+aruco::CameraParameters rosCameraInfo2ArucoCamParams(
+  const sensor_msgs::msg::CameraInfo & cam_info,
+  bool useRectifiedParameters);
+
+
+/**
+ * @brief arucoMarker2Tf convert the marker pose info to TF2 transform type
+ * @param marker   input marker
+ * @param rotate_marker_axis if true, Rotate axis direction as to fit from opencv to ROS frame.
+ * @return transformation of marker in type TF2
+ */
+
+
+tf2::Transform arucoMarker2Tf(const aruco::Marker & marker, bool rotate_marker_axis = true);
+
+
+
+
+} 
+ // namespace aruco_ros
 #endif  // ARUCO_ROS__ARUCO_ROS_UTILS_HPP_

@@ -43,6 +43,8 @@ Detect and Draw Aruco Markers.
 #include <tf2_ros/buffer.h>
 #include <rclcpp/rclcpp.hpp>
 #include <rclcpp/node_interfaces/node_topics_interface.hpp>
+#include <opencv2/aruco.hpp>
+#include <opencv2/opencv.hpp>
 
 
 /**
@@ -68,8 +70,8 @@ public:
   bool cam_info_received;
 
   // camera params
-  cv::Mat cameraMatrix;
-  cv::Mat distCoeffs;
+  //cv::Mat cameraMatrix;
+  //cv::Mat distCoeffs;
 
   // ROS pub-sub
 
