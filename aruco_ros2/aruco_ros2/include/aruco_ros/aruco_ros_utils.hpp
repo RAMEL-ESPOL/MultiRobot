@@ -191,31 +191,15 @@ cv::Vec3d rotationVectorWithROSAxes(cv::Vec3d &Rvec);
 
 cv::Vec3d rotationVectorwrtCamera(cv::Vec3d &Rvec);
 
-/**
-   * @brief rosCameraInfo2ArucoCamParams gets the camera intrinsics from a CameraInfo message and copies them
-   *                                     to aruco_ros own data structure
-   * @param cam_info
-   * @param useRectifiedParameters if true, the intrinsics are taken from cam_info.P and the distortion parameters
-   *                               are set to 0. Otherwise, cam_info.K and cam_info.D are taken.
-   * @return return camera matrix or parameter
-   */
-
-
-aruco::CameraParameters rosCameraInfo2ArucoCamParams(
-  const sensor_msgs::msg::CameraInfo & cam_info,
-  bool useRectifiedParameters);
-
-
-/**
- * @brief arucoMarker2Tf convert the marker pose info to TF2 transform type
- * @param marker   input marker
- * @param rotate_marker_axis if true, Rotate axis direction as to fit from opencv to ROS frame.
- * @return transformation of marker in type TF2
- */
-
-
-tf2::Transform arucoMarker2Tf(const aruco::Marker & marker, bool rotate_marker_axis = true);
-
+/// @brief 
+/// @param image 
+/// @param cameraMatrix 
+/// @param distCoeffs 
+/// @param rvec 
+/// @param tvec 
+/// @param length 
+/// @param markerLength 
+/// @param thickness 
 void draw_axis(const cv::Mat  &image, const cv::InputArray &cameraMatrix, const cv::InputArray &distCoeffs,
                    const cv::InputArray &rvec, const cv::InputArray &tvec, float length, float markerLength, int thickness = 2);
 

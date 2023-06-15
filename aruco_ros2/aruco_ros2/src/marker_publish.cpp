@@ -154,13 +154,12 @@ void ArucoMarkerPublisher::image_callback(const sensor_msgs::msg::Image::ConstPt
       
       //cv::Mat cameraMatrix, distCoeffs;
 
-      cv::Mat cameraMatrix = cv::Mat::zeros(3, 3, CV_32FC1);
-      cv::Mat distCoeffs(5, 1, CV_32FC1);
+      //cv::Mat cameraMatrix = cv::Mat::zeros(3, 3, CV_32FC1);
+      //cv::Mat distCoeffs(5, 1, CV_32FC1);
 
       // Custom values for the matrix
-      float values[] = {1364.8021240234375, 0.0, 973.9801025390625, 0.0, 1365.6466064453125, 551.3172607421875, 0.0, 0.0, 1.0};
+      /*float values[] = {1364.8021240234375, 0.0, 973.9801025390625, 0.0, 1365.6466064453125, 551.3172607421875, 0.0, 0.0, 1.0};
 
-      // Fill the matrix with custom values
       int index = 0;
       for (int i = 0; i < cameraMatrix.cols; i++) {
           for (int j = 0; j < cameraMatrix.rows; j++) {
@@ -176,7 +175,7 @@ void ArucoMarkerPublisher::image_callback(const sensor_msgs::msg::Image::ConstPt
               distCoeffs.at<float>(i, j) = values2[index2];
               index2++;
           }
-      }
+      }*/
 
       //cv::Size size;
       //aruco::CameraParameters(cameraMatrix, distCoeffs, size);
@@ -220,7 +219,7 @@ void ArucoMarkerPublisher::image_callback(const sensor_msgs::msg::Image::ConstPt
       cv::aruco::detectMarkers(inImage_, dictionary, corners, marker_ids, detectorParams, rejected);
       if  (marker_ids.size() > 0) {
         int nMarkers = marker_ids.size();
-        std::vector<cv::Vec3d> rvecs, tvecs;
+        std::vector<cv::Vec3d> rvecs(nMarkers), tvecs(nMarkers);
         cv::aruco::drawDetectedMarkers(inImage_copy, corners, marker_ids);
         cv::aruco::estimatePoseSingleMarkers(corners, marker_size_, cameraMatrix, distCoeffs, rvecs, tvecs);
         for (int i = 0; i < marker_ids.size(); ++i) {
@@ -527,23 +526,43 @@ void ArucoMarkerPublisher::cam_info_callback(sensor_msgs::msg::CameraInfo::Const
 {
   if (useCamInfo_) {
 
-    //int dist_dim = msg.d.size();
-/*
-    cv::Mat cameraMatrix = cv::Mat::zeros(3, 3, CV_64FC1);
-    cv::Mat distCoeffs(dist_dim, 1, CV_64FC1);
+    int dist_dim = msg->d.size();
 
-    cameraMatrix.at<double>(0, 0) = msg.p[0];   cameraMatrix.at<double>(0, 1) = msg.p[1];
-    cameraMatrix.at<double>(0, 2) = msg.p[2];
-    cameraMatrix.at<double>(1, 0) = msg.p[4];   cameraMatrix.at<double>(1, 1) = msg.p[5];
-    cameraMatrix.at<double>(1, 2) = msg.p[6];
-    cameraMatrix.at<double>(2, 0) = msg.p[8];   cameraMatrix.at<double>(2, 1) = msg.p[9];
-    cameraMatrix.at<double>(2, 2) = msg.p[10];
+    std::cout << "dist_dim: " << " ";
+    std::cout << dist_dim << std::endl;
 
-    for (int i = 0; i < dist_dim; ++i) {
-        distCoeffs.at<double>(i, 0) = msg.d[i];
+    cameraMatrix = cv::Mat::zeros(3, 3, CV_64FC1);
+    distCoeffs = cv::Mat::zeros(dist_dim, 1, CV_64FC1);
+
+    //memcpy(cameraMatrix.data, msg->k.data(), sizeof(double) * 9);
+    //memcpy(distCoeffs.data, msg->d.data(), sizeof(double) * 5);
+
+    int index = 0;
+    for (int i = 0; i < cameraMatrix.cols; i++) {
+        for (int j = 0; j < cameraMatrix.rows; j++) {
+            cameraMatrix.at<float>(i, j) = msg->k[index];
+            index++;
+        }
     }
+
+    for (size_t i = 0; i < dist_dim; ++i) {
+        distCoeffs.at<float>(i, 0) = msg->d[i];
+    }
+
+    //std::copy(msg->k.begin(), msg->k.end(), cameraMatrix.begin());
+    //std::copy(msg->d.begin(), msg->d.end(), distCoeffs.begin());
+
+/*
+    cameraMatrix.at<double>(0, 0) = msg.K[0];   cameraMatrix.at<double>(0, 1) = msg.K[1];
+    cameraMatrix.at<double>(0, 2) = msg.K[2];
+    cameraMatrix.at<double>(1, 0) = msg.K[3];   cameraMatrix.at<double>(1, 1) = msg.K[4];
+    cameraMatrix.at<double>(1, 2) = msg.K[5];
+    cameraMatrix.at<double>(2, 0) = msg.K[6];   cameraMatrix.at<double>(2, 1) = msg.K[7];
+    cameraMatrix.at<double>(2, 2) = msg.K[8];
 */
-    camParam_ = aruco_ros::rosCameraInfo2ArucoCamParams(*msg, useRectifiedImages_);
+
+
+    //camParam_ = aruco_ros::rosCameraInfo2ArucoCamParams(*msg, useRectifiedImages_);
 
     cam_info_received = true;
   }

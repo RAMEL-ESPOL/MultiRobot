@@ -67,6 +67,10 @@ public:
   bool rotate_marker_axis_;
   bool cam_info_received;
 
+  // camera params
+  cv::Mat cameraMatrix;
+  cv::Mat distCoeffs;
+
   // ROS pub-sub
 
   image_transport::Subscriber image_sub_;
