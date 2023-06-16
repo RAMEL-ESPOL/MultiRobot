@@ -175,35 +175,33 @@ For testing the applications, the library provides videos and the corresponding 
 #include <opencv2/highgui.hpp>
 
 
+/// @brief Package with complementary functions
 namespace aruco_ros
 {
 
-
-/**
- * @brief arucoMarker2Tf convert the marker pose info to TF2 transform type
- * @param marker   input marker
- * @param rotate_marker_axis if true, Rotate axis direction as to fit from opencv to ROS frame.
- * @return transformation of marker in type TF2
- */
-
+/// @brief convert the marker orientation vector wrt camera for ROS
+/// @param Rvec Axis with angle magnitude (radians) vector of the marker
+/// @return rotation vector wrt camera for ROS
 cv::Vec3d rotationVectorWithROSAxes(cv::Vec3d &Rvec);
 
+/// @brief draw the axes' markers in a image.
+/// @param image Image captured by the camera
+/// @param cameraMatrix Focal and optical information of the camera
+/// @param distCoeffs Information of the distortion of the image captured
+/// @param rvec Rotation vector
+/// @param tvec Translation vector
+/// @param length of the axes
+/// @param markerLength real size of the marker
+/// @param thickness of the axes' lines
+void draw_axis(const cv::Mat  &image, const cv::InputArray &cameraMatrix,
+               const cv::InputArray &distCoeffs, const cv::InputArray &rvec,
+               const cv::InputArray &tvec, float length, float markerLength, int thickness = 2);
 
+
+/// @brief convert the marker orientation vector wrt camera (image public)
+/// @param Rvec Axis with angle magnitude (radians) vector of the marker
+/// @return rotation vector wrt camera (image public)
 cv::Vec3d rotationVectorwrtCamera(cv::Vec3d &Rvec);
-
-/// @brief 
-/// @param image 
-/// @param cameraMatrix 
-/// @param distCoeffs 
-/// @param rvec 
-/// @param tvec 
-/// @param length 
-/// @param markerLength 
-/// @param thickness 
-void draw_axis(const cv::Mat  &image, const cv::InputArray &cameraMatrix, const cv::InputArray &distCoeffs,
-                   const cv::InputArray &rvec, const cv::InputArray &tvec, float length, float markerLength, int thickness = 2);
-
-
 
 /**
    * @brief rosCameraInfo2ArucoCamParams gets the camera intrinsics from a CameraInfo message and copies them
