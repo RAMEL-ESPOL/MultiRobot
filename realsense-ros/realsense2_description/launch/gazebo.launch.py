@@ -28,7 +28,7 @@ def generate_launch_description():
     
     use_sim_time = LaunchConfiguration('use_sim_time', default='true')
     robot_name = 'cam_l515'
-    world_file_name = 'empty.world'
+    world_file_name = 'floating_marker.world' #'empty.world'
     
     world = os.path.join(get_package_share_directory('realsense2_description'), 'worlds', world_file_name)
     models = os.path.join(get_package_share_directory('realsense2_description'))
