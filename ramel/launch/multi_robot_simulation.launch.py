@@ -180,7 +180,7 @@ def generate_launch_description():
     ld.add_action(gz_model_uri)
     ld.add_action(gzserver)
     ld.add_action(gzclient_cmd)
-    ld.add_action(create3_spawn_cmd)
+    #ld.add_action(create3_spawn_cmd)
     ld.add_action(robot_state_publisher_cmd_1)
     ld.add_action(robot_state_publisher_cmd_2)
     ld.add_action(start_gazebo_ros_spawner_cmd)

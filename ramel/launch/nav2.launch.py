@@ -48,13 +48,25 @@ def generate_launch_description():
     		'namespace': 'tb3_2',
         }.items()
     )
+     # Get the launch directory
+    ramel_dir = get_package_share_directory('nav2_bringup')
+    launch_dir = os.path.join(ramel_dir, 'launch')
+    bringup_cmd = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(launch_dir, 'bringup_launch.py')),
+        launch_arguments={'namespace': 'tb3',
+                          'use_namespace': 'True',
+                          'map': os.path.join(get_package_share_directory('ramel'),'config','ramel_map.yaml'),
+                          'params_file': os.path.join(get_package_share_directory('ramel'),'config','nav2_multirobot_params_1.yaml'),
+                          'autostart': 'True',
+                          'use_composition': 'False'}.items())
     
     # Add the commands to the launch description
     # Define LaunchDescription variable
     ld = LaunchDescription()
-    ld.add_action(slam_r1)
-    ld.add_action(slam_r2)
+    #ld.add_action(slam_r1)
+    #ld.add_action(slam_r2)
+    #ld.add_action(bringup_cmd)
     ld.add_action(rviz_node)
-    #ld.add_action(nav1)
     #ld.add_action(nav2)
     return ld
