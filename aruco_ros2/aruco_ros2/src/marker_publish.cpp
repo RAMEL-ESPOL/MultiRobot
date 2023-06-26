@@ -153,7 +153,7 @@ void ArucoMarkerPublisher::image_callback(const sensor_msgs::msg::Image::ConstPt
       //mDetector_.detect(inImage_, markers_, camParam_, marker_size_, false);
       
       //cv::Mat cameraMatrix, distCoeffs;
-
+/*
       cv::Mat cameraMatrix = cv::Mat::zeros(3, 3, CV_32FC1);
       cv::Mat distCoeffs(5, 1, CV_32FC1);
 
@@ -176,7 +176,7 @@ void ArucoMarkerPublisher::image_callback(const sensor_msgs::msg::Image::ConstPt
               index2++;
           }
       }
-
+*/
       //cv::Size size;
       //aruco::CameraParameters(cameraMatrix, distCoeffs, size);
 /*
@@ -214,14 +214,23 @@ void ArucoMarkerPublisher::image_callback(const sensor_msgs::msg::Image::ConstPt
 
       //cv::Mat thres2
       //inImage_.copyTo(thres2);
+
+      cv::Mat currentCameraMatrix = this->cameraMatrix;
+      cv::Mat currentDistCoeffs = this->distCoeffs;
+
       cv::Ptr<cv::aruco::Dictionary> dictionary = cv::aruco::getPredefinedDictionary(cv::aruco::DICT_4X4_250);
       cv::Ptr<cv::aruco::DetectorParameters> detectorParams = cv::aruco::DetectorParameters::create();
       cv::aruco::detectMarkers(inImage_, dictionary, corners, marker_ids, detectorParams, rejected);
       if  (marker_ids.size() > 0) {
+        
+        
         int nMarkers = marker_ids.size();
-        std::vector<cv::Vec3d> rvecs(nMarkers), tvecs(nMarkers);
+        std::vector<cv::Vec3d> rvecs, tvecs;
+        std::cout << "currentCameraMatrix: " << " ";
+        std::cout << currentCameraMatrix << std::endl;
         cv::aruco::drawDetectedMarkers(inImage_copy, corners, marker_ids);
-        cv::aruco::estimatePoseSingleMarkers(corners, marker_size_, cameraMatrix, distCoeffs, rvecs, tvecs);
+        cv::aruco::estimatePoseSingleMarkers(corners, marker_size_, currentCameraMatrix, currentDistCoeffs, rvecs, tvecs);
+
         for (int i = 0; i < marker_ids.size(); ++i) {
           //cv::Mat markerImage;
           //cv::aruco::drawMarker(dictionary, marker_ids[i], 200, markerImage, 1);
@@ -330,8 +339,6 @@ void ArucoMarkerPublisher::image_callback(const sensor_msgs::msg::Image::ConstPt
           tf_msg.transform = tf2::toMsg(transform);
           tf_broadcaster->sendTransform(tf_msg);
 
-          
-          cv::Vec3d ret_cmr = aruco_ros::rotationVectorwrtCamera(ret_ros);
           //cv::drawFrameAxes(inImage_copy, cameraMatrix, distCoeffs, rvecs[i], tvecs[i], 0.05);
           aruco_ros::draw_axis(inImage_copy, cameraMatrix, distCoeffs, ret_ros, tvecs[i], marker_size_/2 , marker_size_);
           
@@ -526,16 +533,13 @@ void ArucoMarkerPublisher::cam_info_callback(sensor_msgs::msg::CameraInfo::Const
 {
   if (useCamInfo_) {
 
-    /*int dist_dim = msg->d.size();
+    int dist_dim = msg->d.size();
 
     std::cout << "dist_dim: " << " ";
     std::cout << dist_dim << std::endl;
 
-    cameraMatrix = cv::Mat::zeros(3, 3, CV_64FC1);
-    distCoeffs = cv::Mat::zeros(dist_dim, 1, CV_64FC1);
-
-    //memcpy(cameraMatrix.data, msg->k.data(), sizeof(double) * 9);
-    //memcpy(distCoeffs.data, msg->d.data(), sizeof(double) * 5);
+    cameraMatrix = cv::Mat::zeros(3, 3, CV_32FC1);
+    distCoeffs = cv::Mat::zeros(dist_dim, 1, CV_32FC1);
 
     int index = 0;
     for (int i = 0; i < cameraMatrix.cols; i++) {
@@ -547,23 +551,8 @@ void ArucoMarkerPublisher::cam_info_callback(sensor_msgs::msg::CameraInfo::Const
 
     for (size_t i = 0; i < dist_dim; ++i) {
         distCoeffs.at<float>(i, 0) = msg->d[i];
-    }*/
-
-    //std::copy(msg->k.begin(), msg->k.end(), cameraMatrix.begin());
-    //std::copy(msg->d.begin(), msg->d.end(), distCoeffs.begin());
-
-/*
-    cameraMatrix.at<double>(0, 0) = msg.K[0];   cameraMatrix.at<double>(0, 1) = msg.K[1];
-    cameraMatrix.at<double>(0, 2) = msg.K[2];
-    cameraMatrix.at<double>(1, 0) = msg.K[3];   cameraMatrix.at<double>(1, 1) = msg.K[4];
-    cameraMatrix.at<double>(1, 2) = msg.K[5];
-    cameraMatrix.at<double>(2, 0) = msg.K[6];   cameraMatrix.at<double>(2, 1) = msg.K[7];
-    cameraMatrix.at<double>(2, 2) = msg.K[8];
-*/
-
-
-    camParam_ = aruco_ros::rosCameraInfo2ArucoCamParams(*msg, useRectifiedImages_);
-
+    }
+    
     cam_info_received = true;
   }
 }

@@ -70,8 +70,8 @@ public:
   bool cam_info_received;
 
   // camera params
-  //cv::Mat cameraMatrix;
-  //cv::Mat distCoeffs;
+  cv::Mat cameraMatrix;
+  cv::Mat distCoeffs;
 
   // ROS pub-sub
 

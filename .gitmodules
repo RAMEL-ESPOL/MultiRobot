@@ -1,9 +1,6 @@
 [submodule "create3_sim"]
 	path = create3_sim
 	url = https://github.com/iRobotEducation/create3_sim.git
-[submodule "realsense-ros"]
-	path = realsense-ros
-	url = https://github.com/IntelRealSense/realsense-ros.git
 [submodule "turtlebot3_simulations"]
 	path = turtlebot3_simulations
 	url = https://github.com/ROBOTIS-GIT/turtlebot3_simulations.git
