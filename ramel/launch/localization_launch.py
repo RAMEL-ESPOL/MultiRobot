@@ -41,7 +41,7 @@ def generate_launch_description():
     use_respawn = LaunchConfiguration('use_respawn')
     log_level = LaunchConfiguration('log_level')
 
-    lifecycle_nodes = ['map_server', 'tb3/amcl']
+    lifecycle_nodes = ['map_server', 'tb3/amcl','tb3_2/amcl']
 
     # Map fully qualified names to relative ones so the node's namespace can be prepended.
     # In case of the transforms (tf), currently, there doesn't seem to be a better alternative
@@ -62,7 +62,14 @@ def generate_launch_description():
         root_key=namespace,
         param_rewrites=param_substitutions,
         convert_types=True)
-
+    
+    params_file2=os.path.join(get_package_share_directory('ramel'),'config','nav2_multirobot_params_2.yaml')
+    configured_params2 = RewrittenYaml(
+        source_file=params_file2,
+        root_key='tb3_2',
+        param_rewrites=param_substitutions,
+        convert_types=True)
+        
     stdout_linebuf_envvar = SetEnvironmentVariable(
         'RCUTILS_LOGGING_BUFFERED_STREAM', '1')
 
@@ -129,6 +136,17 @@ def generate_launch_description():
                 respawn=use_respawn,
                 respawn_delay=2.0,
                 parameters=[configured_params],
+                arguments=['--ros-args', '--log-level', log_level],
+                remappings=remappings),
+            Node(
+                package='nav2_amcl',
+                executable='amcl',
+                name='amcl',
+                namespace='tb3_2',
+                output='screen',
+                respawn=use_respawn,
+                respawn_delay=2.0,
+                parameters=[configured_params2],
                 arguments=['--ros-args', '--log-level', log_level],
                 remappings=remappings),
             Node(

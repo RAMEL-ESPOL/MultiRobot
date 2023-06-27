@@ -124,6 +124,7 @@ def generate_launch_description():
                               'use_respawn': use_respawn,
                               'container_name': 'nav2_container'}.items())
 
+    params_file2=os.path.join(get_package_share_directory('ramel'),'config','nav2_multirobot_params_2.yaml')
     # Specify the actions
     bringup_cmd_group = GroupAction([
         PushRosNamespace(
@@ -136,6 +137,22 @@ def generate_launch_description():
                               'use_sim_time': use_sim_time,
                               'autostart': autostart,
                               'params_file': params_file,
+                              'use_composition': use_composition,
+                              'use_respawn': use_respawn,
+                              'container_name': 'nav2_container'}.items()),
+    ])
+    # Specify the actions
+    bringup_cmd_group2 = GroupAction([
+        PushRosNamespace(
+            condition=IfCondition(use_namespace),
+            namespace='tb3_2'),
+
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(os.path.join(launch_dir, 'navigation_launch.py')),
+            launch_arguments={'namespace': 'tb3_2',
+                              'use_sim_time': use_sim_time,
+                              'autostart': autostart,
+                              'params_file': params_file2,
                               'use_composition': use_composition,
                               'use_respawn': use_respawn,
                               'container_name': 'nav2_container'}.items()),
@@ -162,5 +179,6 @@ def generate_launch_description():
     # Add the actions to launch all of the navigation nodes
     ld.add_action(localization)
     ld.add_action(bringup_cmd_group)
+    ld.add_action(bringup_cmd_group2)
 
     return ld
