@@ -100,19 +100,19 @@ This is the Gazebo URDF model for the Intel RealSense L515 camera
         <depthUpdateRate>30.0</depthUpdateRate>
         <colorUpdateRate>30.0</colorUpdateRate>
         <infraredUpdateRate>30.0</infraredUpdateRate>
-        <depthTopicName>/camera/depth/image_rect_raw</depthTopicName>
-        <depthCameraInfoTopicName>/camera/depth/camera_info</depthCameraInfoTopicName>
-        <colorTopicName>/camera/color/image_raw</colorTopicName>
-        <colorCameraInfoTopicName>/camera/color/camera_info</colorCameraInfoTopicName>
-        <infraredTopicName>/camera/infra/image_raw</infraredTopicName>
-        <infraredCameraInfoTopicName>/camera/infra/camera_info</infraredCameraInfoTopicName>
+        <depthTopicName>/${topics_ns}/depth/image_rect_raw</depthTopicName>
+        <depthCameraInfoTopicName>/${topics_ns}/depth/camera_info</depthCameraInfoTopicName>
+        <colorTopicName>/${topics_ns}/color/image_raw</colorTopicName>
+        <colorCameraInfoTopicName>/${topics_ns}/color/camera_info</colorCameraInfoTopicName>
+        <infraredTopicName>/${topics_ns}/infra/image_raw</infraredTopicName>
+        <infraredCameraInfoTopicName>/${topics_ns}/infra/camera_info</infraredCameraInfoTopicName>
         <colorOpticalframeName>${color_optical_frame}</colorOpticalframeName>
         <depthOpticalframeName>${depth_optical_frame}</depthOpticalframeName>
         <infraredOpticalframeName>${infrared_optical_frame}</infraredOpticalframeName>
         <rangeMinDepth>0.2</rangeMinDepth>
         <rangeMaxDepth>10.0</rangeMaxDepth>
         <pointCloud>${publish_pointcloud}</pointCloud>
-        <pointCloudTopicName>/camera/depth/color/points</pointCloudTopicName>
+        <pointCloudTopicName>/${topics_ns}/depth/color/points</pointCloudTopicName>
         <pointCloudCutoff>0.25</pointCloudCutoff>
         <pointCloudCutoffMax>9.0</pointCloudCutoffMax>
       </plugin>
