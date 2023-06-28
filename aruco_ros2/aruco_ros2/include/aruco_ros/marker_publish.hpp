@@ -62,6 +62,7 @@ public:
 
   // node params
   bool useRectifiedImages_;
+  std::string topic_;
   std::string marker_frame_;
   std::string camera_frame_;
   std::string reference_frame_;

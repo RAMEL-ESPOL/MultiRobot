@@ -52,8 +52,9 @@ ArucoMarkerPublisher::ArucoMarkerPublisher(rclcpp::NodeOptions options)
     std::bind(&ArucoMarkerPublisher::image_callback, this, std::placeholders::_1), "raw");
   if (useCamInfo_) {
     get_parameter_or("marker_size", marker_size_, 0.026);
+    get_parameter_or("topic", topic_, string{"c1"});
     //get_parameter_or("image_is_rectified", useRectifiedImages_, false);
-    get_parameter_or("reference_frame", reference_frame_, string{"camera_color_frame"});
+    get_parameter_or("reference_frame", reference_frame_, string{"origin_frame"});
     get_parameter_or("camera_frame", camera_frame_, string{"camera_color_optical_frame"});
     //get_parameter_or("rotate_marker_axis", rotate_marker_axis_, false);
     if (reference_frame_.empty()) {
@@ -64,10 +65,10 @@ ArucoMarkerPublisher::ArucoMarkerPublisher(rclcpp::NodeOptions options)
   }
 
   // Set up publishers
-  image_pub_ = image_transport::create_publisher(this, "result");
-  debug_pub_ = image_transport::create_publisher(this, "debug");
-  marker_pub_ = create_publisher<aruco_msgs::msg::MarkerArray>("markers", 100);
-  marker_list_pub_ = create_publisher<std_msgs::msg::UInt32MultiArray>("markers_list", 10);
+  image_pub_ = image_transport::create_publisher(this, topic_+"/result");
+  debug_pub_ = image_transport::create_publisher(this, topic_+"/debug");
+  marker_pub_ = create_publisher<aruco_msgs::msg::MarkerArray>(topic_+"/markers", 100);
+  marker_list_pub_ = create_publisher<std_msgs::msg::UInt32MultiArray>(topic_+"/markers_list", 10);
   marker_msg_ = aruco_msgs::msg::MarkerArray::Ptr(new aruco_msgs::msg::MarkerArray());
   marker_msg_->header.frame_id = reference_frame_;
 
@@ -335,7 +336,7 @@ void ArucoMarkerPublisher::image_callback(const sensor_msgs::msg::Image::ConstPt
           geometry_msgs::msg::TransformStamped tf_msg;
 	        tf_msg.header.stamp = curr_stamp;
           tf_msg.header.frame_id = reference_frame_;
-          tf_msg.child_frame_id = "marker_frame_" + std::to_string(marker_ids[i]);
+          tf_msg.child_frame_id = topic_ + "_marker_frame_" + std::to_string(marker_ids[i]);
           tf_msg.transform = tf2::toMsg(transform);
           tf_broadcaster->sendTransform(tf_msg);
 

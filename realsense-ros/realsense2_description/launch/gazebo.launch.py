@@ -33,23 +33,10 @@ def evaluate_xacro(context, *args, **kwargs):
     xml = robot_desc.replace('"', '\\"')
     xml = xml.replace('package://realsense2_description', models)
 
-    swpan_args = '{name: \"cam_l515\", xml: \"'  +  xml + '\" }'
+    swpan_args = '{name: \"'+ name + '_l515\", xml: \"'  +  xml + '\" }'
     urdf_spawner = ExecuteProcess(
             cmd=['ros2', 'service', 'call', '/spawn_entity', 'gazebo_msgs/SpawnEntity', swpan_args]
     )
-    """
-    urdf_spawner = Node(
-        package='gazebo_ros',
-        executable='spawn_entity.py',
-        arguments=["-topic", "robot_description",
-		            "-entity", "camera"
-                    #   "-x","0.0",
-                    #   "-y","0.0",
-                    #   "-z","0.0"
-                    ],
-        respawn=False,
-        output='screen'
-    )"""
     return [urdf_spawner]
 
 def generate_launch_description():
@@ -65,30 +52,11 @@ def generate_launch_description():
     topics_ns = LaunchConfiguration('topics_ns', default='camera')
     add_plug = LaunchConfiguration('add_plug', default='false')
     publish_pointcloud = LaunchConfiguration('publish_pointcloud', default='$(arg publish_pointcloud)')
-    
-    #name_var = str(LaunchConfiguration('name'))
-    #name_str = LaunchContext.perform_substitution(name)
-    #topic_var = str(LaunchConfiguration('topics_ns'))
-    #topic_str = LaunchContext.perform_substitution(LaunchConfiguration(topics_ns))
 
-    urdf = to_urdf(xacro_path, {'name':str(name), 'topics_ns':str(topics_ns), 'use_nominal_extrinsics': 'true', 'add_plug': 'true'})
-
-    use_sim_time = LaunchConfiguration('use_sim_time', default='true')
-    robot_name = 'cam_l515'
     #world_file_name = 'floating_marker.world' #'empty.world'
     world_file_name = 'empty.world'
     
     world = os.path.join(get_package_share_directory('realsense2_description'), 'worlds', world_file_name)
-    models = os.path.join(get_package_share_directory('realsense2_description'))
-    
-    xml = open(urdf, 'r').read()
-
-    xml = xml.replace('"', '\\"')
-    
-    xml = xml.replace('package://realsense2_description', models)
-    
-    #swpan_args = '{name: \"cam_l515\", xml: \"'  +  xml + '\" }'
-    
     
     
     gzserver = ExecuteProcess(
@@ -106,17 +74,6 @@ def generate_launch_description():
         condition=IfCondition(gui),
     )
 
-    # Robot Description
-    robot_description_cmd = f"xacro --inorder '{xacro_path}' use_nominal_extrinsics:=true publish_pointcloud:=true add_plug:=false name:=camera topics_ns:=camera"
-    
-    robot_description = Node(
-        name='model_node',
-        package='robot_state_publisher',
-        executable='robot_state_publisher',
-        namespace='',
-        output='screen',
-        arguments=[urdf]
-    )
     """
     # Empty World Launch    
     gazebo_cmd =  ExecuteProcess(
