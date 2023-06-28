@@ -6,19 +6,17 @@ from launch.substitutions import LaunchConfiguration, Command, EnvironmentVariab
 from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
 from launch.actions import ExecuteProcess
-from launch_utils import to_urdf
 from launch.conditions import IfCondition
-from pathlib import Path
 import xacro
 
 def evaluate_xacro(context, *args, **kwargs):
-    name = LaunchConfiguration('name').perform(context)
-    topics_ns = LaunchConfiguration('topics_ns').perform(context)
-    add_plug = LaunchConfiguration('add_plug').perform(context)
-    publish_pointcloud = LaunchConfiguration('publish_pointcloud').perform(context)
-    use_nominal_extrinsics = LaunchConfiguration('use_nominal_extrinsics').perform(context)
-    use_mesh = LaunchConfiguration('use_mesh').perform(context)
-    model = LaunchConfiguration('model').perform(context)
+    name = LaunchConfiguration('name',default='camera').perform(context)
+    topics_ns = LaunchConfiguration('topics_ns',default='camera').perform(context)
+    add_plug = LaunchConfiguration('add_plug',default='true').perform(context)
+    publish_pointcloud = LaunchConfiguration('publish_pointcloud',default='true').perform(context)
+    use_nominal_extrinsics = LaunchConfiguration('use_nominal_extrinsics',default='true').perform(context)
+    use_mesh = LaunchConfiguration('use_mesh', default='true').perform(context)
+    model = os.path.join(get_package_share_directory('realsense2_description'), 'urdf', 'cam_l515.urdf.xacro')
 
     models = os.path.join(get_package_share_directory('realsense2_description'))
     

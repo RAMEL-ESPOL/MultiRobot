@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>aruco_description</name>
+  <version>0.0.1</version>
+  <description>Package to generate aruco code description</description>
+
+  <maintainer email="valerio.magnago@gmail.com">Valerio Magnago</maintainer>
+  <license>TODO</license>
+  <author email="valerio.magnago@gmail.com">Valerio Magnago</author>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <exec_depend>ros2launch</exec_depend>
+  <depend>rclcpp</depend> 
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

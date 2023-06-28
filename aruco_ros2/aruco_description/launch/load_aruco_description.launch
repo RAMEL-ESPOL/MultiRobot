@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="aruco_dictionary" default="DICT_4X4_50"/><!-- Name of aruco dictionary -->
+  <arg name="aruco_id" default="0"/><!-- id of the aruco code -->
+  <arg name="aruco_description_name" default="my_aruco_description"/><!-- Name of the ros parameter storing the aruco description -->
+  <!-- $(arg aruco_dictionary)_id$(arg aruco_id) -->
+
+  <!--Environment description to param server https://github.com/ValerioMa/aruco_description-->
+  <param name="$(var aruco_description_name)" command="$(find xacro)/xacro '$(find-pkg-share aruco_description)/urdf/general_aruco.urdf.xacro' aruco_dictionary:=$(var aruco_dictionary) aruco_id:=$(var aruco_id) aruco_name:=$(var aruco_description_name)"/>
+
+</launch>

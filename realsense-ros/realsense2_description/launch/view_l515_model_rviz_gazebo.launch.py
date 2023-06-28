@@ -8,7 +8,6 @@ from ament_index_python.packages import get_package_share_directory
 from launch.actions import OpaqueFunction
 import sys
 sys.path.append(os.path.dirname(os.path.realpath(__file__)))
-from launch_utils import to_urdf
 import xacro
 
 def evaluate_xacro(context, *args, **kwargs):

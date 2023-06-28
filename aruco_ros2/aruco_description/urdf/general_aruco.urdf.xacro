@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="my_aruco">
+    <xacro:arg name="aruco_dictionary" default="DICT_4X4_50"/>
+    <xacro:arg name="aruco_id" default="0"/>
+    <xacro:arg name="aruco_name" default="DICT_4X4_50_id0"/>
+    <xacro:arg name="aruco_l" default="0.2"/>
+    <xacro:arg name="white_border" default="0.1"/>
+    <xacro:include filename="$(find aruco_description)/urdf/general_aruco.xacro"/>
+
+    <xacro:generic_aruco aruco_dictionary="$(arg aruco_dictionary)" aruco_id="$(arg aruco_id)" aruco_l="$(arg aruco_l)" aruco_name="$(arg aruco_name)" white_border="$(arg white_border)">
+        <!-- fake origin not needed! when origin is not specified!-->
+        <origin xyz="0 0 0" rpy="0 0 0" />
+    </xacro:generic_aruco>
+
+</robot>

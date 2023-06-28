@@ -1,0 +1,13 @@
+<launch>
+  <arg name="aruco_dictionary" default="DICT_4X4_50"/> <!-- Dictionary to create. Check the readme to find a list of the available dictionary -->
+  <arg name="aruco_ids"/> <!-- Comma separated string of aruco ids to generate. If -1 all dictionary code will be generated  -->
+
+  <!-- Launch ROS Package Template Node -->
+  <node pkg="aruco_description" exec="generate_aruco_mesh.py" name="aruco_generator" output="screen">
+    <!-- <rosparam command="load" file="$(arg param_file)" /> -->
+    <param name="aruco_dictionary" type="str" value="$(var aruco_dictionary)" />
+    <param name="aruco_ids" type="str" value="$(var aruco_ids)" />
+  </node>
+
+</launch>
+
