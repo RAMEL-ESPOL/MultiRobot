@@ -4,7 +4,15 @@
     This is an example of how to use the realsense-rs200 macro function.
 -->
 <robot name="cam_l515" xmlns:xacro="http://ros.org/wiki/xacro">
-    <link name="base_link"/>
+
+    <link name="world" />
+    <link name="origin_frame"/>
+
+    <joint name="world_to_origin_frame" type="fixed">
+        <parent link="world"/>
+        <child link="origin_frame"/>
+    </joint>
+    
 
     <!-- Import macro for realsense-RS200 camera-->
     <xacro:arg name="use_nominal_extrinsics" default="true"/>
@@ -15,7 +23,7 @@
     <xacro:arg name="publish_pointcloud" default="true" />
     <xacro:include filename="$(find realsense2_description)/urdf/_l515.urdf.xacro"/>
     <!-- Create camera instance -->
-    <xacro:sensor_l515 parent="base_link" use_nominal_extrinsics="$(arg use_nominal_extrinsics)" add_plug="$(arg add_plug)" use_mesh="$(arg use_mesh)" name="$(arg name)" topics_ns="$(arg topics_ns)" publish_pointcloud="$(arg publish_pointcloud)">
+    <xacro:sensor_l515 parent="world" use_nominal_extrinsics="$(arg use_nominal_extrinsics)" add_plug="$(arg add_plug)" use_mesh="$(arg use_mesh)" name="$(arg name)" topics_ns="$(arg topics_ns)" publish_pointcloud="$(arg publish_pointcloud)">
         <origin xyz="0 0 1.0" rpy="0 0 0" />   
     </xacro:sensor_l515>
 </robot>

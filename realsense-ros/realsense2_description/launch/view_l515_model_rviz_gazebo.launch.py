@@ -24,7 +24,7 @@ def evaluate_xacro(context, *args, **kwargs):
       package='robot_state_publisher',
       executable='robot_state_publisher',
       name='robot_state_publisher',
-      #namespace=LaunchConfiguration('topics_ns'),
+      namespace=LaunchConfiguration('topics_ns'),
       output='screen',
       parameters=[{
         'use_sim_time': False,
@@ -55,7 +55,7 @@ def generate_launch_description():
     )
     add_plug_arg = DeclareLaunchArgument(
         'add_plug',
-        default_value='false',
+        default_value='true',
         description='Flag to add plug to the camera'
     )
     publish_pointcloud_arg = DeclareLaunchArgument(

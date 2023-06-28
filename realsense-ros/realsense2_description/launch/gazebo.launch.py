@@ -21,7 +21,7 @@ def evaluate_xacro(context, *args, **kwargs):
     model = LaunchConfiguration('model').perform(context)
 
     models = os.path.join(get_package_share_directory('realsense2_description'))
-
+    
     robot_desc = xacro.process_file(model, mappings={'name': name,
                                                     'topics_ns': topics_ns,
                                                     'add_plug': add_plug,
@@ -29,14 +29,27 @@ def evaluate_xacro(context, *args, **kwargs):
                                                     'use_nominal_extrinsics': use_nominal_extrinsics,
                                                     'use_mesh': use_mesh}).toxml()
     
-    xml = robot_desc.replace('package://realsense2_description', models)
+    
+    xml = robot_desc.replace('"', '\\"')
+    xml = xml.replace('package://realsense2_description', models)
 
     swpan_args = '{name: \"cam_l515\", xml: \"'  +  xml + '\" }'
     urdf_spawner = ExecuteProcess(
-            cmd=['ros2', 'service', 'call', '/spawn_entity', 'gazebo_msgs/SpawnEntity', swpan_args],
-            output='screen'
+            cmd=['ros2', 'service', 'call', '/spawn_entity', 'gazebo_msgs/SpawnEntity', swpan_args]
     )
-
+    """
+    urdf_spawner = Node(
+        package='gazebo_ros',
+        executable='spawn_entity.py',
+        arguments=["-topic", "robot_description",
+		            "-entity", "camera"
+                    #   "-x","0.0",
+                    #   "-y","0.0",
+                    #   "-z","0.0"
+                    ],
+        respawn=False,
+        output='screen'
+    )"""
     return [urdf_spawner]
 
 def generate_launch_description():
@@ -76,8 +89,6 @@ def generate_launch_description():
     
     #swpan_args = '{name: \"cam_l515\", xml: \"'  +  xml + '\" }'
     
-    # Set GAZEBO_MODEL_URI to empty string to prevent Gazebo from downloading models
-    gz_model_uri = SetEnvironmentVariable(name='GAZEBO_MODEL_URI', value=[''])
     
     
     gzserver = ExecuteProcess(
@@ -141,17 +152,15 @@ def generate_launch_description():
         package='gazebo_ros',
         executable='spawn_entity.py',
         arguments=["-topic", "robot_description",
-		   "-entity", "camera",
-                       "-x","0.0",
-                       "-y","0.0",
-                       "-z","0.0"],
+		            "-entity", "camera",
+                    ],
         respawn=False,
         output='screen'
     )"""
     
     return LaunchDescription([
     	#robot_description,
-        gz_model_uri,
+        #gz_model_uri,
         gzserver,
         gzclient,
         #gazebo_cmd,
