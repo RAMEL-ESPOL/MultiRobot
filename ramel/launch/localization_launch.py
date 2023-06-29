@@ -41,7 +41,7 @@ def generate_launch_description():
     use_respawn = LaunchConfiguration('use_respawn')
     log_level = LaunchConfiguration('log_level')
 
-    lifecycle_nodes = ['map_server', 'tb3/amcl','tb3_2/amcl']
+    lifecycle_nodes = ['map_server', 'r2/amcl','r1/amcl','r3/amcl']
 
     # Map fully qualified names to relative ones so the node's namespace can be prepended.
     # In case of the transforms (tf), currently, there doesn't seem to be a better alternative
@@ -59,14 +59,21 @@ def generate_launch_description():
 
     configured_params = RewrittenYaml(
         source_file=params_file,
-        root_key=namespace,
+        root_key='r2',
         param_rewrites=param_substitutions,
         convert_types=True)
     
     params_file2=os.path.join(get_package_share_directory('ramel'),'config','nav2_multirobot_params_2.yaml')
     configured_params2 = RewrittenYaml(
         source_file=params_file2,
-        root_key='tb3_2',
+        root_key='r3',
+        param_rewrites=param_substitutions,
+        convert_types=True)
+        
+    params_file3=os.path.join(get_package_share_directory('ramel'),'config','nav2_multirobot_params_3.yaml')
+    configured_params3 = RewrittenYaml(
+        source_file=params_file3,
+        root_key='r1',
         param_rewrites=param_substitutions,
         convert_types=True)
         
@@ -131,7 +138,7 @@ def generate_launch_description():
                 package='nav2_amcl',
                 executable='amcl',
                 name='amcl',
-                namespace='tb3',
+                namespace='r2',
                 output='screen',
                 respawn=use_respawn,
                 respawn_delay=2.0,
@@ -142,11 +149,22 @@ def generate_launch_description():
                 package='nav2_amcl',
                 executable='amcl',
                 name='amcl',
-                namespace='tb3_2',
+                namespace='r3',
                 output='screen',
                 respawn=use_respawn,
                 respawn_delay=2.0,
                 parameters=[configured_params2],
+                arguments=['--ros-args', '--log-level', log_level],
+                remappings=remappings),
+            Node(
+                package='nav2_amcl',
+                executable='amcl',
+                name='amcl',
+                namespace='r1',
+                output='screen',
+                respawn=use_respawn,
+                respawn_delay=2.0,
+                parameters=[configured_params3],
                 arguments=['--ros-args', '--log-level', log_level],
                 remappings=remappings),
             Node(

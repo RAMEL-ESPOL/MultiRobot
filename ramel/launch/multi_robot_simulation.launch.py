@@ -109,12 +109,12 @@ def generate_launch_description():
     package='gazebo_ros',
     executable='spawn_entity.py',
     arguments=[
-        '-entity', 'tb3',
+        '-entity', 'r2',
         '-file', model_path,
         '-x', '-2.0',
         '-y', '-2.0',
         '-z', '0.01',
-        '-robot_namespace', 'tb3'  # Set the robot namespace
+        '-robot_namespace', 'r2'  # Set the robot namespace
     ],
     output='screen',
     )
@@ -122,12 +122,12 @@ def generate_launch_description():
     package='gazebo_ros',
     executable='spawn_entity.py',
     arguments=[
-        '-entity', 'tb3_2',
+        '-entity', 'r3',
         '-file', model_path2,
         '-x', '1',
         '-y', '1',
         '-z', '0.01',
-         '-robot_namespace', 'tb3_2'  # Set the robot namespace
+         '-robot_namespace', 'r3'  # Set the robot namespace
     ],
     output='screen',
     )
@@ -138,6 +138,8 @@ def generate_launch_description():
             os.path.join(get_package_share_directory('irobot_create_gazebo_bringup'), 'launch', 'create3_spawn.launch.py')
         ),
         launch_arguments=[
+            ('namespace', 'r1'),
+            ('spawn_dock', 'false'),
             ('use_rviz', 'false'),
             ('x', '0.0'),
             ('y', '0.0'),
@@ -147,29 +149,31 @@ def generate_launch_description():
     )
     with open(urdf_path, 'r') as infp:
         robot_desc = infp.read()
-    with open(urdf_path2, 'r') as infp:
-        robot_desc2 = infp.read()
+    #with open(urdf_path2, 'r') as infp:
+    #    robot_desc2 = infp.read()
 
     robot_state_publisher_cmd_1 = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
-        name='robot_state_publisher_1',
-        namespace='tb3',  # Set the namespace for the first robot state publisher
+        name='robot_state_publisher',
+        namespace='r2',  # Set the namespace for the first robot state publisher
         output='screen',
         parameters=[{
             'use_sim_time': use_sim_time,
+            'frame_prefix': 'r2/',
             'robot_description': robot_desc
         }],
     )
     robot_state_publisher_cmd_2 = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
-        name='robot_state_publisher_2',
-        namespace='tb3_2',  # Set the namespace for the second robot state publisher
+        name='robot_state_publisher',
+        namespace='r3',  # Set the namespace for the second robot state publisher
         output='screen',
         parameters=[{
             'use_sim_time': use_sim_time,
-            'robot_description': robot_desc2,
+            'frame_prefix': 'r3/',
+            'robot_description': robot_desc,
         }],
     )
 
@@ -180,9 +184,9 @@ def generate_launch_description():
     ld.add_action(gz_model_uri)
     ld.add_action(gzserver)
     ld.add_action(gzclient_cmd)
-    #ld.add_action(create3_spawn_cmd)
     ld.add_action(robot_state_publisher_cmd_1)
     ld.add_action(robot_state_publisher_cmd_2)
     ld.add_action(start_gazebo_ros_spawner_cmd)
     ld.add_action(start_gazebo_ros_spawner_cmd_2)
+    ld.add_action(create3_spawn_cmd)
     return ld
