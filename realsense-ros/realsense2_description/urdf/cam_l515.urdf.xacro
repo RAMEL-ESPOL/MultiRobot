@@ -23,7 +23,7 @@
     <xacro:arg name="publish_pointcloud" default="true" />
     <xacro:include filename="$(find realsense2_description)/urdf/_l515.urdf.xacro"/>
     <!-- Create camera instance -->
-    <xacro:sensor_l515 parent="world" use_nominal_extrinsics="$(arg use_nominal_extrinsics)" add_plug="$(arg add_plug)" use_mesh="$(arg use_mesh)" name="$(arg name)" topics_ns="$(arg topics_ns)" publish_pointcloud="$(arg publish_pointcloud)">
-        <origin xyz="0 0 1.0" rpy="1.54 0 0" />   
+    <xacro:sensor_l515 parent="origin_frame" use_nominal_extrinsics="$(arg use_nominal_extrinsics)" add_plug="$(arg add_plug)" use_mesh="$(arg use_mesh)" name="$(arg name)" topics_ns="$(arg topics_ns)" publish_pointcloud="$(arg publish_pointcloud)">
+        <origin xyz="-0.05 0 1.0" rpy="0 1.54 0" />   
     </xacro:sensor_l515>
 </robot>
