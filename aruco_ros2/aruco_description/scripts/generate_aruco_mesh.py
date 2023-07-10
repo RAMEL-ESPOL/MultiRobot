@@ -53,12 +53,13 @@ class ArucoGenerator(rclpy.node.Node):
             file.write(new_dae)
 
 
-    def generate_tag(self, arucoDict, tag_id, out_path):
+    def generate_tag(self, arucoDict, tag_id, out_path, img_path):
         tag = np.zeros((300, 300, 1), dtype="uint8")
-        cv2.aruco.drawMarker(arucoDict, tag_id, 300, tag, 1)
+        cv2.aruco.generateImageMarker(arucoDict, tag_id, 300, tag, 1)
 
         # write the generated ArUCo tag to disk and then display it
         cv2.imwrite(out_path, tag)
+        cv2.imwrite(img_path, tag)
         cv2.imshow("ArUCo Tag", tag)
         cv2.waitKey(100)
 
@@ -105,16 +106,22 @@ class ArucoGenerator(rclpy.node.Node):
             os.makedirs(output_folder)
 
         # load the dae template
-        with open(os.path.join(PKG_PATH, 'meshes', 'template.dae'), mode='r') as file:
+        with open(os.path.join(PKG_PATH, 'model', 'template.dae'), mode='r') as file:
             dae_template = file.read()
 
+        output_imgs_folder = os.path.join(PKG_PATH, 'images', dict_type)
+        if not os.path.exists(output_imgs_folder):
+            os.makedirs(output_imgs_folder)
+            
         for aruco_id in aruco_ids:
             self.get_logger().info("generating ArUCo tag type '{}' with ID '{}'".format(dict_type, aruco_id))
+            img_filename = "Marker{}.png".format(aruco_id)
             png_filename = "{}_id{}.png".format(dict_type, aruco_id)
             dae_filename = "{}_id{}.dae".format(dict_type, aruco_id)
             png_path = os.path.join(output_folder, png_filename)
+            img_path = os.path.join(output_imgs_folder, img_filename)
             dae_path = os.path.join(output_folder, dae_filename)
-            self.generate_tag(arucoDict, aruco_id, png_path)
+            self.generate_tag(arucoDict, aruco_id, png_path, img_path)
             self.generate_dae(png_filename, dae_path, dae_template)
 
         return True

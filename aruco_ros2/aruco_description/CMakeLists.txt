@@ -7,7 +7,7 @@ find_package(rclcpp REQUIRED)
 # Install files
 install(DIRECTORY 
         launch 
-        meshes 
+        model 
         rviz 
         urdf
         scripts
@@ -23,14 +23,19 @@ install(DIRECTORY
 
 # Set the path to the Python script
 set(GENERATE_ARUCO_MESH_SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/scripts/generate_aruco_mesh.py")
+set(GENERATE_ARUCO_MODEL_SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/scripts/generate_markers_model.py")
 
 # Install the Python script with executable permissions
 install(PROGRAMS ${GENERATE_ARUCO_MESH_SCRIPT}
         DESTINATION lib/${PROJECT_NAME}
 )
+install(PROGRAMS ${GENERATE_ARUCO_MODEL_SCRIPT}
+        DESTINATION lib/${PROJECT_NAME}
+)
 
 # Set the executable permissions explicitly
 install(CODE "execute_process(COMMAND chmod +x ${CMAKE_INSTALL_PREFIX}/lib/${PROJECT_NAME}/generate_aruco_mesh.py)")
+install(CODE "execute_process(COMMAND chmod +x ${CMAKE_INSTALL_PREFIX}/lib/${PROJECT_NAME}/generate_markers_model.py)")
 
 
 
