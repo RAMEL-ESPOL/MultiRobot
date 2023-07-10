@@ -21,7 +21,7 @@ def evaluate_xacro(context, *args, **kwargs):
     models = os.path.join(get_package_share_directory('realsense2_description'))
     
     robot_desc = xacro.process_file(model, mappings={'name': name,
-                                                    'namespace': topics_ns,
+                                                    'topics_ns': topics_ns,
                                                     'add_plug': add_plug,
                                                     'publish_pointcloud': publish_pointcloud,
                                                     'use_nominal_extrinsics': use_nominal_extrinsics,
@@ -121,5 +121,5 @@ def generate_launch_description():
         #gazebo_cmd,
     	#empty_world_launch,
     	#urdf_spawner
-        OpaqueFunction(function=evaluate_xacro)
+        #OpaqueFunction(function=evaluate_xacro)
     ])

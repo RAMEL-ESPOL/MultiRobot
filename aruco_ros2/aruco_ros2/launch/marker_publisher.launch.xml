@@ -1,10 +1,10 @@
 <launch>
-    <arg name="topic_c"      default="c1"/> 
+    <arg name="topic_c"      default="camera"/> 
     <arg name="markerSize"      default="0.026"/>    <!-- in m -->
     <arg name="side"             default="left"/>
     <arg name="ref_frame"       default="origin_frame"/>  <!-- leave empty and the pose will be published wrt param parent_name -->
 
-    <node pkg="aruco_ros2" exec="marker_publisher" name="aruco_marker_publisher"  output="screen" >
+    <node pkg="aruco_ros2" exec="marker_publisher" name="aruco_marker_publisher"  namespace="$(var topic_c)" output="screen" >
         <remap from="/camera_info" to="/$(var topic_c)/color/camera_info"/>
         <remap from="/image" to="/$(var topic_c)/color/image_raw" /> 
         <param name="image_is_rectified"    type="bool"     value="True"/>

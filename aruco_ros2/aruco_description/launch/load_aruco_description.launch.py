@@ -83,7 +83,7 @@ def generate_launch_description():
         default_value= xacro_path,
         description='Path to URDF xacro file'
     )
-
+    """
     aruco_description_param = ExecuteProcess(
         cmd=[
             'ros2',
@@ -93,7 +93,7 @@ def generate_launch_description():
             LaunchConfiguration('aruco_description_cmd')
         ],
         output='screen'
-    )
+    )"""
 
     world_file_name = 'empty.world'
     
@@ -140,9 +140,9 @@ def generate_launch_description():
         aruco_description_name_arg,
         model_arg,
         #aruco_description_param,
-        #gzserver,
-        #gzclient,
+        gzserver,
+        gzclient,
         #spawn_entity,
-        gazebo_launch,
+        #gazebo_launch,
         OpaqueFunction(function=evaluate_xacro)
     ])

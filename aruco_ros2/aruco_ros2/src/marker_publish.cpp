@@ -38,6 +38,10 @@ ArucoMarkerPublisher::ArucoMarkerPublisher(rclcpp::NodeOptions options)
   
 
   get_parameter_or("use_camera_info", useCamInfo_, true);
+  declare_parameter<float>("marker_size", 0.05);
+  declare_parameter<std::string>("topic", "camera");
+  declare_parameter<std::string>("reference_frame", "world");
+  declare_parameter<std::string>("camera_frame", "camera_color_optical_frame");
   declare_parameter<std::string>("aruco_dictionary_id", "DICT_4X4_250");
   std::string dictionary_id_name = get_parameter("aruco_dictionary_id").as_string();
 
@@ -52,7 +56,7 @@ ArucoMarkerPublisher::ArucoMarkerPublisher(rclcpp::NodeOptions options)
     std::bind(&ArucoMarkerPublisher::image_callback, this, std::placeholders::_1), "raw");
   if (useCamInfo_) {
     get_parameter_or("marker_size", marker_size_, 0.026);
-    get_parameter_or("topic", topic_, string{"c1"});
+    get_parameter_or("topic", topic_, string{"camera"});
     //get_parameter_or("image_is_rectified", useRectifiedImages_, false);
     get_parameter_or("reference_frame", reference_frame_, string{"origin_frame"});
     get_parameter_or("camera_frame", camera_frame_, string{"camera_color_optical_frame"});
@@ -65,10 +69,10 @@ ArucoMarkerPublisher::ArucoMarkerPublisher(rclcpp::NodeOptions options)
   }
 
   // Set up publishers
-  image_pub_ = image_transport::create_publisher(this, topic_+"/result");
-  debug_pub_ = image_transport::create_publisher(this, topic_+"/debug");
-  marker_pub_ = create_publisher<aruco_msgs::msg::MarkerArray>(topic_+"/markers", 100);
-  marker_list_pub_ = create_publisher<std_msgs::msg::UInt32MultiArray>(topic_+"/markers_list", 10);
+  image_pub_ = image_transport::create_publisher(this, "result");
+  debug_pub_ = image_transport::create_publisher(this, "debug");
+  marker_pub_ = create_publisher<aruco_msgs::msg::MarkerArray>("markers", 100);
+  marker_list_pub_ = create_publisher<std_msgs::msg::UInt32MultiArray>("markers_list", 10);
   marker_msg_ = aruco_msgs::msg::MarkerArray::Ptr(new aruco_msgs::msg::MarkerArray());
   marker_msg_->header.frame_id = reference_frame_;
 
@@ -218,6 +222,9 @@ void ArucoMarkerPublisher::image_callback(const sensor_msgs::msg::Image::ConstPt
 
       cv::Mat currentCameraMatrix = this->cameraMatrix;
       cv::Mat currentDistCoeffs = this->distCoeffs;
+
+      std::cout << "MARKER SIZE!!!!!!!!!!!!!: " << " ";
+      std::cout << marker_size_ << std::endl;
 
       cv::Ptr<cv::aruco::Dictionary> dictionary = cv::aruco::getPredefinedDictionary(cv::aruco::DICT_4X4_250);
       cv::Ptr<cv::aruco::DetectorParameters> detectorParams = cv::aruco::DetectorParameters::create();

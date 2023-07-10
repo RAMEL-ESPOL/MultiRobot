@@ -109,6 +109,7 @@ find_package(image_transport REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rclcpp_components REQUIRED)
 find_package(realsense2_camera_msgs REQUIRED)
+find_package(realsense_gazebo_plugin REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(nav_msgs REQUIRED)
@@ -222,6 +223,7 @@ set(dependencies
   rclcpp
   rclcpp_components
   realsense2_camera_msgs
+  realsense_gazebo_plugin
   std_msgs
   sensor_msgs
   nav_msgs

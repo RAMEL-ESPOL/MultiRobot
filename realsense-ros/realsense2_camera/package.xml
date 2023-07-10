@@ -21,6 +21,7 @@
   <depend>rclcpp</depend>
   <depend>rclcpp_components</depend>
   <depend>realsense2_camera_msgs</depend>
+  <depend>realsense_gazebo_plugin</depend>
   <depend>sensor_msgs</depend>
   <depend>geometry_msgs</depend>
   <depend>std_msgs</depend>

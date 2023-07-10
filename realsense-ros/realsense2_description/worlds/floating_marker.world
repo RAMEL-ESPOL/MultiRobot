@@ -30,7 +30,7 @@
     <!-- AR marker -->
     <include>
       <uri>model://marker_0</uri>
-      <pose>2 0 1 0 0 3.1415</pose>
+      <pose>0 0 0 0 0 3.1415</pose>
     </include>
     <!-- Add a light on top of REEM and the marker -->
     <light name="marker_light" type="point">

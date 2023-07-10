@@ -28,7 +28,7 @@ def evaluate_xacro(context, *args, **kwargs):
       parameters=[{
         'use_sim_time': False,
         'robot_description': xacro.process_file(model, mappings={'name': name,
-                                                                 'topics_ns': topics_ns,
+                                                                 'namespace': topics_ns,
                                                                  'add_plug': add_plug,
                                                                  'publish_pointcloud': publish_pointcloud,
                                                                  'use_nominal_extrinsics': use_nominal_extrinsics,
