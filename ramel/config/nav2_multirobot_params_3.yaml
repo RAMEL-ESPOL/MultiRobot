@@ -6,7 +6,7 @@ amcl:
     alpha3: 0.2
     alpha4: 0.2
     alpha5: 0.2
-    base_frame_id: "r1/base_link"
+    base_frame_id: "r3/base_footprint"
     beam_skip_distance: 0.5
     beam_skip_error_threshold: 0.9
     beam_skip_threshold: 0.3
@@ -20,7 +20,7 @@ amcl:
     max_beams: 60
     max_particles: 2000
     min_particles: 500
-    odom_frame_id: "r1/odom"
+    odom_frame_id: "r3/odom"
     pf_err: 0.05
     pf_z: 0.99
     recovery_alpha_fast: 0.0
@@ -37,14 +37,14 @@ amcl:
     z_max: 0.05
     z_rand: 0.5
     z_short: 0.05
-    scan_topic: /r1/scan
+    scan_topic: /r3/scan
     map_topic: /map
 
 bt_navigator:
   ros__parameters:
     use_sim_time: True
     global_frame: map
-    robot_base_frame: base_link
+    robot_base_frame: r3/base_link
     odom_topic: odom
     bt_loop_duration: 10
     default_server_timeout: 20
@@ -182,8 +182,8 @@ local_costmap:
     ros__parameters:
       update_frequency: 5.0
       use_sim_time: True
-      global_frame: r1/odom
-      robot_base_frame: r1/base_link
+      global_frame: r3/odom
+      robot_base_frame: r3/base_link
       rolling_window: true
       width: 3
       height: 3
@@ -205,7 +205,7 @@ local_costmap:
         mark_threshold: 0
         observation_sources: scan
         scan:
-          topic: /r1/scan
+          topic: /r3/scan
           max_obstacle_height: 2.0
           clearing: True
           marking: True
@@ -221,7 +221,7 @@ local_costmap:
           enabled: true
           observation_sources: scan
           scan:
-            topic: /r1/scan
+            topic: scan
             max_obstacle_height: 2.0
             clearing: true
             marking: true
@@ -239,7 +239,7 @@ global_costmap:
       robot_radius: 0.22
       update_frequency: 1.0
       publish_frequency: 1.0
-      robot_base_frame: r1/base_link
+      robot_base_frame: r3/base_link
       global_frame: map
       transform_tolerance: 0.5
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
@@ -248,7 +248,7 @@ global_costmap:
         enabled: True
         observation_sources: scan
         scan:
-          topic: /r1/scan
+          topic: /r3/scan
           max_obstacle_height: 2.0
           clearing: True
           marking: True
@@ -302,8 +302,8 @@ behavior_server:
       plugin: "nav2_behaviors/DriveOnHeading"
     wait:
       plugin: "nav2_behaviors/Wait"
-    global_frame: r1/odom
-    robot_base_frame: r1/base_link
+    global_frame: r3/odom
+    robot_base_frame: r3/base_link
     transform_tolerance: 0.1
     use_sim_time: true
     simulate_ahead_time: 2.0

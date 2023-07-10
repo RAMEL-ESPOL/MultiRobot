@@ -34,7 +34,7 @@ def generate_launch_description():
         executable='rviz2',
         name='rviz2',
         output='screen',
-        arguments=['-d', os.path.join(get_package_share_directory('ramel'),'config','slam_config.rviz')]
+        arguments=['-d', os.path.join(get_package_share_directory('ramel'),'config','nav2.rviz')]
     )
     nav1 = IncludeLaunchDescription(
     PythonLaunchDescriptionSource(os.path.join(get_package_share_directory('ramel'),'launch','navigation_launch.py')),
