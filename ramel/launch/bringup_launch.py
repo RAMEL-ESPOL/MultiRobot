@@ -18,7 +18,7 @@ from ament_index_python.packages import get_package_share_directory
 
 from launch import LaunchDescription
 from launch.actions import (DeclareLaunchArgument, GroupAction,
-                            IncludeLaunchDescription, SetEnvironmentVariable)
+                            IncludeLaunchDescription, SetEnvironmentVariable, OpaqueFunction)
 from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PythonExpression
@@ -26,7 +26,53 @@ from launch_ros.actions import Node
 from launch_ros.actions import PushRosNamespace
 from nav2_common.launch import RewrittenYaml
 
+def navigation_n_robots(context, *args, **kwargs):
+    # Get the launch directory
+    ramel_dir = get_package_share_directory('ramel')
+    bringup_dir = get_package_share_directory('nav2_bringup')
+    launch_dir = os.path.join(ramel_dir, 'launch')
+    
+    # Create the launch configuration variables
+    namespace = LaunchConfiguration('namespace')
+    use_namespace = LaunchConfiguration('use_namespace')
+    slam = LaunchConfiguration('slam')
+    map_yaml_file = LaunchConfiguration('map')
+    use_sim_time = LaunchConfiguration('use_sim_time')
+    params_file = LaunchConfiguration('params_file')
+    autostart = LaunchConfiguration('autostart')
+    use_composition = LaunchConfiguration('use_composition')
+    use_respawn = LaunchConfiguration('use_respawn')
+    log_level = LaunchConfiguration('log_level')
+    
+    robot_count= int(LaunchConfiguration('n').perform(context))
+    nodes=[]
+    
+    for i in range(robot_count):
+        robot_namespace = f'r{i+1}'
+        tf_prefix = f'{robot_namespace}/'
+        params_file_i = os.path.join(get_package_share_directory('ramel'), 'config', f'nav2_multirobot_params_{i+1}.yaml')
 
+        # Update the param_substitutions dictionary to include the tf_prefix
+        #param_substitutions['tf_prefix'] = tf_prefix
+
+        # Create the IncludeLaunchDescription for each robot
+        nodes.append(GroupAction([
+        PushRosNamespace(
+            condition=IfCondition(use_namespace),
+            namespace=robot_namespace),
+        
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(os.path.join(launch_dir, 'navigation_launch.py')),
+            launch_arguments={'namespace': robot_namespace,
+                              'use_sim_time': use_sim_time,
+                              'autostart': autostart,
+                              'params_file': params_file_i,
+                              'use_composition': use_composition,
+                              'use_respawn': use_respawn,
+                              'container_name': 'nav2_container'}.items()),
+    ]))
+    return nodes
+        
 def generate_launch_description():
     # Get the launch directory
     ramel_dir = get_package_share_directory('ramel')
@@ -107,6 +153,10 @@ def generate_launch_description():
     declare_use_respawn_cmd = DeclareLaunchArgument(
         'use_respawn', default_value='False',
         description='Whether to respawn if a node crashes. Applied when composition is disabled.')
+        
+    declare_num = DeclareLaunchArgument(
+        'n', default_value='3',
+        description='Number of navigation modules.')
 
     declare_log_level_cmd = DeclareLaunchArgument(
         'log_level', default_value='info',
@@ -141,37 +191,11 @@ def generate_launch_description():
     ld.add_action(declare_use_composition_cmd)
     ld.add_action(declare_use_respawn_cmd)
     ld.add_action(declare_log_level_cmd)
+    ld.add_action(declare_num)
 
     # Add the actions to launch all of the navigation nodes
     ld.add_action(localization)
+    ld.add_action(OpaqueFunction(function=navigation_n_robots))
     
-    robot_count = 3  # Number of robots
-
-    for i in range(robot_count):
-        robot_namespace = f'r{i+1}'
-        tf_prefix = f'{robot_namespace}/'
-        params_file_i = os.path.join(get_package_share_directory('ramel'), 'config', f'nav2_multirobot_params_{i+1}.yaml')
-
-        # Update the param_substitutions dictionary to include the tf_prefix
-        param_substitutions['tf_prefix'] = tf_prefix
-
-        # Create the IncludeLaunchDescription for each robot
-        bringup_cmd_group = GroupAction([
-        PushRosNamespace(
-            condition=IfCondition(use_namespace),
-            namespace=robot_namespace),
-        
-        IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(os.path.join(launch_dir, 'navigation_launch.py')),
-            launch_arguments={'namespace': robot_namespace,
-                              'use_sim_time': use_sim_time,
-                              'autostart': autostart,
-                              'params_file': params_file_i,
-                              'use_composition': use_composition,
-                              'use_respawn': use_respawn,
-                              'container_name': 'nav2_container'}.items()),
-    ])
-
-        # Add the GroupAction to the LaunchDescription
-        ld.add_action(bringup_cmd_group)
+    
     return ld
