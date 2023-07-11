@@ -27,11 +27,6 @@ def localization_n_robots(context, *args, **kwargs):
     lifecycle_nodes = ['map_server']
 
     remappings = []
-    # Create our own temporary YAML files that include substitutions
-    param_substitutions = {
-        'use_sim_time': use_sim_time,
-        'yaml_filename': map_yaml_file
-    }
     
     robot_count= int(LaunchConfiguration('n').perform(context))
     # Create a list to hold the nodes
@@ -57,11 +52,15 @@ def localization_n_robots(context, *args, **kwargs):
     robot_count = 3  # Number of robots
     for i in range(robot_count):
         robot_namespace = f'r{i+1}'
-        tf_prefix = f'r{i}/'  # Set the tf_prefix for the robot
-        params_file = os.path.join(get_package_share_directory('ramel'), 'config', f'nav2_multirobot_params_{i+1}.yaml')
-
-        # Update the param_substitutions dictionary to include the tf_prefix
-        param_substitutions['tf_prefix'] = tf_prefix
+        #tf_prefix = f'r{i}/'  # Set the tf_prefix for the robot
+        params_file = os.path.join(get_package_share_directory('ramel'), 'config', 'nav2_multirobot_params.yaml')
+        # Create our own temporary YAML files that include substitutions
+        param_substitutions = {
+        'use_sim_time': use_sim_time,
+        'yaml_filename': map_yaml_file,
+        'base_frame_id':f'{robot_namespace}/base_link',
+        'odom_frame_id':f'{robot_namespace}/odom'
+    }
 
         configured_params_i = RewrittenYaml(
             source_file=params_file,
@@ -111,37 +110,6 @@ def localization_n_robots(context, *args, **kwargs):
     return [load_nodes]
 
 def generate_launch_description():
-    # Get the launch directory
-    bringup_dir = get_package_share_directory('nav2_bringup')
-
-    namespace = LaunchConfiguration('namespace')
-    map_yaml_file = LaunchConfiguration('map')
-    use_sim_time = LaunchConfiguration('use_sim_time')
-    autostart = LaunchConfiguration('autostart')
-    params_file = LaunchConfiguration('params_file')
-    use_composition = LaunchConfiguration('use_composition')
-    container_name = LaunchConfiguration('container_name')
-    container_name_full = (namespace, '/', container_name)
-    use_respawn = LaunchConfiguration('use_respawn')
-    log_level = LaunchConfiguration('log_level')
-
-    lifecycle_nodes = ['map_server']
-
-    remappings = []
-
-    # Create our own temporary YAML files that include substitutions
-    param_substitutions = {
-        'use_sim_time': use_sim_time,
-        'yaml_filename': map_yaml_file
-    }
-
-    configured_params = RewrittenYaml(
-        source_file=params_file,
-        root_key='robot_params',
-        param_rewrites=param_substitutions,
-        convert_types=True
-    )
-
     stdout_linebuf_envvar = SetEnvironmentVariable(
         'RCUTILS_LOGGING_BUFFERED_STREAM', '1')
 

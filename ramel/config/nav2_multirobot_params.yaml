@@ -43,7 +43,6 @@ amcl:
 bt_navigator:
   ros__parameters:
     use_sim_time: True
-    global_frame: map
     robot_base_frame: base_link
     odom_topic: odom
     bt_loop_duration: 10
@@ -241,7 +240,6 @@ global_costmap:
       update_frequency: 1.0
       publish_frequency: 1.0
       robot_base_frame: base_link
-      global_frame: map
       footprint_padding: 0.03
       transform_tolerance: 0.5
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]

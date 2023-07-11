@@ -25,6 +25,7 @@ from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch_ros.actions import Node
 from launch_ros.actions import PushRosNamespace
 from nav2_common.launch import RewrittenYaml
+import yaml
 
 def navigation_n_robots(context, *args, **kwargs):
     # Get the launch directory
@@ -50,11 +51,24 @@ def navigation_n_robots(context, *args, **kwargs):
     for i in range(robot_count):
         robot_namespace = f'r{i+1}'
         tf_prefix = f'{robot_namespace}/'
-        params_file_i = os.path.join(get_package_share_directory('ramel'), 'config', f'nav2_multirobot_params_{i+1}.yaml')
+        params_file_i = os.path.join(get_package_share_directory('ramel'), 'config', 'nav2_multirobot_params.yaml')
+	# Create our own temporary YAML files that include substitutions
+        param_substitutions = {
+            'use_sim_time': use_sim_time,
+            'yaml_filename': map_yaml_file,
+            'base_frame_id':f'{robot_namespace}/base_link',
+            'odom_frame_id':f'{robot_namespace}/odom',
+            'robot_base_frame':f'{robot_namespace}/base_link',
+            'global_frame':f'{robot_namespace}/odom'}
 
+        configured_params = RewrittenYaml(
+            source_file=params_file_i,
+            #root_key=robot_namespace,
+            param_rewrites=param_substitutions,
+            convert_types=True)
+        print(yaml.dump(configured_params, default_flow_style=False))
         # Update the param_substitutions dictionary to include the tf_prefix
         #param_substitutions['tf_prefix'] = tf_prefix
-
         # Create the IncludeLaunchDescription for each robot
         nodes.append(GroupAction([
         PushRosNamespace(
@@ -66,7 +80,7 @@ def navigation_n_robots(context, *args, **kwargs):
             launch_arguments={'namespace': robot_namespace,
                               'use_sim_time': use_sim_time,
                               'autostart': autostart,
-                              'params_file': params_file_i,
+                              'params_file': configured_params,
                               'use_composition': use_composition,
                               'use_respawn': use_respawn,
                               'container_name': 'nav2_container'}.items()),
@@ -98,17 +112,6 @@ def generate_launch_description():
     # TODO(orduno) Substitute with `PushNodeRemapping`
     #              https://github.com/ros2/launch_ros/issues/56
     remappings = []
-
-    # Create our own temporary YAML files that include substitutions
-    param_substitutions = {
-        'use_sim_time': use_sim_time,
-        'yaml_filename': map_yaml_file}
-
-    configured_params = RewrittenYaml(
-        source_file=params_file,
-        root_key=namespace,
-        param_rewrites=param_substitutions,
-        convert_types=True)
 
     stdout_linebuf_envvar = SetEnvironmentVariable(
         'RCUTILS_LOGGING_BUFFERED_STREAM', '1')
