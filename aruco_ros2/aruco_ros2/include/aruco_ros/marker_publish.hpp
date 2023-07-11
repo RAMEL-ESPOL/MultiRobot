@@ -30,7 +30,7 @@ Detect and Draw Aruco Markers.
 #include "aruco/cvdrawingutils.h"
 #include "sensor_msgs/msg/camera_info.hpp"
 #include "sensor_msgs/image_encodings.hpp"
-#include "aruco_msgs/msg/marker.hpp"
+#include "aruco_msgs/msg/Marker.h"
 #include "visualization_msgs/msg/marker.hpp"
 #include "geometry_msgs/msg/transform_stamped.hpp"
 #include "geometry_msgs/msg/vector3_stamped.hpp"
@@ -39,7 +39,7 @@ Detect and Draw Aruco Markers.
 #include "std_msgs/msg/u_int32_multi_array.hpp"
 #include "aruco_ros/aruco_ros_utils.hpp"
 #include <aruco/marker.h>
-#include "aruco_msgs/msg/marker_array.hpp"
+#include "aruco_msgs/msg/MarkerArray"
 #include <tf2_ros/buffer.h>
 #include <rclcpp/rclcpp.hpp>
 #include <rclcpp/node_interfaces/node_topics_interface.hpp>
