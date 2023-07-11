@@ -273,7 +273,7 @@
           <namespace>$(arg namespace)</namespace>
           <remapping>odom:=sim_ground_truth_pose</remapping>
         </ros>
-        <body_name>base_link</body_name>
+        <body_name>$(arg namespace)/base_link</body_name>
         <frame_name>world</frame_name>
         <update_rate>62</update_rate>
         <xyz_offset>0 0 0</xyz_offset>
@@ -318,10 +318,11 @@
             </ray>
             <plugin name="laser_controller" filename="libgazebo_ros_ray_sensor.so">
                 <ros>
-                    <argument>~/out:=/r1/scan</argument>
+                    <argument>~/out:=/$(arg namespace)/scan</argument>
+                    <namespace>$(arg namespace)</namespace>
                 </ros>
                 <output_type>sensor_msgs/LaserScan</output_type>
-                <frame_name>r1/laser_frame</frame_name>
+                <frame_name>$(arg namespace)/laser_frame</frame_name>
             </plugin>
         </sensor>
     </gazebo>

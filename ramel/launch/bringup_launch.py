@@ -175,7 +175,8 @@ def generate_launch_description():
                               #'params_file': params_file,
                               'use_composition': use_composition,
                               'use_respawn': use_respawn,
-                              'container_name': 'nav2_container'}.items())
+                              'container_name': 'nav2_container',
+                              'n':LaunchConfiguration('n')}.items())
 
     # Create the launch description and populate
     ld = LaunchDescription()

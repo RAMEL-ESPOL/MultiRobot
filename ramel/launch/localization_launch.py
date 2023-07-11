@@ -49,7 +49,7 @@ def localization_n_robots(context, *args, **kwargs):
         )
     )
     
-    robot_count = 3  # Number of robots
+    robot_count = int(LaunchConfiguration('n').perform(context))
     for i in range(robot_count):
         robot_namespace = f'r{i+1}'
         #tf_prefix = f'r{i}/'  # Set the tf_prefix for the robot
