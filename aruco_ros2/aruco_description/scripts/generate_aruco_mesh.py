@@ -55,7 +55,8 @@ class ArucoGenerator(rclpy.node.Node):
 
     def generate_tag(self, arucoDict, tag_id, out_path, img_path):
         tag = np.zeros((300, 300, 1), dtype="uint8")
-        cv2.aruco.generateImageMarker(arucoDict, tag_id, 300, tag, 1)
+        cv2.aruco.drawMarker(arucoDict, tag_id, 300, tag, 1)
+        #cv2.aruco.generateImageMarker(arucoDict, tag_id, 300, tag, 1)
 
         # write the generated ArUCo tag to disk and then display it
         cv2.imwrite(out_path, tag)

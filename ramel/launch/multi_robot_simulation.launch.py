@@ -6,13 +6,14 @@ import os
 from pathlib import Path
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, ExecuteProcess, DeclareLaunchArgument, SetEnvironmentVariable, EmitEvent, GroupAction, RegisterEventHandler
+from launch.actions import IncludeLaunchDescription, ExecuteProcess, DeclareLaunchArgument, SetEnvironmentVariable, EmitEvent, GroupAction, RegisterEventHandler, TimerAction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution, EnvironmentVariable
 from launch.conditions import IfCondition
 from launch_ros.actions import Node
 from launch.events import Shutdown
 from launch.event_handlers import OnProcessExit
+from launch.actions import OpaqueFunction
 
 ARGUMENTS = [
     DeclareLaunchArgument('use_rviz', default_value='true',
@@ -56,13 +57,11 @@ def generate_launch_description():
     # Set GAZEBO_MODEL_URI to empty string to prevent Gazebo from downloading models
     gz_model_uri = SetEnvironmentVariable(name='GAZEBO_MODEL_URI', value=[''])
     # Gazebo server
-    gzserver = ExecuteProcess(
-        cmd=['gzserver',
-             '-s', 'libgazebo_ros_init.so',
-             '-s', 'libgazebo_ros_factory.so',
-             world,
-             'extra-gazebo-args', '--ros-args', '--params-file', gazebo_params_yaml_file],
-        output='screen',
+    gzserver = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(pkg_gazebo_ros, 'launch', 'gzserver.launch.py')
+        ),
+        launch_arguments={'world': world}.items()
     )
 
     gzclient_cmd = IncludeLaunchDescription(
@@ -105,11 +104,6 @@ def generate_launch_description():
         get_package_share_directory('turtlebot3_gazebo'),
         'urdf',
         urdf_file_name
-        )
-    urdf_path2 = os.path.join(
-        get_package_share_directory('turtlebot3_gazebo'),
-        'urdf',
-        'turtlebot3_burger2.urdf'
         )
     start_gazebo_ros_spawner_cmd = Node(
     package='gazebo_ros',
@@ -166,6 +160,21 @@ def generate_launch_description():
             ('yaw', '0.0')
         ],
     )
+    # Create3 robot spawn command
+    create3_spawn_cmd_2 = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(get_package_share_directory('irobot_create_gazebo_bringup'), 'launch', 'create3_spawn.launch.py')
+        ),
+        launch_arguments=[
+            ('namespace', 'r5'),
+            ('spawn_dock', 'false'),
+            ('use_rviz', 'false'),
+            ('x', '1.0'),
+            ('y', '-1.0'),
+            ('z', '0.01'),
+            ('yaw', '0.0')
+        ],
+    )
 
     with open(urdf_path, 'r') as infp:
         robot_desc = infp.read()
@@ -206,6 +215,11 @@ def generate_launch_description():
             'robot_description': robot_desc,
         }],
     )
+    # Add a delay of 5 seconds
+    delay = TimerAction(
+        period=5.0,
+        actions=[create3_spawn_cmd_2],
+    )
 
     # Add the commands to the launch description
     # Define LaunchDescription variable
@@ -221,4 +235,5 @@ def generate_launch_description():
     ld.add_action(start_gazebo_ros_spawner_cmd_2)
     ld.add_action(start_gazebo_ros_spawner_cmd_3)
     ld.add_action(create3_spawn_cmd)
+    ld.add_action(delay)
     return ld

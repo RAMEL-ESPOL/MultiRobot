@@ -25,12 +25,24 @@ def generate_launch_description():
 
     control_params_file = PathJoinSubstitution(
         [pkg_create3_control, 'config', 'control.yaml'])
+    # Create our own temporary YAML files that include substitutions
+    param_substitutions = {
+        'base_frame_id':f'{namespace}/base_link',
+        'odom_frame_id':f'{namespace}/odom'
+    }
+
+    configured_params_i = RewrittenYaml(
+        source_file=control_params_file,
+        #root_key='/**',
+        param_rewrites=param_substitutions,
+        convert_types=True
+    )
         
     diffdrive_controller_node = Node(
         package='controller_manager',
         executable='spawner',
         namespace=namespace,  # Namespace is not pushed when used in EventHandler
-        parameters=[control_params_file],
+        parameters=[configured_params_i],
         arguments=['diffdrive_controller', '-c', 'controller_manager'],
         output='screen',
     )
