@@ -327,6 +327,10 @@ void ArucoMarkerPublisher::image_callback(const sensor_msgs::msg::Image::ConstPt
           tf2::Vector3 tf_orig(tvecs[i][0], tvecs[i][1], tvecs[i][2]);
           tf2::Transform transform(tf_rot, tf_orig);
 
+          //Distance from camera to aruco
+          //marker_i.distance = tf2Sqrt(tf2::tf2Dot(tf_orig, tf_orig));
+          marker_i.distance = tf2Sqrt(tf2::tf2Dot(tf_orig, tf_orig));
+
           //std::cout << transform << std::endl;
           std::cout << "camera2marker tf: " << "x: ";
           std::cout << transform.getOrigin().getX() << " y: ";

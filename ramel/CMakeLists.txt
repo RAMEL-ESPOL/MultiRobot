@@ -7,6 +7,7 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
+find_package(aruco_msgs REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
@@ -30,5 +31,9 @@ install(DIRECTORY
   DESTINATION share/${PROJECT_NAME}
 )
 endif()
+
+install(PROGRAMS  
+  scripts/aruco_pose_subscriber.py  
+  DESTINATION lib/${PROJECT_NAME} )
 
 ament_package()
