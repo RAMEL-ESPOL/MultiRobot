@@ -73,8 +73,8 @@ ArucoMarkerPublisher::ArucoMarkerPublisher(rclcpp::NodeOptions options)
   debug_pub_ = image_transport::create_publisher(this, "debug");
   marker_pub_ = create_publisher<aruco_msgs::msg::MarkerArray>("markers", 100);
   marker_list_pub_ = create_publisher<std_msgs::msg::UInt32MultiArray>("markers_list", 10);
-  marker_msg_ = aruco_msgs::msg::MarkerArray::Ptr(new aruco_msgs::msg::MarkerArray());
-  marker_msg_->header.frame_id = reference_frame_;
+  marker_msg_ = aruco_msgs::msg::MarkerArray();
+  marker_msg_.header.frame_id = reference_frame_;
 
   // Make sure we have a valid dictionary id
   /*  try {
@@ -271,15 +271,15 @@ void ArucoMarkerPublisher::image_callback(const sensor_msgs::msg::Image::ConstPt
 
         }
 
-        marker_msg_->markers.clear();
-        marker_msg_->markers.resize(markers_.size());
-        marker_msg_->header.stamp = curr_stamp;
+        marker_msg_.markers.clear();
+        marker_msg_.markers.resize(markers_.size());
+        marker_msg_.header.stamp = curr_stamp;
 
         for (int i = 0; i < marker_ids.size(); ++i) {
 
           //cv::drawFrameAxes(inImage_copy, cameraMatrix, distCoeffs, rvecs[i], tvecs[i], 0.05);
 
-          aruco_msgs::msg::Marker & marker_i = marker_msg_->markers.at(i);
+          aruco_msgs::msg::Marker & marker_i = marker_msg_.markers.at(i);
           marker_i.header.stamp = curr_stamp;
           marker_i.id = marker_ids[i];
           marker_i.confidence = 1.0;
@@ -329,7 +329,7 @@ void ArucoMarkerPublisher::image_callback(const sensor_msgs::msg::Image::ConstPt
 
           //Distance from camera to aruco
           //marker_i.distance = tf2Sqrt(tf2::tf2Dot(tf_orig, tf_orig));
-          marker_i.distance = tf2Sqrt(tf2::tf2Dot(tf_orig, tf_orig));
+          marker_i.distance = 0.0;
 
           //std::cout << transform << std::endl;
           std::cout << "camera2marker tf: " << "x: ";
@@ -463,8 +463,8 @@ void ArucoMarkerPublisher::image_callback(const sensor_msgs::msg::Image::ConstPt
         }*/
 
         // publish marker array
-        if (marker_msg_->markers.size() > 0) {
-          marker_pub_->publish(*marker_msg_);
+        if (marker_msg_.markers.size() > 0) {
+          marker_pub_->publish(marker_msg_);
         }
       }
 

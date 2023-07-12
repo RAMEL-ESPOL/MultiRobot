@@ -15,36 +15,53 @@ Detect and Draw Aruco Markers.
 #define ARUCO_ROS__MARKER_PUBLISH_HPP_
 
 #include <iostream>
+#include "aruco/aruco.h"
+#include "aruco/cvdrawingutils.h"
+#include "aruco_ros/aruco_ros_utils.hpp"
+#include "aruco_msgs/msg/marker_array.hpp"
+
+#include "cv_bridge/cv_bridge.h"
+#include "image_transport/image_transport.h"
+#include "rclcpp/rclcpp.hpp"
+#include "rclcpp/wait_for_message.hpp"
+#include "rcpputils/asserts.hpp"
+#include "sensor_msgs/image_encodings.hpp"
+#include "std_msgs/msg/u_int32_multi_array.hpp"
+#include "tf2_ros/transform_listener.h"
+#include "tf2_ros/buffer.h"
+#include "tf2_geometry_msgs/tf2_geometry_msgs.hpp"
+#include <opencv2/aruco.hpp>
+#include <opencv2/opencv.hpp>
+
+
+
 #include <functional>
 #include <vector>
 #include <string>
 #include <memory>
-#include "image_transport/image_transport.h"
-#include "cv_bridge/cv_bridge.h"
+
+
 #include "tf2_ros/transform_broadcaster.h"
-#include "tf2_ros/transform_listener.h"
+
 #include "tf2_ros/create_timer_ros.h"
-#include "tf2_geometry_msgs/tf2_geometry_msgs.hpp"
+
 #include "tf2/convert.h"
-#include "aruco/aruco.h"
-#include "aruco/cvdrawingutils.h"
+
+
 #include "sensor_msgs/msg/camera_info.hpp"
-#include "sensor_msgs/image_encodings.hpp"
-#include "aruco_msgs/msg/Marker.h"
+
+#include "aruco_msgs/msg/marker.hpp"
 #include "visualization_msgs/msg/marker.hpp"
 #include "geometry_msgs/msg/transform_stamped.hpp"
 #include "geometry_msgs/msg/vector3_stamped.hpp"
 #include "geometry_msgs/msg/pose_stamped.hpp"
 #include "rclcpp/rclcpp.hpp"
-#include "std_msgs/msg/u_int32_multi_array.hpp"
-#include "aruco_ros/aruco_ros_utils.hpp"
+
+
 #include <aruco/marker.h>
-#include "aruco_msgs/msg/MarkerArray"
-#include <tf2_ros/buffer.h>
-#include <rclcpp/rclcpp.hpp>
+
+
 #include <rclcpp/node_interfaces/node_topics_interface.hpp>
-#include <opencv2/aruco.hpp>
-#include <opencv2/opencv.hpp>
 
 
 /**
@@ -88,7 +105,7 @@ public:
   std::shared_ptr<tf2_ros::Buffer> tf_buffer_;
 
   rclcpp::Subscription<sensor_msgs::msg::CameraInfo>::SharedPtr cam_info_sub_;
-  aruco_msgs::msg::MarkerArray::Ptr marker_msg_;
+  aruco_msgs::msg::MarkerArray marker_msg_;
   cv::Mat inImage_, inImage_copy;
   bool useCamInfo_;
   std_msgs::msg::UInt32MultiArray marker_list_msg_;

@@ -1,4 +1,0 @@
-<map id="ArucoMarkerPublisher::cam_info_callback" name="ArucoMarkerPublisher::cam_info_callback">
-<area shape="rect" id="node1" title="arucoMarker2Tf convert the marker pose info to TF2 transform type" alt="" coords="5,5,156,47"/>
-<area shape="rect" id="node2" href="$namespacearuco__ros.html#ac69b37c14d6ea5e5f2f7e70719dd369c" title="rosCameraInfo2ArucoCamParams gets the camera intrinsics from a CameraInfo message and copies them to ..." alt="" coords="204,5,384,47"/>
-</map>

@@ -1,8 +1,0 @@
-<map id="ArucoSimple::ArucoSimple" name="ArucoSimple::ArucoSimple">
-<area shape="rect" id="node1" title="ArucoSimple constructor for ArucoSimple." alt="" coords="5,46,184,73"/>
-<area shape="rect" id="node2" href="$classArucoSimple.html#a80237a79825e1fbd14868392f1ff9f9e" title="camera info topic subscribe callback" alt="" coords="232,5,389,47"/>
-<area shape="rect" id="node4" href="$classArucoSimple.html#ac690575f6aa0b51b66a3956b44d62b1a" title="image topic subscribe callback" alt="" coords="241,71,380,112"/>
-<area shape="rect" id="node3" href="$namespacearuco__ros.html#ac69b37c14d6ea5e5f2f7e70719dd369c" title="rosCameraInfo2ArucoCamParams gets the camera intrinsics from a CameraInfo message and copies them to ..." alt="" coords="438,5,618,47"/>
-<area shape="rect" id="node5" href="$namespacearuco__ros.html#a01ddfb8b1a95fd19d8c2d6da8fc18583" title="arucoMarker2Tf convert the marker pose info to TF2 transform type" alt="" coords="439,74,617,101"/>
-<area shape="rect" id="node6" href="$classArucoSimple.html#ab08cfe145f251d1e88900b7f89302399" title="getTransform get transformation from 2 frame" alt="" coords="437,125,619,151"/>
-</map>

@@ -1,9 +1,0 @@
-<map id="main" name="main">
-<area shape="rect" id="node1" title=" " alt="" coords="5,101,56,127"/>
-<area shape="rect" id="node2" href="$classaruco_1_1FiducidalMarkers.html#a47f92ec85722ff997a687d7283d0ed78" title="Creates an ar marker with the id specified using a modified version of the hamming code...." alt="" coords="104,5,265,47"/>
-<area shape="rect" id="node3" href="$aruco__selectoptimalmarkers_8cpp.html#a1dc61fe5c6599d4a1ec79d4eae0f7201" title=" " alt="" coords="152,71,217,98"/>
-<area shape="rect" id="node4" href="$classaruco_1_1FiducidalMarkers.html#a3390126a77b1667d3350dabcc683cc9e" title=" " alt="" coords="104,123,265,164"/>
-<area shape="rect" id="node5" href="$aruco__selectoptimalmarkers_8cpp.html#a58714456a735acd81f172c82c91b866b" title=" " alt="" coords="142,189,227,215"/>
-<area shape="rect" id="node6" href="$aruco__selectoptimalmarkers_8cpp.html#a35cfab807729bc84cecff3956a27c7b8" title=" " alt="" coords="313,163,405,190"/>
-<area shape="rect" id="node7" href="$aruco__selectoptimalmarkers_8cpp.html#af53e62c5432a8b8312c781a7c85891bd" title=" " alt="" coords="332,214,387,241"/>
-</map>

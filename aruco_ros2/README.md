@@ -1,16 +1,11 @@
-# Aruco_Ros2
+aruco_ros
 =========
 
-[![pipeline status](https://gitlab.com/raymondchaneee/aruco_ros2/badges/master/pipeline.svg)](https://gitlab.com/raymondchaneee/aruco_ros2/commits/master)
-[![License](https://img.shields.io/badge/License-BSD%202--Clause-orange.svg)](https://opensource.org/licenses/BSD-2-Clause)
-[![codecov](https://codecov.io/gl/raymondchaneee/aruco_ros2/branch/master/graph/badge.svg)](https://codecov.io/gl/raymondchaneee/aruco_ros2)
-[![Documentation Status](https://readthedocs.org/projects/aruco-ros2/badge/?version=latest)](https://aruco-ros2.readthedocs.io/en/latest/)
-
-Software package and ROS2 wrappers of the [Aruco][1] Augmented Reality marker detector library.
+Software package and ROS wrappers of the [Aruco][1] Augmented Reality marker detector library.
 
 
 ### Features
-<!-- <img align="right" src="https://raw.github.com/pal-robotics/aruco_ros/master/aruco_ros/etc/marker_in_hand.jpg" /> -->
+<img align="right" src="https://raw.github.com/pal-robotics/aruco_ros/master/aruco_ros/etc/marker_in_hand.jpg" />
 
  * High-framerate tracking of AR markers
  
@@ -18,7 +13,7 @@ Software package and ROS2 wrappers of the [Aruco][1] Augmented Reality marker de
  
  * Enhanced precision tracking by using boards of markers
  
- * ROS2  wrappers
+ * ROS wrappers
 
 
 ### Applications
@@ -26,71 +21,66 @@ Software package and ROS2 wrappers of the [Aruco][1] Augmented Reality marker de
  * Object pose estimation
  * Visual servoing: track object and hand at the same time
 
-<!-- <img align="right" src="https://raw.github.com/pal-robotics/aruco_ros/master/aruco_ros/etc/reem_gazebo_floating_marker_world.png"/> -->
+<img align="right" src="https://raw.github.com/pal-robotics/aruco_ros/master/aruco_ros/etc/reem_gazebo_floating_marker_world.png"/>
 
 
-### ROS2 API
+### ROS API
 
-### Build
- * direct to workspace `src` , then git clone the repo
-```
-cd <path/to/workspace/>/src
-git clone https://gitlab.com/raymondchaneee/aruco_ros2.git
-```
- * direct to workspace then, install dependency using `rosdep`, then build using `colcon`
-```
- cd <path/to/workspace>
- rosdep install --from-paths src --ignore-src --rosdistro eloquent -y
- colcon build 
-```
- * if build successful, then run test to check error whether is pass (except for `copyright` issue due to eloquent ament_lint did not update its ament_copyright repo. which is not a problem to run the whole repo)
-```
-   colcon test --pakages-select aruco_ros2
-   colcon test-result --all
-```
-### Generate markers
-
-`ros2 run aruco optimalmarkers <quantity of marker> <name of marker> <marker number> <min marker number, 30 minimum>` e.g.
-```
-ros2 run aruco optimalmarkers 1 testmark 360 30
-```
 #### Messages
 
  * aruco_ros/Marker.msg
 
-        std_msg/Header header
+        Header header
         uint32 id
         geometry_msgs/PoseWithCovariance pose
         float64 confidence
 
  * aruco_ros/MarkerArray.msg
 
-        std_msg/Header header
+        Header header
         aruco_ros/Marker[] markers
 
-### Test 
+### Kinetic changes
 
- * to test run please install a camera pkg example, `ros2_usb_camera`, and do 
+* Updated the [Aruco][1] library to version 3.0.4
 
-	```
- 	ros2 run usb_camera_driver usb_camera_driver_node 
-	```
-	with input camera calibration parameter in .yaml file
+* Changed the coordinate system to match the library's, the convention is shown
+  in the image below, following rviz conventions, X is red, Y is green and Z is
+  blue.
+<img align="bottom" src="/aruco_ros/etc/new_coordinates.png"/>
 
+### Test it with REEM
 
- * then execute
+ * Open a REEM in simulation with a marker floating in front of the robot. This will start the stereo cameras of the robot too. Since this is only a vision test, there is nothing else in this world apart from the robot and a marker floating in front of it. An extra light source had to be added to compensate for the default darkness.
 
-	```
- 	ros2 launch aruco_ros2 single.launch.xml 
-	```
- 	There will be a display of camera showing, put a generated aruco marker, will shows the detection of marker on window.
-
- * Start the `marker_publisher` node which will start tracking the multiple marker and will publish its pose in the camera frame in `markers` topic, please take note that this application will not have any visualization in rviz, only result image. 
+    ```
+    roslaunch reem_gazebo reem_gazebo.launch world:=floating_marker
+    ```
+ * Launch the `image_proc` node to get undistorted images from the cameras of the robot.
  
     ```
-    roslaunch aruco_ros marker_publisher.launch.xml
+    ROS_NAMESPACE=/stereo/right rosrun image_proc image_proc image_raw:=image
+    ```
+ * Start the `single` node which will start tracking the specified marker and will publish its pose in the camera frame
+ 
+    ```
+    roslaunch aruco_ros single.launch markerId:=26 markerSize:=0.08 eye:="right"
     ```
 
+    the frame in which the pose is refered to can be chosen with the 'ref_frame' argument. The next example forces the marker pose to
+    be published with respect to the robot base_link frame:
+
+    ```
+    roslaunch aruco_ros single.launch markerId:=26 markerSize:=0.08 eye:="right" ref_frame:=/base_link
+    ```
+    
+ * Visualize the result
+ 
+    ```    
+    rosrun image_view image_view image:=/aruco_single/result
+    ```
+
+<img align="right" src="https://raw.github.com/pal-robotics/aruco_ros/master/aruco_ros/etc/reem_gazebo_floating_marker.png"/>
 
 
 [1]: http://www.sciencedirect.com/science/article/pii/S0031320314000235 "Automatic generation and detection of highly reliable fiducial markers under occlusion by S. Garrido-Jurado and R. Muñoz-Salinas and F.J. Madrid-Cuevas and M.J. Marín-Jiménez 2014"

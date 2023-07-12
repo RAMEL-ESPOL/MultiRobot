@@ -1,356 +1,463 @@
-/*****************************
-Copyright 2011 Rafael Muñoz Salinas. All rights reserved.
+/**
+Copyright 2020 Rafael Muñoz Salinas. All rights reserved.
 
-Redistribution and use in source and binary forms, with or without modification, are
-permitted provided that the following conditions are met:
+  This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation version 3 of the License.
 
-   1. Redistributions of source code must retain the above copyright notice, this list of
-      conditions and the following disclaimer.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-   2. Redistributions in binary form must reproduce the above copyright notice, this list
-      of conditions and the following disclaimer in the documentation and/or other materials
-      provided with the distribution.
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
 
-THIS SOFTWARE IS PROVIDED BY Rafael Muñoz Salinas ''AS IS'' AND ANY EXPRESS OR IMPLIED
-WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
-FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL Rafael Muñoz Salinas OR
-CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
-ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
-ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-The views and conclusions contained in the software and documentation are those of the
-authors and should not be interpreted as representing official policies, either expressed
-or implied, of Rafael Muñoz Salinas.
-********************************/
 #ifndef _ARUCO_MarkerDetector_H
 #define _ARUCO_MarkerDetector_H
-#include <opencv2/opencv.hpp>
+
+#include "aruco_export.h"
+#include <opencv2/core/core.hpp>
 #include <cstdio>
 #include <iostream>
-#include <aruco/cameraparameters.h>
-#include <aruco/exports.h>
-#include <aruco/marker.h>
-using namespace std;
+#include <queue>
+#include <mutex>
+#include <condition_variable>
+#include <vector>
+#include <map>
+#include "marker.h"
+
+#include <opencv2/imgproc/imgproc.hpp>
 
 namespace aruco
 {
 
+/**
+ * @brief The DetectionMode enum defines the different possibilities for detection.
+ * Specifies the detection mode. We have preset three types of detection modes. These are
+ * ways to configure the internal parameters for the most typical situations. The modes
+ * are:
+ * - DM_NORMAL: In this mode, the full resolution image is employed for detection and slow
+ * threshold method. Use this method when you process individual images that are not part
+ * of a video sequence and you are not interested in speed.
+ *
+ * - DM_FAST: In this mode, there are two main improvements. First, image is threshold
+ * using a faster method using a global threshold. Also, the full resolution image is
+ * employed for detection, but, you could speed up detection even more by indicating a
+ * minimum size of the markers you will accept. This is set by the variable minMarkerSize
+ * which shoud be in range [0,1]. When it is 0, means that you do not set a limit in the
+ * size of the accepted markers. However, if you set 0.1, it means that markers smaller
+ * than 10% of the total image area, will not be detected. Then, the detection can be
+ * accelated up to orders of magnitude compared to the normal mode.
+ *
+ * - DM_VIDEO_FAST: This is similar to DM_FAST, but specially adapted to video processing.
+ * In that case, we assume that the observed markers when you call to detect() have a size
+ * similar to the ones observed in the previous frame. Then, the processing can be speeded
+ * up by employing smaller versions of the image automatically calculated.
+ *
+ */
+enum DetectionMode : int
+{
+  DM_NORMAL = 0,
+  DM_FAST = 1,
+  DM_VIDEO_FAST = 2
+};
+/** Method employed to refine the estimation of the corners
+ * - CORNER_SUBPIX: uses subpixel refinement implemented in opencv
+ * - CORNER_LINES: uses all the pixels in the corner border to estimate the 4 lines of the square. Then
+ *  estimate the point in which they intersect. In seems that it more robust to noise. However,
+ * it only works if input image is not resized. So, the value minMarkerSize will be set to 0.
+ *
+ * - CORNER_NONE: Does no refinement of the corner. Again, it requires minMakerSize to be 0
+ */
+enum CornerRefinementMethod : int
+{
+  CORNER_SUBPIX = 0,
+  CORNER_LINES = 1,
+  CORNER_NONE = 2
+};
+
+
+class CameraParameters;
+class MarkerLabeler;
+class MarkerDetector_Impl;
+typedef Marker MarkerCandidate;
+
 /**\brief Main class for marker detection
  *
  */
-class ARUCO_EXPORTS  MarkerDetector
+
+class ARUCO_EXPORT MarkerDetector
 {
-  //Represent a candidate to be a maker
-  class MarkerCandidate: public Marker{
-  public:
-    MarkerCandidate(): idx(-1) {}
-    MarkerCandidate(const Marker &M): Marker(M), idx(-1) {}
-    MarkerCandidate(const  MarkerCandidate &M): Marker(M), contour(M.contour), idx(M.idx) {}
-    MarkerCandidate & operator=(const MarkerCandidate &M){
-      Marker::operator=(M);
-      contour=M.contour;
-      idx=M.idx;
-      return *this;
-    }
-    
-    vector<cv::Point> contour;//all the points of its contour
-    int idx;//index position in the global contour list
-  };
+  friend class MarkerDetector_Impl;
+
 public:
+  enum ThresMethod : int
+  {
+    THRES_ADAPTIVE = 0,
+    THRES_AUTO_FIXED = 1
+  };
 
-    /**
-     * See 
-     */
-    MarkerDetector();
-
-    /**
-     */
-    ~MarkerDetector();
-
-    /**Detects the markers in the image passed
+  /**Operating params
+   */
+  struct ARUCO_EXPORT Params
+  {
+    /**Specifies the detection mode. We have preset three types of detection modes. These are
+     * ways to configure the internal parameters for the most typical situations. The modes are:
+     * - DM_NORMAL: In this mode, the full resolution image is employed for detection and
+     * slow threshold method. Use this method when you process individual images that are
+     * not part of a video sequence and you are not interested in speed.
      *
-     * If you provide information about the camera parameters and the size of the marker, then, the extrinsics of the markers are detected
+     * - DM_FAST: In this mode, there are two main improvements. First, image is threshold
+     * using a faster method using a global threshold. Also, the full resolution image is
+     * employed for detection, but, you could speed up detection even more by indicating a minimum size of the
+     * markers you will accept. This is set by the variable minMarkerSize which shoud be
+     * in range [0,1]. When it is 0, means that you do not set a limit in the size of the
+     * accepted markers. However, if you set 0.1, it means that markers smaller than 10%
+     * of the total image area, will not be detected. Then, the detection can be accelated
+     * up to orders of magnitude compared to the normal mode.
      *
-     * @param input input color image
-     * @param detectedMarkers output vector with the markers detected
-     * @param camMatrix intrinsic camera information.
-     * @param distCoeff camera distorsion coefficient. If set Mat() if is assumed no camera distorion
-     * @param markerSizeMeters size of the marker sides expressed in meters
-     * @param setYPerpendicular If set the Y axis will be perpendicular to the surface. Otherwise, it will be the Z axis
-     */
-    void detect(const cv::Mat &input, std::vector<Marker> &detectedMarkers, cv::Mat camMatrix=cv::Mat(), cv::Mat distCoeff=cv::Mat(), float markerSizeMeters=-1, bool setYPerpendicular=true);
-    /**Detects the markers in the image passed
-     *
-     * If you provide information about the camera parameters and the size of the marker, then, the extrinsics of the markers are detected
-     *
-     * @param input input color image
-     * @param detectedMarkers output vector with the markers detected
-     * @param camParams Camera parameters
-     * @param markerSizeMeters size of the marker sides expressed in meters
-     * @param setYPerpendicular If set the Y axis will be perpendicular to the surface. Otherwise, it will be the Z axis
-     */
-    void detect(const cv::Mat &input, std::vector<Marker> &detectedMarkers, CameraParameters camParams, float markerSizeMeters=-1, bool setYPerpendicular=true);
-
-    /**This set the type of thresholding methods available
-     */
-
-    enum ThresholdMethods {FIXED_THRES,ADPT_THRES,CANNY};
-
-
-
-    /**Sets the threshold method
-     */
-    void setThresholdMethod(ThresholdMethods m) {
-        _thresMethod=m;
-    }
-    /**Returns the current threshold method
-     */
-    ThresholdMethods getThresholdMethod()const {
-        return _thresMethod;
-    }
-    /**
-     * Set the parameters of the threshold method
-     * We are currently using the Adptive threshold ee opencv doc of adaptiveThreshold for more info
-     *   @param param1: blockSize of the pixel neighborhood that is used to calculate a threshold value for the pixel
-     *   @param param2: The constant subtracted from the mean or weighted mean
-     */
-    void setThresholdParams(double param1,double param2) {
-        _thresParam1=param1;
-        _thresParam2=param2;
-    }
-    /**
-     * Set the parameters of the threshold method
-     * We are currently using the Adptive threshold ee opencv doc of adaptiveThreshold for more info
-     *   param1: blockSize of the pixel neighborhood that is used to calculate a threshold value for the pixel
-     *   param2: The constant subtracted from the mean or weighted mean
-     */
-    void getThresholdParams(double &param1,double &param2)const {
-        param1=_thresParam1;
-        param2=_thresParam2;
-    }
-
-
-    /**Returns a reference to the internal image thresholded. It is for visualization purposes and to adjust manually
-     * the parameters
-     */
-    const cv::Mat & getThresholdedImage() {
-        return thres;
-    }
-    /**Methods for corner refinement
-     */
-    enum CornerRefinementMethod {NONE,HARRIS,SUBPIX,LINES};
-    /**
-     */
-    void setCornerRefinementMethod(CornerRefinementMethod method) {
-        _cornerMethod=method;
-    }
-    /**
-     */
-    CornerRefinementMethod getCornerRefinementMethod()const {
-        return _cornerMethod;
-    }
-    /**Specifies the min and max sizes of the markers as a fraction of the image size. By size we mean the maximum
-     * of cols and rows.
-     * @param min size of the contour to consider a possible marker as valid (0,1]
-     * @param max size of the contour to consider a possible marker as valid [0,1)
-     * 
-     */
-    void setMinMaxSize(float min=0.03,float max=0.5);
-    
-    /**reads the min and max sizes employed
-     * @param min output size of the contour to consider a possible marker as valid (0,1]
-     * @param max output size of the contour to consider a possible marker as valid [0,1)
-     * 
-     */
-    void getMinMaxSize(float &min,float &max){min=_minSize;max=_maxSize;}
-    
-    /**Enables/Disables erosion process that is REQUIRED for chessboard like boards.
-     * By default, this property is enabled
-     */
-    void enableErosion(bool enable){_doErosion=enable;}
-
-    /**
-     * Specifies a value to indicate the required speed for the internal processes. If you need maximum speed (at the cost of a lower detection rate),
-     * use the value 3, If you rather a more precise and slow detection, set it to 0.
-     *
-     * Actually, the main differences are that in highspeed mode, we employ setCornerRefinementMethod(NONE) and internally, we use a small canonical
-     * image to detect the marker. In low speed mode, we use setCornerRefinementMethod(HARRIS) and a bigger size for the canonical marker image
-     */
-    void setDesiredSpeed(int val);
-    /**
-     */
-    int getDesiredSpeed()const {
-        return _speed;
-    }
-
-    /**
-     * Allows to specify the function that identifies a marker. Therefore, you can create your own type of markers different from these
-     * employed by default in the library.
-     * The marker function must have the following structure:
-     *
-     * int myMarkerIdentifier(const cv::Mat &in,int &nRotations);
-     *
-     * The marker function receives the image 'in' with the region that migh contain one of your markers. These are the rectangular regions with black
-     *  in the image.
-     *
-     * As output your marker function must indicate the following information. First, the output parameter nRotations must indicate how many times the marker
-     * must be rotated clockwise 90 deg  to be in its ideal position. (The way you would see it when you print it). This is employed to know
-     * always which is the corner that acts as reference system. Second, the function must return -1 if the image does not contains one of your markers, and its id otherwise.
+     * - DM_VIDEO_FAST: This is similar to DM_FAST, but specially adapted to video processing.
+     * In that case, we assume that the observed markers when you call to detect() have a
+     * size similar to the ones observed in the previous frame. Then, the processing can
+     * be speeded up by employing smaller versions of the image automatically calculated.
      *
      */
-    void setMakerDetectorFunction(int (* markerdetector_func)(const cv::Mat &in,int &nRotations) ) {
-        markerIdDetector_ptrfunc=markerdetector_func;
+    void setDetectionMode(DetectionMode dm, float minMarkerSize);
+
+    /**Enables/Disbles the detection of enclosed markers. Enclosed markers are markers
+     * where corners are like opencv chessboard pattern
+     */
+    void detectEnclosedMarkers(bool do_)
+    {
+      enclosedMarker = do_;
     }
 
-    /** Use an smaller version of the input image for marker detection. 
-     * If your marker is small enough, you can employ an smaller image to perform the detection without noticeable reduction in the precision.
-     * Internally, we are performing a pyrdown operation
-     * 
-     * @param level number of times the image size is divided by 2. Internally, we are performing a pyrdown.
-     */
-    void pyrDown(unsigned int level){pyrdown_level=level;}
-
-    ///-------------------------------------------------
-    /// Methods you may not need
-    /// Thesde methods do the hard work. They have been set public in case you want to do customizations
-    ///-------------------------------------------------
-
-    /**
-     * Thesholds the passed image with the specified method.
-     */
-    void thresHold(int method,const cv::Mat &grey,cv::Mat &thresImg,double param1=-1,double param2=-1);
-    /**
-    * Detection of candidates to be markers, i.e., rectangles.
-    * This function returns in candidates all the rectangles found in a thresolded image
-    */
-    void detectRectangles(const cv::Mat &thresImg,vector<std::vector<cv::Point2f> > & candidates);
-
-    /**Returns a list candidates to be markers (rectangles), for which no valid id was found after calling detectRectangles
-     */
-    const vector<std::vector<cv::Point2f> > &getCandidates() {
-        return _candidates;
-    }
-
-    /**Given the iput image with markers, creates an output image with it in the canonical position
-     * @param in input image
-     * @param out image with the marker
-     * @param size of out
-     * @param points 4 corners of the marker in the image in
-     * @return true if the operation succeed
-     */
-    bool warp(cv::Mat &in,cv::Mat &out,cv::Size size, std::vector<cv::Point2f> points);
-    
-    
-    
-    /** Refine MarkerCandidate Corner using LINES method
-     * @param candidate candidate to refine corners
-     */
-    void refineCandidateLines(MarkerCandidate &candidate);    
-    
-    
-    /**DEPRECATED!!! Use the member function in CameraParameters
-     * 
-     * Given the intrinsic camera parameters returns the GL_PROJECTION matrix for opengl.
-     * PLease NOTE that when using OpenGL, it is assumed no camera distorsion! So, if it is not true, you should have
-     * undistor image
+    /**Sets the corner refinement method
+     * - CORNER_SUBPIX: uses subpixel refinement implemented in opencv
+     * - CORNER_LINES: uses all the pixels in the corner border to estimate the 4 lines of
+     * the square. Then estimate the point in which they intersect. In seems that it more
+     * robust to noise. However, it only works if input image is not resized. So, the
+     * value minMarkerSize will be set to 0.
      *
-     * @param CamMatrix  arameters of the camera specified.
-     * @param orgImgSize size of the original image
-     * @param size of the image/window where to render (can be different from the real camera image). Please not that it must be related to CamMatrix
-     * @param proj_matrix output projection matrix to give to opengl
-     * @param gnear,gfar: visible rendering range
-     * @param invert: indicates if the output projection matrix has to yield a horizontally inverted image because image data has not been stored in the order of glDrawPixels: bottom-to-top.
+     * - CORNER_NONE: Does no refinement of the corner. Again, it requires minMakerSize to
+     * be 0
      */
-    static void glGetProjectionMatrix( CameraParameters &  CamMatrix,cv::Size orgImgSize, cv::Size size,double proj_matrix[16],double gnear,double gfar,bool invert=false   );
+    void setCornerRefinementMethod(CornerRefinementMethod method);
+
+
+    //-----------------------------------------------------------------------------
+    // Below this point you probably should not use the functions
+    /**Sets the thresholding method manually. Do no
+     */
+    void setThresholdMethod(ThresMethod method, int thresHold = -1, int wsize = -1,
+                            int wsize_range = 0);
+
+
+
+    void setAutoSizeSpeedUp(bool v, float Ts = 0.25)
+    {
+      autoSize = v;
+      ts = Ts;
+    }
+    bool getAutoSizeSpeedUp() const
+    {
+      return autoSize;
+    }
+
+
+
+    void save(cv::FileStorage &fs) const;
+    void load(cv::FileStorage &fs);
+
+    void toStream(std::ostream &str) const;
+    void fromStream(std::istream &str);
+
+    static std::string toString(DetectionMode dm);
+    static DetectionMode getDetectionModeFromString(const std::string &str);
+    static std::string toString(CornerRefinementMethod dm);
+    static CornerRefinementMethod getCornerRefinementMethodFromString(const std::string &str);
+    static std::string toString(ThresMethod dm);
+    static ThresMethod getCornerThresMethodFromString(const std::string &str);
+
+    // Detection mode
+
+    DetectionMode detectMode = DM_NORMAL;
+
+    // maximum number of parallel threads
+    int maxThreads = 1;  //-1 means all
+
+    // border around image limits in which corners are not allowed to be detected. (0,1)
+    float borderDistThres = 0.015f;
+    int lowResMarkerSize = 20;  // minimum size of a marker in the low resolution image
+
+    // minimum  size of a contour lenght. We use the following formula
+    // minLenght=  min ( _minSize_pix , _minSize* Is)*4
+    // being Is=max(imageWidth,imageHeight)
+    // the value  _minSize are normalized, thus, depends on camera image size
+    // However, _minSize_pix is expressed in pixels (you can use the one you prefer)
+    float minSize = -1;  // tau_i in paper
+    int minSize_pix = -1;
+    bool enclosedMarker = false;  // special treatment for enclosed markers
+    float error_correction_rate = 0;
+    std::string dictionary = "ALL_DICTS";
+    // threshold methods
+    ThresMethod thresMethod = THRES_ADAPTIVE;
+    int NAttemptsAutoThresFix =
+        3;  // number of times that tries a random threshold in case of THRES_AUTO_FIXED
+    int trackingMinDetections = 0;  // no tracking
+
+
+    // Threshold parameters
+    int AdaptiveThresWindowSize = -1, ThresHold = 7, AdaptiveThresWindowSize_range = 0;
+    // size of the image passedta to the MarkerLabeler
+    int markerWarpPixSize = 5;  // tau_c in paper
+
+    CornerRefinementMethod cornerRefinementM = CORNER_SUBPIX;
+    // enable/disables the method for automatic size estimation for speed up
+    bool autoSize = false;
+    float ts =
+        0.25f;  //$\tau_s$ is a factor in the range $(0,1]$ that accounts for the camera
+                //motion speed. For instance, when $\tau_s=0.1$, it means that in the next
+                //frame, $\tau_i$ is such that markers $10\%$ smaller than the smallest
+                //marker in the current image  will be seek. To avoid loosing track of the
+                //markers. If no markers are detected in a frame, $\tau_i$ is set to zero
+                //for the next frame so that markers of any size can be detected.
+    /**Enables automatic image resize according to elements detected in previous frame
+     * @param v
+     * @param ts  is a factor in the range $(0,1]$ that accounts for the camera motion
+     * speed. For instance, when ts=0.1 , it means that in the next frame, $\tau_i$ is
+     * such that markers $10\%$ smaller than the smallest marker in the current image will
+     * be seek. To avoid loosing track of the markers.
+     */
+    float pyrfactor = 2;
+    int closingSize =
+        0;  // enables/disables morph closing operation. The actual param used is closingSize*2+1
+
+  private:
+    static void _toStream(const std::string &strg, std::ostream &str);
+    static void _fromStream(std::string &strg, std::istream &str);
+    template <typename Type>
+    static bool attemtpRead(const std::string &name, Type &var, cv::FileStorage &fs)
+    {
+      if (fs[name].type() != cv::FileNode::NONE)
+      {
+        fs[name] >> var;
+        return true;
+      }
+      return false;
+    }
+  };
+
+  /**
+   * See
+   */
+  MarkerDetector();
+  /**Creates indicating the dictionary. See @see  setDictionary for further details
+   * @param dict_type Dictionary employed. See @see  setDictionary for further details
+   * @param error_correction_rate value indicating the correction error allowed. Is in
+   * range [0,1]. 0 means no correction at all. So an erroneous bit will result in
+   * discarding the marker. 1, mean full correction. The maximum number of bits that can
+   * be corrected depends on each ditionary. We recommend using values from 0 to 0.5. (in
+   * general, this will allow up to 3 bits or correction).       */
+  MarkerDetector(int dict_type, float error_correction_rate = 0);
+  MarkerDetector(std::string dict_type, float error_correction_rate = 0);
+
+  /**Saves the configuration of the detector to a file.
+   */
+  void saveParamsToFile(const std::string &path) const;
+
+  /**Loads the configuration from a file.
+   */
+  void loadParamsFromFile(const std::string &path);
+
+
+  /**
+   */
+  ~MarkerDetector();
+  /**Specifies the detection mode. We have preset three types of detection modes. These
+   * are ways to configure the internal parameters for the most typical situations. The
+   * modes are:
+   * - DM_NORMAL: In this mode, the full resolution image is employed for detection and
+   * slow threshold method. Use this method when you process individual images that are
+   * not part of a video sequence and you are not interested in speed.
+   *
+   * - DM_FAST: In this mode, there are two main improvements. First, image is threshold
+   * using a faster method using a global threshold. Also, the full resolution image is
+   * employed for detection, but, you could speed up detection even more by indicating a
+   * minimum size of the markers you will accept. This is set by the variable
+   * minMarkerSize which shoud be in range [0,1]. When it is 0, means that you do not set
+   * a limit in the size of the accepted markers. However, if you set 0.1, it means that
+   * markers smaller than 10% of the total image area, will not be detected. Then, the
+   * detection can be accelated up to orders of magnitude compared to the normal mode.
+   *
+   * - DM_VIDEO_FAST: This is similar to DM_FAST, but specially adapted to video
+   * processing. In that case, we assume that the observed markers when you call to
+   * detect() have a size similar to the ones observed in the previous frame. Then, the
+   * processing can be speeded up by employing smaller versions of the image automatically
+   * calculated.
+   *
+   */
+  void setDetectionMode(DetectionMode dm, float minMarkerSize = 0);
+  /**returns current detection mode
+   */
+  DetectionMode getDetectionMode();
+  /**Detects the markers in the image passed
+   *
+   * If you provide information about the camera parameters and the size of the marker,
+   * then, the extrinsics of the markers are detected
+   *
+   * @param input input color image
+   * @param camMatrix intrinsic camera information.
+   * @param distCoeff camera distorsion coefficient. If set Mat() if is assumed no camera
+   * distorion
+   * @param markerSizeMeters size of the marker sides expressed in meters. If not
+   * specified this value, the extrinsics of the markers are not detected.
+   * @param setYPerperdicular If set the Y axis will be perpendicular to the surface.
+   * Otherwise, it will be the Z axis
+   * @param correctFisheye Correct fisheye distortion
+   * @return vector with the detected markers
+   */
+  std::vector<aruco::Marker> detect(const cv::Mat &input);
+  std::vector<aruco::Marker> detect(const cv::Mat &input, const CameraParameters &camParams,
+                                    float markerSizeMeters, bool setYPerperdicular = false,
+                                    bool correctFisheye = false);
+
+  /**Detects the markers in the image passed
+   *
+   * If you provide information about the camera parameters and the size of the marker,
+   * then, the extrinsics of the markers are detected
+   *
+   * @param input input color image
+   * @param detectedMarkers output vector with the markers detected
+   * @param camParams Camera parameters
+   * @param markerSizeMeters size of the marker sides expressed in meters
+   * @param setYPerperdicular If set the Y axis will be perpendicular to the surface.
+   * Otherwise, it will be the Z axis
+   * @param correctFisheye Correct fisheye distortion
+   */
+  void detect(const cv::Mat &input, std::vector<Marker> &detectedMarkers,
+              CameraParameters camParams, float markerSizeMeters = -1,
+              bool setYPerperdicular = false, bool correctFisheye = false);
+
+  /**
+   * Detects the markers in the image passed
+   *
+   * If you provide information about the camera parameters and the size of the marker,
+   * then, the extrinsics of the markers are detected
+   *
+   * NOTE: be sure that the camera matrix is for this image size. If you do not know what
+   * I am talking about, use functions above and not this one
+   * @param input input color image
+   * @param detectedMarkers output vector with the markers detected
+   * @param camMatrix intrinsic camera information.
+   * @param distCoeff camera distortion coefficient. If set Mat() if is assumed no camera
+   * distortion
+   * @param extrinsics translation (tx,ty,tz) from right stereo camera to left. Empty if
+   * no stereo or left camera
+   * @param markerSizeMeters size of the marker sides expressed in meters
+   * @param setYPerperdicular If set the Y axis will be perpendicular to the surface.
+   * Otherwise, it will be the Z axis
+   * @param correctFisheye Correct fisheye distortion
+   */
+  void detect(const cv::Mat &input, std::vector<Marker> &detectedMarkers,
+              cv::Mat camMatrix = cv::Mat(), cv::Mat distCoeff = cv::Mat(),
+              cv::Mat extrinsics = cv::Mat(), float markerSizeMeters = -1,
+              bool setYPerperdicular = false, bool correctFisheye = false);
+
+  /**Returns operating params
+   */
+  Params getParameters() const;
+  /**Returns operating params
+   */
+  Params &getParameters();
+  /** Sets the dictionary to be employed.
+   * You can choose:ARUCO,//original aruco dictionary. By default
+                   ARUCO_MIP_25h7,
+                   ARUCO_MIP_16h3,
+                   ARUCO_MIP_36h12, **** recommended
+                   ARTAG,//
+                   ARTOOLKITPLUS,
+                   ARTOOLKITPLUSBCH,//
+                   TAG16h5,TAG25h7,TAG25h9,TAG36h11,TAG36h10//APRIL TAGS DICIONARIES
+                   CHILITAGS,//chili tags dictionary . NOT RECOMMENDED. It has distance 0.
+   Markers 806 and 682 should not be used!!!
+
+    If dict_type is none of the above ones, it is assumed you mean a CUSTOM dicionary
+   saved in a file @see Dictionary::loadFromFile Then, it tries to open it
+  */
+  void setDictionary(std::string dict_type, float error_correction_rate = 0);
+
+  /**
+   * @brief setDictionary Specifies the dictionary you want to use for marker decoding
+   * @param dict_type dictionary employed for decoding markers @see Dictionary
+   * @param error_correction_rate value indicating the correction error allowed. Is in
+   * range [0,1]. 0 means no correction at all. So an erroneous bit will result in
+   * discarding the marker. 1, mean full correction. The maximum number of bits that can
+   * be corrected depends on each ditionary. We recommend using values from 0 to 0.5. (in
+   * general, this will allow up to 3 bits or correction).
+   */
+  void setDictionary(int dict_type, float error_correction_rate = 0);
+
+  /**
+   * Returns a reference to the internal image thresholded. Since there can be generated
+   * many of them, specify which
+   */
+  cv::Mat getThresholdedImage(uint32_t idx = 0);
+  /**returns the number of thresholed images available
+   */
+  //   size_t getNhresholdedImages()const{return _thres_Images.size();}
+
+
+
+  ///-------------------------------------------------
+  /// Methods you may not need
+  /// Thesde methods do the hard work. They have been set public in case you want to do customizations
+  ///-------------------------------------------------
+
+  /**
+   * @brief setMakerLabeler sets the labeler employed to analyze the squares and extract
+   * the inner binary code
+   * @param detector
+   */
+  void setMarkerLabeler(cv::Ptr<MarkerLabeler> detector);
+  cv::Ptr<MarkerLabeler> getMarkerLabeler();
+
+
+  /**Returns a list candidates to be markers (rectangles), for which no valid id was found
+   * after calling detectRectangles
+   */
+  std::vector<MarkerCandidate> getCandidates() const;
+
+  std::vector<cv::Mat> getImagePyramid();
+  /*
+   * @param corners vectors of vectors
+   */
+  void cornerUpsample(std::vector<std::vector<cv::Point2f> > &corners, cv::Size lowResImageSize);
+  void cornerUpsample(std::vector<Marker> &corners, cv::Size lowResImageSize);
+
+  /**
+   * Given the iput image with markers, creates an output image with it in the canonical position
+   * @param in input image
+   * @param out image with the marker
+   * @param size of out
+   * @param points 4 corners of the marker in the image in
+   * @return true if the operation succeed
+   */
+  bool warp(cv::Mat &in, cv::Mat &out, cv::Size size, std::vector<cv::Point2f> points);
+
+
+  // serialization in binary mode
+  void toStream(std::ostream &str) const;
+  void fromStream(std::istream &str);
+  // configure the detector from a set of parameters
+  void setParameters(const Params &params);
+
+
 
 private:
-
-    bool _enableCylinderWarp;
-    bool warp_cylinder ( cv::Mat &in,cv::Mat &out,cv::Size size, MarkerCandidate& mc );
-    /**
-    * Detection of candidates to be markers, i.e., rectangles.
-    * This function returns in candidates all the rectangles found in a thresolded image
-    */
-    void detectRectangles(const cv::Mat &thresImg,vector<MarkerCandidate> & candidates);
-    //Current threshold method
-    ThresholdMethods _thresMethod;
-    //Threshold parameters
-    double _thresParam1,_thresParam2;
-    //Current corner method
-    CornerRefinementMethod _cornerMethod;
-    //minimum and maximum size of a contour lenght
-    float _minSize,_maxSize;
-    //Speed control
-    int _speed;
-    int _markerWarpSize;
-    bool _doErosion;
-    //vectr of candidates to be markers. This is a vector with a set of rectangles that have no valid id
-    vector<std::vector<cv::Point2f> > _candidates;
-    //level of image reduction
-    int pyrdown_level;
-    //Images
-    cv::Mat grey,thres,thres2,reduced;
-    //pointer to the function that analizes a rectangular region so as to detect its internal marker
-    int (* markerIdDetector_ptrfunc)(const cv::Mat &in,int &nRotations);
-
-    /**
-     */
-    bool isInto(cv::Mat &contour,std::vector<cv::Point2f> &b);
-    /**
-     */
-    int perimeter(std::vector<cv::Point2f> &a);
-
-    
-//     //GL routines
-// 
-//     static void argConvGLcpara2( double cparam[3][4], int width, int height, double gnear, double gfar, double m[16], bool invert )throw(cv::Exception);
-//     static int  arParamDecompMat( double source[3][4], double cpara[3][4], double trans[3][4] )throw(cv::Exception);
-//     static double norm( double a, double b, double c );
-//     static double dot(  double a1, double a2, double a3,
-//                         double b1, double b2, double b3 );
-// 
-
-    //detection of the
-    void findBestCornerInRegion_harris(const cv::Mat  & grey,vector<cv::Point2f> &  Corners,int blockSize);
-   
-    
-    // auxiliar functions to perform LINES refinement
-    void interpolate2Dline( const vector< cv::Point > &inPoints, cv::Point3f &outLine);
-    cv::Point2f getCrossPoint(const cv::Point3f& line1, const cv::Point3f& line2);      
-    
-    
-    /**Given a vector vinout with elements and a boolean vector indicating the lements from it to remove, 
-     * this function remove the elements
-     * @param vinout
-     * @param toRemove
-     */
-    template<typename T>
-    void removeElements(vector<T> & vinout,const vector<bool> &toRemove)
-    {
-       //remove the invalid ones by setting the valid in the positions left by the invalids
-      size_t indexValid=0;
-      for (size_t i=0;i<toRemove.size();i++) {
-        if (!toRemove[i]) {
-            if (indexValid!=i) vinout[indexValid]=vinout[i];
-            indexValid++;
-        }
-      }
-      vinout.resize(indexValid);
-    }
-
-    //graphical debug
-    void drawApproxCurve(cv::Mat &in,std::vector<cv::Point>  &approxCurve ,cv::Scalar color);
-    void drawContour(cv::Mat &in,std::vector<cv::Point>  &contour,cv::Scalar  );
-    void drawAllContours(cv::Mat input, std::vector<std::vector<cv::Point> > &contours);
-    void draw(cv::Mat out,const std::vector<Marker> &markers );
-
+  MarkerDetector_Impl *_impl;
 };
-
-
-
-
-};
+};  // namespace aruco
 #endif
