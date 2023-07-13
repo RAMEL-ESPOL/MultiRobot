@@ -111,8 +111,8 @@ def generate_launch_description():
     arguments=[
         '-entity', 'r2',
         '-file', model_path,
-        '-x', '-2.0',
-        '-y', '-2.0',
+        '-x', '-2.5',
+        '-y', '-1.0',
         '-z', '0.01',
         '-robot_namespace', 'r2'  # Set the robot namespace
     ],
@@ -137,8 +137,8 @@ def generate_launch_description():
     arguments=[
         '-entity', 'r4',
         '-file', model_path3,
-        '-x', '-1',
-        '-y', '1',
+        '-x', '-2',
+        '-y', '1.75',
         '-z', '0.01',
          '-robot_namespace', 'r4'  # Set the robot namespace
     ],
@@ -169,8 +169,8 @@ def generate_launch_description():
             ('namespace', 'r5'),
             ('spawn_dock', 'false'),
             ('use_rviz', 'false'),
-            ('x', '1.0'),
-            ('y', '-1.0'),
+            ('x', '1.5'),
+            ('y', '-0.5'),
             ('z', '0.01'),
             ('yaw', '0.0')
         ],
@@ -224,10 +224,10 @@ def generate_launch_description():
     # Add the commands to the launch description
     # Define LaunchDescription variable
     ld = LaunchDescription(ARGUMENTS)
-    ld.add_action(gz_resource_path)
-    ld.add_action(gz_model_uri)
-    ld.add_action(gzserver)
-    ld.add_action(gzclient_cmd)
+    #ld.add_action(gz_resource_path)
+    #ld.add_action(gz_model_uri)
+    #ld.add_action(gzserver)
+    #ld.add_action(gzclient_cmd)
     ld.add_action(robot_state_publisher_cmd_1)
     ld.add_action(robot_state_publisher_cmd_2)
     ld.add_action(robot_state_publisher_cmd_3)

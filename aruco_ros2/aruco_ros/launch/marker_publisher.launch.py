@@ -24,7 +24,7 @@ def launch_setup(context, *args, **kwargs):
         parameters=[aruco_marker_publisher_params],
         remappings=[('/camera_info', '/' + topic + '/color/camera_info'),
                     ('/image', '/' + topic + '/color/image_raw')],
-        output="screen",
+        #output="screen",
     )
 
     return [aruco_marker_publisher]
