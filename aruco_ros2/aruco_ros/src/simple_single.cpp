@@ -58,6 +58,7 @@ ArucoSimple::ArucoSimple(rclcpp::NodeOptions options)
   Node("aruco_node", options),
   tf_buffer_(std::make_shared<tf2_ros::Buffer>(get_clock()))
 {
+  /*
   auto timer_interface = std::make_shared<tf2_ros::CreateTimerROS>(
     get_node_base_interface(),
     get_node_timers_interface());
@@ -284,5 +285,5 @@ void ArucoSimple::cam_info_callback(sensor_msgs::msg::CameraInfo::ConstPtr msg)
       -msg->p[3] / msg->p[0],
       -msg->p[7] / msg->p[5],
       0.0));
-  cam_info_received = true;
+  cam_info_received = true;*/
 }

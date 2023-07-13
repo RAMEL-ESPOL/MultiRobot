@@ -10,18 +10,21 @@ def launch_setup(context, *args, **kwargs):
     topic = perform_substitutions(context, [LaunchConfiguration('topic_c')])
 
     aruco_marker_publisher_params = {
-        'image_is_rectified': True,
+        'image_is_rectified': False,
         'marker_size': LaunchConfiguration('markerSize'),
         'reference_frame': LaunchConfiguration('ref_frame'),
         'camera_frame': topic + '_color_optical_frame',
+        'topic': topic,
     }
 
     aruco_marker_publisher = Node(
         package='aruco_ros',
         executable='marker_publisher',
+        namespace = LaunchConfiguration('topic_c'),
         parameters=[aruco_marker_publisher_params],
-        remappings=[('/camera_info', topic + 'color/camera_info'),
-                    ('/image', topic + 'color/image_raw')],
+        remappings=[('/camera_info', '/' + topic + '/color/camera_info'),
+                    ('/image', '/' + topic + '/color/image_raw')],
+        output="screen",
     )
 
     return [aruco_marker_publisher]
@@ -46,7 +49,7 @@ def generate_launch_description():
     )
 
     reference_frame = DeclareLaunchArgument(
-        'ref_frame', default_value='base',
+        'ref_frame', default_value='origin_frame',
         description='Reference frame. '
         'Leave it empty and the pose will be published wrt param parent_name. '
     )

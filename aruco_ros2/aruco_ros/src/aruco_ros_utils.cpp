@@ -117,7 +117,7 @@ void aruco_ros::draw_axis(const cv::Mat  &image, const cv::InputArray &cameraMat
   objectPoints.at<float>(3,1)=0;
   objectPoints.at<float>(3,2)=size;
 
-  vector<cv::Point2f> imagePoints;
+  std::vector<cv::Point2f> imagePoints;
   projectPoints( objectPoints, rvec, tvec, cameraMatrix , distCoeffs,   imagePoints);
 
   //draw lines of different colours

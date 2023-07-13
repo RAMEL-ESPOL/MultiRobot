@@ -31,6 +31,7 @@ def cameras_generator(context, *args, **kwargs):
     nodes_exec = []
 
     pkg_cam_description = get_package_share_directory('realsense2_description')
+    pkg_aruco_node = get_package_share_directory('aruco_ros')
 
 
     for camera in cameras:
@@ -47,29 +48,29 @@ def cameras_generator(context, *args, **kwargs):
                                   'name': camera['name'],
                                   'namespace': camera['namespace'],
                                   }.items()))
-        """spawn_aruco_nodes.append(
+        nodes_exec.append(
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource(os.path.join(pkg_aruco_node, 'launch',
-                                                           'marker_publisher.launch.xml')),
+                                                           'marker_publisher.launch.py')),
                 launch_arguments={
                                   'topic_c': camera['namespace'],
-                                  #'markerSize': '0.4',
+                                  'markerSize': '0.1',
                                   #'ref_frame': '',
                                   }.items()))
-        """
-        # Launch aruco_ros2 node
         
+        # Launch aruco_ros2 node
+        """
         nodes_exec.append(ExecuteProcess(
                 cmd=['ros2',
                      'launch',
-                     'aruco_ros2',
+                     'aruco_ros',
                      'marker_publisher.launch.xml',
                      'topic_c:='+camera['namespace'],
                      'markerSize:=0.1'
                      #'ref_frame:=',
                      ],
                 output='screen'
-        ))
+        ))"""
 
     return nodes_exec 
     
@@ -91,7 +92,7 @@ def generate_launch_description():
 
     urdf = os.path.join(get_package_share_directory('realsense2_description'), 'urdf', 'cam_l515.urdf.xacro')
     pkg_cam_description = get_package_share_directory('realsense2_description')
-    pkg_aruco_node = get_package_share_directory('aruco_ros2')
+    pkg_aruco_node = get_package_share_directory('aruco_ros')
     assert os.path.exists(urdf), "camera.urdf doesnt exist in "+str(urdf)
 
     num_cameras_arg = DeclareLaunchArgument(
