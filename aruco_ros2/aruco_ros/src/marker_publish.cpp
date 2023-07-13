@@ -344,8 +344,8 @@ public:
           tf2::Transform transform(tf_rot, tf_orig);
 
           //Distance from camera to aruco
-          //marker_i.distance = tf2Sqrt(tf2::tf2Dot(tf_orig, tf_orig));
-          marker_i.distance = 0.0;
+          marker_i.distance = tf2Sqrt(tf2::tf2Dot(tf_orig, tf_orig));
+          //marker_i.distance = 0.0;
 
           //std::cout << transform << std::endl;
           std::cout << "camera2marker tf: " << "x: ";
