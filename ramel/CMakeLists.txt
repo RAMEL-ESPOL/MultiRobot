@@ -33,7 +33,8 @@ install(DIRECTORY
 endif()
 
 install(PROGRAMS  
-  scripts/aruco_pose_subscriber.py  
+  scripts/aruco_pose_filter.py  
+  scripts/initial_pose_publisher.py  
   DESTINATION lib/${PROJECT_NAME} )
 
 ament_package()
