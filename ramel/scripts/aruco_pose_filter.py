@@ -22,31 +22,30 @@ class ArucoPoseFilter(Node):
             )
 
         self.poses_pub = self.create_publisher(Poses, 'aruco_poses', 10)
-        markers = Poses()
+        """markers = Poses()
         markers.header.frame_id = "origin_frame"
         markers.header.stamp = self.get_clock().now().to_msg()
 
-        self.poses_pub.publish(markers)
         firstPose = True
         for marker_id in self.marker_dict.keys():
             pose_filter = Pose()
-            min_distance = 100
-            for camera in self.marker_dict[marker_id].keys():
+            min_distance = 100.0
+            for camera, info in self.marker_dict[marker_id].items():
                 if(firstPose):
-                    pose_filter = self.marker_dict[marker_id][camera][0] 
-                    min_distance = self.marker_dict[marker_id][camera][1]   
+                    pose_filter = info[0] 
+                    min_distance = info[1]   
                     firstPose = False
                 else:
-                    if(min_distance > self.marker_dict[marker_id][camera][1]):
-                        pose_filter = self.marker_dict[marker_id][camera][0] 
-                        min_distance = self.marker_dict[marker_id][camera][1]
+                    if(min_distance > info[1]):
+                        pose_filter = info[0] 
+                        min_distance = info[1]
                 print(camera)
             firstPose = True
             markers.poses.append(pose_filter)
             markers.marker_ids.append(marker_id)
             print(marker_id)
         self.poses_pub.publish(markers)
-
+        """
      
 
     def marker_callback(self, msg, camera_name):
@@ -59,7 +58,30 @@ class ArucoPoseFilter(Node):
                     self.marker_dict[marker_id][camera_name] = [pose, marker_distance]
             else:
                 self.marker_dict[marker_id] = {camera_name: [pose, marker_distance]}
-        print(self.marker_dict)
+
+        if(camera_name == self.cameras_of_interest[-1]):
+            print(self.marker_dict)
+            markers = Poses()
+            markers.header.frame_id = "origin_frame"
+            markers.header.stamp = self.get_clock().now().to_msg()
+
+            firstPose = True
+            for marker_id in self.marker_dict.keys():
+                pose_filter = Pose()
+                min_distance = 100.0
+                for camera, info in self.marker_dict[marker_id].items():
+                    if(firstPose):
+                        pose_filter = info[0] 
+                        min_distance = info[1]   
+                        firstPose = False
+                    else:
+                        if(min_distance > info[1]):
+                            pose_filter = info[0] 
+                            min_distance = info[1]
+                firstPose = True
+                markers.poses.append(pose_filter)
+                markers.marker_ids.append(marker_id)
+            self.poses_pub.publish(markers)
         
         #markers = Poses()
         #markers.header.frame_id = self.info_msg.header.frame_id
