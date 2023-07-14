@@ -50,7 +50,7 @@ class SpawnEntityNode(Node):
     </sdf>"""
 
     def __init__(self, args):
-        super().__init__('spawn_entity')
+        #super().__init__('spawn_entity')
         #super().__init__('spawn_entity', namespace=None,)
         parser = argparse.ArgumentParser(
             description='Spawn an entity in gazebo. Gazebo must be started with gazebo_ros_init,\
@@ -110,8 +110,8 @@ class SpawnEntityNode(Node):
         parser.add_argument('-b', dest='bond', action='store_true', help='bond to gazebo \
                              and delete the entity when this program is interrupted')
         
-        #arguments = parser.parse_args(args[1:])
-        #super().__init__('spawn_entity', namespace=arguments.gazebo_namespace)
+        arguments = parser.parse_args(args[1:])
+        super().__init__('spawn_entity', namespace=arguments.entity)
         self.args = parser.parse_args(args[1:])
 
         # TODO(shivesh): Wait for /set_model_configuration
