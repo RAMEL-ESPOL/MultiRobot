@@ -33,7 +33,7 @@ def generate_launch_description():
     )
     # Add a delay of 5 seconds
     multi_cam_delay = TimerAction(
-        period=10.0,
+        period=5.0,
         actions=[multi_cam],
     )
 

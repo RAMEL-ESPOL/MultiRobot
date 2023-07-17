@@ -61,7 +61,7 @@ def generate_launch_description():
         PythonLaunchDescriptionSource(
             os.path.join(pkg_gazebo_ros, 'launch', 'gzserver.launch.py')
         ),
-        launch_arguments={'world': world}.items()
+        #launch_arguments={'world': world}.items()
     )
 
     gzclient_cmd = IncludeLaunchDescription(
@@ -217,7 +217,7 @@ def generate_launch_description():
     )
     # Add a delay of 5 seconds
     delay = TimerAction(
-        period=5.0,
+        period=10.0,
         actions=[create3_spawn_cmd_2],
     )
 
@@ -230,10 +230,10 @@ def generate_launch_description():
     #ld.add_action(gzclient_cmd)
     ld.add_action(robot_state_publisher_cmd_1)
     ld.add_action(robot_state_publisher_cmd_2)
-    ld.add_action(robot_state_publisher_cmd_3)
+    #ld.add_action(robot_state_publisher_cmd_3)
     ld.add_action(start_gazebo_ros_spawner_cmd)
     ld.add_action(start_gazebo_ros_spawner_cmd_2)
-    ld.add_action(start_gazebo_ros_spawner_cmd_3)
+    #ld.add_action(start_gazebo_ros_spawner_cmd_3)
     ld.add_action(create3_spawn_cmd)
-    ld.add_action(delay)
+    #ld.add_action(delay)
     return ld

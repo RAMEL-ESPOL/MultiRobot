@@ -59,7 +59,8 @@ def navigation_n_robots(context, *args, **kwargs):
             'base_frame_id':f'{robot_namespace}/base_link',
             'odom_frame_id':f'{robot_namespace}/odom',
             'robot_base_frame':f'{robot_namespace}/base_link',
-            'global_frame':f'{robot_namespace}/odom'}
+            'global_frame':f'{robot_namespace}/odom',
+            'topic':f'/{robot_namespace}/scan'}
 
         configured_params = RewrittenYaml(
             source_file=params_file_i,

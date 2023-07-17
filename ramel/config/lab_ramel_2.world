@@ -436,6 +436,7 @@
       </model>
       <model name='unit_box'>
         <pose>2.82971 0.226942 0.274344 0 -0 0.000219</pose>
+        <static>1</static>
         <scale>0.729256 1.25638 0.548688</scale>
         <link name='link'>
           <pose>2.82971 0.226942 0.274344 0 -0 0.000219</pose>
@@ -446,6 +447,7 @@
       </model>
       <model name='unit_box_clone'>
         <pose>1.54894 -1.49115 0.274344 0 -0 0.000219</pose>
+        <static>1</static>
         <scale>1.56245 1 1</scale>
         <link name='link'>
           <pose>1.54894 -1.49115 0.274344 0 -0 0.000219</pose>
@@ -456,6 +458,7 @@
       </model>
       <model name='unit_box_clone_0'>
         <pose>-1.50393 -1.21788 0.274344 0 -0 0.000219</pose>
+        <static>1</static>
         <scale>1 1.41135 1</scale>
         <link name='link'>
           <pose>-1.50393 -1.21788 0.274344 0 -0 0.000219</pose>
@@ -466,6 +469,7 @@
       </model>
       <model name='unit_box_clone_0_clone'>
         <pose>-0.922447 1.35953 0.274344 0 -0 0.000219</pose>
+        <static>1</static>
         <scale>1 1 1</scale>
         <link name='link'>
           <pose>-0.922447 1.35953 0.274344 0 -0 0.000219</pose>
@@ -476,6 +480,7 @@
       </model>
       <model name='unit_box_clone_0_clone_0'>
         <pose>-2.00112 0.699487 0.274344 -0 -0 -1.57058</pose>
+        <static>1</static>
         <scale>0.617546 0.805539 1</scale>
         <link name='link'>
           <pose>-2.00112 0.699487 0.274344 -0 -0 -1.57058</pose>
@@ -486,6 +491,7 @@
       </model>
       <model name='unit_box_clone_0_clone_0_clone'>
         <pose>-2.44331 -1.9209 0.274344 0 0 -1.57058</pose>
+        <static>1</static>
         <scale>0.819844 0.801187 1</scale>
         <link name='link'>
           <pose>-2.44331 -1.9209 0.274344 0 0 -1.57058</pose>
@@ -496,6 +502,7 @@
       </model>
       <model name='unit_box_clone_0_clone_clone'>
         <pose>0.903307 1.8373 0.274345 0 -0 1.5743</pose>
+        <static>1</static>
         <scale>1 1 1</scale>
         <link name='link'>
           <pose>0.903307 1.8373 0.274345 0 -0 1.5743</pose>
@@ -506,6 +513,7 @@
       </model>
       <model name='unit_box_clone_clone'>
         <pose>-0.036658 -1.48667 0.274344 0 -0 0.000219</pose>
+        <static>1</static>
         <scale>1 1 1</scale>
         <link name='link'>
           <pose>-0.036658 -1.48667 0.274344 0 -0 0.000219</pose>
@@ -527,6 +535,7 @@
     </gui>
     <model name='unit_box'>
       <pose>2.62675 0.578939 0.5 0 -0 0</pose>
+      <static>1</static>
       <link name='link'>
         <inertial>
           <mass>1</mass>
@@ -581,6 +590,7 @@
     </model>
     <model name='unit_box_clone'>
       <pose>1.07305 -0.999068 0.274344 0 -0 0.000219</pose>
+      <static>1</static>
       <link name='link'>
         <inertial>
           <mass>1</mass>
@@ -634,6 +644,7 @@
       <enable_wind>0</enable_wind>
     </model>
     <model name='unit_box_clone_clone'>
+      <static>1</static>
       <pose>-0.036658 -1.48667 0.274344 0 -0 0.000219</pose>
       <link name='link'>
         <inertial>
@@ -689,6 +700,7 @@
     </model>
     <model name='unit_box_clone_0'>
       <pose>-1.50393 -1.21788 0.274344 0 -0 0.000219</pose>
+      <static>1</static>
       <link name='link'>
         <inertial>
           <mass>1</mass>
@@ -743,6 +755,7 @@
     </model>
     <model name='unit_box_clone_0_clone'>
       <pose>-0.922447 1.35953 0.274344 0 -0 0.000219</pose>
+      <static>1</static>
       <link name='link'>
         <inertial>
           <mass>1</mass>
@@ -797,6 +810,7 @@
     </model>
     <model name='unit_box_clone_0_clone_0'>
       <pose>-0.438045 -4.47668 0.274345 0 -0 0.000219</pose>
+      <static>1</static>
       <link name='link'>
         <inertial>
           <mass>1</mass>
@@ -851,6 +865,7 @@
     </model>
     <model name='unit_box_clone_0_clone_0_clone'>
       <pose>-1.95284 -0.006069 0.274345 0 0 -1.57058</pose>
+      <static>1</static>
       <link name='link'>
         <inertial>
           <mass>1</mass>
@@ -905,6 +920,7 @@
     </model>
     <model name='unit_box_clone_0_clone_clone'>
       <pose>1.53745 2 0.274345 0 -0 0.000219</pose>
+      <static>1</static>
       <link name='link'>
         <inertial>
           <mass>1</mass>
