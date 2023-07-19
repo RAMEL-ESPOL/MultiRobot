@@ -163,6 +163,19 @@
       <xacro:inertial_cylinder mass="0.1" length="0.04" radius="0.05">
       </xacro:inertial_cylinder>
   </link> 
+  <joint name="aruco_joint" type="fixed">
+        <parent link="laser_frame"/>
+        <child link="aruco_frame"/>
+        <origin xyz="0 0 0.03" rpy="0 0 0"/>
+  </joint>
+  <link name="aruco_frame">
+      <visual>
+          <geometry>
+              <mesh filename="package://irobot_create_description/meshes/DICT_4X4_50_id15.dae"/>
+          </geometry>
+      </visual>
+  </link> 
+
   <!-- Mouse -->
   <xacro:optical_mouse gazebo="$(arg gazebo)" namespace="$(arg namespace)">
     <origin xyz="0.1015 0.087 ${-0.055 + base_link_z_offset}" rpy="0 0 ${-pi/4}"/>
