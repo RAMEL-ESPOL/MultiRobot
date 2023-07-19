@@ -55,6 +55,7 @@ private:
   std::string reference_frame_;
   std::string topic_;
   double marker_size_;
+  bool cam_info_received;
   
   // camera params
   cv::Mat cameraMatrix;
@@ -80,7 +81,9 @@ private:
 
 public:
   ArucoMarkerPublisher(rclcpp::NodeOptions options)
-  : Node("marker_publisher", options), useCamInfo_(true)
+  : cam_info_received(false),
+    useCamInfo_(true),
+    Node("marker_publisher", options) 
   //{
   //}
 
@@ -96,11 +99,15 @@ public:
     this->declare_parameter<bool>("image_is_rectified", false);
     this->declare_parameter<bool>("use_camera_info", true);
     //std::string dictionary_id_name = get_parameter("aruco_dictionary_id").as_string(); //To Do
+    
+    //auto timer_interface = std::make_shared<tf2_ros::CreateTimerROS>(
+    //  this->get_node_base_interface(),
+    //  this->get_node_timers_interface());
+    //tf_buffer_->setCreateTimerInterface(timer_interface);
 
-
-    tf_buffer_ = std::make_unique<tf2_ros::Buffer>(this->get_clock());
-    tf_listener_ = std::make_shared<tf2_ros::TransformListener>(*tf_buffer_);
-    tf_broadcaster= std::make_shared<tf2_ros::TransformBroadcaster>(this);
+    this->tf_buffer_ = std::make_unique<tf2_ros::Buffer>(this->get_clock());
+    this->tf_listener_ = std::make_shared<tf2_ros::TransformListener>(*this->tf_buffer_);
+    this->tf_broadcaster= std::make_shared<tf2_ros::TransformBroadcaster>(this);
 
     //it_ = std::make_unique<image_transport::ImageTransport>(shared_from_this());
     //image_sub_ = it_->subscribe("/image", 1, &ArucoMarkerPublisher::image_callback, this);
@@ -191,250 +198,251 @@ public:
 
   void image_callback(const sensor_msgs::msg::Image::ConstSharedPtr & msg)
   {
+    if (!useCamInfo_ || cam_info_received) {
+      bool publishImage = image_pub_.getNumSubscribers() > 0;
+      bool publishDebug = debug_pub_.getNumSubscribers() > 0;
+      std::cout << publishImage << std::endl;
+      std::cout << publishDebug << std::endl;
 
-    bool publishImage = image_pub_.getNumSubscribers() > 0;
-    bool publishDebug = debug_pub_.getNumSubscribers() > 0;
-    std::cout << publishImage << std::endl;
-    std::cout << publishDebug << std::endl;
+      //if (!publishImage && !publishDebug) {
+      //  return;
+      //}
 
-    //if (!publishImage && !publishDebug) {
-    //  return;
-    //}
+      //builtin_interfaces::msg::Time curr_stamp = msg->header.stamp;
+      rclcpp::Time curr_stamp(now());
+      cv_bridge::CvImagePtr cv_ptr;
+      try {
+        cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::RGB8);
+        inImage_ = cv_ptr->image;
+        inImage_.copyTo(inImage_copy);
 
-    //builtin_interfaces::msg::Time curr_stamp = msg->header.stamp;
-    rclcpp::Time curr_stamp(now());
-    cv_bridge::CvImagePtr cv_ptr;
-    try {
-      cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::RGB8);
-      inImage_ = cv_ptr->image;
-      inImage_.copyTo(inImage_copy);
+        // clear out previous detection results
+        markers_.clear();
 
-      // clear out previous detection results
-      markers_.clear();
-
-      // ok, let's detect
-      std::vector<std::vector<cv::Point2f>> corners, rejected;
-      std::vector<int> marker_ids;
-      //mDetector_.detect(inImage_, markers_, camParam_, marker_size_, false);
-      
-      //Check the camera info
-      std::cout << "Camera Matrix:" << std::endl;
-      for (int i = 0; i < this->cameraMatrix.rows; i++) {
-          for (int j = 0; j < this->cameraMatrix.cols; j++) {
-              std::cout << this->cameraMatrix.at<float>(i, j) << " ";
-          }
-          std::cout << std::endl;
-      }
-
-      std::cout << "Distortion Coefficients:" << std::endl;
-      for (int i = 0; i < this->distCoeffs.rows; i++) {
-          for (int j = 0; j < this->distCoeffs.cols; j++) {
-              std::cout << this->distCoeffs.at<float>(i, j) << " ";
-          }
-          std::cout << std::endl;
-      }
-      
-      cv::Mat currentCameraMatrix = this->cameraMatrix;
-      cv::Mat currentDistCoeffs = this->distCoeffs;
-
-      std::cout << "MARKER SIZE!!!!!!!!!!!!!: " << " ";
-      std::cout << marker_size_ << std::endl;
-
-      cv::Ptr<cv::aruco::Dictionary> dictionary = cv::aruco::getPredefinedDictionary(cv::aruco::DICT_4X4_250);
-      cv::Ptr<cv::aruco::DetectorParameters> detectorParams = cv::aruco::DetectorParameters::create();
-      cv::aruco::detectMarkers(inImage_, dictionary, corners, marker_ids, detectorParams, rejected);
-      if  (marker_ids.size() > 0) {
+        // ok, let's detect
+        std::vector<std::vector<cv::Point2f>> corners, rejected;
+        std::vector<int> marker_ids;
+        //mDetector_.detect(inImage_, markers_, camParam_, marker_size_, false);
         
-        
-        int nMarkers = marker_ids.size();
-        std::vector<cv::Vec3d> rvecs, tvecs;
-        std::cout << "currentCameraMatrix: " << " ";
-        std::cout << currentCameraMatrix << std::endl;
-        cv::aruco::drawDetectedMarkers(inImage_copy, corners, marker_ids);
-        cv::aruco::estimatePoseSingleMarkers(corners, marker_size_, this->cameraMatrix, this->distCoeffs, rvecs, tvecs);
-
-        for (int i = 0; i < marker_ids.size(); ++i) {
-          //cv::Mat markerImage;
-          //cv::aruco::drawMarker(dictionary, marker_ids[i], 200, markerImage, 1);
-          //cv::aruco::drawDetectedMarkers(inImage_, corners, ids);
-          
-          //for (int j = 0; j < nMarkers; j++) {
-            //solvePnP(objPoints, corners.at(i), cameraMatrix, distCoeffs, rvecs.at(i), tvecs.at(i));
-          //cv::aruco::estimatePoseSingleMarkers(corners.at(i), marker_size_, cameraMatrix, distCoeffs, rvecs.at(i), tvecs.at(i));
-          //}
-          /*
-          std::vector<std::vector<cv::Point> > contours2;
-          std::vector<cv::Vec4i> hierarchy2;
-          inImage_.copyTo ( thres2 );
-          cv::findContours ( thres2 , contours2, hierarchy2,cv::RetrievalModes::RETR_TREE, cv::ContourApproximationModes::CHAIN_APPROX_NONE );
-          vector<Point>  approxCurve;
-          */
-          markers_.push_back (aruco::Marker());
-          //for ( int c=0;c<4;c++ )     markers_[i][c]=corners[i][c];
-          markers_.back().id=marker_ids[i];  
-          markers_.back().Rvec= rvecs[i];
-          markers_.back().Tvec= tvecs[i];
-
-          std::cout << "RVECS: " << " ";
-          std::cout << rvecs[i] << std::endl;
-
-          std::cout << "TVECS: " << " ";
-          std::cout << tvecs[i] << std::endl;
-
-          
-
-        }
-
-      // marker array publish
-      //if (publishMarkers) {
-        marker_msg_->markers.clear();
-        marker_msg_->markers.resize(markers_.size());
-        marker_msg_->header.stamp = curr_stamp;
-
-        for (int i = 0; i < marker_ids.size(); ++i) {
-
-          //cv::drawFrameAxes(inImage_copy, cameraMatrix, distCoeffs, rvecs[i], tvecs[i], 0.05);
-
-          aruco_msgs::msg::Marker & marker_i = marker_msg_->markers.at(i);
-          marker_i.header.stamp = curr_stamp;
-          marker_i.id = marker_ids[i];
-          marker_i.confidence = 1.0;
-
-          geometry_msgs::msg::TransformStamped cameraToReference;
-          tf2::Transform cameraToReference_tf;
-
-          if (reference_frame_ != camera_frame_) {
-            if (!getTransform(reference_frame_, camera_frame_, cameraToReference)) {
-              return;
+        //Check the camera info
+        std::cout << "Camera Matrix:" << std::endl;
+        for (int i = 0; i < this->cameraMatrix.rows; i++) {
+            for (int j = 0; j < this->cameraMatrix.cols; j++) {
+                std::cout << this->cameraMatrix.at<float>(i, j) << " ";
             }
-            tf2::fromMsg(cameraToReference.transform, cameraToReference_tf);
-          } else {
-            cameraToReference_tf.setIdentity();
+            std::cout << std::endl;
+        }
+
+        std::cout << "Distortion Coefficients:" << std::endl;
+        for (int i = 0; i < this->distCoeffs.rows; i++) {
+            for (int j = 0; j < this->distCoeffs.cols; j++) {
+                std::cout << this->distCoeffs.at<float>(i, j) << " ";
+            }
+            std::cout << std::endl;
+        }
+        
+        cv::Mat currentCameraMatrix = this->cameraMatrix;
+        cv::Mat currentDistCoeffs = this->distCoeffs;
+
+        std::cout << "MARKER SIZE!!!!!!!!!!!!!: " << " ";
+        std::cout << marker_size_ << std::endl;
+
+        cv::Ptr<cv::aruco::Dictionary> dictionary = cv::aruco::getPredefinedDictionary(cv::aruco::DICT_4X4_250);
+        cv::Ptr<cv::aruco::DetectorParameters> detectorParams = cv::aruco::DetectorParameters::create();
+        cv::aruco::detectMarkers(inImage_, dictionary, corners, marker_ids, detectorParams, rejected);
+        if  (marker_ids.size() > 0) {
+          
+          
+          int nMarkers = marker_ids.size();
+          std::vector<cv::Vec3d> rvecs, tvecs;
+          std::cout << "currentCameraMatrix: " << " ";
+          std::cout << currentCameraMatrix << std::endl;
+          cv::aruco::drawDetectedMarkers(inImage_copy, corners, marker_ids);
+          cv::aruco::estimatePoseSingleMarkers(corners, marker_size_, this->cameraMatrix, this->distCoeffs, rvecs, tvecs);
+
+          for (int i = 0; i < marker_ids.size(); ++i) {
+            //cv::Mat markerImage;
+            //cv::aruco::drawMarker(dictionary, marker_ids[i], 200, markerImage, 1);
+            //cv::aruco::drawDetectedMarkers(inImage_, corners, ids);
+            
+            //for (int j = 0; j < nMarkers; j++) {
+              //solvePnP(objPoints, corners.at(i), cameraMatrix, distCoeffs, rvecs.at(i), tvecs.at(i));
+            //cv::aruco::estimatePoseSingleMarkers(corners.at(i), marker_size_, cameraMatrix, distCoeffs, rvecs.at(i), tvecs.at(i));
+            //}
+            /*
+            std::vector<std::vector<cv::Point> > contours2;
+            std::vector<cv::Vec4i> hierarchy2;
+            inImage_.copyTo ( thres2 );
+            cv::findContours ( thres2 , contours2, hierarchy2,cv::RetrievalModes::RETR_TREE, cv::ContourApproximationModes::CHAIN_APPROX_NONE );
+            vector<Point>  approxCurve;
+            */
+            markers_.push_back (aruco::Marker());
+            //for ( int c=0;c<4;c++ )     markers_[i][c]=corners[i][c];
+            markers_.back().id=marker_ids[i];  
+            markers_.back().Rvec= rvecs[i];
+            markers_.back().Tvec= tvecs[i];
+
+            std::cout << "RVECS: " << " ";
+            std::cout << rvecs[i] << std::endl;
+
+            std::cout << "TVECS: " << " ";
+            std::cout << tvecs[i] << std::endl;
+
+            
+
           }
 
-          std::cout << "reference2camera tf: " << "x: ";
-          std::cout << cameraToReference_tf.getOrigin().getX() << " y: ";
-          std::cout << cameraToReference_tf.getOrigin().getY() << " z: ";
-          std::cout << cameraToReference_tf.getOrigin().getZ() << " X: ";
-          std::cout << cameraToReference_tf.getRotation().getX() << " Y: ";
-          std::cout << cameraToReference_tf.getRotation().getY() << " Z: ";
-          std::cout << cameraToReference_tf.getRotation().getZ() << " W: ";
-          std::cout << cameraToReference_tf.getRotation().getW() << std::endl;
-          //tf2::Transform transform = aruco_ros::arucoMarker2Tf(markers_[i], rotate_marker_axis_);
+        // marker array publish
+        //if (publishMarkers) {
+          marker_msg_->markers.clear();
+          marker_msg_->markers.resize(markers_.size());
+          marker_msg_->header.stamp = curr_stamp;
 
-          /*std::cout << transform.getOrigin().getX() << " || " << transform.getOrigin().getY() <<
-            " || " << transform.getOrigin().getZ() << endl;
-          transform = cameraToReference_tf * transform;*/
-          
-          cv::Mat rot_mat1(3, 3, CV_64F);
-          cv::Rodrigues(rvecs[i], rot_mat1);
+          for (int i = 0; i < marker_ids.size(); ++i) {
 
-          std::cout << "rot_mat1_OUT: " << " ";
-          std::cout << rot_mat1 << std::endl;
+            //cv::drawFrameAxes(inImage_copy, cameraMatrix, distCoeffs, rvecs[i], tvecs[i], 0.05);
 
-          //RotationAndTranslationVectorsToTransform
-          cv::Mat rot_mat(3, 3, CV_64F);
-          cv::Vec3d ret_ros = aruco_ros::rotationVectorWithROSAxes(rvecs[i]);
-          cv::Rodrigues(ret_ros, rot_mat);
-          tf2::Matrix3x3 tf_rot(
-              rot_mat.at<double>(0, 0), rot_mat.at<double>(0, 1), rot_mat.at<double>(0, 2),
-              rot_mat.at<double>(1, 0), rot_mat.at<double>(1, 1), rot_mat.at<double>(1, 2),
-              rot_mat.at<double>(2, 0), rot_mat.at<double>(2, 1), rot_mat.at<double>(2, 2));
-          tf2::Vector3 tf_orig(tvecs[i][0], tvecs[i][1], tvecs[i][2]);
-          tf2::Transform transform(tf_rot, tf_orig);
+            aruco_msgs::msg::Marker & marker_i = marker_msg_->markers.at(i);
+            marker_i.header.stamp = curr_stamp;
+            marker_i.id = marker_ids[i];
+            marker_i.confidence = 1.0;
 
-          //Distance from camera to aruco
-          marker_i.distance = tf2Sqrt(tf2::tf2Dot(tf_orig, tf_orig));
-          //marker_i.distance = 0.0;
+            geometry_msgs::msg::TransformStamped cameraToReference;
+            tf2::Transform cameraToReference_tf;
 
-          //std::cout << transform << std::endl;
-          std::cout << "camera2marker tf: " << "x: ";
-          std::cout << transform.getOrigin().getX() << " y: ";
-          std::cout << transform.getOrigin().getY() << " z: ";
-          std::cout << transform.getOrigin().getZ() << " X: ";
-          std::cout << transform.getRotation().getX() << " Y: ";
-          std::cout << transform.getRotation().getY() << " Z: ";
-          std::cout << transform.getRotation().getZ() << " W: ";
-          std::cout << transform.getRotation().getW() << std::endl;
+            if (reference_frame_ != camera_frame_) {
+              if (!getTransform(reference_frame_, camera_frame_, cameraToReference)) {
+                return;
+              }
+              tf2::fromMsg(cameraToReference.transform, cameraToReference_tf);
+            } else {
+              cameraToReference_tf.setIdentity();
+            }
 
-          //cameraToMarker Reference
-          transform = cameraToReference_tf*transform;
+            std::cout << "reference2camera tf: " << "x: ";
+            std::cout << cameraToReference_tf.getOrigin().getX() << " y: ";
+            std::cout << cameraToReference_tf.getOrigin().getY() << " z: ";
+            std::cout << cameraToReference_tf.getOrigin().getZ() << " X: ";
+            std::cout << cameraToReference_tf.getRotation().getX() << " Y: ";
+            std::cout << cameraToReference_tf.getRotation().getY() << " Z: ";
+            std::cout << cameraToReference_tf.getRotation().getZ() << " W: ";
+            std::cout << cameraToReference_tf.getRotation().getW() << std::endl;
+            //tf2::Transform transform = aruco_ros::arucoMarker2Tf(markers_[i], rotate_marker_axis_);
 
-          geometry_msgs::msg::TransformStamped tf_msg;
-	        tf_msg.header.stamp = curr_stamp;
-          tf_msg.header.frame_id = reference_frame_;
-          tf_msg.child_frame_id = topic_ + "_marker_frame_" + std::to_string(marker_ids[i]);
-          tf_msg.transform = tf2::toMsg(transform);
-          tf_broadcaster->sendTransform(tf_msg);
+            /*std::cout << transform.getOrigin().getX() << " || " << transform.getOrigin().getY() <<
+              " || " << transform.getOrigin().getZ() << endl;
+            transform = cameraToReference_tf * transform;*/
+            
+            cv::Mat rot_mat1(3, 3, CV_64F);
+            cv::Rodrigues(rvecs[i], rot_mat1);
 
-          //cv::drawFrameAxes(inImage_copy, cameraMatrix, distCoeffs, rvecs[i], tvecs[i], 0.05);
-          aruco_ros::draw_axis(inImage_copy, cameraMatrix, distCoeffs, ret_ros, tvecs[i], marker_size_/2 , marker_size_);
-          
+            std::cout << "rot_mat1_OUT: " << " ";
+            std::cout << rot_mat1 << std::endl;
 
-	        tf2::toMsg(transform, marker_i.pose.pose);
-          marker_i.header.frame_id = reference_frame_;
-          
+            //RotationAndTranslationVectorsToTransform
+            cv::Mat rot_mat(3, 3, CV_64F);
+            cv::Vec3d ret_ros = aruco_ros::rotationVectorWithROSAxes(rvecs[i]);
+            cv::Rodrigues(ret_ros, rot_mat);
+            tf2::Matrix3x3 tf_rot(
+                rot_mat.at<double>(0, 0), rot_mat.at<double>(0, 1), rot_mat.at<double>(0, 2),
+                rot_mat.at<double>(1, 0), rot_mat.at<double>(1, 1), rot_mat.at<double>(1, 2),
+                rot_mat.at<double>(2, 0), rot_mat.at<double>(2, 1), rot_mat.at<double>(2, 2));
+            tf2::Vector3 tf_orig(tvecs[i][0], tvecs[i][1], tvecs[i][2]);
+            tf2::Transform transform(tf_rot, tf_orig);
 
+            //Distance from camera to aruco
+            marker_i.distance = tf2Sqrt(tf2::tf2Dot(tf_orig, tf_orig));
+            //marker_i.distance = 0.0;
+
+            //std::cout << transform << std::endl;
+            std::cout << "camera2marker tf: " << "x: ";
+            std::cout << transform.getOrigin().getX() << " y: ";
+            std::cout << transform.getOrigin().getY() << " z: ";
+            std::cout << transform.getOrigin().getZ() << " X: ";
+            std::cout << transform.getRotation().getX() << " Y: ";
+            std::cout << transform.getRotation().getY() << " Z: ";
+            std::cout << transform.getRotation().getZ() << " W: ";
+            std::cout << transform.getRotation().getW() << std::endl;
+
+            //cameraToMarker Reference
+            transform = cameraToReference_tf*transform;
+
+            geometry_msgs::msg::TransformStamped tf_msg;
+            tf_msg.header.stamp = curr_stamp;
+            tf_msg.header.frame_id = reference_frame_;
+            tf_msg.child_frame_id = topic_ + "_marker_frame_" + std::to_string(marker_ids[i]);
+            tf_msg.transform = tf2::toMsg(transform);
+            tf_broadcaster->sendTransform(tf_msg);
+
+            //cv::drawFrameAxes(inImage_copy, cameraMatrix, distCoeffs, rvecs[i], tvecs[i], 0.05);
+            aruco_ros::draw_axis(inImage_copy, cameraMatrix, distCoeffs, ret_ros, tvecs[i], marker_size_/2 , marker_size_);
+            
+
+            tf2::toMsg(transform, marker_i.pose.pose);
+            marker_i.header.frame_id = reference_frame_;
+            
+
+          }
         }
-      }
-      {
-        // publish marker array
-        if (marker_msg_->markers.size() > 0) {
-          marker_pub_->publish(*marker_msg_);
+        {
+          // publish marker array
+          if (marker_msg_->markers.size() > 0) {
+            marker_pub_->publish(*marker_msg_);
+          }
         }
-      }
 
-      {
-        marker_list_msg_.data.resize(markers_.size());
+        {
+          marker_list_msg_.data.resize(markers_.size());
+          for (std::size_t i = 0; i < markers_.size(); ++i) {
+            marker_list_msg_.data[i] = markers_[i].id;
+          }
+
+          marker_list_pub_->publish(marker_list_msg_);
+        }
+  /*
+        // draw detected markers on the image for visualization
         for (std::size_t i = 0; i < markers_.size(); ++i) {
-          marker_list_msg_.data[i] = markers_[i].id;
+          markers_[i].draw(inImage_, cv::Scalar(0, 0, 255), 2);
         }
 
-        marker_list_pub_->publish(marker_list_msg_);
-      }
-/*
-      // draw detected markers on the image for visualization
-      for (std::size_t i = 0; i < markers_.size(); ++i) {
-        markers_[i].draw(inImage_, cv::Scalar(0, 0, 255), 2);
-      }
-
-      // draw a 3D cube in each marker if there is 3D info
-      if (camParam_.isValid() && marker_size_ > 0) {
-        for (std::size_t i = 0; i < markers_.size(); ++i) {
-          aruco::CvDrawingUtils::draw3dAxis(inImage_, markers_[i], camParam_);
+        // draw a 3D cube in each marker if there is 3D info
+        if (camParam_.isValid() && marker_size_ > 0) {
+          for (std::size_t i = 0; i < markers_.size(); ++i) {
+            aruco::CvDrawingUtils::draw3dAxis(inImage_, markers_[i], camParam_);
+          }
         }
-      }
-*/
-      // publish input image with markers drawn on it
-      if (publishImage) {
-        // show input with augmented information
-        cv_bridge::CvImage out_msg;
-        out_msg.header.stamp = curr_stamp;
-        //out_msg.header.frame_id = camera_frame_;
-        out_msg.encoding = sensor_msgs::image_encodings::RGB8;
-        out_msg.image = inImage_copy;
-        image_pub_.publish(out_msg.toImageMsg());
-      }
+  */
+        // publish input image with markers drawn on it
+        if (publishImage) {
+          // show input with augmented information
+          cv_bridge::CvImage out_msg;
+          out_msg.header.stamp = curr_stamp;
+          //out_msg.header.frame_id = camera_frame_;
+          out_msg.encoding = sensor_msgs::image_encodings::RGB8;
+          out_msg.image = inImage_copy;
+          image_pub_.publish(out_msg.toImageMsg());
+        }
 
-      // publish image after internal image processing
-      if (publishDebug) {
-        // show also the internal image resulting from the threshold operation
-        cv_bridge::CvImage debug_msg;
-        debug_msg.header.stamp = curr_stamp;
-        //debug_msg.header.frame_id = camera_frame_;
-        debug_msg.encoding = sensor_msgs::image_encodings::MONO8;
-        //debug_msg.image = mDetector_.getThresholdedImage();
-        debug_msg.image = inImage_copy;
-        debug_pub_.publish(debug_msg.toImageMsg());
+        // publish image after internal image processing
+        if (publishDebug) {
+          // show also the internal image resulting from the threshold operation
+          cv_bridge::CvImage debug_msg;
+          debug_msg.header.stamp = curr_stamp;
+          //debug_msg.header.frame_id = camera_frame_;
+          debug_msg.encoding = sensor_msgs::image_encodings::MONO8;
+          //debug_msg.image = mDetector_.getThresholdedImage();
+          debug_msg.image = inImage_copy;
+          debug_pub_.publish(debug_msg.toImageMsg());
+        }
+      } catch (cv_bridge::Exception & e) {
+        RCLCPP_ERROR(this->get_logger(), "cv_bridge exception: %s", e.what());
       }
-    } catch (cv_bridge::Exception & e) {
-      RCLCPP_ERROR(this->get_logger(), "cv_bridge exception: %s", e.what());
     }
   }
 
   void cam_info_callback(sensor_msgs::msg::CameraInfo::ConstPtr msg)
   {
-  if (useCamInfo_) {
+  if (useCamInfo_ && !cam_info_received) {
 
     int dist_dim = msg->d.size();
 
@@ -456,7 +464,7 @@ public:
         distCoeffs.at<float>(i, 0) = msg->d[i];
     }
     
-    //cam_info_received = true;
+    this->cam_info_received = true;
   }
   }
 };

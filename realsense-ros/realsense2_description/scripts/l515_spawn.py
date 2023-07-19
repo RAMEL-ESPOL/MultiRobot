@@ -76,7 +76,7 @@ class SpawnEntityNode(Node):
                             Default is without any namespace')
         parser.add_argument('-robot_namespace', type=str, default='',
                             help='change ROS namespace of gazebo-plugins')
-        parser.add_argument('-timeout', type=float, default=30.0,
+        parser.add_argument('-timeout', type=float, default=60.0,
                             help='Number of seconds to wait for the spawn and delete services to \
                             become available')
         parser.add_argument('-unpause', action='store_true',
