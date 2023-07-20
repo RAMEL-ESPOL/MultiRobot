@@ -50,7 +50,6 @@ def navigation_n_robots(context, *args, **kwargs):
     
     for i in range(robot_count):
         robot_namespace = f'r{i+1}'
-        tf_prefix = f'{robot_namespace}/'
         params_file_i = os.path.join(get_package_share_directory('ramel'), 'config', 'nav2_multirobot_params.yaml')
 	# Create our own temporary YAML files that include substitutions
         param_substitutions = {
@@ -67,9 +66,6 @@ def navigation_n_robots(context, *args, **kwargs):
             #root_key=robot_namespace,
             param_rewrites=param_substitutions,
             convert_types=True)
-        print(yaml.dump(configured_params, default_flow_style=False))
-        # Update the param_substitutions dictionary to include the tf_prefix
-        #param_substitutions['tf_prefix'] = tf_prefix
         # Create the IncludeLaunchDescription for each robot
         nodes.append(GroupAction([
         PushRosNamespace(
