@@ -166,12 +166,12 @@
   <joint name="aruco_joint" type="fixed">
         <parent link="laser_frame"/>
         <child link="aruco_frame"/>
-        <origin xyz="0 0 0.03" rpy="0 0 0"/>
+        <origin xyz="0 0 0.03" rpy="0 1.57079632679 0"/>
   </joint>
   <link name="aruco_frame">
       <visual>
           <geometry>
-              <mesh filename="package://irobot_create_description/meshes/DICT_4X4_50_id15.dae"/>
+            <mesh filename="model://marker10/meshes/Marker10.dae" scale="0.2 0.2 0.2"/>     
           </geometry>
       </visual>
   </link> 
