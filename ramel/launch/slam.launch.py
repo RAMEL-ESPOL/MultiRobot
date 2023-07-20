@@ -10,7 +10,7 @@ def generate_launch_description():
     # Namespace argument
     namespace_arg = DeclareLaunchArgument(
         'namespace',
-        default_value='tb3',
+        default_value='r2',
         description='Namespace for the robot'
     )
     mode = DeclareLaunchArgument(
@@ -28,15 +28,16 @@ def generate_launch_description():
     # Add the namespace argument
     ld.add_action(namespace_arg)
     ld.add_action(mode)
+    ld.add_action(initial_pose)
     map_file = os.path.join(get_package_share_directory('ramel'), 'config', 'ramel_map_serialized')
     
     # Get the string parameter passed from the main launch file
     ns = LaunchConfiguration('namespace')
     # Define the concatenated strings using the namespace variable
-    base_frame = [LaunchConfiguration('namespace'), '_base_footprint']
-    odom_frame = [LaunchConfiguration('namespace'), '_odom']
+    base_frame = [LaunchConfiguration('namespace'), '/base_footprint']
+    odom_frame = [LaunchConfiguration('namespace'), '/odom']
     if LaunchConfiguration('mode') == "mapping":
-    	map_frame = [LaunchConfiguration('namespace'), '_map']
+    	map_frame = [LaunchConfiguration('namespace'), '/map']
     	map_topic= ['/',LaunchConfiguration('namespace'), '/map']
     else:
     	map_frame = 'map'
@@ -53,9 +54,9 @@ def generate_launch_description():
             {'odom_frame': odom_frame},
             {'map_frame': map_frame},
             {'mode': LaunchConfiguration('mode')},
-            {'map_start_at_dock': True},
-            {'map_start_pose': LaunchConfiguration('initial_pose')},
-            {'map_file_name': map_file},
+            #{'map_start_at_dock': True},
+            #{'map_start_pose': LaunchConfiguration('initial_pose')},
+            #{'map_file_name': map_file},
         ],
         arguments=['--ros-args', '--log-level', 'info'],
         remappings=[

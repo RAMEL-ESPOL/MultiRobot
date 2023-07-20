@@ -46,39 +46,7 @@ def generate_launch_description():
     pkg_create3_gazebo_bringup = get_package_share_directory('irobot_create_gazebo_bringup')
     gazebo_params_yaml_file = os.path.join(pkg_create3_gazebo_bringup, 'config', 'gazebo_params.yaml')
     pkg_irobot_create_description = get_package_share_directory('irobot_create_description')
-    # Set ignition resource path
-    gz_resource_path = SetEnvironmentVariable(name='GAZEBO_MODEL_PATH', value=[
-                                                EnvironmentVariable('GAZEBO_MODEL_PATH',
-                                                                    default_value=''),
-                                                '/usr/share/gazebo-11/models/:',
-                                                str(Path(pkg_irobot_create_description).
-                                                    parent.resolve())])
-    
-    # Set GAZEBO_MODEL_URI to empty string to prevent Gazebo from downloading models
-    gz_model_uri = SetEnvironmentVariable(name='GAZEBO_MODEL_URI', value=[''])
-    # Gazebo server
-    gzserver = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(pkg_gazebo_ros, 'launch', 'gzserver.launch.py')
-        ),
-        #launch_arguments={'world': world}.items()
-    )
 
-    gzclient_cmd = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(pkg_gazebo_ros, 'launch', 'gzclient.launch.py')
-        )
-    )
-    # Gazebo
-    gazebo_launch = PathJoinSubstitution(
-        [pkg_create3_gazebo_bringup, 'launch', 'gazebo.launch.py'])
-    gazebo = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([gazebo_launch]),
-        launch_arguments=[
-            ('world_path', world),
-            ('use_gazebo_gui', LaunchConfiguration('use_gazebo_gui'))
-        ]
-    )
     # Get the model and urdf file
     model_folder = 'turtlebot3_burger'
     model_path = os.path.join(
@@ -229,10 +197,6 @@ def generate_launch_description():
     # Add the commands to the launch description
     # Define LaunchDescription variable
     ld = LaunchDescription(ARGUMENTS)
-    #ld.add_action(gz_resource_path)
-    #ld.add_action(gz_model_uri)
-    #ld.add_action(gzserver)
-    #ld.add_action(gzclient_cmd)
     ld.add_action(robot_state_publisher_cmd_1)
     ld.add_action(robot_state_publisher_cmd_2)
     #ld.add_action(robot_state_publisher_cmd_3)

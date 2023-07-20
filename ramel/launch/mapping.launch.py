@@ -15,7 +15,7 @@ def generate_launch_description():
     slam_r1 = IncludeLaunchDescription(
     PythonLaunchDescriptionSource(os.path.join(get_package_share_directory('ramel'),'launch','slam.launch.py')),
     	launch_arguments={
-    		'namespace': 'tb3',
+    		'namespace': 'r2',
         }.items()
     )
     slam_r2 = IncludeLaunchDescription(
