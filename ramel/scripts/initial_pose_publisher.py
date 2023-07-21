@@ -81,6 +81,7 @@ class InitialPosePublisher(Node):
                     msg.pose.pose.position.y = self.poses_array[marker_index].position.y
                     msg.pose.pose.position.z = 0.0
                     msg.pose.pose.orientation = self.poses_array[marker_index].orientation
+                    msg.pose.pose.orientation.z = 0.0
                     msg.pose.covariance[6*0+0] = 0.5 * 0.5
                     msg.pose.covariance[6*1+1] = 0.5 * 0.5
                     msg.pose.covariance[6*5+5] = math.pi/12.0 * math.pi/12.0

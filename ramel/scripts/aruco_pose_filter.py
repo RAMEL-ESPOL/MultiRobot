@@ -54,35 +54,35 @@ class ArucoPoseFilter(Node):
             marker_id = marker.id
             marker_distance = marker.distance
             if marker_id in self.marker_dict:
-                if camera_name not in self.marker_dict[marker_id]:
-                    self.marker_dict[marker_id][camera_name] = [pose, marker_distance]
+                #if camera_name not in self.marker_dict[marker_id]:
+                self.marker_dict[marker_id][camera_name] = [pose, marker_distance]
             else:
                 self.marker_dict[marker_id] = {camera_name: [pose, marker_distance]}
 
-        if(camera_name == self.cameras_of_interest[-1]):
-            print(self.marker_dict)
-            markers = Poses()
-            markers.header.frame_id = "origin_frame"
-            markers.header.stamp = self.get_clock().now().to_msg()
+        #if(camera_name == self.cameras_of_interest[-1]):
+        markers = Poses()
+        markers.header.frame_id = "map"
+        markers.header.stamp = self.get_clock().now().to_msg()
 
-            firstPose = True
-            for marker_id in self.marker_dict.keys():
-                pose_filter = Pose()
-                min_distance = 100.0
-                for camera, info in self.marker_dict[marker_id].items():
-                    if(firstPose):
-                        pose_filter = info[0] 
-                        min_distance = info[1]   
-                        firstPose = False
-                    else:
-                        if(min_distance > info[1]):
-                            pose_filter = info[0] 
-                            min_distance = info[1]
-                firstPose = True
-                markers.poses.append(pose_filter)
-                markers.marker_ids.append(marker_id)
-            self.poses_pub.publish(markers)
         
+        for marker_id in self.marker_dict.keys():
+            firstPose = True
+            pose_filter = Pose()
+            min_distance = 100.0
+            for camera, info in self.marker_dict[marker_id].items():
+                if(firstPose):
+                    pose_filter = info[0] 
+                    min_distance = info[1]   
+                    firstPose = False
+                else:
+                    if(min_distance > info[1]):
+                        pose_filter = info[0] 
+                        min_distance = info[1]
+            firstPose = True
+            markers.poses.append(pose_filter)
+            markers.marker_ids.append(marker_id)
+        self.poses_pub.publish(markers)
+    
         #markers = Poses()
         #markers.header.frame_id = self.info_msg.header.frame_id
         #markers.header.stamp = msg.header.stamp
