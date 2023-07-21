@@ -53,7 +53,7 @@ def cameras_generator(context, *args, **kwargs):
                 launch_arguments={
                                   'topic_c': camera['namespace'],
                                   'markerSize': '0.1',
-                                  #'ref_frame': '',
+                                  'ref_frame': 'map',
                                   }.items()))
        
     return nodes_exec 

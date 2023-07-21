@@ -5,12 +5,12 @@
 -->
 <robot name="cam_l515" xmlns:xacro="http://ros.org/wiki/xacro">
 
-    <link name="world" />
-    <link name="$(arg name)_camera_link" />
+    <link name="map" />
+    <link name="$(arg name)_camera_link"/>
         
 
-    <joint name="world_to_camera" type="fixed">
-        <parent link="world"/>
+    <joint name="map_to_camera" type="fixed">
+        <parent link="map"/>
         <child link="$(arg name)_camera_link"/>
         <origin xyz="$(arg x_pos) $(arg y_pos) $(arg z_pos)" rpy="0 1.54 0" />   
     </joint>
