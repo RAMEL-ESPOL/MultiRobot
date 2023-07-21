@@ -32,16 +32,16 @@ def generate_launch_description():
         PythonLaunchDescriptionSource(os.path.join(get_package_share_directory('ramel'), 'launch', 'multi_cam_simulation.launch.py')), launch_arguments={'number': LaunchConfiguration('number'),}.items()
     )
     # Add a delay of 5 seconds
-    multi_cam_delay = TimerAction(
+    multi_robot_delay = TimerAction(
         period=5.0,
-        actions=[multi_cam],
+        actions=[multi_robot],
     )
 
     # Add the launch actions to the LaunchDescription
     ld.add_action(num_cameras_arg)
     ld.add_action(gazebo)
-    ld.add_action(multi_robot)
-    ld.add_action(multi_cam_delay)
+    ld.add_action(multi_cam)
+    ld.add_action(multi_robot_delay)
 
     return ld
 

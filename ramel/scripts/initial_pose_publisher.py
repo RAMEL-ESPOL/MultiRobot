@@ -30,7 +30,7 @@ class InitialPosePublisher(Node):
         #        lambda msg, robot_topic=robot_topic: self.marker_callback(msg, robot_topic),
         #        10
         #    )
-        
+        """
         if(self.dataloaded):
             print('11111111111')
             for robot_topic in robot_topics:
@@ -51,7 +51,7 @@ class InitialPosePublisher(Node):
                 print(msg)
                 #msg.data = 'Hello World: %d' % self.i
                 self.publisher_.publish(msg)
-
+        """
 
         #self.publisher_ = self.create_publisher(PoseWithCovarianceStamped, '/'+robot_topic+'/initialpose', 10)
         #timer_period = 0.5  # seconds
@@ -74,7 +74,7 @@ class InitialPosePublisher(Node):
             )
             msg = PoseWithCovarianceStamped()
             for id in self.markers_id:
-                if((int(robot_topic[-1])-1) == id):
+                if((int(robot_topic[-1])+9) == id):
                     print(self.poses_array[0])
                     marker_index = self.markers_id.index(id)
                     msg.pose.pose.position.x = self.poses_array[marker_index].position.x
