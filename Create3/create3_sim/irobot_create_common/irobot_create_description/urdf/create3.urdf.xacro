@@ -164,14 +164,14 @@
       </xacro:inertial_cylinder>
   </link> 
   <joint name="aruco_joint" type="fixed">
-        <parent link="laser_frame"/>
+        <parent link="base_link"/>
         <child link="aruco_frame"/>
-        <origin xyz="0 0 0.03" rpy="0 1.57079632679 0"/>
+        <origin xyz="-0.05 0.05 0.10" rpy="0 1.57079632679 -1.57079632679"/>
   </joint>
   <link name="aruco_frame">
       <visual>
           <geometry>
-            <mesh filename="model://marker10/meshes/Marker10.dae" scale="0.2 0.2 0.2"/>     
+            <mesh filename="package://irobot_create_description/meshes/Marker10.dae" scale="0.2 0.2 0.2"/>     
           </geometry>
       </visual>
   </link> 
