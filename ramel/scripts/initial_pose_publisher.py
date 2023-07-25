@@ -82,7 +82,8 @@ class InitialPosePublisher(Node):
                     msg.pose.pose.position.z = 0.0
                     msg.pose.pose.orientation.x = self.poses_array[marker_index].orientation.x
                     msg.pose.pose.orientation.y = self.poses_array[marker_index].orientation.y
-                    msg.pose.pose.orientation.z = 0.0
+                    msg.pose.pose.orientation.z = self.poses_array[marker_index].orientation.z
+                    msg.pose.pose.orientation.w = self.poses_array[marker_index].orientation.w
                     msg.pose.covariance[6*0+0] = 0.5 * 0.5
                     msg.pose.covariance[6*1+1] = 0.5 * 0.5
                     msg.pose.covariance[6*5+5] = math.pi/12.0 * math.pi/12.0
@@ -113,7 +114,7 @@ class InitialPosePublisher(Node):
 
 def main(args=None):
 
-    # Pass the number of cameras as a command-line argument
+    # Pass the number of robots as a command-line argument
     import sys
     if len(sys.argv) < 2:
         print("Usage: python3 subscriber.py <num_robots>")
