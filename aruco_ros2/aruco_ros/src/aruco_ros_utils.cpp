@@ -53,7 +53,8 @@ cv::Vec3d aruco_ros::rotationVectorWithROSAxes(cv::Vec3d &Rvec) {
 
   // Rotate axis direction as to fit ROS
   cv::Mat rotate_to_ros =
-      (cv::Mat_<double>(3, 3) << 1, 0, 0, 0, -1, 0, 0, 0, -1);
+      //(cv::Mat_<double>(3, 3) << 1, 0, 0, 0, -1, 0, 0, 0, -1);
+      (cv::Mat_<double>(3, 3) << 1, 0, 0, 0, 1, 0, 0, 0, 1);
 
   std::cout << "rotate_to_ros: " << " ";
   std::cout << rotate_to_ros << std::endl;
