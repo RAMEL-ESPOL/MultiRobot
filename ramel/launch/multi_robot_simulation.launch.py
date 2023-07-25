@@ -37,12 +37,6 @@ def generate_launch_description():
 
     use_sim_time = LaunchConfiguration('use_sim_time', default='true')
 
-    world = os.path.join(
-        get_package_share_directory('ramel'),
-        'config',
-        'lab_ramel.world'
-    )
-
     pkg_create3_gazebo_bringup = get_package_share_directory('irobot_create_gazebo_bringup')
     gazebo_params_yaml_file = os.path.join(pkg_create3_gazebo_bringup, 'config', 'gazebo_params.yaml')
     pkg_irobot_create_description = get_package_share_directory('irobot_create_description')

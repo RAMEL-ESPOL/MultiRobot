@@ -29,7 +29,7 @@ def generate_launch_description():
     ld.add_action(namespace_arg)
     ld.add_action(mode)
     ld.add_action(initial_pose)
-    map_file = os.path.join(get_package_share_directory('ramel'), 'config', 'ramel_map_serialized')
+    map_file = os.path.join(get_package_share_directory('ramel'), 'map', 'ramel_map_serialized')
     
     # Get the string parameter passed from the main launch file
     ns = LaunchConfiguration('namespace')

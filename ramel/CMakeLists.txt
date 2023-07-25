@@ -28,6 +28,10 @@ if(BUILD_TESTING)
 )
 install(DIRECTORY
   launch
+  config
+  world
+  map
+  rviz
   DESTINATION share/${PROJECT_NAME}
 )
 endif()

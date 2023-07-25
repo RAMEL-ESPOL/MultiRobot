@@ -93,7 +93,7 @@ def generate_launch_description():
     # Create the launch description and populate
     ld = LaunchDescription()
     ld.add_action(num_cameras_arg)
-    ld.add_action(rviz_node)
+    #ld.add_action(rviz_node)
     ld.add_action(OpaqueFunction(function=cameras_generator))
     """
     for spawn_robot_cmd in spawn_cameras_cmds:

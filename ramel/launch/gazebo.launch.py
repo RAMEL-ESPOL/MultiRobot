@@ -16,7 +16,7 @@ def generate_launch_description():
     pkg_gazebo_ros = get_package_share_directory('gazebo_ros')
     world = os.path.join(
         get_package_share_directory('ramel'),
-        'config',
+        'world',
         'lab_ramel_2.world'
     )
     pkg_irobot_create_description = get_package_share_directory('irobot_create_description')

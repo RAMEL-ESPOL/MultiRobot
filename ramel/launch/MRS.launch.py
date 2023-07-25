@@ -16,7 +16,7 @@ def generate_launch_description():
     # Define the launch arguments to pass
     map_file_arg = DeclareLaunchArgument(
         "map",
-        default_value=os.path.join(ramel_path, 'config', 'ramel_lab_2.yaml'),
+        default_value=os.path.join(ramel_path, 'map', 'ramel_lab_2.yaml'),
         description="Path to the map file"
     )
     use_namespace_arg = DeclareLaunchArgument(
@@ -64,7 +64,7 @@ def generate_launch_description():
         executable='rviz2',
         name='rviz2',
         #output='screen',
-        arguments=['-d', os.path.join(get_package_share_directory('ramel'),'config','nav2.rviz')]
+        arguments=['-d', os.path.join(get_package_share_directory('ramel'),'rviz','nav2.rviz')]
     )
     # Create the Pose FIlter node
     aruco_filter = Node(
@@ -74,7 +74,6 @@ def generate_launch_description():
         output='screen',
         arguments=['3']
     )
-    # Create the RViz2 node
     pose_publisher = Node(
         package='ramel',
         executable='initial_pose_publisher.py',
