@@ -1,7 +1,7 @@
 import os
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument
+from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument, TimerAction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
@@ -63,11 +63,34 @@ def generate_launch_description():
         package='rviz2',
         executable='rviz2',
         name='rviz2',
-        output='screen',
+        #output='screen',
         arguments=['-d', os.path.join(get_package_share_directory('ramel'),'config','nav2.rviz')]
+    )
+    # Create the Pose FIlter node
+    aruco_filter = Node(
+        package='ramel',
+        executable='aruco_pose_filter.py',
+        name='aruco_filter',
+        output='screen',
+        arguments=['3']
+    )
+    # Create the RViz2 node
+    pose_publisher = Node(
+        package='ramel',
+        executable='initial_pose_publisher.py',
+        name='pose_publisher',
+        output='screen',
+        arguments=['3']
+    )
+
+    pose_publisher_delay = TimerAction(
+        period=20.0,
+        actions=[pose_publisher],
     )
 
     ld.add_action(mrs_bringup_launch)
     ld.add_action(rviz_node)
+    ld.add_action(aruco_filter)
+    ld.add_action(pose_publisher_delay)
     return ld
 

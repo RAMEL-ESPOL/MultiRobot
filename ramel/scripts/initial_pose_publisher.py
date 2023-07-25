@@ -80,7 +80,8 @@ class InitialPosePublisher(Node):
                     msg.pose.pose.position.x = self.poses_array[marker_index].position.x
                     msg.pose.pose.position.y = self.poses_array[marker_index].position.y
                     msg.pose.pose.position.z = 0.0
-                    msg.pose.pose.orientation = self.poses_array[marker_index].orientation
+                    msg.pose.pose.orientation.x = self.poses_array[marker_index].orientation.x
+                    msg.pose.pose.orientation.y = self.poses_array[marker_index].orientation.y
                     msg.pose.pose.orientation.z = 0.0
                     msg.pose.covariance[6*0+0] = 0.5 * 0.5
                     msg.pose.covariance[6*1+1] = 0.5 * 0.5
@@ -122,7 +123,7 @@ def main(args=None):
 
     rclpy.init(args=args)
     initialpose_publiser = InitialPosePublisher(num_robots)
-    rclpy.spin(initialpose_publiser)
+    rclpy.spin_once(initialpose_publiser)
     initialpose_publiser.destroy_node()
     rclpy.shutdown()
 
