@@ -20,7 +20,7 @@ def cameras_generator(context, *args, **kwargs):
         cam_name_cam = "cam_c"+str(i)
         cam_name = "c"+str(i)
         x_pos = float(i)
-        cameras.append({'name': cam_name, 'namespace': cam_name, 'x_pose': x_pos*2-2.0, 'y_pose': 0.0, 'z_pose': 3.0})
+        cameras.append({'name': cam_name, 'namespace': cam_name, 'x_pose': x_pos*2-2.0, 'y_pose': 0.0, 'z_pose': 3.5})
     print(cameras)
 
     spawn_cameras_cmds = []
