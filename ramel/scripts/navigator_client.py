@@ -4,7 +4,7 @@ import rclpy
 from rclpy.node import Node
 from rclpy.action import ActionClient
 from action_msgs.msg import GoalStatus
-from std_msgs.msg import String
+from std_msgs.msg import String, Bool
 from aruco_msgs.msg import Poses
 from geometry_msgs.msg import PoseStamped
 from nav2_msgs.action import NavigateToPose
@@ -14,9 +14,10 @@ import math
 
 class Task(Node):
 
-    def __init__(self, id_goal1, id_goal2, id_robot):
+    def __init__(self, n_robots, id_goal1, id_goal2, id_robot):
         super().__init__('Task'+str(id_robot)+'_'+str(id_goal1)+str(id_goal2))
 
+        self.n_robots = n_robots
         self.id_goal1 = id_goal1
         self.id_goal2 = id_goal2
         self.id_robot = id_robot
@@ -27,6 +28,8 @@ class Task(Node):
             self.delivery,
             10)
         self.subscription  # prevent unused variable warning
+
+        
 
 
     def delivery(self, msg):
@@ -55,29 +58,32 @@ class Task(Node):
                         mindistance = distance_sqrt
                         self.id_robot = (id - 9)
 
+        #self.state_pub = self.create_publisher(Bool, '/r'+str(self.id_robot)+'/busy', 10)
+
 
         #topic = '/r'+str(self.id_robot)+'/goal_pose'
         #self.nav_to_pose_client = ActionClient(self, NavigateToPose, '/r'+str(self.id_robot)+'/navigate_to_pose')
  
-        print(self.goal1)
+        #print(self.goal1)
         navigator = MRSNavigator(namespace='/r'+str(self.id_robot))
         #navigator.waitUntilNav2Active() # if autostarted, else use lifecycleStartup()
 
-        print('A navegar!!!')
+        print('Robot' +str(self.id_robot)+': A navegar!!!')
         navigator.goToPose(self.goal1)
 
         i = 0
         while not navigator.isTaskComplete():
+            #self.state_pub.publish(True)
             i += 1
 
         # Do something depending on the return code
         result1 = navigator.getResult()
         # Update robot's poses
-        initial_pose_cmd = "python3 initial_pose_publisher.py 3"
+        initial_pose_cmd = "python3 initial_pose_publisher.py "+str(self.n_robots)
         print(initial_pose_cmd)
         os.system(initial_pose_cmd)
         if result1 == TaskResult.SUCCEEDED:
-            print('Goal1 succeeded!')
+            print('Robot' +str(self.id_robot)+': Goal1 succeeded!')
 
             marker_index2 = self.markers_id.index(self.id_goal2)
             self.goal2 = PoseStamped()
@@ -90,8 +96,8 @@ class Task(Node):
             self.goal2.header.stamp = self.get_clock().now().to_msg()
             self.goal2.header.frame_id = "map"
 
-            print(self.goal2)
-            print('A navegar!!! x2')
+            #print(self.goal2)
+            print('Robot' +str(self.id_robot)+': A navegar!!! x2')
             navigator.goToPose(self.goal2)
 
             i = 0
@@ -105,45 +111,37 @@ class Task(Node):
 
             result2 = navigator.getResult()
             if result2 == TaskResult.SUCCEEDED:
-                print('Goal2 succeeded!')
+                print('Robot' +str(self.id_robot)+': Goal2 succeeded!')
+                self.result = True
             else:
-                print('Goal2 failed!')
-
-        elif result1 == TaskResult.CANCELED:
-            print('Goal1 was canceled!')
-        elif result1 == TaskResult.FAILED:
-            print('Goal1 failed!')
-        elif result1 == TaskResult.UNKNOWN:
-            print('Goal1 unknown!')
+                print('Robot' +str(self.id_robot)+': Goal2 failed!')
+                self.result = False
         else:
-            print('Goal1 has an invalid return status!')
+            print('Robot' +str(self.id_robot)+': Goal1 not completed')
+            self.result = False
         
         # Shut down the ROS 2 Navigation Stack
         #navigator.lifecycleShutdown()
+        exit(1)
 
-
-def verify_task(result):
-    if result == TaskResult.SUCCEEDED:
-        return True
-    else:
-        return False
 
 def main(args=None):
 
     # Pass the arguments
     import sys
-    if len(sys.argv) < 3:
-        print("Usage: python3 goal_publisher.py <id_goal1> <id_goal1> <id_robot>(optional)")
+    if len(sys.argv) < 4:
+        print("Usage: python3 goal_publisher.py <n_robots> <id_goal1> <id_goal1> <id_robot>(optional)")
         return
 
-    id_goal1 = int(sys.argv[1])
-    id_goal2 = int(sys.argv[2])
+    n_robots = int(sys.argv[1])
+    id_goal1 = int(sys.argv[2])
+    id_goal2 = int(sys.argv[3])
     id_robot = 0
-    if len(sys.argv) == 4:
-        id_robot = int(sys.argv[3])
+    if len(sys.argv) == 5:
+        id_robot = int(sys.argv[4])
 
     rclpy.init(args=args)
-    task_manager = Task(id_goal1, id_goal2, id_robot)
+    task_manager = Task(n_robots, id_goal1, id_goal2, id_robot)
     rclpy.spin_once(task_manager)
     """
     id_robot = task_managerg1.id_robot
