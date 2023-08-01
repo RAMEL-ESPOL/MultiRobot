@@ -29,6 +29,8 @@ ARGUMENTS = [
                           description='Spawn the standard dock model.'),
     DeclareLaunchArgument('namespace', default_value='',
                           description='Robot namespace'),
+    DeclareLaunchArgument('id_marker', default_value='10',
+                          description='Aruco id marker'),
 ]
 
 for pose_element in ['x', 'y', 'z', 'yaw']:
@@ -60,6 +62,7 @@ def generate_launch_description():
     yaw = LaunchConfiguration('yaw')
     spawn_dock = LaunchConfiguration('spawn_dock')
     use_rviz = LaunchConfiguration('use_rviz')
+    id_marker = LaunchConfiguration('id_marker')
 
     robot_name = GetNamespacedName(namespace, 'create3')
     dock_name = GetNamespacedName(namespace, 'standard_dock')
@@ -103,7 +106,7 @@ def generate_launch_description():
         # Create 3 robot model and description
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource([robot_description_launch_file]),
-            launch_arguments={'gazebo': 'classic'}.items(),
+            launch_arguments={'gazebo': 'classic', 'id_marker': id_marker}.items(),
         ),
 
         # Create 3 spawn

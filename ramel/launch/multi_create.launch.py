@@ -119,7 +119,8 @@ def generate_launch_description():
             ('x', '0.0'),
             ('y', '0.0'),
             ('z', '0.01'),
-            ('yaw', '0.0')
+            ('yaw', '0.0'),
+            ('id_marker', '10')
         ],
     )
     # Create3 robot spawn command
@@ -134,7 +135,8 @@ def generate_launch_description():
             ('x', '1.5'),
             ('y', '-0.5'),
             ('z', '0.01'),
-            ('yaw', '0.0')
+            ('yaw', '0.0'),
+            ('id_marker', '11')
         ],
     )
     # Create3 robot spawn command
@@ -149,7 +151,8 @@ def generate_launch_description():
             ('x', '0.0'),
             ('y', '-0.5'),
             ('z', '0.01'),
-            ('yaw', '0.0')
+            ('yaw', '0.0'),
+            ('id_marker', '12')
         ],
     )
 

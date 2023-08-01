@@ -17,6 +17,10 @@
   <!-- Namespace -->
   <xacro:arg name="namespace"                    default=""/>
 
+  <!-- ID marker -->
+  <xacro:arg name="id"                           default="10"/>
+
+
   <!-- Mechanical properties -->
   <xacro:property name="body_z_offset"           value="${-2.5*cm2m}" />
   <xacro:property name="body_collision_z_offset" value="${1*cm2m}" />
@@ -171,7 +175,7 @@
   <link name="aruco_frame">
       <visual>
           <geometry>
-            <mesh filename="package://irobot_create_description/meshes/Marker10.dae" scale="0.2 0.2 0.2"/>     
+            <mesh filename="package://irobot_create_description/meshes/Marker$(arg id).dae" scale="0.2 0.2 0.2"/>     
           </geometry>
       </visual>
   </link> 

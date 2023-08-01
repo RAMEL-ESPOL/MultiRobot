@@ -21,6 +21,8 @@ ARGUMENTS = [
                           description='Enable/disable ray visualization'),
     DeclareLaunchArgument('namespace', default_value='',
                           description='Robot namespace'),
+    DeclareLaunchArgument('id_marker', default_value='10',
+                          description='Aruco id marker'),
 ]
 
 
@@ -28,6 +30,7 @@ def generate_launch_description():
     pkg_create3_description = get_package_share_directory('irobot_create_description')
     xacro_file = PathJoinSubstitution([pkg_create3_description, 'urdf', 'create3.urdf.xacro'])
     gazebo_simulator = LaunchConfiguration('gazebo')
+    id_marker = LaunchConfiguration('id_marker')
     visualize_rays = LaunchConfiguration('visualize_rays')
     namespace = LaunchConfiguration('namespace')
 
@@ -37,6 +40,7 @@ def generate_launch_description():
             Command(
                 ['xacro', ' ', xacro_file, ' ',
                  'gazebo:=', gazebo_simulator, ' ',
+                 'id:=', id_marker, ' ',
                  'visualize_rays:=', visualize_rays, ' ',
                  'namespace:=', namespace])
         }
