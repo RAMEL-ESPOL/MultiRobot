@@ -339,7 +339,7 @@
                     <argument>~/out:=scan</argument>                
                 </ros>
                 <output_type>sensor_msgs/LaserScan</output_type>
-                <!-- frame_name>laser_frame</frame_name -->
+                <frame_name>$(arg namespace)/laser_frame</frame_name>
             </plugin>
         </sensor>
     </gazebo>

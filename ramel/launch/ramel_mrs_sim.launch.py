@@ -42,7 +42,7 @@ def generate_launch_description():
     ld.add_action(num_cameras_arg)
     ld.add_action(gazebo)
     ld.add_action(multi_cam)
-    ld.add_action(multi_robot_delay)
+    #ld.add_action(multi_robot_delay)
 
     return ld
 
