@@ -78,7 +78,7 @@ def generate_launch_description():
 
     num_cameras_arg = DeclareLaunchArgument(
         'number',
-        default_value='5',
+        default_value='3',
         description='Number of cameras'
     )
 
