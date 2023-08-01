@@ -106,7 +106,7 @@ def generate_launch_description():
         # Create 3 robot model and description
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource([robot_description_launch_file]),
-            launch_arguments={'gazebo': 'classic', 'id_marker': id_marker}.items(),
+            launch_arguments={'gazebo': 'classic', 'namespace': namespace, 'id_marker': id_marker}.items(),
         ),
 
         # Create 3 spawn

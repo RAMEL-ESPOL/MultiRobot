@@ -219,8 +219,10 @@ def generate_launch_description():
     #ld.add_action(start_gazebo_ros_spawner_cmd)
     #ld.add_action(start_gazebo_ros_spawner_cmd_2)
     #ld.add_action(start_gazebo_ros_spawner_cmd_3)
-    #ld.add_action(create3_spawn_cmd)
-    ld.add_action(delay_create1)
+    ld.add_action(create3_spawn_cmd)
+    #ld.add_action(create3_spawn_cmd_2)
+    #ld.add_action(create3_spawn_cmd_3)
+    #ld.add_action(delay_create1)
     ld.add_action(delay_create2)
-    ld.add_action(delay_create3)
+    #ld.add_action(delay_create3)
     return ld
