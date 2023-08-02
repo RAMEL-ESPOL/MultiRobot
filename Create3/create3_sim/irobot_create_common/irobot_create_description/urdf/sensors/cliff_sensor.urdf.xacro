@@ -12,6 +12,7 @@
   <xacro:property name="samples"             value="${fov_deg/5}"/>
   <xacro:property name="sensor_name"         value="cliff_${name}"/>
   <xacro:property name="detection_threshold" value="${8*cm2m}"/>
+  <xacro:property name="ns"                  value="${namespace}"/>
 
 
   <joint name="${sensor_name}_joint" type="fixed">
@@ -31,7 +32,7 @@
                       r_min="${min_range}" r_max="${max_range}" r_res="1.0">
       <plugin name="${sensor_name}" filename="libgazebo_ros_create_cliff_sensor.so">
         <ros>
-          <namespace>${namespace}</namespace>
+          <namespace>${ns}</namespace>
           <remapping>~/out:=_internal/${sensor_name}/event</remapping>
         </ros>
         <detection_threshold>${detection_threshold}</detection_threshold>

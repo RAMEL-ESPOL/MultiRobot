@@ -8,11 +8,11 @@ from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription, ExecuteProcess, DeclareLaunchArgument, SetEnvironmentVariable, EmitEvent, GroupAction, RegisterEventHandler, TimerAction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution, EnvironmentVariable
+from launch.substitutions import LaunchConfiguration, FindExecutable, PathJoinSubstitution, EnvironmentVariable
 from launch.conditions import IfCondition
 from launch_ros.actions import Node
 from launch.events import Shutdown
-from launch.event_handlers import OnProcessExit
+from launch.event_handlers import OnProcessExit, OnExecutionComplete
 from launch.actions import OpaqueFunction
 
 ARGUMENTS = [
@@ -123,6 +123,19 @@ def generate_launch_description():
             ('id_marker', '10')
         ],
     )
+    spawn_create = ExecuteProcess(
+        cmd=[[
+            'ros2 launch irobot_create_gazebo_bringup create3_spawn.launch.py ',
+            'namespace:=r1 ',
+            'spawn_dock:=false ',
+            'use_rviz:=false ',
+            'x:=0.0 y:=0.0 z:=0.01 yaw:=0.0 ',
+            'id_marker:=10'
+        ]],
+        shell=True
+    )
+
+
     # Create3 robot spawn command
     create3_spawn_cmd_2 = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -139,6 +152,18 @@ def generate_launch_description():
             ('id_marker', '11')
         ],
     )
+    spawn_create_2 = ExecuteProcess(
+        cmd=[[
+            'ros2 launch irobot_create_gazebo_bringup create3_spawn.launch.py ',
+            'namespace:=r2 ',
+            'spawn_dock:=false ',
+            'use_rviz:=false ',
+            'x:=1.5 y:=-0.5 z:=0.01 yaw:=0.0 ',
+            'id_marker:=11'
+        ]],
+        shell=True
+    )
+
     # Create3 robot spawn command
     create3_spawn_cmd_3 = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -210,6 +235,14 @@ def generate_launch_description():
         actions=[create3_spawn_cmd_3],
     )
 
+    # Ensure diffdrive_controller_node starts after joint_state_broadcaster_spawner
+    spawn_create_2_handler = RegisterEventHandler(
+        event_handler=OnExecutionComplete(
+            target_action=spawn_create,
+            on_completion=[spawn_create_2],
+        )
+    )
+
     # Add the commands to the launch description
     # Define LaunchDescription variable
     ld = LaunchDescription(ARGUMENTS)
@@ -219,10 +252,12 @@ def generate_launch_description():
     #ld.add_action(start_gazebo_ros_spawner_cmd)
     #ld.add_action(start_gazebo_ros_spawner_cmd_2)
     #ld.add_action(start_gazebo_ros_spawner_cmd_3)
-    ld.add_action(create3_spawn_cmd)
+    ##ld.add_action(create3_spawn_cmd)
     #ld.add_action(create3_spawn_cmd_2)
     #ld.add_action(create3_spawn_cmd_3)
     #ld.add_action(delay_create1)
-    ld.add_action(delay_create2)
+    ##ld.add_action(delay_create2)
     #ld.add_action(delay_create3)
+    ld.add_action(spawn_create)
+    ld.add_action(spawn_create_2_handler)
     return ld
