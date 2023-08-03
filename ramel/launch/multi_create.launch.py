@@ -227,11 +227,11 @@ def generate_launch_description():
     )
     # Add a delay of 5 seconds
     delay_create2 = TimerAction(
-        period=5.0,
+        period=10.0,
         actions=[create3_spawn_cmd_2],
     )
     delay_create3 = TimerAction(
-        period=10.0,
+        period=20.0,
         actions=[create3_spawn_cmd_3],
     )
 
@@ -252,12 +252,12 @@ def generate_launch_description():
     #ld.add_action(start_gazebo_ros_spawner_cmd)
     #ld.add_action(start_gazebo_ros_spawner_cmd_2)
     #ld.add_action(start_gazebo_ros_spawner_cmd_3)
-    ##ld.add_action(create3_spawn_cmd)
+    ld.add_action(create3_spawn_cmd)
     #ld.add_action(create3_spawn_cmd_2)
     #ld.add_action(create3_spawn_cmd_3)
     #ld.add_action(delay_create1)
-    ##ld.add_action(delay_create2)
-    #ld.add_action(delay_create3)
-    ld.add_action(spawn_create)
-    ld.add_action(spawn_create_2_handler)
+    ld.add_action(delay_create2)
+    ld.add_action(delay_create3)
+    #ld.add_action(spawn_create)
+    #ld.add_action(spawn_create_2_handler)
     return ld
