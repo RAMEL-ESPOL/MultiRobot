@@ -76,7 +76,7 @@ class SpawnEntityNode(Node):
                             Default is without any namespace')
         parser.add_argument('-robot_namespace', type=str, default='',
                             help='change ROS namespace of gazebo-plugins')
-        parser.add_argument('-timeout', type=float, default=60.0,
+        parser.add_argument('-timeout', type=float, default=30.0,
                             help='Number of seconds to wait for the spawn and delete services to \
                             become available')
         parser.add_argument('-unpause', action='store_true',
@@ -279,9 +279,9 @@ class SpawnEntityNode(Node):
             return False
         self.get_logger().info(
             'Waiting for service %s/spawn_entity, timeout = %.f' % (
-                self.args.gazebo_namespace, timeout))
-        self.get_logger().info('Waiting for service %s/spawn_entity' % self.args.gazebo_namespace)
-        client = self.create_client(SpawnEntity, self.args.gazebo_namespace+'/spawn_entity')
+                self.args.robot_namespace, timeout))
+        self.get_logger().info('Waiting for service %s/spawn_entity' % self.args.robot_namespace)
+        client = self.create_client(SpawnEntity, self.args.robot_namespace+'/spawn_entity')
         models = os.path.join(get_package_share_directory(self.args.pck))
         if client.wait_for_service(timeout_sec=timeout):
             req = SpawnEntity.Request()
@@ -290,7 +290,7 @@ class SpawnEntityNode(Node):
             req.robot_namespace = self.args.robot_namespace
             req.initial_pose = initial_pose
             req.reference_frame = self.args.reference_frame
-            self.get_logger().info('Calling service %s/spawn_entity' % self.args.gazebo_namespace)
+            self.get_logger().info('Calling service %s/spawn_entity' % self.args.robot_namespace)
             srv_call = client.call_async(req)
             while rclpy.ok():
                 if srv_call.done():
@@ -300,7 +300,7 @@ class SpawnEntityNode(Node):
             return srv_call.result().success
         self.get_logger().error(
             'Service %s/spawn_entity unavailable. Was Gazebo started with GazeboRosFactory?' % (
-                self.args.gazebo_namespace))
+                self.args.robot_namespace))
         return False
 
     # TODO(shivesh): Wait for https://github.com/ros2/rclpy/issues/244
