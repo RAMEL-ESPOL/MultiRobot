@@ -227,11 +227,11 @@ def generate_launch_description():
     )
     # Add a delay of 5 seconds
     delay_create2 = TimerAction(
-        period=10.0,
+        period=15.0,
         actions=[create3_spawn_cmd_2],
     )
     delay_create3 = TimerAction(
-        period=20.0,
+        period=30.0,
         actions=[create3_spawn_cmd_3],
     )
 
