@@ -17,7 +17,7 @@ def generate_launch_description():
     world = os.path.join(
         get_package_share_directory('ramel'),
         'world',
-        'lab_ramel_2.world'
+        'aws_warehouse.world'
     )
     pkg_irobot_create_description = get_package_share_directory('irobot_create_description')
     # Set ignition resource path
