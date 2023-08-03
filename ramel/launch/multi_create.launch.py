@@ -180,6 +180,54 @@ def generate_launch_description():
             ('id_marker', '12')
         ],
     )
+    # Create3 robot spawn command
+    create3_spawn_cmd_4 = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(get_package_share_directory('irobot_create_gazebo_bringup'), 'launch', 'create3_spawn.launch.py')
+        ),
+        launch_arguments=[
+            ('namespace', 'r4'),
+            ('spawn_dock', 'false'),
+            ('use_rviz', 'false'),
+            ('x', '1.5'),
+            ('y', '0.0'),
+            ('z', '0.05'),
+            ('yaw', '0.0'),
+            ('id_marker', '13')
+        ],
+    )
+    # Create3 robot spawn command
+    create3_spawn_cmd_5 = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(get_package_share_directory('irobot_create_gazebo_bringup'), 'launch', 'create3_spawn.launch.py')
+        ),
+        launch_arguments=[
+            ('namespace', 'r5'),
+            ('spawn_dock', 'false'),
+            ('use_rviz', 'false'),
+            ('x', '-1.5'),
+            ('y', '-0.5'),
+            ('z', '0.05'),
+            ('yaw', '0.0'),
+            ('id_marker', '14')
+        ],
+    )
+    # Create3 robot spawn command
+    create3_spawn_cmd_6 = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(get_package_share_directory('irobot_create_gazebo_bringup'), 'launch', 'create3_spawn.launch.py')
+        ),
+        launch_arguments=[
+            ('namespace', 'r6'),
+            ('spawn_dock', 'false'),
+            ('use_rviz', 'false'),
+            ('x', '-1.5'),
+            ('y', '0.0'),
+            ('z', '0.05'),
+            ('yaw', '0.0'),
+            ('id_marker', '15')
+        ],
+    )
 
     with open(urdf_path, 'r') as infp:
         robot_desc = infp.read()
@@ -234,6 +282,18 @@ def generate_launch_description():
         period=14.0,
         actions=[create3_spawn_cmd_3],
     )
+    delay_create4 = TimerAction(
+        period=21.0,
+        actions=[create3_spawn_cmd_4],
+    )
+    delay_create5 = TimerAction(
+        period=28.0,
+        actions=[create3_spawn_cmd_5],
+    )
+    delay_create6 = TimerAction(
+        period=35.0,
+        actions=[create3_spawn_cmd_6],
+    )
 
     # Ensure diffdrive_controller_node starts after joint_state_broadcaster_spawner
     spawn_create_2_handler = RegisterEventHandler(
@@ -258,6 +318,9 @@ def generate_launch_description():
     #ld.add_action(delay_create1)
     ld.add_action(delay_create2)
     ld.add_action(delay_create3)
+    ld.add_action(delay_create4)
+    ld.add_action(delay_create5)
+    ld.add_action(delay_create6)
     #ld.add_action(spawn_create)
     #ld.add_action(spawn_create_2_handler)
     return ld

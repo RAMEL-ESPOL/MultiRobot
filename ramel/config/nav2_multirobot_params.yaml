@@ -245,7 +245,7 @@ global_costmap:
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
-        enabled: True
+        enabled: False
         footprint_clearing_enabled: True
         observation_sources: scan
         max_obstacle_height: 2.0

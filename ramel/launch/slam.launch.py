@@ -34,7 +34,7 @@ def generate_launch_description():
     # Get the string parameter passed from the main launch file
     ns = LaunchConfiguration('namespace')
     # Define the concatenated strings using the namespace variable
-    base_frame = [LaunchConfiguration('namespace'), '/base_footprint']
+    base_frame = [LaunchConfiguration('namespace'), '/base_link']
     odom_frame = [LaunchConfiguration('namespace'), '/odom']
     if LaunchConfiguration('mode') == "mapping":
     	map_frame = [LaunchConfiguration('namespace'), '/map']
