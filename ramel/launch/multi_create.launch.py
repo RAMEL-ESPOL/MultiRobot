@@ -318,9 +318,9 @@ def generate_launch_description():
     #ld.add_action(delay_create1)
     ld.add_action(delay_create2)
     ld.add_action(delay_create3)
-    ld.add_action(delay_create4)
-    ld.add_action(delay_create5)
-    ld.add_action(delay_create6)
+    #ld.add_action(delay_create4)
+    #ld.add_action(delay_create5)
+    #ld.add_action(delay_create6)
     #ld.add_action(spawn_create)
     #ld.add_action(spawn_create_2_handler)
     return ld
