@@ -59,29 +59,30 @@ class ArucoPoseFilter(Node):
             else:
                 self.marker_dict[marker_id] = {camera_name: [pose, marker_distance]}
 
-        #if(camera_name == self.cameras_of_interest[-1]):
-        markers = Poses()
-        markers.header.frame_id = "map"
-        markers.header.stamp = self.get_clock().now().to_msg()
+        if(camera_name == self.cameras_of_interest[-1]):
+            markers = Poses()
+            markers.header.frame_id = "map"
+            markers.header.stamp = self.get_clock().now().to_msg()
 
-        
-        for marker_id in self.marker_dict.keys():
-            firstPose = True
-            pose_filter = Pose()
-            min_distance = 100.0
-            for camera, info in self.marker_dict[marker_id].items():
-                if(firstPose):
-                    pose_filter = info[0] 
-                    min_distance = info[1]   
-                    firstPose = False
-                else:
-                    if(min_distance > info[1]):
+            
+            for marker_id in self.marker_dict.keys():
+                firstPose = True
+                pose_filter = Pose()
+                min_distance = 100.0
+                for camera, info in self.marker_dict[marker_id].items():
+                    if(firstPose):
                         pose_filter = info[0] 
-                        min_distance = info[1]
-            firstPose = True
-            markers.poses.append(pose_filter)
-            markers.marker_ids.append(marker_id)
-        self.poses_pub.publish(markers)
+                        min_distance = info[1]   
+                        firstPose = False
+                    else:
+                        if(min_distance > info[1]):
+                            pose_filter = info[0] 
+                            min_distance = info[1]
+                firstPose = True
+                markers.poses.append(pose_filter)
+                markers.marker_ids.append(marker_id)
+            self.poses_pub.publish(markers)
+            self.marker_dict = {}
     
         #markers = Poses()
         #markers.header.frame_id = self.info_msg.header.frame_id

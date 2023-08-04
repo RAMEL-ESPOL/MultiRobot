@@ -155,7 +155,7 @@ def generate_launch_description():
         launch_arguments=[
             ('namespace', 'r1'),
             ('spawn_dock', 'false'),
-            ('use_rviz', 'false'),
+            ('use_rviz', 'true'),
             ('x', '0.0'),
             ('y', '0.0'),
             ('z', '0.05'),
@@ -291,6 +291,7 @@ def generate_launch_description():
     ld.add_action(create3_spawn_cmd)
     ld.add_action(delay_create2)
     ld.add_action(delay_create3)
+<<<<<<< HEAD
     #ld.add_action(delay_create4)
     #ld.add_action(delay_create5)
     #ld.add_action(delay_create6)
@@ -298,6 +299,11 @@ def generate_launch_description():
     #ld.add_action(spawn_create)
     #ld.add_action(spawn_create_2_handler)
 =======
+=======
+    ld.add_action(delay_create4)
+    ld.add_action(delay_create5)
+    ld.add_action(delay_create6)
+>>>>>>> b03b406 (Manager and fix bugs in navigation)
     #ld.add_action(robot_spawn_1)
     #ld.add_action(delay_create_2)
     #ld.add_action(delay_create_3)

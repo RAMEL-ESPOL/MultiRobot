@@ -9,10 +9,11 @@ import math
 
 class InitialPosePublisher(Node):
 
-    def __init__(self, num_robots):
+    def __init__(self, num_robots, robot_interest):
         super().__init__('initialpose_publisher')
 
         self.num_robots = num_robots
+        self.robot_interest = robot_interest
         self.dataloaded = False
         self.robot_topics = ['r' + str(i + 1) for i in range(self.num_robots)]
 
@@ -90,9 +91,15 @@ class InitialPosePublisher(Node):
                     break
             msg.header.stamp = self.get_clock().now().to_msg()
             msg.header.frame_id = "map"
-            print('Initial pose for robot '+str(robot_topic)+' published')
+            if (self.robot_interest == 0):
+                print('Initial pose for robot '+str(robot_topic)+' published')
             #msg.data = 'Hello World: %d' % self.i
-            self.publisher_.publish(msg)
+                self.publisher_.publish(msg)
+            else:
+                if (self.robot_interest == int(robot_topic[-1])):
+                    print('Initial pose for robot '+str(robot_topic)+' published')
+                #msg.data = 'Hello World: %d' % self.i
+                    self.publisher_.publish(msg)
 
 
     def initialPoses_callback(self, msg, robot_topic):
@@ -115,13 +122,16 @@ def main(args=None):
     # Pass the number of robots as a command-line argument
     import sys
     if len(sys.argv) < 2:
-        print("Usage: python3 subscriber.py <num_robots>")
+        print("Usage: python3 subscriber.py <num_robots> <robot_interest>(optional)")
         return
 
     num_robots = int(sys.argv[1])
+    robot_interest = 0
+    if len(sys.argv) == 3:
+        robot_interest = int(sys.argv[2])
 
     rclpy.init(args=args)
-    initialpose_publiser = InitialPosePublisher(num_robots)
+    initialpose_publiser = InitialPosePublisher(num_robots, robot_interest)
     rclpy.spin_once(initialpose_publiser)
     initialpose_publiser.destroy_node()
     rclpy.shutdown()

@@ -79,7 +79,7 @@ class Task(Node):
         # Do something depending on the return code
         result1 = navigator.getResult()
         # Update robot's poses
-        initial_pose_cmd = "python3 initial_pose_publisher.py "+str(self.n_robots)
+        initial_pose_cmd = "python3 initial_pose_publisher.py "+str(self.n_robots)+" "+str(self.id_robot)
         print(initial_pose_cmd)
         os.system(initial_pose_cmd)
         if result1 == TaskResult.SUCCEEDED:
@@ -105,7 +105,7 @@ class Task(Node):
                 i += 1
 
             # Update robot's poses
-            initial_pose_cmd = "python3 initial_pose_publisher.py 3"
+            initial_pose_cmd = "python3 initial_pose_publisher.py "+str(self.n_robots)+" "+str(self.id_robot)
             print(initial_pose_cmd)
             os.system(initial_pose_cmd)
 
