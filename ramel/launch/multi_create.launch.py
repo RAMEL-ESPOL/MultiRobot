@@ -41,71 +41,6 @@ def generate_launch_description():
     gazebo_params_yaml_file = os.path.join(pkg_create3_gazebo_bringup, 'config', 'gazebo_params.yaml')
     pkg_irobot_create_description = get_package_share_directory('irobot_create_description')
 
-    # Get the model and urdf file
-    model_folder = 'turtlebot3_burger'
-    model_path = os.path.join(
-        get_package_share_directory('turtlebot3_gazebo'),
-        'models',
-        model_folder,
-        'model.sdf'
-    )
-    model_path2 = os.path.join(
-        get_package_share_directory('turtlebot3_gazebo'),
-        'models',
-        model_folder,
-        'model2.sdf'
-    )
-    model_path3 = os.path.join(
-        get_package_share_directory('turtlebot3_gazebo'),
-        'models',
-        model_folder,
-        'model3.sdf'
-    )
-    urdf_file_name = 'turtlebot3_burger.urdf'
-    urdf_path = os.path.join(
-        get_package_share_directory('turtlebot3_gazebo'),
-        'urdf',
-        urdf_file_name
-        )
-    start_gazebo_ros_spawner_cmd = Node(
-    package='gazebo_ros',
-    executable='spawn_entity.py',
-    arguments=[
-        '-entity', 'r2',
-        '-file', model_path,
-        '-x', '-2.5',
-        '-y', '-1.0',
-        '-z', '0.01',
-        '-robot_namespace', 'r2'  # Set the robot namespace
-    ],
-    output='screen',
-    )
-    start_gazebo_ros_spawner_cmd_2 = Node(
-    package='gazebo_ros',
-    executable='spawn_entity.py',
-    arguments=[
-        '-entity', 'r3',
-        '-file', model_path2,
-        '-x', '1',
-        '-y', '1',
-        '-z', '0.01',
-         '-robot_namespace', 'r3'  # Set the robot namespace
-    ],
-    output='screen',
-    )
-    start_gazebo_ros_spawner_cmd_3 = Node(
-    package='gazebo_ros',
-    executable='spawn_entity.py',
-    arguments=[
-        '-entity', 'r4',
-        '-file', model_path3,
-        '-x', '-2',
-        '-y', '1.75',
-        '-z', '0.01',
-         '-robot_namespace', 'r4'  # Set the robot namespace
-    ],
-    output='screen',
-    )
 
     # Create3 robot spawn command
     create3_spawn_cmd = IncludeLaunchDescription(
@@ -122,17 +57,6 @@ def generate_launch_description():
             ('yaw', '0.0'),
             ('id_marker', '10')
         ],
-    )
-    spawn_create = ExecuteProcess(
-        cmd=[[
-            'ros2 launch irobot_create_gazebo_bringup create3_spawn.launch.py ',
-            'namespace:=r1 ',
-            'spawn_dock:=false ',
-            'use_rviz:=false ',
-            'x:=0.0 y:=0.0 z:=0.01 yaw:=0.0 ',
-            'id_marker:=10'
-        ]],
-        shell=True
     )
 
 
@@ -151,17 +75,6 @@ def generate_launch_description():
             ('yaw', '0.0'),
             ('id_marker', '11')
         ],
-    )
-    spawn_create_2 = ExecuteProcess(
-        cmd=[[
-            'ros2 launch irobot_create_gazebo_bringup create3_spawn.launch.py ',
-            'namespace:=r2 ',
-            'spawn_dock:=false ',
-            'use_rviz:=false ',
-            'x:=1.5 y:=-0.5 z:=0.01 yaw:=0.0 ',
-            'id_marker:=11'
-        ]],
-        shell=True
     )
 
     # Create3 robot spawn command
@@ -229,98 +142,163 @@ def generate_launch_description():
         ],
     )
 
-    with open(urdf_path, 'r') as infp:
-        robot_desc = infp.read()
-        
-    robot_state_publisher_cmd_1 = Node(
-        package='robot_state_publisher',
-        executable='robot_state_publisher',
-        name='robot_state_publisher',
-        namespace='r2',  # Set the namespace for the first robot state publisher
-        output='screen',
-        parameters=[{
-            'use_sim_time': use_sim_time,
-            'frame_prefix': 'r2/',
-            'robot_description': robot_desc
-        }],
+    # Directories
+    pkg_irobot_create_ignition_bringup = get_package_share_directory(
+        'irobot_create_ignition_bringup')
+
+    # Paths
+    robot_spawn_launch = PathJoinSubstitution(
+        [pkg_irobot_create_ignition_bringup, 'launch', 'create3_spawn.launch.py'])
+
+    robot_spawn_1 = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([robot_spawn_launch]),
+        launch_arguments=[
+            ('namespace', 'r1'),
+            ('spawn_dock', 'false'),
+            ('use_rviz', 'false'),
+            ('x', '0.0'),
+            ('y', '0.0'),
+            ('z', '0.05'),
+            ('yaw', '0.0'),
+            ('id_marker', '10')
+        ]
     )
-    robot_state_publisher_cmd_2 = Node(
-        package='robot_state_publisher',
-        executable='robot_state_publisher',
-        name='robot_state_publisher',
-        namespace='r3',  # Set the namespace for the second robot state publisher
-        output='screen',
-        parameters=[{
-            'use_sim_time': use_sim_time,
-            'frame_prefix': 'r3/',
-            'robot_description': robot_desc,
-        }],
+    robot_spawn_2 = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(get_package_share_directory('irobot_create_gazebo_bringup'), 'launch', 'create3_spawn.launch.py')
+        ),
+        launch_arguments=[
+            ('namespace', 'r2'),
+            ('spawn_dock', 'false'),
+            ('use_rviz', 'false'),
+            ('x', '1.5'),
+            ('y', '-0.5'),
+            ('z', '0.05'),
+            ('yaw', '0.0'),
+            ('id_marker', '11')
+        ],
     )
-    robot_state_publisher_cmd_3 = Node(
-        package='robot_state_publisher',
-        executable='robot_state_publisher',
-        name='robot_state_publisher',
-        namespace='r4',  # Set the namespace for the second robot state publisher
-        output='screen',
-        parameters=[{
-            'use_sim_time': use_sim_time,
-            'frame_prefix': 'r4/',
-            'robot_description': robot_desc,
-        }],
+    robot_spawn_3 = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(get_package_share_directory('irobot_create_gazebo_bringup'), 'launch', 'create3_spawn.launch.py')
+        ),
+        launch_arguments=[
+            ('namespace', 'r3'),
+            ('spawn_dock', 'false'),
+            ('use_rviz', 'false'),
+            ('x', '0.0'),
+            ('y', '-0.5'),
+            ('z', '0.05'),
+            ('yaw', '0.0'),
+            ('id_marker', '12')
+        ],
     )
-    # Add a delay of 5 seconds
-    delay_create1 = TimerAction(
-        period=0.0,
-        actions=[create3_spawn_cmd],
+    robot_spawn_4 = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(get_package_share_directory('irobot_create_gazebo_bringup'), 'launch', 'create3_spawn.launch.py')
+        ),
+        launch_arguments=[
+            ('namespace', 'r4'),
+            ('spawn_dock', 'false'),
+            ('use_rviz', 'false'),
+            ('x', '1.5'),
+            ('y', '0.0'),
+            ('z', '0.05'),
+            ('yaw', '0.0'),
+            ('id_marker', '13')
+        ],
     )
-    # Add a delay of 5 seconds
+    robot_spawn_5 = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(get_package_share_directory('irobot_create_gazebo_bringup'), 'launch', 'create3_spawn.launch.py')
+        ),
+        launch_arguments=[
+            ('namespace', 'r5'),
+            ('spawn_dock', 'false'),
+            ('use_rviz', 'false'),
+            ('x', '-1.5'),
+            ('y', '-0.5'),
+            ('z', '0.05'),
+            ('yaw', '0.0'),
+            ('id_marker', '14')
+        ],
+    )
+    robot_spawn_6 = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(get_package_share_directory('irobot_create_gazebo_bringup'), 'launch', 'create3_spawn.launch.py')
+        ),
+        launch_arguments=[
+            ('namespace', 'r6'),
+            ('spawn_dock', 'false'),
+            ('use_rviz', 'false'),
+            ('x', '-1.5'),
+            ('y', '0.0'),
+            ('z', '0.05'),
+            ('yaw', '0.0'),
+            ('id_marker', '15')
+        ],
+    )
+
+    
+    # Add a delay of 15 seconds
     delay_create2 = TimerAction(
-        period=7.0,
+        period=15.0,
         actions=[create3_spawn_cmd_2],
     )
     delay_create3 = TimerAction(
-        period=14.0,
+        period=30.0,
         actions=[create3_spawn_cmd_3],
     )
     delay_create4 = TimerAction(
-        period=21.0,
+        period=45.0,
         actions=[create3_spawn_cmd_4],
     )
     delay_create5 = TimerAction(
-        period=28.0,
+        period=60.0,
         actions=[create3_spawn_cmd_5],
     )
     delay_create6 = TimerAction(
-        period=35.0,
+        period=75.0,
         actions=[create3_spawn_cmd_6],
     )
 
-    # Ensure diffdrive_controller_node starts after joint_state_broadcaster_spawner
-    spawn_create_2_handler = RegisterEventHandler(
-        event_handler=OnExecutionComplete(
-            target_action=spawn_create,
-            on_completion=[spawn_create_2],
-        )
+    # Add a delay of 15 seconds
+    delay_create_2 = TimerAction(
+        period=15.0,
+        actions=[robot_spawn_2],
     )
+    delay_create_3 = TimerAction(
+        period=30.0,
+        actions=[robot_spawn_3],
+    )
+    delay_create_4 = TimerAction(
+        period=45.0,
+        actions=[robot_spawn_4],
+    )
+    delay_create_5 = TimerAction(
+        period=60.0,
+        actions=[robot_spawn_5],
+    )
+    delay_create_6 = TimerAction(
+        period=75.0,
+        actions=[robot_spawn_6],
+    )
+
 
     # Add the commands to the launch description
     # Define LaunchDescription variable
     ld = LaunchDescription(ARGUMENTS)
-    #ld.add_action(robot_state_publisher_cmd_1)
-    #ld.add_action(robot_state_publisher_cmd_2)
-    #ld.add_action(robot_state_publisher_cmd_3)
-    #ld.add_action(start_gazebo_ros_spawner_cmd)
-    #ld.add_action(start_gazebo_ros_spawner_cmd_2)
-    #ld.add_action(start_gazebo_ros_spawner_cmd_3)
     ld.add_action(create3_spawn_cmd)
-    #ld.add_action(create3_spawn_cmd_2)
-    #ld.add_action(create3_spawn_cmd_3)
-    #ld.add_action(delay_create1)
     ld.add_action(delay_create2)
     ld.add_action(delay_create3)
-    ld.add_action(delay_create4)
-    ld.add_action(delay_create5)
-    ld.add_action(delay_create6)
-    #ld.add_action(spawn_create)
-    #ld.add_action(spawn_create_2_handler)
+    #ld.add_action(delay_create4)
+    #ld.add_action(delay_create5)
+    #ld.add_action(delay_create6)
+    #ld.add_action(robot_spawn_1)
+    #ld.add_action(delay_create_2)
+    #ld.add_action(delay_create_3)
+    #ld.add_action(delay_create_4)
+    #ld.add_action(delay_create_5)
+    #ld.add_action(delay_create_6)
+
     return ld

@@ -348,6 +348,9 @@
   <xacro:if value="${'$(arg gazebo)' == 'ignition'}">
     <gazebo>
       <plugin filename="libignition-gazebo-pose-publisher-system.so" name="ignition::gazebo::systems::PosePublisher">
+        <ros>
+          <namespace>$(arg namespace)</namespace>            
+        </ros>
         <publish_link_pose>true</publish_link_pose>
         <publish_nested_model_pose>true</publish_nested_model_pose>
         <use_pose_vector_msg>true</use_pose_vector_msg>
@@ -357,10 +360,16 @@
     
     <gazebo>
       <plugin filename="libignition-gazebo-contact-system.so" name="ignition::gazebo::systems::Contact"></plugin>
+        <ros>
+          <namespace>$(arg namespace)</namespace>            
+        </ros>
     </gazebo>
 
     <gazebo>
       <plugin filename="libignition-gazebo-sensors-system.so" name="ignition::gazebo::systems::Sensors">
+        <ros>
+          <namespace>$(arg namespace)</namespace>            
+        </ros>
         <render_engine>ogre</render_engine>
       </plugin>
     </gazebo>
