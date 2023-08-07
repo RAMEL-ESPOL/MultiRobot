@@ -16,7 +16,7 @@ def generate_launch_description():
     # Define the launch arguments to pass
     map_file_arg = DeclareLaunchArgument(
         "map",
-        default_value=os.path.join(ramel_path, 'map', 'map.yaml'),
+        default_value=os.path.join(ramel_path, 'map', 'ramel_lab_2.yaml'),
         description="Path to the map file"
     )
     use_namespace_arg = DeclareLaunchArgument(

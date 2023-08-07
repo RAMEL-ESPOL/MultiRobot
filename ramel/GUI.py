@@ -224,6 +224,7 @@ class Ui_MainWindow(object):
         self.framework_process = None
         self.nav_process = None
         self.gui = gui
+        self.running_flag = False
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -284,29 +285,49 @@ class Ui_MainWindow(object):
                                                    #"num_cam:={}".format(num_cameras)
                                                    ], preexec_fn=os.setsid)
 
-    # Slot for the "Navegar" button
     def on_btn_nav_clicked(self):
         # Get the selected values from the combo boxes
         recogida = self.cb_recogida.currentText()
         entrega = self.cb_entrega.currentText()
         robot = self.cb_robot.currentText()
+        num_robots = self.num_robots.value()
 
-        # Execute the Python file with parameters from combo boxes in a separate thread
-        nav_thread = threading.Thread(target=self.execute_navigate, args=(recogida, entrega, robot))
-        nav_thread.daemon = True  # Set the thread as a daemon thread
-        nav_thread.start()
+        if not self.running_flag:
+            # Start a separate thread to handle subprocess communication
+            nav_thread = threading.Thread(target=self.execute_navigate, args=(recogida, entrega, robot, num_robots))
+            nav_thread.daemon = True  # Set the thread as a daemon thread
+            nav_thread.start()
+            self.running_flag = True
+        else:
+            # Send the command to the existing subprocess
+            input_data = f"{recogida} {entrega}\n"
+            self.nav_process.stdin.write(input_data.encode("utf-8"))
+            self.nav_process.stdin.flush()
 
-    def execute_navigate(self, recogida, entrega, robot):
+    def execute_navigate(self, recogida, entrega, robot, num_robots):
         current_path = os.getcwd()
         scripts_path = os.path.join(current_path, 'scripts')
+
+        # Start the subprocess only once
+        self.nav_process = subprocess.Popen(["python3", "mrs_manager.py", str(num_robots)],
+                                            cwd=scripts_path,
+                                            stdin=subprocess.PIPE,
+                                            stdout=subprocess.PIPE,
+                                            stderr=subprocess.PIPE,
+                                            shell=False)
+
+        # Send the initial command to the subprocess
+        input_data = f"{recogida} {entrega}\n"
+        self.nav_process.stdin.write(input_data.encode("utf-8"))
+        self.nav_process.stdin.flush()
         
-        if robot == 'any':
+       # if robot == 'any':
             # If robot is empty, execute the navigation with only recogida and entrega parameters
-            self.nav_process = subprocess.Popen(["python3", "navigator_client.py", recogida, entrega],cwd=scripts_path)
-        else:
+        #    self.nav_process = subprocess.Popen(["python3", "navigator_client.py", recogida, entrega],cwd=scripts_path)
+        #else:
             # If robot is not empty, execute the navigation with all parameters
-            self.nav_process = subprocess.Popen(["python3", "navigator_client.py", recogida, entrega, robot],
-            preexec_fn=os.setsid,cwd=scripts_path)
+          #  self.nav_process = subprocess.Popen(["python3", "navigator_client.py", recogida, entrega, robot],
+           # preexec_fn=os.setsid,cwd=scripts_path)
     
     
     # Function to be called when the window is closed
@@ -351,7 +372,7 @@ if __name__ == "__main__":
 
     # Start the ROS 2 node in a separate thread
     def ros_thread():
-        rclpy.spin(gui)
+        rclpy.spin_once(gui)
 
     ros_thread = threading.Thread(target=ros_thread)
     ros_thread.daemon = True  # Set the thread as a daemon thread
