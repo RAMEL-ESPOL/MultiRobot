@@ -242,45 +242,45 @@ def generate_launch_description():
     
     # Add a delay of 15 seconds
     delay_create2 = TimerAction(
-        period=15.0,
+        period=20.0,
         actions=[create3_spawn_cmd_2],
     )
     delay_create3 = TimerAction(
-        period=30.0,
+        period=40.0,
         actions=[create3_spawn_cmd_3],
     )
     delay_create4 = TimerAction(
-        period=45.0,
+        period=60.0,
         actions=[create3_spawn_cmd_4],
     )
     delay_create5 = TimerAction(
-        period=60.0,
+        period=80.0,
         actions=[create3_spawn_cmd_5],
     )
     delay_create6 = TimerAction(
-        period=75.0,
+        period=100.0,
         actions=[create3_spawn_cmd_6],
     )
 
     # Add a delay of 15 seconds
     delay_create_2 = TimerAction(
-        period=15.0,
+        period=20.0,
         actions=[robot_spawn_2],
     )
     delay_create_3 = TimerAction(
-        period=30.0,
+        period=40.0,
         actions=[robot_spawn_3],
     )
     delay_create_4 = TimerAction(
-        period=45.0,
+        period=60.0,
         actions=[robot_spawn_4],
     )
     delay_create_5 = TimerAction(
-        period=60.0,
+        period=80.0,
         actions=[robot_spawn_5],
     )
     delay_create_6 = TimerAction(
-        period=75.0,
+        period=100.0,
         actions=[robot_spawn_6],
     )
 
@@ -291,25 +291,13 @@ def generate_launch_description():
     ld.add_action(create3_spawn_cmd)
     ld.add_action(delay_create2)
     ld.add_action(delay_create3)
-<<<<<<< HEAD
-    #ld.add_action(delay_create4)
-    #ld.add_action(delay_create5)
-    #ld.add_action(delay_create6)
-<<<<<<< HEAD
-    #ld.add_action(spawn_create)
-    #ld.add_action(spawn_create_2_handler)
-=======
-=======
     ld.add_action(delay_create4)
     ld.add_action(delay_create5)
     ld.add_action(delay_create6)
->>>>>>> b03b406 (Manager and fix bugs in navigation)
     #ld.add_action(robot_spawn_1)
     #ld.add_action(delay_create_2)
     #ld.add_action(delay_create_3)
     #ld.add_action(delay_create_4)
     #ld.add_action(delay_create_5)
     #ld.add_action(delay_create_6)
-
->>>>>>> 4a2ff98d320df7fc9e24bb0b467eb89112bde937
     return ld
