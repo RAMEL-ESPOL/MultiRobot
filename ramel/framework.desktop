@@ -1,0 +1,11 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Version=1.0
+Name=MultiRobot Framework
+Comment=Run the MultiRobot Framework
+Exec=/home/diego/multirobots/src/MultiRobot/ramel/framework.sh
+Icon=/home/diego/multirobots/src/MultiRobot/ramel/icon.png
+Terminal=false
+Type=Application
+#Categories=Utility;
+
