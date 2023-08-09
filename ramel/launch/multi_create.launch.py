@@ -141,149 +141,28 @@ def generate_launch_description():
             ('id_marker', '15')
         ],
     )
-
-    # Directories
-    pkg_irobot_create_ignition_bringup = get_package_share_directory(
-        'irobot_create_ignition_bringup')
-
-    # Paths
-    robot_spawn_launch = PathJoinSubstitution(
-        [pkg_irobot_create_ignition_bringup, 'launch', 'create3_spawn.launch.py'])
-
-    robot_spawn_1 = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([robot_spawn_launch]),
-        launch_arguments=[
-            ('namespace', 'r1'),
-            ('spawn_dock', 'false'),
-            ('use_rviz', 'true'),
-            ('x', '0.0'),
-            ('y', '0.0'),
-            ('z', '0.05'),
-            ('yaw', '0.0'),
-            ('id_marker', '10')
-        ]
-    )
-    robot_spawn_2 = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(get_package_share_directory('irobot_create_gazebo_bringup'), 'launch', 'create3_spawn.launch.py')
-        ),
-        launch_arguments=[
-            ('namespace', 'r2'),
-            ('spawn_dock', 'false'),
-            ('use_rviz', 'false'),
-            ('x', '1.5'),
-            ('y', '-0.5'),
-            ('z', '0.05'),
-            ('yaw', '0.0'),
-            ('id_marker', '11')
-        ],
-    )
-    robot_spawn_3 = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(get_package_share_directory('irobot_create_gazebo_bringup'), 'launch', 'create3_spawn.launch.py')
-        ),
-        launch_arguments=[
-            ('namespace', 'r3'),
-            ('spawn_dock', 'false'),
-            ('use_rviz', 'false'),
-            ('x', '0.0'),
-            ('y', '-0.5'),
-            ('z', '0.05'),
-            ('yaw', '0.0'),
-            ('id_marker', '12')
-        ],
-    )
-    robot_spawn_4 = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(get_package_share_directory('irobot_create_gazebo_bringup'), 'launch', 'create3_spawn.launch.py')
-        ),
-        launch_arguments=[
-            ('namespace', 'r4'),
-            ('spawn_dock', 'false'),
-            ('use_rviz', 'false'),
-            ('x', '1.5'),
-            ('y', '0.0'),
-            ('z', '0.05'),
-            ('yaw', '0.0'),
-            ('id_marker', '13')
-        ],
-    )
-    robot_spawn_5 = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(get_package_share_directory('irobot_create_gazebo_bringup'), 'launch', 'create3_spawn.launch.py')
-        ),
-        launch_arguments=[
-            ('namespace', 'r5'),
-            ('spawn_dock', 'false'),
-            ('use_rviz', 'false'),
-            ('x', '-1.5'),
-            ('y', '-0.5'),
-            ('z', '0.05'),
-            ('yaw', '0.0'),
-            ('id_marker', '14')
-        ],
-    )
-    robot_spawn_6 = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(get_package_share_directory('irobot_create_gazebo_bringup'), 'launch', 'create3_spawn.launch.py')
-        ),
-        launch_arguments=[
-            ('namespace', 'r6'),
-            ('spawn_dock', 'false'),
-            ('use_rviz', 'false'),
-            ('x', '-1.5'),
-            ('y', '0.0'),
-            ('z', '0.05'),
-            ('yaw', '0.0'),
-            ('id_marker', '15')
-        ],
-    )
-
     
     # Add a delay of 15 seconds
     delay_create2 = TimerAction(
-        period=20.0,
+        period=10.0,
         actions=[create3_spawn_cmd_2],
     )
     delay_create3 = TimerAction(
-        period=40.0,
+        period=20.0,
         actions=[create3_spawn_cmd_3],
     )
     delay_create4 = TimerAction(
-        period=60.0,
+        period=30.0,
         actions=[create3_spawn_cmd_4],
     )
     delay_create5 = TimerAction(
-        period=80.0,
+        period=40.0,
         actions=[create3_spawn_cmd_5],
     )
     delay_create6 = TimerAction(
-        period=100.0,
+        period=50.0,
         actions=[create3_spawn_cmd_6],
     )
-
-    # Add a delay of 15 seconds
-    delay_create_2 = TimerAction(
-        period=20.0,
-        actions=[robot_spawn_2],
-    )
-    delay_create_3 = TimerAction(
-        period=40.0,
-        actions=[robot_spawn_3],
-    )
-    delay_create_4 = TimerAction(
-        period=60.0,
-        actions=[robot_spawn_4],
-    )
-    delay_create_5 = TimerAction(
-        period=80.0,
-        actions=[robot_spawn_5],
-    )
-    delay_create_6 = TimerAction(
-        period=100.0,
-        actions=[robot_spawn_6],
-    )
-
 
     # Add the commands to the launch description
     # Define LaunchDescription variable
@@ -294,10 +173,4 @@ def generate_launch_description():
     #ld.add_action(delay_create4)
     #ld.add_action(delay_create5)
     #ld.add_action(delay_create6)
-    #ld.add_action(robot_spawn_1)
-    #ld.add_action(delay_create_2)
-    #ld.add_action(delay_create_3)
-    #ld.add_action(delay_create_4)
-    #ld.add_action(delay_create_5)
-    #ld.add_action(delay_create_6)
     return ld
