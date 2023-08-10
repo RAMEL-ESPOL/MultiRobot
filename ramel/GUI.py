@@ -19,13 +19,15 @@ from rclpy.node import Node
 from std_msgs.msg import String
 from aruco_msgs.msg import Poses
 from sensor_msgs.msg import Image
+import time  # Import the time module
 
 class GUI(Node):
     def __init__(self):
         super().__init__('GUI')
         self.workspaces = set()
         self.robots = set()
-
+        self.topic = None  # Initialize the topic variable
+        self.subscribers = {}
         self.subscription = self.create_subscription(
             Poses,
             'aruco_poses',
@@ -33,18 +35,37 @@ class GUI(Node):
             10)
         self.subscription  # prevent unused variable warning
         
-        self.img_subscriber = self.create_subscription(Image, "c1/result", self.image_callback,10)
+        #self.img_subscriber = self.create_subscription(Image, "c0/result", self.image_callback,10)
         
-    def image_callback(self, msg):
-        # Convert image data to QImage and display it
-        print("entering")
+    # Define a separate callback function that includes the topic
+    def wrapped_image_callback(self, topic, msg):
+        self.image_callback(msg, topic)
+        
+    def image_callback(self, msg, topic):
+        # Convert image data to QImage and store it in the dictionary
         img_data = np.array(msg.data, dtype=np.uint8).reshape((msg.height, msg.width, -1))
         q_image = QImage(img_data.data, msg.width, msg.height, QImage.Format.Format_RGB888)
-
-        # Display the QImage in the QLabel
         pixmap = QPixmap.fromImage(q_image)
-        # Call the method in the UI class to update the image_label
-        ui.update_image_label(pixmap)
+        
+        # Update the image label if the current topic matches the selected topic
+        if topic == self.topic:
+            ui.update_image_label(pixmap)
+        
+    def update_image_subscriber(self):      
+        if self.topic is not None:
+            # Check if a subscriber for the current topic exists
+            if self.topic in self.subscribers:
+                # A subscriber for the current topic already exists
+                # No need to create a new one
+                return
+
+            # Create a new image subscriber for the current topic
+            self.subscribers[self.topic] = self.create_subscription(
+                Image,
+                self.topic,
+                lambda msg, topic=self.topic: self.wrapped_image_callback(topic, msg),  # Pass the topic
+                10
+            )
 
     def on_aruco_poses_received(self, msg):
         # Extract marker_ids list from the received message
@@ -64,7 +85,7 @@ class GUI(Node):
         robots = sorted(robots)
 
         # Check if the workspaces and robots list have changed
-        if workspaces != self.workspaces or robots != self.robots:
+        if (len(robots) > len(self.robots) or len(workspaces) > len(self.workspaces)):
             # Update the combo boxes only if the lists have changed
             self.workspaces = workspaces
             self.robots = robots
@@ -336,7 +357,7 @@ class Ui_MainWindow(object):
 "    border: 1px solid #333333;\n"
 "    border-radius: 3px;\n"
 "    padding-left: 6px;\n"
-"    color: lightgray;\n"
+"    color: #00000;\n"
 "    font-weight: bold;\n"
 "    height: 20px;\n"
 "\n"
@@ -362,7 +383,7 @@ class Ui_MainWindow(object):
 "QComboBox:on\n"
 "{\n"
 "    background-color: #979796;\n"
-"    color: #000000;\n"
+"    color: #ffffff;\n"
 "\n"
 "}\n"
 "\n"
@@ -1605,6 +1626,9 @@ class Ui_MainWindow(object):
         self.btn_nav.clicked.connect(self.on_btn_nav_clicked)
         self.btn_initialize.clicked.connect(self.on_btn_initialize_clicked)
         
+        # Connect the valueChanged signal of num_robots to the slot update_cb_camera_values
+        self.num_cam.valueChanged.connect(self.update_cb_camera_values)
+        
         MainWindow.closeEvent = self.on_window_closed
         # Create variables to hold the process objects
         self.sim_process = None
@@ -1612,6 +1636,8 @@ class Ui_MainWindow(object):
         self.nav_process = None
         self.gui = gui
         self.running_flag = False
+        # Connect the camera combo box currentIndexChanged signal to a slot in the UI class
+        self.cb_camera.currentIndexChanged.connect(self.on_cb_camera_current_index_changed)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -1648,15 +1674,39 @@ class Ui_MainWindow(object):
         # Add robot markers (IDs >= 10) to cb_robot
         self.cb_robot.addItems(['any'])
         self.cb_robot.addItems([str((marker_id-9)) for marker_id in self.gui.robots])
+    
+    def update_cb_camera_values(self):
+        num_cam = self.num_cam.value()
+        self.cb_camera.clear()  # Clear the existing items
+
+        # Add values from 0 to (num_robots - 1) to the combo box
+        for cam_id in range(num_cam):
+            self.cb_camera.addItem(str(cam_id))
+
+
     def update_image_label(self, pixmap):
+        # Clear the label before updating with the new pixmap
+        #self.image_label.clear()
         # Resize the pixmap to fit the image_label
         label_size = self.image_label.size()
         pixmap = pixmap.scaled(label_size, QtCore.Qt.AspectRatioMode.KeepAspectRatio)
 
         self.image_label.setPixmap(pixmap)
+        
+    def on_cb_camera_current_index_changed(self, index):
+     # Check if the index is valid (not -1)
+        if index != -1:
+            # Access the current camera ID from the combo box
+            camera_id = int(self.cb_camera.itemText(index))
+            # Update the image topic based on the selected camera ID
+            self.gui.topic = f"c{camera_id}/result"
+
+            # Call the update_image_subscriber method in the GUI class to update subscriber
+            self.gui.update_image_subscriber()
+            
 
     
-    # Slot for the "Simular" button
+    # Slot for the "Sim" button
     def on_btn_sim_clicked(self):
         # Run the ROS2 launch file for simulation in a separate thread
         sim_thread = threading.Thread(target=self.launch_simulation)
@@ -1714,10 +1764,15 @@ class Ui_MainWindow(object):
             self.running_flag = True
         else:
             # Send the command to the existing subprocess
-            input_data = f"{recogida} {entrega}\n"
+            # Process is already running, send input data to the existing subprocess
+            if robot == 'any' or not robot:
+                # If 'robot' is 'any' or empty, exclude it from input_data
+                input_data = f"{recogida} {entrega}\n"
+            else:
+                # If 'robot' is not 'any', include it in input_data
+                input_data = f"{recogida} {entrega}{robot}\n"
             self.nav_process.stdin.write(input_data.encode("utf-8"))
             self.nav_process.stdin.flush()
-
     def execute_navigate(self, recogida, entrega, robot, num_robots):
         current_path = os.getcwd()
         scripts_path = os.path.join(current_path, 'scripts')
@@ -1766,8 +1821,14 @@ class Ui_MainWindow(object):
         if hasattr(self, 'nav_thread') and self.nav_thread.is_alive():
             self.nav_thread.join()
 
+        # When the application is closed, clean up the ROS 2 node and shutdown ROS 2
+        # Clean up the GUI instance if it exists
+        if hasattr(self, 'gui'):
+            self.gui.destroy_node()
+            
         # Continue with the default close event handling
         event.accept()
+        rclpy.shutdown()
 
 if __name__ == "__main__":
     import sys
@@ -1792,6 +1853,4 @@ if __name__ == "__main__":
 
     sys.exit(app.exec())
 
-    # When the application is closed, clean up the ROS 2 node
-    gui.destroy_node()
-    rclpy.shutdown()
+
