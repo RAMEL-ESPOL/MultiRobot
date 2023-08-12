@@ -14,37 +14,46 @@ import math
 
 class Task(Node):
 
-    def __init__(self, n_robots, id_goal1, id_goal2, id_robot):
-        super().__init__('Task'+str(id_robot)+'_'+str(id_goal1)+str(id_goal2))
+    def __init__(self, id_task, n_robots, id_robot, arg1 = 0, arg2 = 0):
+        super().__init__('Task_r'+str(id_robot))
 
         self.n_robots = n_robots
-        self.id_goal1 = id_goal1
-        self.id_goal2 = id_goal2
+        self.arg1 = arg1
+        self.arg2 = arg2
         self.id_robot = id_robot
-
-        self.subscription = self.create_subscription(
-            Poses,
-            'aruco_poses',
-            self.delivery,
-            10)
-        self.subscription  # prevent unused variable warning
+        self.task = id_task
+        
+        match id_task:
+            case 1:
+                self.subscription = self.create_subscription(
+                    Poses,
+                    'aruco_poses',
+                    self.delivery,
+                    10)
+                self.subscription  # prevent unused variable warning
+            case 2:
+                self.subscription = self.create_subscription(
+                    Poses,
+                    'aruco_poses',
+                    self.goPose,
+                    10)
+                self.subscription  # prevent unused variable warning
 
         
-
-
-    def delivery(self, msg):
+    def delivery(self, msg):    #arg1 -> goal1 & arg2 -> goal2
 
         self.markers_id = msg.marker_ids
         self.poses_array = msg.poses
 
-        marker_index = self.markers_id.index(self.id_goal1)
+        marker_index = self.markers_id.index(self.arg1)
         self.goal1 = PoseStamped()
         self.goal1.pose.position.x = self.poses_array[marker_index].position.x
         self.goal1.pose.position.y = self.poses_array[marker_index].position.y
         self.goal1.pose.position.z = 0.0
-        self.goal1.pose.orientation.x = self.poses_array[marker_index].orientation.x
-        self.goal1.pose.orientation.y = self.poses_array[marker_index].orientation.y
-        self.goal1.pose.orientation.z = 0.0
+        self.goal1.pose.orientation.x = 0.0
+        self.goal1.pose.orientation.y = 0.0
+        self.goal1.pose.orientation.z = self.poses_array[marker_index].orientation.z
+        self.goal1.pose.orientation.w = self.poses_array[marker_index].orientation.w
         self.goal1.header.stamp = self.get_clock().now().to_msg()
         self.goal1.header.frame_id = "map"
 
@@ -85,14 +94,15 @@ class Task(Node):
         if result1 == TaskResult.SUCCEEDED:
             print('Robot' +str(self.id_robot)+': Goal1 succeeded!')
 
-            marker_index2 = self.markers_id.index(self.id_goal2)
+            marker_index2 = self.markers_id.index(self.arg2)
             self.goal2 = PoseStamped()
             self.goal2.pose.position.x = self.poses_array[marker_index2].position.x
             self.goal2.pose.position.y = self.poses_array[marker_index2].position.y
             self.goal2.pose.position.z = 0.0
-            self.goal2.pose.orientation.x = self.poses_array[marker_index2].orientation.x
-            self.goal2.pose.orientation.y = self.poses_array[marker_index2].orientation.y
-            self.goal2.pose.orientation.z = 0.0
+            self.goal2.pose.orientation.x = 0.0
+            self.goal2.pose.orientation.y = 0.0
+            self.goal2.pose.orientation.z = self.poses_array[marker_index2].orientation.z
+            self.goal2.pose.orientation.w = self.poses_array[marker_index2].orientation.w
             self.goal2.header.stamp = self.get_clock().now().to_msg()
             self.goal2.header.frame_id = "map"
 
@@ -124,25 +134,74 @@ class Task(Node):
         #navigator.lifecycleShutdown()
         exit(1)
 
+    def goPose(self, msg):      #arg1 -> x_pose & arg2 -> y_pose
+
+        self.markers_id = msg.marker_ids
+        self.poses_array = msg.poses
+
+        self.goal1 = PoseStamped()
+        self.goal1.pose.position.x = self.arg1
+        self.goal1.pose.position.y = self.arg2
+        self.goal1.pose.position.z = 0.0
+        self.goal1.pose.orientation.x = 0.0
+        self.goal1.pose.orientation.y = 0.0
+        self.goal1.pose.orientation.z = 0.0
+        self.goal1.pose.orientation.w = 1.0
+        self.goal1.header.stamp = self.get_clock().now().to_msg()
+        self.goal1.header.frame_id = "map"
+
+        
+        navigator = MRSNavigator(namespace='/r'+str(self.id_robot))
+        #navigator.waitUntilNav2Active() # if autostarted, else use lifecycleStartup()
+
+        print('Robot' +str(self.id_robot)+': A navegar!!!')
+        navigator.goToPose(self.goal1)
+
+        i = 0
+        while not navigator.isTaskComplete():
+            #self.state_pub.publish(True)
+            i += 1
+
+        # Do something depending on the return code
+        result1 = navigator.getResult()
+        # Update robot's poses
+        initial_pose_cmd = "python3 initial_pose_publisher.py "+str(self.n_robots)+" "+str(self.id_robot)
+        print(initial_pose_cmd)
+        os.system(initial_pose_cmd)
+        if result1 == TaskResult.SUCCEEDED:
+            print('Robot' +str(self.id_robot)+': Goal succeeded!')
+            self.result = True
+        else:
+            print('Robot' +str(self.id_robot)+': Goal failed!')
+            self.result = False
+        
+        exit(1)
+
 
 def main(args=None):
 
     # Pass the arguments
     import sys
-    if len(sys.argv) < 4:
-        print("Usage: python3 goal_publisher.py <n_robots> <id_goal1> <id_goal1> <id_robot>(optional)")
+    if len(sys.argv) < 5:
+        print("Usage: python3 goal_publisher.py <id_task> <n_robots> <arg1> <arg2> <id_robot>(optional)")
         return
 
-    n_robots = int(sys.argv[1])
-    id_goal1 = int(sys.argv[2])
-    id_goal2 = int(sys.argv[3])
+    id_task = int(sys.argv[1])
+    n_robots = int(sys.argv[2])
     id_robot = 0
-    if len(sys.argv) == 5:
-        id_robot = int(sys.argv[4])
+    match id_task:
+        case 1:
+            arg1 = int(sys.argv[3])
+            arg2 = int(sys.argv[4])
+        case 2:
+            arg1 = float(sys.argv[3])
+            arg2 = float(sys.argv[4])
+    if len(sys.argv) == 6:
+        id_robot = int(sys.argv[5])
 
     rclpy.init(args=args)
-    task_manager = Task(n_robots, id_goal1, id_goal2, id_robot)
-    rclpy.spin_once(task_manager)
+    task = Task(id_task, n_robots, id_robot, arg1, arg2)
+    rclpy.spin_once(task)
     """
     id_robot = task_managerg1.id_robot
     task_managerg2 = Task(id_goal2, id_robot)
@@ -169,7 +228,7 @@ def main(args=None):
     """
     #future = goal_publisher.goToPose()
     #rclpy.spin_until_future_complete(goal_publisher, future) 
-    task_manager.destroy_node()
+    task.destroy_node()
     rclpy.shutdown()
 
 
