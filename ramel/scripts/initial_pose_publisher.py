@@ -75,14 +75,14 @@ class InitialPosePublisher(Node):
             )
             msg = PoseWithCovarianceStamped()
             for id in self.markers_id:
-                if((int(robot_topic[-1])+9) == id):
+                if((int(robot_topic[1:])+9) == id):
                     #print(self.poses_array[0])
                     marker_index = self.markers_id.index(id)
                     msg.pose.pose.position.x = self.poses_array[marker_index].position.x
                     msg.pose.pose.position.y = self.poses_array[marker_index].position.y
                     msg.pose.pose.position.z = 0.0
-                    msg.pose.pose.orientation.x = self.poses_array[marker_index].orientation.x
-                    msg.pose.pose.orientation.y = self.poses_array[marker_index].orientation.y
+                    msg.pose.pose.orientation.x = 0.0
+                    msg.pose.pose.orientation.y = 0.0
                     msg.pose.pose.orientation.z = self.poses_array[marker_index].orientation.z
                     msg.pose.pose.orientation.w = self.poses_array[marker_index].orientation.w
                     msg.pose.covariance[6*0+0] = 0.5 * 0.5
@@ -101,20 +101,6 @@ class InitialPosePublisher(Node):
                 #msg.data = 'Hello World: %d' % self.i
                     self.publisher_.publish(msg)
 
-
-    def initialPoses_callback(self, msg, robot_topic):
-        msg = PoseWithCovarianceStamped()
-        for id in self.markers_id:
-            if((int(robot_topic[-1])-1) == id):
-                msg.pose.pose = self.poses_array[0]
-                break
-        msg.header.stamp = self.get_clock().now().to_msg()
-        msg.header.frame_id = "map"
-
-        #msg.data = 'Hello World: %d' % self.i
-        self.publisher_.publish(msg)
-        #self.get_logger().info('Publishing: "%s"' % msg.data)
-        #self.i += 1
 
 
 def main(args=None):

@@ -148,19 +148,19 @@ def generate_launch_description():
         actions=[create3_spawn_cmd_2],
     )
     delay_create3 = TimerAction(
-        period=20.0,
+        period=30.0,
         actions=[create3_spawn_cmd_3],
     )
     delay_create4 = TimerAction(
-        period=30.0,
+        period=50.0,
         actions=[create3_spawn_cmd_4],
     )
     delay_create5 = TimerAction(
-        period=40.0,
+        period=70.0,
         actions=[create3_spawn_cmd_5],
     )
     delay_create6 = TimerAction(
-        period=50.0,
+        period=90.0,
         actions=[create3_spawn_cmd_6],
     )
 
