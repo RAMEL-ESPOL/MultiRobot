@@ -56,6 +56,11 @@
 
   <xacro:property name="base_link_z_offset"     value="${6.42*cm2m}"/>
 
+  <!-- this color take effect only on rviz -->
+  <material name="red">
+    <color rgba="1.0 0.0 0.0 1.0"/> <!-- rviz green color -->
+  </material>
+
   <!-- Docking properties -->
   <xacro:property name="robot_model_name" value="create3"/>
   <xacro:property name="receiver_link_name" value="ir_omni"/>
@@ -149,28 +154,28 @@
   <joint name="laser_joint" type="fixed">
         <parent link="base_link"/>
         <child link="laser_frame"/>
-        <origin xyz="0.1 0 0.175" rpy="0 0 0"/>
+        <origin xyz="-0.10 0 0.185" rpy="0 0 0"/>
   </joint>
  
   <link name="laser_frame">
       <visual>
           <geometry>
-              <cylinder radius="0.05" length="0.04"/>
+              <cylinder radius="0.03" length="0.03"/>
           </geometry>
           <material name="red"/>
       </visual>
       <collision>
           <geometry>
-              <cylinder radius="0.05" length="0.04"/>
+              <cylinder radius="0.03" length="0.03"/>
           </geometry>
       </collision>
-      <xacro:inertial_cylinder mass="0.1" length="0.04" radius="0.05">
+      <xacro:inertial_cylinder mass="0.1" length="0.03" radius="0.03">
       </xacro:inertial_cylinder>
   </link> 
   <joint name="aruco_joint" type="fixed">
-        <parent link="base_link"/>
+        <parent link="imu_link"/>
         <child link="aruco_frame"/>
-        <origin xyz="-0.05 0.05 0.10" rpy="0 1.57079632679 -1.57079632679"/>
+        <origin xyz="0.0 0.05 0.01" rpy="0 1.57079632679 -1.57079632679"/>
   </joint>
   <link name="aruco_frame">
       <visual>
