@@ -19,9 +19,18 @@ from navigator_client import Task
 class Manager(Node):
 
     def __init__(self, n_robot):
-        super().__init__('Manager')
+        super().__init__('Manager_node')
 
         self.n_robot = n_robot
+        # 0 for free and 1 for busy
+        self.state_robot = [0]*self.n_robot
+        self.markers_id = []
+        self.poses_array = []
+        self.first_run = True
+
+        initial_pose_cmd = "python3 initial_pose_publisher.py "+str(n_robot)
+        print(initial_pose_cmd)
+        os.system(initial_pose_cmd)
 
         self.subscription = self.create_subscription(
             Poses,
@@ -29,62 +38,99 @@ class Manager(Node):
             self.checkRobots,
             10)
         self.subscription  # prevent unused variable warning
+     
+        #_thread = threading.Thread(target=asyncio.run, args=(self.manager(),))
+        #_thread.start()
 
-        #self.state_pub = self.create_publisher(RobotStates, '/r'+str(self.id_robot)+'/busy', 10)
     
     def checkRobots(self, msg):
         self.markers_id = msg.marker_ids
         self.poses_array = msg.poses
-        # 0 for free and 1 for busy
-        self.state_robot = [0]*self.n_robot
+        if self.first_run:
+            _thread = threading.Thread(target=asyncio.run, args=(self.manager(),))
+            _thread.start()
+            self.first_run = False
+        
+        #print(self.poses_array)
         #self.state_pub.publish(self.state_robot)
 
+    async def manager(self):
+        while True:
+            if(len(self.markers_id)>0):
+                ip = input('Params for navigation: <id_task> <arg1> <arg2> <id_robot>(optional).\n')
+                print('Params received:', ip, '.')
+                params = ip.split()
+                id_task = int(params[0])
+                robot = 0
+                print('Estados de los robots antes del viaje:', end="")
+                print(self.state_robot)
+                match id_task:
+                    case 1:
+                        arg1 = int(params[1])
+                        arg2 = int(params[2])
+                    case 2:
+                        arg1 = float(params[1])
+                        arg2 = float(params[2])
+                if len(params)>3:
+                    if(not self.state_robot[int(params[3])-1]):
+                        robot = int(params[3])
+                else:
+                    match id_task:
+                        case 1:
+                            self.select_robot_goal(arg1)
+                            robot = self.id_robot
+                        case 2:
+                            self.select_robot_pose(arg1, arg2)
+                            robot = self.id_robot
+                if robot:
+                    self.state_robot[robot-1] = 1
+                    print('States after selection', end="")
+                    print(self.state_robot)
+                    #with concurrent.futures.ProcessPoolExecutor() as pool:
+                    _thread = threading.Thread(target=asyncio.run, args=(self.exec_nav(id_task, self.n_robot, arg1, arg2, robot),))
+                    _thread.start()
+                else:
+                    print("No avalible robot")
 
-    def select_robot(self, id_goal1):
+
+    def select_robot_goal(self, id_goal1):
         self.id_goal1 = id_goal1
-        marker_index = self.markers_id.index(self.id_goal1)
-        self.goal1 = PoseStamped()
-        self.goal1.pose.position.x = self.poses_array[marker_index].position.x
-        self.goal1.pose.position.y = self.poses_array[marker_index].position.y
-        self.goal1.pose.position.z = 0.0
-        self.goal1.pose.orientation.x = self.poses_array[marker_index].orientation.x
-        self.goal1.pose.orientation.y = self.poses_array[marker_index].orientation.y
-        self.goal1.pose.orientation.z = 0.0
-        self.goal1.header.stamp = self.get_clock().now().to_msg()
-        self.goal1.header.frame_id = "map"
+        marker_goal = self.markers_id.index(self.id_goal1)
 
+        self.id_robot = 0
         mindistance = +inf
         for id in self.markers_id:
             if(id > 9):
-                marker_index = self.markers_id.index(id)
-                distance_sqrt = (self.goal1.pose.position.x - self.poses_array[marker_index].position.x)**2 + (self.goal1.pose.position.y - self.poses_array[marker_index].position.y)**2  
+                marker_robot = self.markers_id.index(id)
+                distance_sqrt = (self.poses_array[marker_goal].position.x - self.poses_array[marker_robot].position.x)**2 + (self.poses_array[marker_goal].position.y - self.poses_array[marker_robot].position.y)**2  
                 if(distance_sqrt < mindistance and not self.state_robot[id-10]): #and not self.state_robot[id-9]
                     mindistance = distance_sqrt
                     self.id_robot = (id - 9)
-        self.state_robot[self.id_robot-1] = 1
-        print('States after selection', end="")
+
+    def select_robot_pose(self, x_pose, y_pose):
+        self.id_robot = 0
+        mindistance = +inf
+        for id in self.markers_id:
+            if(id > 9):
+                marker_robot = self.markers_id.index(id)
+                distance_sqrt = (x_pose - self.poses_array[marker_robot].position.x)**2 + (y_pose - self.poses_array[marker_robot].position.y)**2  
+                if(distance_sqrt < mindistance and not self.state_robot[id-10]): #and not self.state_robot[id-9]
+                    mindistance = distance_sqrt
+                    self.id_robot = (id - 9)
+
+    async def exec_nav(self, id_task, nrobots, arg1, arg2, id_robot):
+        #navigation = ['python3', 'navigator_client.py', str(id_goal1), str(id_goal2), str(id_robot)]
+        navigation = 'python3 navigator_client.py '+str(id_task)+' '+str(nrobots)+' '+ str(arg1)+' '+ str(arg2)+' '+ str(id_robot)
+        print(navigation)
+        process = await asyncio.create_subprocess_shell(navigation)
+        #print('Navegation of the robot ' + str(id_robot) + ": ", end="")
+        await process.wait()
+        self.state_robot[id_robot-1] = 0
+        print(process.returncode)
+        print('Estados de los robots despues del viaje:', end="")
         print(self.state_robot)
-
-async def exec_nav(nrobots, id_goal1, id_goal2, id_robot, manager):
-    #navigation = ['python3', 'navigator_client.py', str(id_goal1), str(id_goal2), str(id_robot)]
-    navigation = 'python3 navigator_client.py '+str(nrobots)+' '+ str(id_goal1)+' '+ str(id_goal2)+' '+ str(id_robot)
-    print(navigation)
-    process = await asyncio.create_subprocess_shell(navigation)
-    #print('Navegation of the robot ' + str(id_robot) + ": ", end="")
-    await process.wait()
-    manager.state_robot[id_robot-1] = 0
-    print(process.returncode)
-    print('Estados de los robots despues del viaje:', end="")
-    print(manager.state_robot)
-    return process.returncode
-
-
-def exec_task(id_goal1, id_goal2, id_robot):
-    navigation = ['python3', 'navigator_client.py', str(id_goal1), str(id_goal2), str(id_robot)]
-    #navigation = 'python3 navigator_client.py '+ str(id_goal1)+' '+ str(id_goal2)+' '+ str(id_robot)
-    print(navigation)
-    process = subprocess.run(navigation)
-    return process.returncode
+        return process.returncode
+    
 
 def main(args=None):
 
@@ -96,32 +142,38 @@ def main(args=None):
     
 
     nrobots = int(sys.argv[1])
-    while_arg = True
     rclpy.init()
     manager = Manager(nrobots)
-    rclpy.spin_once(manager)
+    rclpy.spin(manager)
+    manager.destroy_node()
+    rclpy.shutdown()
     #loop = asyncio.get_running_loop()
-    initial_pose_cmd = "python3 initial_pose_publisher.py "+str(nrobots)
-    print(initial_pose_cmd)
-    os.system(initial_pose_cmd)
     
-    while while_arg:
-         
-        ip = input('Params for navigation: <id_goal1> <id_goal1> <id_robot>(optional).\n')
+    """
+    while while_arg:         
+        ip = input('Params for navigation: <id_task> <arg1> <arg2> <id_robot>(optional).\n')
         print('Params received:', ip, '.')
         params = ip.split()
-        goal1 = int(params[0])
-        goal2 = int(params[1])
+        id_task = int(params[0])
         robot = 0
         print('Estados de los robots antes del viaje:', end="")
         print(manager.state_robot)
-        if len(params)>2:
-            robot = int(params[2])
+        if len(params)>3:
+            robot = int(params[3])
         else:
-            manager.select_robot(goal1)
-            robot = manager.id_robot
+            match id_task:
+                case 1:
+                    arg1 = int(params[1])
+                    arg2 = int(params[2])
+                    manager.select_robot_goal(arg1)
+                    robot = manager.id_robot
+                case 2:
+                    arg1 = float(params[1])
+                    arg2 = float(params[2])
+                    manager.select_robot_pose(arg1, arg2)
+                    robot = manager.id_robot
         #with concurrent.futures.ProcessPoolExecutor() as pool:
-        _thread = threading.Thread(target=asyncio.run, args=(exec_nav(nrobots, goal1, goal2, robot, manager),))
+        _thread = threading.Thread(target=asyncio.run, args=(exec_nav(id_task, nrobots, arg1, arg2, robot, manager),))
         _thread.start()
         #result = await loop.run_in_executor(pool, exec_task(goal1, goal2, robot))
         #print('Navegation of the robot ' + str(robot) + ": ", end="")
@@ -129,7 +181,7 @@ def main(args=None):
         #manager.state_robot[robot-1] = 0
 
         #manager.state_robot[robot] = 0
-
+    """
 
 if __name__ == '__main__':
     asyncio.run(main())
