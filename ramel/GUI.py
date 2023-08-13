@@ -1767,10 +1767,10 @@ class Ui_MainWindow(object):
             # Process is already running, send input data to the existing subprocess
             if robot == 'any' or not robot:
                 # If 'robot' is 'any' or empty, exclude it from input_data
-                input_data = f"{recogida} {entrega}\n"
+                input_data = f"1 {recogida} {entrega}\n"
             else:
                 # If 'robot' is not 'any', include it in input_data
-                input_data = f"{recogida} {entrega}{robot}\n"
+                input_data = f"1 {recogida} {entrega} {robot}\n"
             self.nav_process.stdin.write(input_data.encode("utf-8"))
             self.nav_process.stdin.flush()
     def execute_navigate(self, recogida, entrega, robot, num_robots):
@@ -1786,7 +1786,7 @@ class Ui_MainWindow(object):
                                             shell=False)
 
         # Send the initial command to the subprocess
-        input_data = f"{recogida} {entrega}\n"
+        input_data = f"1 {recogida} {entrega}\n"
         self.nav_process.stdin.write(input_data.encode("utf-8"))
         self.nav_process.stdin.flush()
         

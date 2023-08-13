@@ -216,6 +216,24 @@
         </include>
         <pose frame=''>-0.276098 -9.481944 0.023266 0 0 0</pose>
 	</model>
+      <model name='Marker0'>
+        <include>
+            <uri>model://marker0</uri>
+        </include>
+        <pose frame=''>-0.744721 1.397041 1.320892 3.1416 -1.57 3.1416</pose>
+	</model>
+      <model name='Marker1'>
+        <include>
+            <uri>model://marker1</uri>
+        </include>
+        <pose frame=''>-4.806464 -0.287546 1.846201 3.1416 -1.57 3.1416</pose>
+	</model>
+      <model name='Marker2'>
+        <include>
+            <uri>model://marker2</uri>
+        </include>
+        <pose frame=''>-1.155863 -8.509246 1.520578 3.1416 -1.57 3.1416</pose>
+	</model>
 
     	
     <light name="Warehouse_CeilingLight_003" type="point">
