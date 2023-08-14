@@ -32,6 +32,7 @@ install(DIRECTORY
   world
   map
   rviz
+  models
   DESTINATION share/${PROJECT_NAME}
 )
 endif()

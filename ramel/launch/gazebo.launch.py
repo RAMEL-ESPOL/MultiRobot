@@ -19,16 +19,25 @@ def generate_launch_description():
         'world',
         'lab_ramel_2.world'
     )
+
     pkg_irobot_create_description = get_package_share_directory('irobot_create_description')
-    # Set ignition resource path
+    gazebo_models_create_path = os.path.join(pkg_irobot_create_description, 'models')
+
+    pkg_share = get_package_share_directory('ramel')
+    gazebo_models_path = os.path.join(pkg_share, 'models:')
+    os.environ["GAZEBO_MODEL_PATH"] = gazebo_models_path
+    #os.environ["GAZEBO_MODEL_PATH"] = gazebo_models_create_path
+
+
+        # Set ignition resource path
     gz_resource_path = SetEnvironmentVariable(name='GAZEBO_MODEL_PATH', value=[
                                                 EnvironmentVariable('GAZEBO_MODEL_PATH',
                                                                     default_value=''),
                                                 '/usr/share/gazebo-11/models/:',
-                                                str(Path(pkg_irobot_create_description).
-                                                    parent.resolve())])
-    # Set GAZEBO_MODEL_URI to empty string to prevent Gazebo from downloading models
-    gz_model_uri = SetEnvironmentVariable(name='GAZEBO_MODEL_URI', value=[''])
+                                                str(Path(pkg_irobot_create_description).parent.resolve())])
+
+
+
     # Gazebo server
     gzserver = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -48,7 +57,6 @@ def generate_launch_description():
     # Define LaunchDescription variable
     ld = LaunchDescription()
     ld.add_action(gz_resource_path)
-    ld.add_action(gz_model_uri)
     ld.add_action(gzserver)
     ld.add_action(gzclient_cmd)
     return ld

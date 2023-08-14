@@ -88,18 +88,19 @@ class InitialPosePublisher(Node):
                     msg.pose.covariance[6*0+0] = 0.5 * 0.5
                     msg.pose.covariance[6*1+1] = 0.5 * 0.5
                     msg.pose.covariance[6*5+5] = math.pi/12.0 * math.pi/12.0
+                    msg.header.stamp = self.get_clock().now().to_msg()
+                    msg.header.frame_id = "map"
+                    if (self.robot_interest == 0):
+                        print('Initial pose for robot '+str(robot_topic)+' published')
+                    #msg.data = 'Hello World: %d' % self.i
+                        self.publisher_.publish(msg)
+                    else:
+                        if (self.robot_interest == int(robot_topic[-1])):
+                            print('Initial pose for robot '+str(robot_topic)+' published')
+                        #msg.data = 'Hello World: %d' % self.i
+                            self.publisher_.publish(msg)
                     break
-            msg.header.stamp = self.get_clock().now().to_msg()
-            msg.header.frame_id = "map"
-            if (self.robot_interest == 0):
-                print('Initial pose for robot '+str(robot_topic)+' published')
-            #msg.data = 'Hello World: %d' % self.i
-                self.publisher_.publish(msg)
-            else:
-                if (self.robot_interest == int(robot_topic[-1])):
-                    print('Initial pose for robot '+str(robot_topic)+' published')
-                #msg.data = 'Hello World: %d' % self.i
-                    self.publisher_.publish(msg)
+            
 
 
 
