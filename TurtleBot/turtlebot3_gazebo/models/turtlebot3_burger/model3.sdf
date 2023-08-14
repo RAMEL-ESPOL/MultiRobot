@@ -360,6 +360,23 @@
         <xyz>0 0 1</xyz>
       </axis>
     </joint>
+    
+    <link name="marker_link">
+      <visual name="visual">
+        <pose>-0.03 0.05 0.18 0 1.57079632679 -1.57079632679</pose>
+        <geometry>
+          <mesh>
+            <uri>model://turtlebot3_common/meshes/Marker13.dae</uri>
+            <scale>0.2 0.2 0.2</scale></mesh>
+        </geometry>
+      </visual>
+    </link>
+
+    <joint name="marker_joint" type="fixed">
+      <parent>base_link</parent>
+      <child>marker_link</child>
+      <pose>0 0 0 0 0 0</pose>
+    </joint>
 
     <plugin name="turtlebot3_diff_drive" filename="libgazebo_ros_diff_drive.so">
 
