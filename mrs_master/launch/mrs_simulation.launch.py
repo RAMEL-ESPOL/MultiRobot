@@ -19,18 +19,18 @@ def generate_launch_description():
 
     # Specify the path to the first launch file
     gazebo = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(os.path.join(get_package_share_directory('ramel'), 'launch', 'gazebo.launch.py'))
+        PythonLaunchDescriptionSource(os.path.join(get_package_share_directory('mrs_master'), 'launch', 'gazebo.launch.py'))
     )
 
     # Specify the path to the second launch file
     multi_robot = IncludeLaunchDescription(
-        #PythonLaunchDescriptionSource(os.path.join(get_package_share_directory('ramel'), 'launch', 'multi_create.launch.py'))
-        PythonLaunchDescriptionSource(os.path.join(get_package_share_directory('ramel'), 'launch', 'multi_robot_simulation.launch.py'))
+        #PythonLaunchDescriptionSource(os.path.join(get_package_share_directory('mrs_master'), 'launch', 'multi_create.launch.py'))
+        PythonLaunchDescriptionSource(os.path.join(get_package_share_directory('mrs_master'), 'launch', 'multi_robot_simulation.launch.py'))
     )
 
     # Specify the path to the third launch file
     multi_cam = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(os.path.join(get_package_share_directory('ramel'), 'launch', 'multi_cam_simulation.launch.py')), launch_arguments={'number': LaunchConfiguration('number'),}.items()
+        PythonLaunchDescriptionSource(os.path.join(get_package_share_directory('mrs_master'), 'launch', 'multi_cam_simulation.launch.py')), launch_arguments={'number': LaunchConfiguration('number'),}.items()
     )
     # Add a delay of 5 seconds
     multi_robot_delay = TimerAction(

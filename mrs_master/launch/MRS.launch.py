@@ -10,13 +10,13 @@ def generate_launch_description():
     # Create a LaunchDescription instance
     ld = LaunchDescription()
 
-    # Define the path to ramel package
-    ramel_path = get_package_share_directory('ramel')
+    # Define the path to mrs_master package
+    mrs_master_path = get_package_share_directory('mrs_master')
 
     # Define the launch arguments to pass
     map_file_arg = DeclareLaunchArgument(
         "map",
-        default_value=os.path.join(ramel_path, 'map', 'ramel_map.yaml'),
+        default_value=os.path.join(mrs_master_path, 'map', 'ramel_map.yaml'),
         description="Path to the map file"
     )
     use_namespace_arg = DeclareLaunchArgument(
@@ -49,7 +49,7 @@ def generate_launch_description():
 
     # Include the launch file using IncludeLaunchDescription
     mrs_bringup_launch = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(os.path.join(ramel_path, 'launch', 'bringup_launch.py')),
+        PythonLaunchDescriptionSource(os.path.join(mrs_master_path, 'launch', 'bringup_launch.py')),
         launch_arguments={
             "map": LaunchConfiguration("map"),
             "use_namespace": LaunchConfiguration("use_namespace"),
@@ -64,18 +64,18 @@ def generate_launch_description():
         executable='rviz2',
         name='rviz2',
         #output='screen',
-        arguments=['-d', os.path.join(get_package_share_directory('ramel'),'rviz','nav2.rviz')]
+        arguments=['-d', os.path.join(get_package_share_directory('mrs_master'),'rviz','nav2.rviz')]
     )
     # Create the Pose FIlter node
     aruco_filter = Node(
-        package='ramel',
+        package='mrs_master',
         executable='aruco_pose_filter.py',
         name='aruco_filter',
         output='screen',
         arguments=['3']
     )
     pose_publisher = Node(
-        package='ramel',
+        package='mrs_master',
         executable='initial_pose_publisher.py',
         name='pose_publisher',
         output='screen',

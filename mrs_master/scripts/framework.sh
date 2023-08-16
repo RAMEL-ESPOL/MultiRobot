@@ -4,7 +4,7 @@
 script_dir="$(dirname "$(readlink -f "$0")")"
 
 # Navigate to the parent directory
-cd "$script_dir/../../.."
+cd "$script_dir/../../../.."
 
 
 # Source the setup script

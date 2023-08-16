@@ -13,13 +13,13 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
     slam_r1 = IncludeLaunchDescription(
-    PythonLaunchDescriptionSource(os.path.join(get_package_share_directory('ramel'),'launch','slam.launch.py')),
+    PythonLaunchDescriptionSource(os.path.join(get_package_share_directory('mrs_master'),'launch','slam.launch.py')),
     	launch_arguments={
     		'namespace': 'r2',
         }.items()
     )
     slam_r2 = IncludeLaunchDescription(
-    PythonLaunchDescriptionSource(os.path.join(get_package_share_directory('ramel'),'launch','slam.launch.py')),
+    PythonLaunchDescriptionSource(os.path.join(get_package_share_directory('mrs_master'),'launch','slam.launch.py')),
     	launch_arguments={
     		'namespace': 'r3',
         }.items()
@@ -30,7 +30,7 @@ def generate_launch_description():
         executable='rviz2',
         name='rviz2',
         output='screen',
-        arguments=['-d', os.path.join(get_package_share_directory('ramel'),'config','slam_config.rviz')]
+        arguments=['-d', os.path.join(get_package_share_directory('mrs_master'),'config','slam_config.rviz')]
     )
     # Create the RViz2 node
     rviz_node2 = Node(
@@ -38,7 +38,7 @@ def generate_launch_description():
         executable='rviz2',
         name='rviz2_2',
         output='screen',
-        arguments=['-d', os.path.join(get_package_share_directory('ramel'),'config','slam_config2.rviz')]
+        arguments=['-d', os.path.join(get_package_share_directory('mrs_master'),'config','slam_config2.rviz')]
     )
 
     # Add the commands to the launch description

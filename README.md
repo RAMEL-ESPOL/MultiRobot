@@ -12,7 +12,7 @@ MRS Framework is a is a comprehensive platform (built by Anthonny Piguave and Di
 The MRS Framework is designed to be versatile, enabling researchers and developers to experiment with different robot types, test various algorithms, and build complex multirobot systems that can handle diverse tasks in real-world scenarios. By providing these core modules and simulation environments, the MRS Framework accelerates the development and deployment of multirobot applications while fostering collaboration and innovation in the field of robotics.
 ## Framework Overview
 An overview of the framework modules and communications is presented below:
-![Overview](images/overview.png)
+![Overview](mrs_images/overview.png)
 ## Installation
 1.- Clone the github repository in a workspace source folder. (ws/src)
 ```sh
@@ -64,14 +64,31 @@ For instance, if I want the nearest robot to pick-up a box in station 1 and leav
 ```
 ## Graphical User Interface
 For installing the GUI desktop aplication follow this setps.
+
 0.- Navigate to workspace directory.
+
 1.- Navigate to ramel directory.
 ```sh
 cd src/MultiRobot/ramel
 ```
-2.- Move the GUI application to Desktop
+2.- Open framework.desktop and modify paths
+> Exec=/path/multirobots/src/MultiRobot/mrs_master/scripts/framework.sh
+> Icon=/path/multirobots/src/MultiRobot/mrs_images/icon.png
+
+3.- Move the GUI application to Desktop
 ```sh
 mv framework.desktop ~/Desktop/
 ```
+4.- Right click the icon and choose "Allow launching"
+
 Now you are able to open the GUI from Desktop.
-![GUI](images/GUI.png)
+![GUI](mrs_images/GUI.png)
+## Package Structure
+The package structure is the following:
+- mrs_agents includes the robots' packages
+- mrs_computer_vision includes the aruco libraries
+- mrs_images
+- mrs_master contains the framework and task master
+- mrs_sensors contains cameras' and other sensors' packages
+- mrs_ros2_dependencies contains cyclonedds configuration
+![folder_structure](mrs_images/folder_structure.png)

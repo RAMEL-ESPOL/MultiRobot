@@ -1715,13 +1715,12 @@ class Ui_MainWindow(object):
 
     def launch_simulation(self):
         # Use subprocess.Popen to launch the ROS2 launch process and store the process object
-        self.sim_process = subprocess.Popen(["ros2", "launch", "ramel", "ramel_mrs_sim.launch.py"], preexec_fn=os.setsid)
+        self.sim_process = subprocess.Popen(["ros2", "launch", "mrs_master", "mrs_simulation.launch.py"], preexec_fn=os.setsid)
         
     # Slot for the "Initialize" button
     def on_btn_initialize_clicked(self):
         current_path = os.getcwd()
-        scripts_path = os.path.join(current_path, 'scripts')
-        script_path = os.path.join(scripts_path, 'initial_pose_publisher.py')
+        script_path = os.path.join(current_path, 'initial_pose_publisher.py')
         num_robots = self.num_robots.value()
         command = ["python3", script_path, str(num_robots)]
 
@@ -1744,7 +1743,7 @@ class Ui_MainWindow(object):
 
     def launch_framework(self, num_robots, num_cameras):
         # Use subprocess.Popen to launch the ROS2 launch process and store the process object
-        self.framework_process = subprocess.Popen(["ros2", "launch", "ramel", "MRS.launch.py",
+        self.framework_process = subprocess.Popen(["ros2", "launch", "mrs_master", "MRS.launch.py",
                                                    "n:={}".format(num_robots),
                                                    #"num_cam:={}".format(num_cameras)
                                                    ], preexec_fn=os.setsid)
@@ -1773,32 +1772,22 @@ class Ui_MainWindow(object):
                 input_data = f"1 {recogida} {entrega} {robot}\n"
             self.nav_process.stdin.write(input_data.encode("utf-8"))
             self.nav_process.stdin.flush()
-    def execute_navigate(self, recogida, entrega, robot, num_robots):
+    def execute_navigate(self, num_robots):
         current_path = os.getcwd()
-        scripts_path = os.path.join(current_path, 'scripts')
 
         # Start the subprocess only once
         self.nav_process = subprocess.Popen(["python3", "mrs_manager.py", str(num_robots)],
-                                            cwd=scripts_path,
+                                            cwd=current_path,
                                             stdin=subprocess.PIPE,
                                             stdout=subprocess.PIPE,
                                             stderr=subprocess.PIPE,
                                             shell=False)
-
+                                        
         # Send the initial command to the subprocess
         input_data = f"1 {recogida} {entrega}\n"
         self.nav_process.stdin.write(input_data.encode("utf-8"))
         self.nav_process.stdin.flush()
-        
-       # if robot == 'any':
-            # If robot is empty, execute the navigation with only recogida and entrega parameters
-        #    self.nav_process = subprocess.Popen(["python3", "navigator_client.py", recogida, entrega],cwd=scripts_path)
-        #else:
-            # If robot is not empty, execute the navigation with all parameters
-          #  self.nav_process = subprocess.Popen(["python3", "navigator_client.py", recogida, entrega, robot],
-           # preexec_fn=os.setsid,cwd=scripts_path)
-    
-    
+                                                      
     # Function to be called when the window is closed
     def on_window_closed(self, event):
         # Terminate the ROS2 launch processes by sending the Ctrl+C signal

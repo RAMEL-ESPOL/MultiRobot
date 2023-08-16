@@ -53,7 +53,7 @@ def localization_n_robots(context, *args, **kwargs):
     for i in range(robot_count):
         robot_namespace = f'r{i+1}'
         #tf_prefix = f'r{i}/'  # Set the tf_prefix for the robot
-        params_file = os.path.join(get_package_share_directory('ramel'), 'config', 'nav2_multirobot_params.yaml')
+        params_file = os.path.join(get_package_share_directory('mrs_master'), 'config', 'nav2_multirobot_params.yaml')
         # Create our own temporary YAML files that include substitutions
         param_substitutions = {
         'use_sim_time': use_sim_time,
@@ -121,7 +121,7 @@ def generate_launch_description():
 
     declare_map_yaml_cmd = DeclareLaunchArgument(
         'map',
-        default_value=os.path.join(get_package_share_directory('ramel'), 'map', 'ramel_map.yaml'),
+        default_value=os.path.join(get_package_share_directory('mrs_master'), 'map', 'ramel_map.yaml'),
         description='Full path to map yaml file to load'
     )
 
@@ -133,7 +133,7 @@ def generate_launch_description():
 
     declare_params_file_cmd = DeclareLaunchArgument(
         'params_file',
-        default_value=os.path.join(get_package_share_directory('ramel'), 'config', 'nav2_multirobot_params.yaml'),
+        default_value=os.path.join(get_package_share_directory('mrs_master'), 'config', 'nav2_multirobot_params.yaml'),
         description='Full path to the ROS2 parameters file to use for all launched nodes'
     )
 

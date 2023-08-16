@@ -3,8 +3,8 @@
 Version=1.0
 Name=MultiRobot Framework
 Comment=Run the MultiRobot Framework
-Exec=/home/diego/multirobots/src/MultiRobot/ramel/framework.sh
-Icon=/home/diego/multirobots/src/MultiRobot/ramel/icon.png
+Exec=/home/diego/multirobots/src/MultiRobot/mrs_master/scripts/framework.sh
+Icon=/home/diego/multirobots/src/MultiRobot/mrs_images/icon.png
 Terminal=false
 Type=Application
 #Categories=Utility;

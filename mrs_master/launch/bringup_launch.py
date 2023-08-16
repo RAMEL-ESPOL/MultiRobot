@@ -29,9 +29,9 @@ import yaml
 
 def navigation_n_robots(context, *args, **kwargs):
     # Get the launch directory
-    ramel_dir = get_package_share_directory('ramel')
+    mrs_master_dir = get_package_share_directory('mrs_master')
     bringup_dir = get_package_share_directory('nav2_bringup')
-    launch_dir = os.path.join(ramel_dir, 'launch')
+    launch_dir = os.path.join(mrs_master_dir, 'launch')
     
     # Create the launch configuration variables
     namespace = LaunchConfiguration('namespace')
@@ -50,7 +50,7 @@ def navigation_n_robots(context, *args, **kwargs):
     
     for i in range(robot_count):
         robot_namespace = f'r{i+1}'
-        params_file_i = os.path.join(get_package_share_directory('ramel'), 'config', 'nav2_multirobot_params.yaml')
+        params_file_i = os.path.join(get_package_share_directory('mrs_master'), 'config', 'nav2_multirobot_params.yaml')
 	# Create our own temporary YAML files that include substitutions
         param_substitutions = {
             'use_sim_time': use_sim_time,
@@ -86,9 +86,9 @@ def navigation_n_robots(context, *args, **kwargs):
         
 def generate_launch_description():
     # Get the launch directory
-    ramel_dir = get_package_share_directory('ramel')
+    mrs_master_dir = get_package_share_directory('mrs_master')
     bringup_dir = get_package_share_directory('nav2_bringup')
-    launch_dir = os.path.join(ramel_dir, 'launch')
+    launch_dir = os.path.join(mrs_master_dir, 'launch')
 
     # Create the launch configuration variables
     namespace = LaunchConfiguration('namespace')
@@ -139,7 +139,7 @@ def generate_launch_description():
 
     declare_params_file_cmd = DeclareLaunchArgument(
         'params_file',
-        default_value=os.path.join(ramel_dir, 'config', 'nav2_multirobot_params.yaml'),
+        default_value=os.path.join(mrs_master_dir, 'config', 'nav2_multirobot_params.yaml'),
         description='Full path to the ROS2 parameters file to use for all launched nodes')
 
     declare_autostart_cmd = DeclareLaunchArgument(

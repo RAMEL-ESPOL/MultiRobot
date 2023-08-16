@@ -15,15 +15,15 @@ def generate_launch_description():
     
     pkg_gazebo_ros = get_package_share_directory('gazebo_ros')
     world = os.path.join(
-        get_package_share_directory('ramel'),
+        get_package_share_directory('mrs_master'),
         'world',
-        'lab_ramel_2.world'
+        'ramel.world'
     )
 
     pkg_irobot_create_description = get_package_share_directory('irobot_create_description')
     gazebo_models_create_path = os.path.join(pkg_irobot_create_description, 'models')
 
-    pkg_share = get_package_share_directory('ramel')
+    pkg_share = get_package_share_directory('mrs_master')
     gazebo_models_path = os.path.join(pkg_share, 'models:')
     os.environ["GAZEBO_MODEL_PATH"] = gazebo_models_path
     #os.environ["GAZEBO_MODEL_PATH"] = gazebo_models_create_path
