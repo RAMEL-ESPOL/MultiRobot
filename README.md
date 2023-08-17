@@ -14,51 +14,55 @@ The MRS Framework is designed to be versatile, enabling researchers and develope
 An overview of the framework modules and communications is presented below:
 ![Overview](mrs_images/overview.png)
 ## Installation
-1.- Clone the github repository in a workspace source folder. (ws/src)
+1.- Clone the github repository in a workspace source folder. (ws_name/src)
 ```sh
-git clone https://github.com/
+git clone https://github.com/RAMEL-ESPOL/MultiRobot.git
 ```
-2.- Install dependencies
+2.- Go to workspace directory and Install dependencies
 ```sh
+cd ..
 rosdep install -y --from-paths src --ignore-src
 ```
-3.- Go to workspace directory and build the pacakge.
+3.- Build the pacakge.
 ```sh
-Colcon build
+colcon build
 ```
 ## Usage
-0.- Navigate to the workspace directory (Previous step to perform in all new cmd window opened)
+0.- Navigate to the workspace directory (The previous step to perform in all new cmd windows opened)
 ```sh
 source install/setup.bash
 ```
 1.- Launch the simulation. (In case you are working with a real system, you can skip this step)
 ```sh
-ros2 launch ramel ramel_mrs_simulation.launch
+ros2 launch mrs_master mrs_simulation.launch.py 
 ```
-2.- Open a new cmd window and launch the MRS.
+2.- Open a new cmd window, source in the ws and launch the MRS.
 ```sh
-ros2 launch ramel MRS.launch n:=3
+ros2 launch mrs_master MRS.launch.py n_robots:=3 n_cams:=3
 ```
-Where n is the number of robots of the system, by default 3.
-3.- Open a new cmd window and set the initial pose of the robots.
+Where n_robots and n_cams are the numbers of robots and cameras of the system, by default 3 in both.
+3.- Open a new cmd window, source in the ws and set the initial pose of the robots.
 ```sh
-python3 src/MultiRobot/ramel/scripts initial_pose_publisher.py n
+python3 src/MultiRobot/mrs_master/scripts/initial_pose_publisher.py n_robots
 ```
-Be sure to replace "n" with the number of robots. For example, in the case of 3 robots:
+Be sure to replace "n_robots" with the number of robots. For example, in the case of 3 robots:
 ```sh
-python3 src/MultiRobot/ramel/scripts initial_pose_publisher.py 3
+python3 src/MultiRobot/mrs_master/scripts/initial_pose_publisher.py 3
 ```
 4.- Launch the task manager.
 Markdown is a lightweight markup language based on the formatting conventions
 ```sh
-python3 src/MultiRobot/ramel/scripts mrs_manager.py n
+python3 src/MultiRobot/mrs_master/scripts/mrs_manager.py n_robots
 ```
 
 Now you can send task commands to the robots with this format:
 > `Params for navigation: <id_task> <arg1> <arg2> <id_robot>(optional).`
 
 Where id_task is 1 for pick-up/delivery tasks and 2 for go to pose task.
-For instance, if I want the nearest robot to pick-up a box in station 1 and leave it in station 3, the command would be:
+If the id_tak is 1, arg1 and arg2 are the id of the workstations, else if id_task if 2, these are the x and y coordinates.
+id_robot is the number of the robot in its namespace, for example 1 for r1 robot, if no robot is specified, the manager
+will choose the nearest and unoccupied robot.
+For instance, if we want the nearest robot to pick-up a box in station 1 and leave it in station 3, the command would be:
 ```sh
 1 1 3
 ```
@@ -67,13 +71,13 @@ For installing the GUI desktop aplication follow this setps.
 
 0.- Navigate to workspace directory.
 
-1.- Navigate to ramel directory.
+1.- Navigate to MultiRobot/mrs_master/scripts directory.
 ```sh
-cd src/MultiRobot/ramel
+cd src/MultiRobot/mrs_master/scripts
 ```
 2.- Open framework.desktop and modify paths
-> Exec=/path/multirobots/src/MultiRobot/mrs_master/scripts/framework.sh
-> Icon=/path/multirobots/src/MultiRobot/mrs_images/icon.png
+> Exec=/<<path to ws>>/src/MultiRobot/mrs_master/scripts/framework.sh
+> Icon=/<<path to ws>>/src/MultiRobot/mrs_images/icon.png
 
 3.- Move the GUI application to Desktop
 ```sh
