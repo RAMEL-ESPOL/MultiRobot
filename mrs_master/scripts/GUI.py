@@ -1533,6 +1533,7 @@ class Ui_MainWindow(object):
         self.label_17.setObjectName("label_17")
         self.verticalLayout_20.addWidget(self.label_17)
         self.doubleSB_X = QtWidgets.QDoubleSpinBox(parent=self.horizontalLayoutWidget)
+        self.doubleSB_X.setMinimum(-999999.99)
         self.doubleSB_X.setObjectName("doubleSB_X")
         self.verticalLayout_20.addWidget(self.doubleSB_X)
         spacerItem13 = QtWidgets.QSpacerItem(20, 50, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Fixed)
@@ -1551,6 +1552,7 @@ class Ui_MainWindow(object):
         self.label_18.setObjectName("label_18")
         self.verticalLayout_21.addWidget(self.label_18)
         self.doubleSB_Y = QtWidgets.QDoubleSpinBox(parent=self.horizontalLayoutWidget)
+        self.doubleSB_Y.setMinimum(-999999.99)
         self.doubleSB_Y.setObjectName("doubleSB_Y")
         self.verticalLayout_21.addWidget(self.doubleSB_Y)
         spacerItem14 = QtWidgets.QSpacerItem(20, 50, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Fixed)
@@ -1666,6 +1668,7 @@ class Ui_MainWindow(object):
         self.cb_recogida.clear()
         self.cb_entrega.clear()
         self.cb_robot.clear()
+        self.cb_robot_4.clear()
 
         # Add workspaces markers (IDs < 10) to cb_recogida and cb_entrega
         self.cb_recogida.addItems([str(marker_id) for marker_id in self.gui.workspaces])
@@ -1674,6 +1677,10 @@ class Ui_MainWindow(object):
         # Add robot markers (IDs >= 10) to cb_robot
         self.cb_robot.addItems(['any'])
         self.cb_robot.addItems([str((marker_id-9)) for marker_id in self.gui.robots])
+
+        # Add robot markers (IDs >= 10) to cb_robot
+        self.cb_robot_4.addItems(['any'])
+        self.cb_robot_4.addItems([str((marker_id-9)) for marker_id in self.gui.robots])
     
     def update_cb_camera_values(self):
         num_cam = self.num_cam.value()
@@ -1725,7 +1732,7 @@ class Ui_MainWindow(object):
         command = ["python3", script_path, str(num_robots)]
 
         try:
-            subprocess.run(command, check=True)
+            subprocess.Popen(command,  preexec_fn=os.setsid)
         except subprocess.CalledProcessError:
             print("Error running the script.")
 
@@ -1744,8 +1751,8 @@ class Ui_MainWindow(object):
     def launch_framework(self, num_robots, num_cameras):
         # Use subprocess.Popen to launch the ROS2 launch process and store the process object
         self.framework_process = subprocess.Popen(["ros2", "launch", "mrs_master", "MRS.launch.py",
-                                                   "n:={}".format(num_robots),
-                                                   #"num_cam:={}".format(num_cameras)
+                                                   "n_robots:={}".format(num_robots),
+                                                   "n_cams:={}".format(num_cameras),
                                                    ], preexec_fn=os.setsid)
 
     def on_btn_nav_clicked(self):
@@ -1753,26 +1760,47 @@ class Ui_MainWindow(object):
         recogida = self.cb_recogida.currentText()
         entrega = self.cb_entrega.currentText()
         robot = self.cb_robot.currentText()
+        robot_2 = self.cb_robot_4.currentText()
         num_robots = self.num_robots.value()
+        x_pose = str(self.doubleSB_X.value())
+        y_pose = str(self.doubleSB_Y.value())
+        task = self.tabWidget.currentIndex() + 1
 
         if not self.running_flag:
             # Start a separate thread to handle subprocess communication
-            nav_thread = threading.Thread(target=self.execute_navigate, args=(recogida, entrega, robot, num_robots))
+            match task:
+                case 1:
+                    nav_thread = threading.Thread(target=self.execute_navigate, args=[task, recogida, entrega, robot, num_robots])
+                case 2:
+                    nav_thread = threading.Thread(target=self.execute_navigate, args=[task, x_pose, y_pose, robot_2, num_robots])
             nav_thread.daemon = True  # Set the thread as a daemon thread
             nav_thread.start()
             self.running_flag = True
         else:
-            # Send the command to the existing subprocess
-            # Process is already running, send input data to the existing subprocess
-            if robot == 'any' or not robot:
-                # If 'robot' is 'any' or empty, exclude it from input_data
-                input_data = f"1 {recogida} {entrega}\n"
-            else:
-                # If 'robot' is not 'any', include it in input_data
-                input_data = f"1 {recogida} {entrega} {robot}\n"
-            self.nav_process.stdin.write(input_data.encode("utf-8"))
-            self.nav_process.stdin.flush()
-    def execute_navigate(self, num_robots):
+            match task:
+                case 1:
+                    # Send the command to the existing subprocess
+                    # Process is already running, send input data to the existing subprocess
+                    if robot == 'any' or not robot:
+                        # If 'robot' is 'any' or empty, exclude it from input_data
+                        input_data = f"1 {recogida} {entrega}\n"
+                    else:
+                        # If 'robot' is not 'any', include it in input_data
+                        input_data = f"1 {recogida} {entrega} {robot}\n"
+                    self.nav_process.stdin.write(input_data.encode("utf-8"))
+                    self.nav_process.stdin.flush()
+                case 2:
+                    # Send the command to the existing subprocess
+                    # Process is already running, send input data to the existing subprocess
+                    if robot_2 == 'any' or not robot_2:
+                        # If 'robot' is 'any' or empty, exclude it from input_data
+                        input_data = f"2 {x_pose} {y_pose}\n"
+                    else:
+                        # If 'robot' is not 'any', include it in input_data
+                        input_data = f"2 {x_pose} {y_pose} {robot_2}\n"
+                    self.nav_process.stdin.write(input_data.encode("utf-8"))
+                    self.nav_process.stdin.flush()
+    def execute_navigate(self, task, recogida, entrega, robot, num_robots):
         current_path = os.getcwd()
 
         # Start the subprocess only once
@@ -1782,9 +1810,14 @@ class Ui_MainWindow(object):
                                             stdout=subprocess.PIPE,
                                             stderr=subprocess.PIPE,
                                             shell=False)
-                                        
-        # Send the initial command to the subprocess
-        input_data = f"1 {recogida} {entrega}\n"
+        strTask = str(task)
+    #    # Send the initial command to the subprocess
+        if robot == 'any' or not robot:
+            # If 'robot' is 'any' or empty, exclude it from input_data
+            input_data = f"{strTask} {recogida} {entrega}\n"
+        else:
+            # If 'robot' is not 'any', include it in input_data
+            input_data = f"{strTask} {recogida} {entrega} {robot}\n"
         self.nav_process.stdin.write(input_data.encode("utf-8"))
         self.nav_process.stdin.flush()
                                                       
