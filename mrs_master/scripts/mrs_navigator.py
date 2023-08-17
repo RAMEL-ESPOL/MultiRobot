@@ -47,7 +47,7 @@ class TaskResult(Enum):
 class MRSNavigator(Node):
 
     def __init__(self, namespace='',node_name='basic_navigator'):
-        super().__init__(node_name=node_name)
+        super().__init__(node_name=node_name, namespace=namespace)
         self.initial_pose = PoseStamped()
         self.initial_pose.header.frame_id = 'map'
         self.goal_handle = None

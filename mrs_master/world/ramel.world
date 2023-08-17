@@ -576,12 +576,13 @@
             </box>
           </geometry>
           <material>
-            <ambient>0.15 0.07 0</ambient>
-            <diffuse>0.15 0.07 0</diffuse>
-            <specular>0.1 0.1 0.1</specular>
-            <emissive>0 0 0</emissive>
-            <shader type="vertex" />
-            <shader type="pixel" />
+            <ambient>0.124 0.169 0.211</ambient> <!-- Adjust the RGB values to be in the range 0.0 to 1.0 -->
+             <diffuse>0.124 0.169 0.211</diffuse> <!-- Adjust the RGB values to be in the range 0.0 to 1.0 -->
+             <specular>0.1 0.1 0.1 1.0</specular>
+             <emissive>0.0 0.0 0.0 1.0</emissive>
+             <texture> <!-- Gazebo needs a default texture -->
+               <diffuse>file://media/materials/textures/flat_white.png</diffuse>
+             </texture>
           </material>
         </visual>
         <self_collide>0</self_collide>
@@ -743,8 +744,8 @@
             </box>
           </geometry>
           <material>
-            <ambient>0.224 0.169 0.011</ambient> <!-- Adjust the RGB values to be in the range 0.0 to 1.0 -->
-             <diffuse>0.224 0.169 0.011</diffuse> <!-- Adjust the RGB values to be in the range 0.0 to 1.0 -->
+            <ambient>0.124 0.169 0.211</ambient> <!-- Adjust the RGB values to be in the range 0.0 to 1.0 -->
+             <diffuse>0.124 0.169 0.211</diffuse> <!-- Adjust the RGB values to be in the range 0.0 to 1.0 -->
              <specular>0.1 0.1 0.1 1.0</specular>
              <emissive>0.0 0.0 0.0 1.0</emissive>
           </material>
@@ -798,8 +799,8 @@
             </box>
           </geometry>
           <material>
-            <ambient>0.341 0.180 0.024</ambient> <!-- Update the RGB values to 0.341, 0.180, 0.024 -->
-            <diffuse>0.341 0.180 0.024</diffuse> <!-- Update the RGB values to 0.341, 0.180, 0.024 -->
+            <ambient>0.321 0.180 0.184</ambient> <!-- Update the RGB values to 0.341, 0.180, 0.024 -->
+            <diffuse>0.321 0.180 0.184</diffuse> <!-- Update the RGB values to 0.341, 0.180, 0.024 -->
             <specular>0.1 0.1 0.1 1.0</specular>
             <emissive>0.0 0.0 0.0 1.0</emissive>
           </material>
@@ -853,8 +854,8 @@
             </box>
           </geometry>
           <material>
-            <ambient>0.341 0.180 0.024</ambient> <!-- Update the RGB values to 0.341, 0.180, 0.024 -->
-            <diffuse>0.341 0.180 0.024</diffuse> <!-- Update the RGB values to 0.341, 0.180, 0.024 -->
+            <ambient>0.321 0.180 0.184</ambient> <!-- Update the RGB values to 0.341, 0.180, 0.024 -->
+            <diffuse>0.321 0.180 0.184</diffuse> <!-- Update the RGB values to 0.341, 0.180, 0.024 -->
             <specular>0.1 0.1 0.1 1.0</specular>
             <emissive>0.0 0.0 0.0 1.0</emissive>
           </material>
@@ -908,8 +909,8 @@
             </box>
           </geometry>
           <material>
-            <ambient>0.224 0.169 0.011</ambient> <!-- Adjust the RGB values to be in the range 0.0 to 1.0 -->
-             <diffuse>0.224 0.169 0.011</diffuse> <!-- Adjust the RGB values to be in the range 0.0 to 1.0 -->
+            <ambient>0.124 0.169 0.211</ambient> <!-- Adjust the RGB values to be in the range 0.0 to 1.0 -->
+             <diffuse>0.124 0.169 0.211</diffuse> <!-- Adjust the RGB values to be in the range 0.0 to 1.0 -->
              <specular>0.1 0.1 0.1 1.0</specular>
              <emissive>0.0 0.0 0.0 1.0</emissive>
           </material>
@@ -963,8 +964,8 @@
             </box>
           </geometry>
           <material>
-            <ambient>0.224 0.169 0.011</ambient> <!-- Adjust the RGB values to be in the range 0.0 to 1.0 -->
-             <diffuse>0.224 0.169 0.011</diffuse> <!-- Adjust the RGB values to be in the range 0.0 to 1.0 -->
+            <ambient>0.124 0.169 0.211</ambient> <!-- Adjust the RGB values to be in the range 0.0 to 1.0 -->
+             <diffuse>0.124 0.169 0.211</diffuse> <!-- Adjust the RGB values to be in the range 0.0 to 1.0 -->
              <specular>0.1 0.1 0.1 1.0</specular>
              <emissive>0.0 0.0 0.0 1.0</emissive>
              <texture> <!-- Gazebo needs a default texture -->
