@@ -1,10 +1,42 @@
 import os
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument, TimerAction
+from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument, TimerAction, OpaqueFunction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import LaunchConfiguration
+from launch.substitutions import LaunchConfiguration, TextSubstitution
 from launch_ros.actions import Node
+
+def cameras_localization(context, *args, **kwargs):
+    
+    number_of_cameras = LaunchConfiguration('n_cams').perform(context)
+
+    cameras = []
+
+    for i in range(int(number_of_cameras)):
+        cam_name_cam = "cam_c"+str(i)
+        cam_name = "c"+str(i)
+        x_pos = float(i)
+        cameras.append({'name': cam_name, 'namespace': cam_name, 'x_pose': x_pos*2-2.0, 'y_pose': 0.0, 'z_pose': 3.5})
+
+    nodes_exec = []
+
+    pkg_cam_description = get_package_share_directory('realsense2_description')
+    pkg_aruco_node = get_package_share_directory('aruco_ros')
+
+
+    for camera in cameras:
+        # Launch aruco_ros node
+        nodes_exec.append(
+            IncludeLaunchDescription(
+                PythonLaunchDescriptionSource(os.path.join(pkg_aruco_node, 'launch',
+                                                           'marker_publisher.launch.py')),
+                launch_arguments={
+                                  'topic_c': camera['namespace'],
+                                  'markerSize': '0.1',
+                                  'ref_frame': 'map',
+                                  }.items()))
+       
+    return nodes_exec 
 
 def generate_launch_description():
     # Create a LaunchDescription instance
@@ -34,8 +66,13 @@ def generate_launch_description():
         default_value="False",
         description="Whether to use composition"
     )
-    n_arg = DeclareLaunchArgument(
-        "n",
+    n_robots_arg = DeclareLaunchArgument(
+        "n_robots",
+        default_value="3",
+        description="Number of robots"
+    )
+    n_cams_arg = DeclareLaunchArgument(
+        "n_cams",
         default_value="3",
         description="Number of robots"
     )
@@ -45,7 +82,8 @@ def generate_launch_description():
     ld.add_action(use_namespace_arg)
     ld.add_action(autostart_arg)
     ld.add_action(use_composition_arg)
-    ld.add_action(n_arg)
+    ld.add_action(n_robots_arg)
+    ld.add_action(n_cams_arg)
 
     # Include the launch file using IncludeLaunchDescription
     mrs_bringup_launch = IncludeLaunchDescription(
@@ -55,7 +93,7 @@ def generate_launch_description():
             "use_namespace": LaunchConfiguration("use_namespace"),
             "autostart": LaunchConfiguration("autostart"),
             "use_composition": LaunchConfiguration("use_composition"),
-            "n": LaunchConfiguration("n"),
+            "n": LaunchConfiguration("n_robots"),
         }.items()
     )
     # Create the RViz2 node
@@ -72,7 +110,7 @@ def generate_launch_description():
         executable='aruco_pose_filter.py',
         name='aruco_filter',
         output='screen',
-        arguments=['3']
+        arguments=[LaunchConfiguration("n_cams")]
     )
     pose_publisher = Node(
         package='mrs_master',
@@ -91,5 +129,6 @@ def generate_launch_description():
     ld.add_action(rviz_node)
     ld.add_action(aruco_filter)
     ld.add_action(pose_publisher_delay)
+    ld.add_action(OpaqueFunction(function=cameras_localization))
     return ld
 
