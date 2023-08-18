@@ -22,7 +22,7 @@ An overview of the framework modules and communications is presented below:
 ## Dependencies:
 
 - ROS2 Humble. Installation: https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html
-- Verify gazebo installation
+- Verify gazebo installation (If it is not installed: https://classic.gazebosim.org/tutorials?tut=install_ubuntu)
 - Verify the acquisition of the gazebo controls library. If it is not installed:
 ```sh
 sudo apt-get install ros-humble-gazebo-ros2-control
@@ -108,10 +108,11 @@ Now you are able to open the GUI from Desktop.
 
 ## Package Structure
 The package structure is the following:
-- mrs_agents includes the robots' packages
-- mrs_computer_vision includes the aruco libraries
-- mrs_images
-- mrs_master contains the framework and task master
-- mrs_sensors contains cameras' and other sensors' packages
-- mrs_ros2_dependencies contains cyclonedds configuration
+- **mrs_agents ->** includes the robots' packages (In this repo iRobot Create3 and Turtlebot3 robots are included)
+- **mrs_computer_vision ->** includes the aruco libraries (Library, interfaces and nodes)
+- **mrs_images ->** includes images of the project.
+- **mrs_master ->** contains the framework, task master and GUI
+- **mrs_sensors ->** contains cameras' and other sensors' packages (In this repo Realsense L515 camera is included)
+- **mrs_ros2_dependencies ->** contains cyclonedds configuration (v0.9 able to sim multi-robots)
+
 ![folder_structure](mrs_images/folder_structure.png)
