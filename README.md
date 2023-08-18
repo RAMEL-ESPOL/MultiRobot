@@ -13,6 +13,21 @@ The MRS Framework is designed to be versatile, enabling researchers and develope
 ## Framework Overview
 An overview of the framework modules and communications is presented below:
 ![Overview](mrs_images/overview.png)
+
+## Requirements:
+
+- Operating System: Ubuntu Linux Jammy Jellyfish (22.04)
+- Consider according to the number of robots the computational requirements of the framework.
+
+## Dependencies:
+
+- ROS2 Humble. Installation: https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html
+- Verify gazebo installation
+- Verify the acquisition of the gazebo controls library. If it is not installed:
+```sh
+sudo apt-get install ros-humble-gazebo-ros2-control
+```
+
 ## Installation
 1.- Clone the github repository in a workspace source folder. (ws_name/src)
 ```sh
@@ -76,8 +91,10 @@ For installing the GUI desktop aplication follow this setps.
 cd src/MultiRobot/mrs_master/scripts
 ```
 2.- Open framework.desktop and modify paths
-> Exec=/<<path to ws>>/src/MultiRobot/mrs_master/scripts/framework.sh
-> Icon=/<<path to ws>>/src/MultiRobot/mrs_images/icon.png
+> Exec=/path_to_ws/src/MultiRobot/mrs_master/scripts/framework.sh
+
+
+> Icon=/path_to_ws/src/MultiRobot/mrs_images/icon.png
 
 3.- Move the GUI application to Desktop
 ```sh
@@ -86,7 +103,9 @@ mv framework.desktop ~/Desktop/
 4.- Right click the icon and choose "Allow launching"
 
 Now you are able to open the GUI from Desktop.
-![GUI](mrs_images/GUI.png)
+
+  ![GUI](mrs_images/GUI.png)
+
 ## Package Structure
 The package structure is the following:
 - mrs_agents includes the robots' packages
