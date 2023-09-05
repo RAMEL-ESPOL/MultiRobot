@@ -38,7 +38,7 @@ def generate_launch_description():
     # Define the launch arguments to pass
     map_file_arg = DeclareLaunchArgument(
         "map",
-        default_value=os.path.join(mrs_master_path, 'map', 'ramel_map.yaml'),
+        default_value=os.path.join(mrs_master_path, 'map', 'map.yaml'),
         description="Path to the map file"
     )
     use_namespace_arg = DeclareLaunchArgument(
@@ -58,12 +58,12 @@ def generate_launch_description():
     )
     n_robots_arg = DeclareLaunchArgument(
         "n_robots",
-        default_value="3",
+        default_value="4",
         description="Number of robots"
     )
     n_cams_arg = DeclareLaunchArgument(
         "n_cams",
-        default_value="3",
+        default_value="7",
         description="Number of robots"
     )
 
