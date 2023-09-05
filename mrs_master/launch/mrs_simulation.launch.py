@@ -24,8 +24,8 @@ def generate_launch_description():
 
     # Specify the path to the second launch file
     multi_robot = IncludeLaunchDescription(
-        #PythonLaunchDescriptionSource(os.path.join(get_package_share_directory('mrs_master'), 'launch', 'multi_create.launch.py'))
-        PythonLaunchDescriptionSource(os.path.join(get_package_share_directory('mrs_master'), 'launch', 'multi_robot_simulation.launch.py'))
+        PythonLaunchDescriptionSource(os.path.join(get_package_share_directory('mrs_master'), 'launch', 'multi_create.launch.py'))
+        #PythonLaunchDescriptionSource(os.path.join(get_package_share_directory('mrs_master'), 'launch', 'multi_robot_simulation.launch.py'))
     )
 
     # Specify the path to the third launch file
