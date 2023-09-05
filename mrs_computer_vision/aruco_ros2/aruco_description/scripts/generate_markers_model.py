@@ -46,10 +46,9 @@ args.images_dir = os.path.expandvars(args.images_dir)
 script_path = get_package_share_directory('aruco_description')
 model_dir = os.path.join(os.path.dirname(script_path), 'aruco_description', 'model')
 images_dir = os.path.join(os.path.dirname(script_path), 'aruco_description', 'images', args.dictionary)
-ORIGINAL_MARKER_SIZE_MM = 500
-ORIGINAL_IMAGE_SIZE_PX = 170
-white_contour_px = \
-    args.white_contour_size_mm * ORIGINAL_IMAGE_SIZE_PX / args.size
+ORIGINAL_IMAGE_SIZE_PX = 300
+ORIGINAL_MARKER_SIZE_MM = 310
+white_contour_px = args.white_contour_size_mm * ORIGINAL_IMAGE_SIZE_PX / args.size
 
 if not os.path.isdir(images_dir):
     print("provided image directory '%s' is not a directory" % images_dir)
@@ -136,8 +135,7 @@ for image_file in file_list:
         break
 
     scaleModified = False
-    scale = (args.size + 2 * args.white_contour_size_mm) / \
-        float(ORIGINAL_MARKER_SIZE_MM)
+    scale = ((args.size) + 0 * args.white_contour_size_mm) / (float(ORIGINAL_MARKER_SIZE_MM))
     for node in dom.getElementsByTagName('mesh'):
         for child in node.childNodes:
             if child.nodeName == "scale":

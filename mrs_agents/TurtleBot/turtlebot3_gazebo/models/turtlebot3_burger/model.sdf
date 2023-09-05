@@ -363,11 +363,11 @@
 
     <link name="marker_link">
       <visual name="visual">
-        <pose>-0.03 0.05 0.18 0 1.57079632679 -1.57079632679</pose>
+        <pose>-0.03 0.08 0.18 0 1.57079632679 -1.57079632679</pose>
         <geometry>
           <mesh>
             <uri>model://turtlebot3_common/meshes/Marker11.dae</uri>
-            <scale>0.2 0.2 0.2</scale></mesh>
+            <scale>0.3225806451612903 0.3225806451612903 0.3225806451612903</scale></mesh>
         </geometry>
       </visual>
     </link>

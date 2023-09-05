@@ -77,7 +77,7 @@ def generate_launch_description():
         package='aruco_description',
         executable='generate_markers_model.py',
         arguments=["-s", '100.0',
-		            "-w", '0.0',
+		            "-w", '30.0',
                     ],
         output='screen'
     )
