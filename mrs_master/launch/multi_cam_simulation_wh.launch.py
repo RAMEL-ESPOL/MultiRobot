@@ -49,16 +49,6 @@ def cameras_generator(context, *args, **kwargs):
                                   'name': camera['name'],
                                   'namespace': camera['namespace'],
                                   }.items()))
-        # Launch aruco_ros node
-        nodes_exec.append(
-            IncludeLaunchDescription(
-                PythonLaunchDescriptionSource(os.path.join(pkg_aruco_node, 'launch',
-                                                           'marker_publisher.launch.py')),
-                launch_arguments={
-                                  'topic_c': camera['namespace'],
-                                  'markerSize': '0.1',
-                                  'ref_frame': 'map',
-                                  }.items()))
        
     return nodes_exec 
     
